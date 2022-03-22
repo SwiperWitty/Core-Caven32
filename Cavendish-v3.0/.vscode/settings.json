@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "dac.h": "c",
+        "stm32f10x.h": "c",
+        "sys_time.h": "c",
+        "stm32f10x_rcc.h": "c"
+    }
+}
