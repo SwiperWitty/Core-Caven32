@@ -53,16 +53,18 @@ void Delay_10us(int num)
 void Delay_ms(int num)
 {
 	int n = num;
-	do{
+	while(n--)
+	{
 		TimingDelay = 0;
 		while(TimingDelay < 100);
-	}while(n--);
+	};
 }
 
 void Delay_S(char num)
 {
 	int n = num;
-	do{
+	while(n--)
+	{
 		Delay_ms(1000);
-	}while(n--);
+	};
 }
