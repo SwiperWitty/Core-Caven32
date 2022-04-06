@@ -28,7 +28,7 @@ typedef struct
 
 extern CV_UART_TypeDef CV_UART;			//CV_UART 卡文迪许（Caven）的UART 
 
-void UARTx_Init (char UART_x,uint32_t Baud);
+void UARTx_Init (char UART_x,uint32_t Baud,FunctionalState SET);
 void UARTx_Send_String(char UART_x,char *String);							//不需要知道长度
 void UARTx_Send_Data(char UART_x,char *Data,unsigned char Length);			//需要知道长度
 

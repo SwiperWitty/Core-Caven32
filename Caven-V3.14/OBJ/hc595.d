@@ -1,5 +1,5 @@
-..\obj\hc595.o: ..\Lib\Mode\HC595.c
-..\obj\hc595.o: ..\Lib\Mode\HC595.h
+..\obj\hc595.o: ..\..\..\STM32\Cavend_Reptile-SoftWare\Lib\Mode\HC595.c
+..\obj\hc595.o: ..\..\..\STM32\Cavend_Reptile-SoftWare\Lib\Mode\HC595.h
 ..\obj\hc595.o: ..\CMSIS\stm32f10x.h
 ..\obj\hc595.o: ..\CMSIS\core_cm3.h
 ..\obj\hc595.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdint.h

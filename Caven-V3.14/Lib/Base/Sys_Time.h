@@ -26,5 +26,6 @@ void Sys_Watch (void);
 void Delay_10us(int num);
 void Delay_ms(int num);
 void Delay_S(char num);
+void Sys_time_Init (FunctionalState Set);
 
 #endif

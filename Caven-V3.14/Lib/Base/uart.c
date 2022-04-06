@@ -2,7 +2,7 @@
 
 CV_UART_TypeDef CV_UART;
 
-void UARTx_Init(char UART_x, uint32_t Baud)
+void UARTx_Init(char UART_x, uint32_t Baud,FunctionalState SET)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
 	USART_InitTypeDef USART_InitStructure; //
@@ -14,7 +14,7 @@ void UARTx_Init(char UART_x, uint32_t Baud)
 	{
 		/*	Clock	*/
 		RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);  // GPIOB 服用 PB6 PB7
-		RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE); // USART1  (APB2)
+		RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, SET); // USART1  (APB2)
 		GPIO_PinRemapConfig(GPIO_Remap_USART1, ENABLE);
 		USART_DeInit(USART1);
 
@@ -34,7 +34,7 @@ void UARTx_Init(char UART_x, uint32_t Baud)
 		USART_InitStructure.USART_WordLength = USART_WordLength_8b;						//
 		USART_Init(USART1, &USART_InitStructure);
 		USART_ITConfig(USART1, USART_IT_RXNE, ENABLE); //
-		USART_Cmd(USART1, ENABLE);					   //
+		USART_Cmd(USART1, SET);					   //
 
 		NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
 		NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1; //抢占优先级
@@ -45,7 +45,7 @@ void UARTx_Init(char UART_x, uint32_t Baud)
 	else if (UART_x == 2)
 	{
 		RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE );
-		RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE );
+		RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, SET );
 
 		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2; //USART2 TX；
 		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP; //复用推挽输出；
@@ -71,13 +71,13 @@ void UARTx_Init(char UART_x, uint32_t Baud)
 		NVIC_Init(&NVIC_InitStructure);
 
 		USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
-		USART_Cmd(USART2, ENABLE); //使能串口
+		USART_Cmd(USART2, SET); //使能串口
 	}
 	
 	else if(UART_x == 3)
 	{
 		RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
-		RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
+		RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, SET);
 		GPIO_PinRemapConfig(GPIO_PartialRemap_USART3, ENABLE);		//串口3重映射，与串口4 IO一致（STM32F103RB版本只有串口3没有4）
 		
 		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10; //USART3 TX；
@@ -104,12 +104,12 @@ void UARTx_Init(char UART_x, uint32_t Baud)
 		NVIC_Init(&NVIC_InitStructure);
 
 		USART_ITConfig(USART3, USART_IT_RXNE, ENABLE);
-		USART_Cmd(USART3, ENABLE);
+		USART_Cmd(USART3, SET);
 	}
 	else if(UART_x == 4)
 	{
 		RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE );
-		RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART4, ENABLE );
+		RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART4, SET );
 		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10; //UART4 TX；
 
 		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP; //复用推挽输出；
@@ -136,12 +136,12 @@ void UARTx_Init(char UART_x, uint32_t Baud)
 		NVIC_Init(&NVIC_InitStructure);
 		USART_ITConfig(UART4, USART_IT_RXNE, ENABLE);
 		
-		USART_Cmd(UART4, ENABLE); //使能串口
+		USART_Cmd(UART4, SET); //使能串口
 	}
 	else if (UART_x == 5)
 	{
 		RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOD, ENABLE);
-		RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART5, ENABLE);
+		RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART5, SET);
 
 		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;		//UART5 TX；
 		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP; //复用推挽输出；
@@ -166,7 +166,7 @@ void UARTx_Init(char UART_x, uint32_t Baud)
 		NVIC_Init(&NVIC_InitStructure);
 
 		USART_ITConfig(UART5, USART_IT_RXNE, ENABLE); //开启接收中断
-		USART_Cmd(UART5, ENABLE);					  //使能串口
+		USART_Cmd(UART5, SET);					  //使能串口
 	}
 }
 

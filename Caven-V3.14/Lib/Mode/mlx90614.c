@@ -13,8 +13,6 @@ PB7：SDA
 /* Includes ------------------------------------------------------------------*/
 
 #include "mlx90614.h"
-#include "IIC.h"
-
 
 #define SA				0x00 //Slave address 单个MLX90614时地址为0x00,多个时地址默认为0x5a
 #define RAM_ACCESS		0x00 //RAM access command RAM存取命令
@@ -23,19 +21,19 @@ PB7：SDA
 
 
 
-void Mlx90614_Init()
+void Mlx90614_Init(void)
 {
-	IIC_Software_Init();
+	IIC_Init(ENABLE);
 }
 
-u8 PEC_Calculation(u8 pec[])
+unsigned char PEC_Calculation(unsigned char pec[])
 {
-    u8 	crc[6];
-    u8	BitPosition=47;
-    u8	shift;
-    u8	i;
-    u8	j;
-    u8	temp;
+    unsigned char 	crc[6];
+    unsigned char	BitPosition=47;
+    unsigned char	shift;
+    unsigned char	i;
+    unsigned char	j;
+    unsigned char	temp;
 
     do
     {
@@ -103,15 +101,15 @@ u8 PEC_Calculation(u8 pec[])
     return pec[0];
 }
 
-u16 SMBus_ReadMemory(u8 slaveAddress, u8 command)
+unsigned int SMBus_ReadMemory(unsigned char slaveAddress, unsigned char command)
 {
-    u16 data;			// Data storage (DataH:DataL)
-    u8 Pec;				// PEC byte storage
-    u8 DataL=0;			// Low data byte storage
-    u8 DataH=0;			// High data byte storage
-    u8 arr[6];			// Buffer for the sent bytes
-    u8 PecReg;			// Calculated PEC byte storage
-    u8 ErrorCounter;	// Defines the number of the attempts for communication with MLX90614
+    unsigned int data;			// Data storage (DataH:DataL)
+    unsigned char Pec;				// PEC byte storage
+    unsigned char DataL=0;			// Low data byte storage
+    unsigned char DataH=0;			// High data byte storage
+    unsigned char arr[6];			// Buffer for the sent bytes
+    unsigned char PecReg;			// Calculated PEC byte storage
+    unsigned char ErrorCounter;	// Defines the number of the attempts for communication with MLX90614
 
     ErrorCounter=0x00;				// Initialising of ErrorCounter
 	slaveAddress <<= 1;	//2-7位表示从机地址
@@ -127,24 +125,24 @@ repeat:
         }
 
         IIC_StartBit();					//Start condition
-        if(IIC_SendByte(slaveAddress,3))//Send SlaveAddress 最低位Wr=0表示接下来写命令
+        if(IIC_Send(slaveAddress,IIC_Speed))//Send SlaveAddress 最低位Wr=0表示接下来写命令
         {
             goto	repeat;			    //Repeat comunication again
         }
-        if(IIC_SendByte(command,3))	    //Send command
+        if(IIC_Send(command,IIC_Speed))	    //Send command
         {
             goto	repeat;		    	//Repeat comunication again
         }
 
         IIC_StartBit();					//Repeated Start condition
-        if(IIC_SendByte(slaveAddress+1,3))	//Send SlaveAddress 最低位Rd=1表示接下来读数据
+        if(IIC_Send(slaveAddress+1,IIC_Speed))	//Send SlaveAddress 最低位Rd=1表示接下来读数据
         {
             goto	repeat;             	//Repeat comunication again
         }
 
-        DataL = IIC_ReadByte(ACK,3);	//Read low data,master must send ACK
-        DataH = IIC_ReadByte(ACK,3); //Read high data,master must send ACK
-        Pec = IIC_ReadByte(NACK,3);	//Read PEC byte, master must send NACK
+        DataL = IIC_Read(ACK,IIC_Speed);	//Read low data,master must send ACK
+        DataH = IIC_Read(ACK,IIC_Speed); //Read high data,master must send ACK
+        Pec = IIC_Read(NACK,IIC_Speed);	//Read PEC byte, master must send NACK
         IIC_StopBit();				//Stop condition
 
         arr[5] = slaveAddress;		//

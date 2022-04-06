@@ -1,11 +1,6 @@
 #include "IIC.h"
 
-#define IIC_SCK_H() IIC_GPIO->BSRR = IIC_SCK //置高电平
-#define IIC_SCK_L() IIC_GPIO->BRR = IIC_SCK  //置低电平
-#define IIC_SDA_H() IIC_GPIO->BSRR = IIC_SDA
-#define IIC_SDA_L() IIC_GPIO->BRR = IIC_SDA
-
-#define IIC_SDA_IN() IIC_GPIO->IDR &IIC_SDA //读取引脚电平
+struct _IIC	IIC;			//结构体本体
 
 void IIC_StartBit(void)
 {
@@ -80,7 +75,7 @@ Speed : 速度
 
 */
 
-char IIC_SendByte(char Byte_8, int Speed)
+char IICs_SendByte(char Byte_8, int Speed)
 {
     char Bit_counter;
     char Ack_bit;
@@ -104,7 +99,7 @@ char IIC_SendByte(char Byte_8, int Speed)
     return Ack_bit;
 }
 
-char IIC_ReadByte(char ack_nack, int Speed)
+char IICs_ReadByte(char ack_nack, int Speed)
 {
     char RX_buffer;
     char Bit_Counter;
@@ -126,18 +121,19 @@ char IIC_ReadByte(char ack_nack, int Speed)
     return RX_buffer;
 }
 
-void IIC_Software_Init(void)
+void IIC_Software_Init(FunctionalState SET)
 {
-    GPIO_InitTypeDef GPIO_InitStructure;
-
-    RCC_APB2PeriphClockCmd(IIC_RCC_GPIO_TIM, ENABLE);
-
-    /*配置IIC_SCK、IIC_SDA为集电极开漏输出*/
-    GPIO_InitStructure.GPIO_Pin = IIC_SCK | IIC_SDA;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(IIC_GPIO, &GPIO_InitStructure);
-
-    IIC_SCK_H();
-    IIC_SDA_H();
+	IIC_PeriphClockCmd(SET);	//时钟
+	if(SET)
+	{
+		IIC_GPIO_Init;							//GPIO
+		IIC_SCK_H();
+		IIC_SDA_H();
+	}
+	else	
+	{
+		IIC_GPIO_Exit;
+	}
+	IIC.Soft_ReadByte = IICs_ReadByte;
+	IIC.Soft_SendByte = IICs_SendByte;
 }

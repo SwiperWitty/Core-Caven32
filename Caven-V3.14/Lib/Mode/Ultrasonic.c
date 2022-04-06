@@ -4,7 +4,9 @@
 void Ultrasonic_Init(void)
 {
 	GPIO_InitTypeDef  GPIO_InitStructure;
-
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
+	
+	GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);
 	SysTick_Config(SystemCoreClock/100000);								//SystemCoreClock
 	RCC_APB2PeriphClockCmd(CSB_T_GPIO_TIM | CSB_E_GPIO_TIM, ENABLE);	//使能PB端口时钟
 

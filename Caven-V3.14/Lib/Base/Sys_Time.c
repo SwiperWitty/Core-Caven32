@@ -45,9 +45,8 @@ void SysTick_Handler(void)
 
 void Delay_10us(int num)
 {
-	int n = num;
 	TimingDelay = 0;
-	while(TimingDelay < n);
+	while(TimingDelay < num);
 }
 
 void Delay_ms(int num)
@@ -67,4 +66,15 @@ void Delay_S(char num)
 	{
 		Delay_ms(1000);
 	};
+}
+
+void Sys_time_Init (FunctionalState Set)
+{
+	if(Set)
+	{
+		if(SysTick_Config(SystemCoreClock/100000))         //10us定时器
+			while(1);
+	}
+	else
+		NVIC_SystemReset();
 }
