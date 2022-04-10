@@ -11,10 +11,11 @@
 	#endif
 #endif
 
-extern struct _Init Base_Init;
-extern struct _User Base_User;
+extern struct _Base_Init	Base_Init;
+extern struct _Base_User	Base_User;
+extern struct _Mode_Init	Mode_Init;
+extern struct _Mode_User	Mode_User;
 
-char Free_Array[16];
 
 //要写入到STM32 FLASH的字符串数组
 #define SIZE sizeof(Free_Array)			//数组长度
@@ -30,12 +31,15 @@ int main(void)
 	Mian_Init();
 	while(1)
 	{
-		vol = Read_MCU_Temp();
-		sprintf(Free_Array,"MCU: %.2f C ",vol);
-		LCD_ShowString(2,2,Free_Array,WHITE,BLACK,16); Data_Replace ("123",Free_Array,0,sizeof(Free_Array));
+		vol = Base_User.ADC->Read_MCU_Temp();
+		sprintf(Free_Show,"-> MCU : %.2f C ",vol);
+		LCD_ShowString(0,2,Free_Show,GBLUE,BLACK,16); Data_Replace ("123",Free_Show,0,sizeof(Free_Show));
 		
-		sprintf(Free_Show, "Time: %2d:%2d:%2d  ", Timewatch.hour, Timewatch.minutes, Timewatch.second);
-		LCD_ShowString(8,14,Free_Show,BLUE,BLACK,16); Data_Replace("123", Free_Show, 0, sizeof(Free_Show));
+		sprintf(Free_Show,"-> TIME: %2d:%2d:%2d S ",SYS_Watch.hour,SYS_Watch.minutes,SYS_Watch.second);
+		LCD_ShowString(0, 3, Free_Show, WHITE, BLACK, 16); Data_Replace ("123",Free_Show,0,sizeof(Free_Show));
+		
+		Base_User.Delay->Delay_ms(20);
+		
 	}
 }
 
@@ -43,10 +47,27 @@ int main(void)
 void Mian_Init(void)
 {
 	Base_Init_index();
-	Base_Init.IIC_Software_Init(ENABLE);
-	Base_User.IIC.Soft_SendByte('a',12);
-//	Delay_S(1);
+	Mode_Init_index();
 	
+	Base_Init.SYS_Init(ENABLE);
+	Base_Init.UART_x_Init(UART_3,9600,ENABLE);
+	Base_User.UART->UART_x_Send_String(UART_3,"{Ready !}\n");
+	
+	Base_Init.ADC_x_Init(MCU_Temp,ENABLE);
+	
+	Mode_Init.LCD_Init(ENABLE);
+	Mode_User.LCD->Show_Picture(180,0,60,60,gImage_am_60);
+	
+	if(MCU)	Mode_User.LCD->Show_String(22,0,"ST",BLUE,BLACK,16);
+	else	Mode_User.LCD->Show_String(22,0,"GD",MAGENTA,BLACK,16);		// X = 21、Y = 0 为起点 显示 "GD  "	字体为 BLUE，背景色为 BLACK，字体16
+	Mode_User.LCD->Show_String(5,0,"Caven Pro",BLUE,BLACK,24);
+	Mode_User.LCD->Show_String(29,14,"1",RED,BLACK,16);					//这里是16字 的极限 0-29（30行） 0-14(15列)
+	Data_Replace("123", Free_Show, '-', 26);							//分割区
+	LCD_ShowString(0, 2, "-> MCU : 26.10 C ", GBLUE, BLACK, 16);
+	LCD_ShowString(0, 3, "-> TIME: 00:00:00 S ", WHITE, BLACK, 16);
+	LCD_ShowString(2, 4, Free_Show, WHITE, BLACK, 16);Data_Replace("123", Free_Show, 0, sizeof(Free_Show));
+	
+	Base_User.Delay->Delay_S(1);
 }
 
 

@@ -9,28 +9,29 @@
 				2021.10.07
 */
 
-SYS_Watch Timewatch = {23,59,55,0,0};
+struct _Delay Delay;
+struct _SYS_Watch  SYS_Watch = {23,59,55,0,0};
 u32 TimingDelay = 0;
 
 void Sys_Watch (void)
 {
-	Timewatch.time_unm++;
-	if(Timewatch.time_unm > 100000)
+	SYS_Watch.time_num++;
+	if(SYS_Watch.time_num > 100000)
 	{
-		Timewatch.time_unm = 1;
-		Timewatch.sys_time++;
-		Timewatch.second++;
-		if(Timewatch.second > 59)
+		SYS_Watch.time_num = 1;
+		SYS_Watch.sys_time++;
+		SYS_Watch.second++;
+		if(SYS_Watch.second > 59)
 		{
-			Timewatch.second = 0;
-			Timewatch.minutes++;
-			if(Timewatch.minutes > 59)
+			SYS_Watch.second = 0;
+			SYS_Watch.minutes++;
+			if(SYS_Watch.minutes > 59)
 			{
-				Timewatch.minutes = 0;
-				Timewatch.hour++;
-				if(Timewatch.hour > 23)
+				SYS_Watch.minutes = 0;
+				SYS_Watch.hour++;
+				if(SYS_Watch.hour > 23)
 				{
-					Timewatch.hour = 0;
+					SYS_Watch.hour = 0;
 				}
 			}
 		}
@@ -74,6 +75,9 @@ void Sys_time_Init (FunctionalState Set)
 	{
 		if(SysTick_Config(SystemCoreClock/100000))         //10us定时器
 			while(1);
+		Delay.Delay_10us = Delay_10us;
+		Delay.Delay_ms = Delay_ms;
+		Delay.Delay_S = Delay_S;
 	}
 	else
 		NVIC_SystemReset();

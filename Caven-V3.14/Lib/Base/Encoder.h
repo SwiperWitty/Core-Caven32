@@ -10,7 +10,7 @@
 
 #define ENCODER_TIM_PERIOD (u16)(65535)   //最大就是 65535
 
-void ENCODEx_Init(char TIM_x);
-int Read_Encoder(char TIM_X);
+void ENCODEx_Init(char TIME_x);
+int Read_Encoder(char TIME_x);
 	
 #endif

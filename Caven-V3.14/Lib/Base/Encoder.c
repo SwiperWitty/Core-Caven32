@@ -130,23 +130,23 @@ void Encoder_Init_TIM5(void)
 	TIM_Cmd(TIM5, ENABLE); 
 }
 
-void ENCODEx_Init(char TIM_x)
+void ENCODEx_Init(char TIME_x)
 {
-	switch(TIM_x)
+	switch(TIME_x)
 	{
 		case 1:  Encoder_Init_TIM1();break;
 		case 2:  Encoder_Init_TIM2();break;
 		case 3:  Encoder_Init_TIM3();break;
-		//这个是给PWM4（舵机）的
+		//TIM4这个是给PWM4（舵机）的
 		case 5:  Encoder_Init_TIM5();break;
 		default:  break;
 	}
 }
 
-int Read_Encoder(char TIM_X)
+int Read_Encoder(char TIME_x)
 {
 	int Encoder_TIM;    
-	switch(TIM_X)
+	switch(TIME_x)
 	{
 		case 1:  Encoder_TIM = (short)TIM1 -> CNT;  TIM1 -> CNT=0;break;
 		case 2:  Encoder_TIM = - (short)TIM2 -> CNT;  TIM2 -> CNT=0;break;

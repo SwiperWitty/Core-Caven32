@@ -16,20 +16,25 @@
 #define UART_4 4
 #define UART_5 5
 
-#define String_Num_MAX	30				//UART_Send_String 函数最长允许发多长
+#define String_Num_MAX 30 // UART_Send_String 函数最长允许发多长
 
-typedef struct 
+struct _CV_UART
 {
-	char UARTx_Array[6][24];			//各串口的数据
-	char Read_Flag[6];					//各串口的读取结束位
-	char Rxd_Num[6];					//各串口接收数量
-} CV_UART_TypeDef;
+	char UART_x_Array[6][24]; //各串口的数据
+	char Read_Flag[6];		 //各串口的读取结束位
+	char Rxd_Num[6];		 //各串口接收数量
+};
 
+struct _UART
+{
+	void (*UART_x_Send_String)(char UART_x, char *String);
+	void (*UART_x_Send_Data)(char UART_x, char *Data, unsigned char Length);
+};
 
-extern CV_UART_TypeDef CV_UART;			//CV_UART 卡文迪许（Caven）的UART 
+extern struct _CV_UART CV_UART; 										// CV_UART 卡文迪许（Caven）的UART
 
-void UARTx_Init (char UART_x,uint32_t Baud,FunctionalState SET);
-void UARTx_Send_String(char UART_x,char *String);							//不需要知道长度
-void UARTx_Send_Data(char UART_x,char *Data,unsigned char Length);			//需要知道长度
+void UART_x_Init(char UART_x, uint32_t Baud, FunctionalState SET);
+void UART_x_Send_String(char UART_x, char *String);						//不需要知道长度
+void UART_x_Send_Data(char UART_x, char *Data, unsigned char Length);	//需要知道长度,长度公式 n = sizeof(data) / sizeof(data[0])	所有/元素
 
 #endif

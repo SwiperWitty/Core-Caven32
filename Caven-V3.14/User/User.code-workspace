@@ -1,1 +1,24 @@
-{"folders":[{"path":"."}],"settings":{},"extensions":{},"launch":{"configurations":[],"compounds":[]},"tasks":{"version":"2.0.0","tasks":[]}}
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "files.associations": {
+            "lcd.h": "c",
+            "lcdfont.h": "c",
+            "mode.h": "c",
+            "iic.h": "c"
+        }
+    },
+    "extensions": {},
+    "launch": {
+        "configurations": [],
+        "compounds": []
+    },
+    "tasks": {
+        "version": "2.0.0",
+        "tasks": []
+    }
+}

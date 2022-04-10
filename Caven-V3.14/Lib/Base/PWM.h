@@ -26,7 +26,11 @@
 
 #include "stm32f10x.h"
 
-void TIM4_PWM_Init (u16 arr,u16 psc);
-void TIM8_PWM_Init (u16 arr,u16 psc);
+#define PWM_4	4
+#define PWM_8	8
+
+void TIM4_PWM_Init (u16 arr,u16 psc,FunctionalState SET);
+void TIM8_PWM_Init (u16 arr,u16 psc,FunctionalState SET);
+void PWM_x_Init(char PWM_x, u16 arr, u16 psc, FunctionalState SET);
 
 #endif

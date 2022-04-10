@@ -168,6 +168,7 @@ void Mian_Init(void)
 	KEY_Init();											// 触摸按键
 	BZZ_Init();											// 蜂鸣器
 	UARTx_Init (UART_3,9600);
+	
 	Init_Steering_Engine_T4();							// 舵机初始化
 	Motorx_Init(Motor_1);
 	Motorx_Init(Motor_2);
@@ -198,7 +199,7 @@ void Mian_Init(void)
 	Timewatch.hour = (Timewatch.sys_time / 3600) % 24;
 	Timewatch.minutes = (Timewatch.sys_time / 60) % 60;
 	Timewatch.second = Timewatch.sys_time % 60;
-	
+	UARTx_Send_String(UART_3,"{ready !}\r\n");
 //	Delay_S(1);
 	
 }

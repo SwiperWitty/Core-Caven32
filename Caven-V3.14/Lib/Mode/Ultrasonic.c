@@ -29,31 +29,31 @@ float Distance(void)
 	float distance=0;
 	
 	GPIO_ResetBits(CSB_T_GPIO, Trig);//预先拉低Trig引脚
-	while(Timewatch.time_unm > 70000);
+	while(SYS_Watch.time_num > 70000);
 	
 	GPIO_SetBits(CSB_T_GPIO, Trig);					//start
-	num = Timewatch.time_unm;
-	while(Timewatch.time_unm - num < 2);
+	num = SYS_Watch.time_num;
+	while(SYS_Watch.time_num - num < 2);
 	GPIO_ResetBits(CSB_T_GPIO, Trig);//发出20us的脉冲
 
-	num = Timewatch.time_unm;
+	num = SYS_Watch.time_num;
 	do{
-		if(Timewatch.time_unm - num > 2000)
+		if(SYS_Watch.time_num - num > 2000)
 		{
 			return 0;
 		}
 	}
 	while(GPIO_ReadInputDataBit(CSB_E_GPIO, Echo) == 0);	//等待信号发出，信号发出，计数器置0,信号发出，变为高电平，引脚置1
 
-	num = Timewatch.time_unm;
+	num = SYS_Watch.time_num;
 	do{
-		if(Timewatch.time_unm - num > 19000)
+		if(SYS_Watch.time_num - num > 19000)
 		{
 			return 0;
 		}
 	}
 	while(GPIO_ReadInputDataBit(CSB_E_GPIO, Echo) == 1); //等待信号接受，信号发出过程中，引脚一直置位1 
-	count = Timewatch.time_unm - num;
+	count = SYS_Watch.time_num - num;
 	//v = 340m/s = 34000cm/s = 34000cm/10^6us = 0.034cm/us
 	distance=(float)count*0.17;
 	return distance;

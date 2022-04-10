@@ -4,6 +4,7 @@
 #include "PWM.h"
 #include "sys_time.h"
 
+#define Steering_PWM 4
 #define	Arr_T4	1999
 #define Por_T4	720
 

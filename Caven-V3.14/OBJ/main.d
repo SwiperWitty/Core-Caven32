@@ -29,11 +29,8 @@
 ..\obj\main.o: ..\Lib\inc\stm32f10x_wwdg.h
 ..\obj\main.o: ..\Lib\inc\misc.h
 ..\obj\main.o: ..\Lib\Base\base.h
-..\obj\main.o: ..\Lib\Base\sys_time.h
-..\obj\main.o: ..\Lib\Base\Data_Handle.h
-..\obj\main.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdio.h
-..\obj\main.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\main.o: ..\Lib\Base\iic.h
+..\obj\main.o: ..\Lib\Base\sys_time.h
 ..\obj\main.o: ..\Lib\Base\uart.h
 ..\obj\main.o: ..\Lib\Base\spi.h
 ..\obj\main.o: ..\Lib\Base\dac.h
@@ -41,6 +38,9 @@
 ..\obj\main.o: ..\Lib\Base\encoder.h
 ..\obj\main.o: ..\Lib\Base\PWM.h
 ..\obj\main.o: ..\Lib\Base\stmflash.h
+..\obj\main.o: ..\Lib\Base\Data_Handle.h
+..\obj\main.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\main.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\main.o: ..\Lib\Mode\Mode.h
 ..\obj\main.o: ..\Lib\Mode\lcd.h
 ..\obj\main.o: ..\Lib\Mode\BZZ.h

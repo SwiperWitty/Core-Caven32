@@ -1,23 +1,36 @@
 #include "lcd.h"
-#include "lcdfont.h"
+#include "lcdfont.h"	//字库
 #include "sys_time.h"
 
-u16 BACK_COLOR;   //背景色
+u16 BACK_COLOR;   		//背景色
+struct _LCD LCD;
 
-void LCD_GPIO_Init(void)
+void LCD_GPIO_Init(FunctionalState SET)
 {
 	GPIO_InitTypeDef  GPIO_InitStructure;
  	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_GPIOB, ENABLE);	 //使能A端口时钟
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
-	
 	GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12|GPIO_Pin_13|GPIO_Pin_15;	 
- 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //推挽输出
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//速度50MHz
- 	GPIO_Init(GPIOB, &GPIO_InitStructure);	  //初始化GPIOB 
+	if (SET)
+	{
+		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12|GPIO_Pin_13|GPIO_Pin_15;	 
+		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //推挽输出
+		GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//速度50MHz
+		GPIO_Init(GPIOB, &GPIO_InitStructure);	  //初始化GPIOB
 
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
-	GPIO_Init(GPIOA, &GPIO_InitStructure);	  //初始化GPIOA
+		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
+		GPIO_Init(GPIOA, &GPIO_InitStructure);	  //初始化GPIOA
+	}
+	else
+	{
+		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12|GPIO_Pin_13|GPIO_Pin_15;	 
+		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
+		GPIO_Init(GPIOB, &GPIO_InitStructure);	  //初始化GPIOB
+
+		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
+		GPIO_Init(GPIOA, &GPIO_InitStructure);	  //初始化GPIOA
+	}
+	
 }
 
 /******************************************************************************
@@ -137,13 +150,13 @@ void LCD_Address_Set(u16 x1,u16 y1,u16 x2,u16 y2)
 								color       要填充的颜色
       返回值：  无
 ******************************************************************************/
-void LCD_Fill(u16 xsta,u16 ysta,u16 xend,u16 yend,u16 color)
+void LCD_Fill(u16 x_sta,u16 y_sta,u16 x_end,u16 y_end,u16 color)
 {          
 	u16 i,j; 
-	LCD_Address_Set(xsta,ysta,xend-1,yend-1);//设置显示范围
-	for(i=ysta;i<yend;i++)
+	LCD_Address_Set(x_sta,y_sta,x_end-1,y_end-1);//设置显示范围
+	for(i=y_sta;i<y_end;i++)
 	{													   	 	
-		for(j=xsta;j<xend;j++)
+		for(j=x_sta;j<x_end;j++)
 		{
 			LCD_WR_DATA(color);
 		}
@@ -495,9 +508,9 @@ void LCD_ShowPicture(u16 x,u16 y,u16 length,u16 width,const unsigned char pic[])
 	}
 }
 
-void LCD_Init(void)
+void LCD_Init(FunctionalState SET)
 {
-	LCD_GPIO_Init();//初始化GPIO
+	LCD_GPIO_Init(SET);//初始化GPIO
 	LCD_CS_Clr();
 	Delay_ms(20);
 //	LCD_RES_Clr();Delay_ms(200);				//Caven 使用硬件复位
@@ -586,4 +599,12 @@ void LCD_Init(void)
 	LCD_WR_REG(0x29);
 	Delay_ms(120);
 	LCD_Fill(0,0,LCD_W,LCD_H,BLACK);
+	
+	LCD.Draw_Circle = Draw_Circle;
+	LCD.Draw_Line = LCD_DrawLine;
+	LCD.Draw_Point = LCD_DrawPoint;
+	LCD.Fill = LCD_Fill;
+	LCD.Show_Chinese = LCD_ShowChinese;
+	LCD.Show_Picture = LCD_ShowPicture;
+	LCD.Show_String = LCD_ShowString;
 }
