@@ -1,0 +1,1 @@
+--apcs=interwork --cpu Cortex-M3 --li --pd "__MICROLIB SETA 1" -g -I.\ -I.\..\CMSIS -I.\..\Lib\Base -I.\..\Lib\inc -I.\..\Lib\Mode -I.\..\Lib\src -I.\..\Startup -I.\RTE\_M3-Caven -I.\.eide\deps -I.\.eide\deps -o .\build\M3-Caven\__\Startup\startup_stm32f10x_hd.o --depend .\build\M3-Caven\__\Startup\startup_stm32f10x_hd.d .\..\Startup\startup_stm32f10x_hd.s
