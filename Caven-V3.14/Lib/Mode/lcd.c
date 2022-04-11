@@ -169,7 +169,7 @@ void LCD_Fill(u16 x_sta,u16 y_sta,u16 x_end,u16 y_end,u16 color)
                 color 点的颜色
       返回值：  无
 ******************************************************************************/
-void LCD_DrawPoint(u16 x,u16 y,u16 color)
+void LCD_Draw_Point(u16 x,u16 y,u16 color)
 {
 	LCD_Address_Set(x,y,x,y);//设置光标位置 
 	LCD_WR_DATA(color);
@@ -183,7 +183,7 @@ void LCD_DrawPoint(u16 x,u16 y,u16 color)
                 color   线的颜色
       返回值：  无
 ******************************************************************************/
-void LCD_DrawLine(u16 x1,u16 y1,u16 x2,u16 y2,u16 color)
+void LCD_Draw_Line(u16 x1,u16 y1,u16 x2,u16 y2,u16 color)
 {
 	u16 t; 
 	int xerr=0,yerr=0,delta_x,delta_y,distance;
@@ -202,7 +202,7 @@ void LCD_DrawLine(u16 x1,u16 y1,u16 x2,u16 y2,u16 color)
 	else distance=delta_y;
 	for(t=0;t<distance+1;t++)
 	{
-		LCD_DrawPoint(uRow,uCol,color);//画点
+		LCD_Draw_Point(uRow,uCol,color);//画点
 		xerr+=delta_x;
 		yerr+=delta_y;
 		if(xerr>distance)
@@ -226,12 +226,12 @@ void LCD_DrawLine(u16 x1,u16 y1,u16 x2,u16 y2,u16 color)
                 color   矩形的颜色
       返回值：  无
 ******************************************************************************/
-void LCD_DrawRectangle(u16 x1, u16 y1, u16 x2, u16 y2,u16 color)
+void LCD_Draw_Rectangle(u16 x1, u16 y1, u16 x2, u16 y2,u16 color)
 {
-	LCD_DrawLine(x1,y1,x2,y1,color);
-	LCD_DrawLine(x1,y1,x1,y2,color);
-	LCD_DrawLine(x1,y2,x2,y2,color);
-	LCD_DrawLine(x2,y1,x2,y2,color);
+	LCD_Draw_Line(x1,y1,x2,y1,color);
+	LCD_Draw_Line(x1,y1,x1,y2,color);
+	LCD_Draw_Line(x1,y2,x2,y2,color);
+	LCD_Draw_Line(x2,y1,x2,y2,color);
 }
 
 
@@ -242,20 +242,20 @@ void LCD_DrawRectangle(u16 x1, u16 y1, u16 x2, u16 y2,u16 color)
                 color   圆的颜色
       返回值：  无
 ******************************************************************************/
-void Draw_Circle(u16 x0,u16 y0,char r,u16 color)
+void LCD_Draw_Circle(u16 x0,u16 y0,char r,u16 color)
 {
 	int a,b;
 	a=0;b=r;	  
 	while(a<=b)
 	{
-		LCD_DrawPoint(x0-b,y0-a,color);             //3           
-		LCD_DrawPoint(x0+b,y0-a,color);             //0           
-		LCD_DrawPoint(x0-a,y0+b,color);             //1                
-		LCD_DrawPoint(x0-a,y0-b,color);             //2             
-		LCD_DrawPoint(x0+b,y0+a,color);             //4               
-		LCD_DrawPoint(x0+a,y0-b,color);             //5
-		LCD_DrawPoint(x0+a,y0+b,color);             //6 
-		LCD_DrawPoint(x0-b,y0+a,color);             //7
+		LCD_Draw_Point(x0-b,y0-a,color);             //3           
+		LCD_Draw_Point(x0+b,y0-a,color);             //0           
+		LCD_Draw_Point(x0-a,y0+b,color);             //1                
+		LCD_Draw_Point(x0-a,y0-b,color);             //2             
+		LCD_Draw_Point(x0+b,y0+a,color);             //4               
+		LCD_Draw_Point(x0+a,y0-b,color);             //5
+		LCD_Draw_Point(x0+a,y0+b,color);             //6 
+		LCD_Draw_Point(x0-b,y0+a,color);             //7
 		a++;
 		if((a*a+b*b)>(r*r))//判断要画的点是否过远
 		{
@@ -274,7 +274,7 @@ void Draw_Circle(u16 x0,u16 y0,char r,u16 color)
                 mode:  0非叠加模式  1叠加模式
       返回值：  无
 ******************************************************************************/
-void LCD_ShowChinese24x24(u16 x,u16 y,char *s,u16 fc,u16 bc,char sizey,char mode)
+void LCD_Show_Chinese24x24(u16 x,u16 y,char *s,u16 fc,u16 bc,char sizey,char mode)
 {
 	char i,j,m=0;
 	u16 k;
@@ -305,7 +305,7 @@ void LCD_ShowChinese24x24(u16 x,u16 y,char *s,u16 fc,u16 bc,char sizey,char mode
 					}
 					else//叠加方式
 					{
-						if(tfont24[k].Msk[i]&(0x01<<j))	LCD_DrawPoint(x,y,fc);//画一个点
+						if(tfont24[k].Msk[i]&(0x01<<j))	LCD_Draw_Point(x,y,fc);//画一个点
 						x++;
 						if((x-x0)==sizey)
 						{
@@ -331,7 +331,7 @@ void LCD_ShowChinese24x24(u16 x,u16 y,char *s,u16 fc,u16 bc,char sizey,char mode
                 mode:  0非叠加模式  1叠加模式
       返回值：  无
 ******************************************************************************/
-void LCD_ShowChinese32x32(u16 x,u16 y,char *s,u16 fc,u16 bc,char sizey,char mode)
+void LCD_Show_Chinese32x32(u16 x,u16 y,char *s,u16 fc,u16 bc,char sizey,char mode)
 {
 	char i,j,m=0;
 	u16 k;
@@ -362,7 +362,7 @@ void LCD_ShowChinese32x32(u16 x,u16 y,char *s,u16 fc,u16 bc,char sizey,char mode
 					}
 					else//叠加方式
 					{
-						if(tfont32[k].Msk[i]&(0x01<<j))	LCD_DrawPoint(x,y,fc);//画一个点
+						if(tfont32[k].Msk[i]&(0x01<<j))	LCD_Draw_Point(x,y,fc);//画一个点
 						x++;
 						if((x-x0)==sizey)
 						{
@@ -389,7 +389,7 @@ void LCD_ShowChinese32x32(u16 x,u16 y,char *s,u16 fc,u16 bc,char sizey,char mode
                 mode:  0非叠加模式  1叠加模式
       返回值：  无
 ******************************************************************************/
-void LCD_ShowChar(u16 x,u16 y,char num,u16 fc,u16 bc,char sizey,char mode)
+void LCD_Show_Char(u16 x,u16 y,char num,u16 fc,u16 bc,char sizey,char mode)
 {
 	char temp,sizex,t,m=0;
 	u16 i,TypefaceNum;//一个字符所占字节大小
@@ -419,7 +419,7 @@ void LCD_ShowChar(u16 x,u16 y,char num,u16 fc,u16 bc,char sizey,char mode)
 			}
 			else//叠加模式
 			{
-				if(temp&(0x01<<t))LCD_DrawPoint(x,y,fc);//画一个点
+				if(temp&(0x01<<t))LCD_Draw_Point(x,y,fc);//画一个点
 				x++;
 				if((x-x0)==sizex)
 				{
@@ -443,12 +443,12 @@ void LCD_ShowChar(u16 x,u16 y,char num,u16 fc,u16 bc,char sizey,char mode)
                 mode:  0非叠加模式  1叠加模式
       返回值：  无
 ******************************************************************************/
-void LCD_ShowChinese(u16 x,u16 y,char *s,u16 fc,u16 bc,char sizey,char mode)
+void LCD_Show_Chinese(u16 x,u16 y,char *s,u16 fc,u16 bc,char sizey,char mode)
 {
 	while(*s!=0)
 	{
-		if(sizey==24) LCD_ShowChinese24x24(x,y,s,fc,bc,sizey,mode);
-		else if(sizey==32) LCD_ShowChinese32x32(x,y,s,fc,bc,sizey,mode);
+		if(sizey==24) LCD_Show_Chinese24x24(x,y,s,fc,bc,sizey,mode);
+		else if(sizey==32) LCD_Show_Chinese32x32(x,y,s,fc,bc,sizey,mode);
 		else return;
 		s+=2;
 		x+=sizey;
@@ -465,7 +465,7 @@ void LCD_ShowChinese(u16 x,u16 y,char *s,u16 fc,u16 bc,char sizey,char mode)
                 mode:  0非叠加模式  1叠加模式
       返回值：  无
 ******************************************************************************/
-void LCD_ShowString(u16 x,u16 y,const char *p,u16 fc,u16 bc,char sizey)
+void LCD_Show_String(u16 x,u16 y,const char *p,u16 fc,u16 bc,char sizey)
 {   
 	if(sizey == 16 || sizey == 24 || sizey == 32)
 	{
@@ -478,7 +478,7 @@ void LCD_ShowString(u16 x,u16 y,const char *p,u16 fc,u16 bc,char sizey)
 	
 	while(*p!='\0')
 	{       
-		LCD_ShowChar(x,y,*p,fc,bc,sizey,0);
+		LCD_Show_Char(x,y,*p,fc,bc,sizey,0);
 		x+=sizey/2;
 		p++;
 	}  
@@ -492,7 +492,7 @@ void LCD_ShowString(u16 x,u16 y,const char *p,u16 fc,u16 bc,char sizey)
                 pic[]  图片数组    
       返回值：  无
 ******************************************************************************/
-void LCD_ShowPicture(u16 x,u16 y,u16 length,u16 width,const unsigned char pic[])
+void LCD_Show_Picture(u16 x,u16 y,u16 length,u16 width,const unsigned char pic[])
 {
 	u16 i,j;
 	u32 k=0;
@@ -600,11 +600,11 @@ void LCD_Init(FunctionalState SET)
 	Delay_ms(120);
 	LCD_Fill(0,0,LCD_W,LCD_H,BLACK);
 	
-	LCD.Draw_Circle = Draw_Circle;
-	LCD.Draw_Line = LCD_DrawLine;
-	LCD.Draw_Point = LCD_DrawPoint;
+	LCD.Draw_Circle = LCD_Draw_Circle;
+	LCD.Draw_Line = LCD_Draw_Line;
+	LCD.Draw_Point = LCD_Draw_Point;
 	LCD.Fill = LCD_Fill;
-	LCD.Show_Chinese = LCD_ShowChinese;
-	LCD.Show_Picture = LCD_ShowPicture;
-	LCD.Show_String = LCD_ShowString;
+	LCD.Show_Chinese = LCD_Show_Chinese;
+	LCD.Show_Picture = LCD_Show_Picture;
+	LCD.Show_String = LCD_Show_String;
 }

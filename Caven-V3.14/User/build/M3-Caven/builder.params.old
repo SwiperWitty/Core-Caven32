@@ -18,7 +18,6 @@
         "../Lib/src",
         "../Startup",
         "RTE/_M3-Caven",
-        ".eide/deps",
         ".eide/deps"
     ],
     "libDirs": [],

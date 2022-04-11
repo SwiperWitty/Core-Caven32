@@ -58,23 +58,23 @@ struct _LCD
 
     void (*Draw_Point)(u16 x,u16 y,u16 color);//在指定位置画一个点
     void (*Draw_Line)(u16 x1,u16 y1,u16 x2,u16 y2,u16 color);//在指定位置画一条线
-    void (*Draw_Rectangle)(u16 x1, u16 y1, u16 x2, u16 y2,u16 color);//在指定位置画一个矩形
     void (*Draw_Circle)(u16 x0,u16 y0,char r,u16 color);//在指定位置画一个圆
-
-    void (*Show_Chinese)(u16 x,u16 y,char *s,u16 coloer,u16 b_coloer,char Size,char mode);//显示汉字串
+    void (*Draw_Rectangle)(u16 x1, u16 y1, u16 x2, u16 y2,u16 color);//在指定位置画一个矩形
+    
     void (*Show_String)(u16 x,u16 y,const char *p,u16 coloer,u16 b_coloer,char Size);//显示字符串
+    void (*Show_Chinese)(u16 x,u16 y,char *s,u16 coloer,u16 b_coloer,char Size,char mode);//显示汉字串
     void (*Show_Picture)(u16 x,u16 y,u16 length,u16 width,const unsigned char pic[]);//显示图片
 };
 
 void LCD_Fill(u16 x_sta,u16 y_sta,u16 x_end,u16 y_end,u16 color);//指定区域填充颜色
-void LCD_DrawPoint(u16 x,u16 y,u16 color);//在指定位置画一个点
-void LCD_DrawLine(u16 x1,u16 y1,u16 x2,u16 y2,u16 color);//在指定位置画一条线
-void LCD_DrawRectangle(u16 x1, u16 y1, u16 x2, u16 y2,u16 color);//在指定位置画一个矩形
-void Draw_Circle(u16 x0,u16 y0,char r,u16 color);//在指定位置画一个圆
+void LCD_Draw_Point(u16 x,u16 y,u16 color);//在指定位置画一个点
+void LCD_Draw_Line(u16 x1,u16 y1,u16 x2,u16 y2,u16 color);//在指定位置画一条线
+void LCD_Draw_Circle(u16 x0,u16 y0,char r,u16 color);//在指定位置画一个圆
+void LCD_Draw_Rectangle(u16 x1, u16 y1, u16 x2, u16 y2,u16 color);//在指定位置画一个矩形
 
-void LCD_ShowChinese(u16 x,u16 y,char *s,u16 coloer,u16 b_coloer,char Size,char mode);//显示汉字串
-void LCD_ShowString(u16 x,u16 y,const char *p,u16 coloer,u16 b_coloer,char Size);//显示字符串
-void LCD_ShowPicture(u16 x,u16 y,u16 length,u16 width,const unsigned char pic[]);//显示图片
+void LCD_Show_String(u16 x,u16 y,const char *p,u16 coloer,u16 b_coloer,char Size);//显示字符串
+void LCD_Show_Chinese(u16 x,u16 y,char *s,u16 coloer,u16 b_coloer,char Size,char mode);//显示汉字串
+void LCD_Show_Picture(u16 x,u16 y,u16 length,u16 width,const unsigned char pic[]);//显示图片
 
 void LCD_Init(FunctionalState SET);//LCD初始化
 

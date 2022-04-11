@@ -48,7 +48,7 @@
 "..\obj\stm32f10x_usart.o"
 "..\obj\stm32f10x_wwdg.o"
 "..\obj\startup_stm32f10x_hd.o"
---strict --scatter "..\OBJ\Cavendish.sct"
+--nodebug --strict --scatter "..\OBJ\Cavendish.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list ".\Listings\Cavendish.map" -o ..\OBJ\Cavendish.axf

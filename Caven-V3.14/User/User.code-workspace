@@ -6,10 +6,10 @@
     ],
     "settings": {
         "files.associations": {
-            "lcd.h": "c",
-            "lcdfont.h": "c",
+            "iic.h": "c",
+            "spi.h": "c",
             "mode.h": "c",
-            "iic.h": "c"
+            "lcd.h": "c"
         }
     },
     "extensions": {},

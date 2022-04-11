@@ -24,7 +24,7 @@ struct _Mode_Init
 
 struct _Mode_User
 {
-	struct _LCD *LCD;
+	struct _LCD LCD;
 };
 
 void Mode_Init_index(void); //初始化Mode函数索引,真正功能的初始化请调用结构体中函数指针(Mode_Init)
