@@ -8,3 +8,4 @@ Caven 3.14的硬件和Caven 3.0完全**不一样**，是一个更大的进化，
 
 硬件方面只需要一根Type-c和一台电脑即可开发 [Caven 3.14](https://github.com/SwiperWiity/Core-STM32/tree/main/Caven-V3.14)！
 
+
