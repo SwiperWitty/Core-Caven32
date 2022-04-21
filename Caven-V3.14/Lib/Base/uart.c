@@ -1,7 +1,10 @@
 #include "uart.h"
+#include "sys_time.h"
+#include "Data_Handle.h"
 
 struct _CV_UART CV_UART;
 struct _UART UART;
+//static unsigned int Overflow_Time;		//暂时没用
 
 void UART_x_Init(char UART_x, uint32_t Baud, FunctionalState SET)
 {
@@ -247,11 +250,28 @@ void UART_x_Send_String(char UART_x, char *String)
 		default:
 			break;
 		}
-		if (*(String + n) == '\0' || *(String + n) == 0)
-			return;
-		else if (n > 100)
+		if (*(String + n) == String_End1 || *(String + n) == String_End2)			// 字符串结束字符
 			return;
 		n++;
+	}
+}
+
+void Read_RXD(char UART_x,char res)			//查看能不能接收
+{
+	if (CV_UART.Read_Flag[UART_x] == 0)
+	{
+		CV_UART.UART_x_Array[UART_x][CV_UART.Rxd_Num[UART_x]++] = res;
+		if (res == RXD_End1 || res == RXD_End2)		//停止位
+		{
+			CV_UART.Read_Flag[UART_x] = 1;
+			CV_UART.Rxd_Num[UART_x] = 0;
+		}
+		if(CV_UART.Rxd_Num[UART_x] > RXD_Num_MAX)	//超长（异常需要清零）
+		{
+			CV_UART.Read_Flag[UART_x] = 1;
+			CV_UART.Rxd_Num[UART_x] = 0;
+			Data_Replace("123",CV_UART.UART_x_Array[UART_x],0,sizeof(CV_UART.UART_x_Array[UART_x]));
+		}
 	}
 }
 
@@ -261,16 +281,8 @@ void USART1_IRQHandler(void) //中断处理函数；
 	if (USART_GetITStatus(USART1, USART_IT_RXNE) == SET)
 	{
 		USART_ClearFlag(USART1, USART_IT_RXNE);
-		if (CV_UART.Read_Flag[UART_1] == 0)
-		{
-			res = USART_ReceiveData(USART1); //接收数据
-			CV_UART.UART_x_Array[UART_1][CV_UART.Rxd_Num[UART_1]++] = res;
-			if (res == '\0' || res == '}')
-			{
-				CV_UART.Read_Flag[1] = 1;
-				CV_UART.Rxd_Num[1] = 0;
-			}
-		}
+		res = USART_ReceiveData(USART1); //接收数据
+		Read_RXD(UART_1,res);			//查看能不能接收
 	}
 }
 
@@ -280,16 +292,8 @@ void USART2_IRQHandler(void) //中断处理函数；
 	if (USART_GetITStatus(USART2, USART_IT_RXNE)) //判断是否发生中断；
 	{
 		USART_ClearFlag(USART2, USART_IT_RXNE); //清除标志位
-		if (CV_UART.Read_Flag[2] == 0)
-		{
-			res = USART_ReceiveData(USART2); //接收数据
-			CV_UART.UART_x_Array[2][CV_UART.Rxd_Num[2]++] = res;
-			if (res == '\0' || res == '}')
-			{
-				CV_UART.Read_Flag[2] = 1;
-				CV_UART.Rxd_Num[2] = 0;
-			}
-		}
+		res = USART_ReceiveData(USART2); //接收数据
+		Read_RXD(UART_2,res);			//查看能不能接收
 	}
 }
 
@@ -299,16 +303,8 @@ void USART3_IRQHandler(void) //中断处理函数
 	if (USART_GetITStatus(USART3, USART_IT_RXNE) == SET) //判断是否发生中断
 	{
 		USART_ClearFlag(USART3, USART_IT_RXNE); //清除标志位
-		if (CV_UART.Read_Flag[3] == 0)
-		{
-			res = USART_ReceiveData(USART3); //接收数据
-			CV_UART.UART_x_Array[3][CV_UART.Rxd_Num[3]++] = res;
-			if (res == '\0' || res == '}')
-			{
-				CV_UART.Read_Flag[3] = 1;
-				CV_UART.Rxd_Num[UART_3] = 0;
-			}
-		}
+		res = USART_ReceiveData(USART3); //接收数据
+		Read_RXD(UART_3,res);			//查看能不能接收
 	}
 }
 
@@ -318,16 +314,8 @@ void UART4_IRQHandler(void) //中断处理函数
 	if (USART_GetITStatus(UART4, USART_IT_RXNE)) //判断是否发生中断；
 	{
 		USART_ClearFlag(UART4, USART_IT_RXNE); //清除标志位
-		if (CV_UART.Read_Flag[4] == 0)
-		{
-			res = USART_ReceiveData(UART4); //接收数据
-			CV_UART.UART_x_Array[4][CV_UART.Rxd_Num[4]++] = res;
-			if (res == '\0' || res == '}')
-			{
-				CV_UART.Read_Flag[4] = 1;
-				CV_UART.Rxd_Num[4] = 0;
-			}
-		}
+		res = USART_ReceiveData(UART4); //接收数据
+		Read_RXD(UART_4,res);			//查看能不能接收
 	}
 }
 
@@ -337,15 +325,7 @@ void UART5_IRQHandler(void) //中断处理函数；
 	if (USART_GetITStatus(UART5, USART_IT_RXNE)) //判断是否发生中断；
 	{
 		USART_ClearFlag(UART5, USART_IT_RXNE); //清除标志位
-		if (CV_UART.Read_Flag[5] == 0)
-		{
-			res = USART_ReceiveData(UART5); //接收数据
-			CV_UART.UART_x_Array[5][CV_UART.Rxd_Num[5]++] = res;
-			if (res == '}')
-			{
-				CV_UART.Read_Flag[5] = 1;
-				CV_UART.Rxd_Num[5] = 0;
-			}
-		}
+		res = USART_ReceiveData(UART5); //接收数据
+		Read_RXD(UART_5,res);			//查看能不能接收
 	}
 }

@@ -30,3 +30,7 @@
 ..\obj\uart.o: ..\Lib\inc\stm32f10x_usart.h
 ..\obj\uart.o: ..\Lib\inc\stm32f10x_wwdg.h
 ..\obj\uart.o: ..\Lib\inc\misc.h
+..\obj\uart.o: ..\Lib\Base\sys_time.h
+..\obj\uart.o: ..\Lib\Base\Data_Handle.h
+..\obj\uart.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\uart.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdlib.h

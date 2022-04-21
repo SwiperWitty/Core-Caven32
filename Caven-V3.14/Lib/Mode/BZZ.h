@@ -3,9 +3,9 @@
 
 #include "stm32f10x.h"
 
-#define BZZ 		GPIO_Pin_0
-#define BZZ_GPIO	GPIOB
-#define BZZ_GPIO_TIM	RCC_APB2Periph_GPIOB
+#define BZZ 		GPIO_Pin_12
+#define BZZ_GPIO	GPIOA
+#define BZZ_GPIO_TIM	RCC_APB2Periph_GPIOA
 
 #define BZZ_ON 		1
 #define BZZ_OF 		0

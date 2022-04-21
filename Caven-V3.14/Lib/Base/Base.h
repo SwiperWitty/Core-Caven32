@@ -47,6 +47,7 @@ struct _Base_User
 	//
 	
 	struct _Flash Flash;
+	struct _Data	Data;
 };
 
 void Base_Init_index(void); //初始化Base索引,真正功能的初始化请调用结构体中函数指针(Base_Init)

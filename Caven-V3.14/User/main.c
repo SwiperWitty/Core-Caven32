@@ -22,23 +22,36 @@ extern struct _Mode_User Mode_User;
 
 float far, temp, vol;
 char Free_Show[30];
-
+extern struct _CV_UART CV_UART;
+unsigned int Overflow_Time,Now_Time;
+char UART_Overflow_num = 0;
 void Mian_Init(void);
 int main(void)
 {
 	Mian_Init();
+	
 	while (1)
 	{
-		vol = Base_User.ADC.Read_MCU_Temp();
-		sprintf(Free_Show, "-> MCU : %.2f C ", vol);
-		Mode_User.LCD.Show_String(0, 2, Free_Show, GBLUE, BLACK, 16);
+		
+		if(CV_UART.Rxd_Num[3] > 0)
+		{
+			if(Data_Overflow_Time(CV_UART.Rxd_Num[3],100) == (-1))
+			{
+				Base_User.UART.UART_x_Send_String(3,"time over !");
+			}
+		}
+		
+		if(CV_UART.Read_Flag[3])
+		{
+			CV_UART.Read_Flag[3] = 0;
+			Base_User.UART.UART_x_Send_String(3,CV_UART.UART_x_Array[3]);
+			Data_Replace ("123",CV_UART.UART_x_Array[3],0,sizeof(CV_UART.UART_x_Array[3]));
+			Base_User.Delay.Delay_ms(10);
+		}
+		sprintf(Free_Show,"-> TIME: %2d:%2d:%2d S  ",SYS_Watch.hour,SYS_Watch.minutes,SYS_Watch.second);
+		Mode_User.LCD.Show_String(0, 3, Free_Show, GBLUE, BLACK, 16);
 		Data_Replace("123", Free_Show, 0, sizeof(Free_Show));
-
-		sprintf(Free_Show, "-> TIME: %2d:%2d:%2d S ", SYS_Watch.hour, SYS_Watch.minutes, SYS_Watch.second);
-		Mode_User.LCD.Show_String(0, 3, Free_Show, WHITE, BLACK, 16);
-		Data_Replace("123", Free_Show, 0, sizeof(Free_Show));
-
-		Base_User.Delay.Delay_ms(20);
+		
 	}
 }
 
@@ -48,7 +61,7 @@ void Mian_Init(void)
 	Mode_Init_index();
 
 	Base_Init.SYS_Init(ENABLE);
-	Base_Init.UART_x_Init(UART_3, 9600, ENABLE);
+	Base_Init.UART_x_Init(UART_3, 115200, ENABLE);
 	Base_User.UART.UART_x_Send_String(UART_3, "{Ready !}\n");
 
 	Base_Init.ADC_x_Init(MCU_Temp, ENABLE);
@@ -60,11 +73,11 @@ void Mian_Init(void)
 		Mode_User.LCD.Show_String(22, 0, "ST", BLUE, BLACK, 16);
 	else
 		Mode_User.LCD.Show_String(22, 0, "GD", MAGENTA, BLACK, 16); // X = 21、Y = 0 为起点 显示 "GD  "	字体为 BLUE，背景色为 BLACK，字体16
-	Mode_User.LCD.Show_String(5, 0, "Caven Pro", BLUE, BLACK, 24);
+	Mode_User.LCD.Show_String(5, 0, "Caven Pro", RED, BLACK, 24);
 	Mode_User.LCD.Show_String(29, 14, "1", RED, BLACK, 16); //这里是16字 的极限 0-29（30行） 0-14(15列)
 	Data_Replace("123", Free_Show, '-', 26);				//分割区
-	Mode_User.LCD.Show_String(0, 2, "-> MCU : 26.10 C ", GBLUE, BLACK, 16);
-	Mode_User.LCD.Show_String(0, 3, "-> TIME: 00:00:00 S ", WHITE, BLACK, 16);
+	Mode_User.LCD.Show_String(0, 2, "-> MCU : 26.10 C ", BLUE, BLACK, 16);
+	Mode_User.LCD.Show_String(0, 3, "-> TIME: 00:00:00 S ", GBLUE, BLACK, 16);
 	Mode_User.LCD.Show_String(2, 4, Free_Show, WHITE, BLACK, 16);
 	Data_Replace("123", Free_Show, 0, sizeof(Free_Show));
 

@@ -13,7 +13,7 @@ struct _Delay Delay;
 struct _SYS_Watch  SYS_Watch = {23,59,55,0,0};
 u32 TimingDelay = 0;
 
-void Sys_Watch (void)
+void Sys_Watch_Handle (void)
 {
 	SYS_Watch.time_num++;
 	if(SYS_Watch.time_num > 100000)
@@ -38,10 +38,10 @@ void Sys_Watch (void)
 	}
 }
 
-void SysTick_Handler(void)
+void SysTick_Handler(void)			//SYS_TIME中断
 {
 	TimingDelay++;
-	Sys_Watch ();
+	Sys_Watch_Handle ();
 }
 
 void Delay_10us(int num)

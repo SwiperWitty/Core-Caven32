@@ -9,17 +9,18 @@
 
 //-----------------LCD端口定义---------------- //
 
-#define LCD_SCLK_Clr() GPIO_ResetBits(GPIOB,GPIO_Pin_13)	//SDC
-#define LCD_SCLK_Set() GPIO_SetBits(GPIOB,GPIO_Pin_13)
+#define LCD_SCLK_Clr() GPIOB->BRR = 0X2000	//SLCK
+#define LCD_SCLK_Set() GPIOB->BSRR = 0X2000	//PB15
+
 		
-#define LCD_MOSI_Clr() GPIO_ResetBits(GPIOB,GPIO_Pin_15)	//SDA
-#define LCD_MOSI_Set() GPIO_SetBits(GPIOB,GPIO_Pin_15)
+#define LCD_MOSI_Clr() GPIOB->BRR = 0X8000	//SDA
+#define LCD_MOSI_Set() GPIOB->BSRR = 0X8000	//PB13
 		
-#define LCD_DC_Clr() GPIO_ResetBits(GPIOA,GPIO_Pin_10)		//DC
-#define LCD_DC_Set() GPIO_SetBits(GPIOA,GPIO_Pin_10)
- 		 
-#define LCD_CS_Clr()  GPIO_ResetBits(GPIOB,GPIO_Pin_12)		//CS				//没有传输数据没有这个重启的时候会出大问题
-#define LCD_CS_Set()  GPIO_SetBits(GPIOB,GPIO_Pin_12)
+#define LCD_DC_Clr() GPIOA->BRR = 0X0400		//DC
+#define LCD_DC_Set() GPIOA->BSRR = 0X0400	//PA10
+
+#define LCD_CS_Clr()  GPIOB->BRR = 0X1000	//CS				//没有传输数据没有这个重启的时候会出大问题
+#define LCD_CS_Set()  GPIOB->BSRR = 0X1000	//PB12
 
 //#define LCD_RES_Clr()										//RES				//Caven 使用硬件复位
 //#define LCD_RES_Set()

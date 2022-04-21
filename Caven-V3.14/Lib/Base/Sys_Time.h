@@ -15,8 +15,8 @@ struct _SYS_Watch
 	char hour;
 	char minutes;
 	char second;
-	u32 sys_time;
-	u32 time_num;
+	u32 sys_time;			//这是系统秒数（hour*3600 + minutes * 60 + second）
+	u32 time_num;			//这是中断溢出次数，达到 100000 就是1S
 };
 
 struct _Delay
@@ -27,8 +27,6 @@ struct _Delay
 };
 
 extern struct _SYS_Watch SYS_Watch;
-
-void Sys_Watch(void);
 
 void Delay_10us(int num);
 void Delay_ms(int num);

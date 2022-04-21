@@ -16,7 +16,10 @@ extern struct _Delay Delay;
 
 extern struct _Flash Flash;
 
-void Base_User_index(void)		//索引 功能函数 本体
+extern struct _Data	Data;
+// 以上的内容，是实体，在对应的.C文件中调用。但是 Base_User_index 强行绑定了，所以以上内容没有意义（没调用过他们）。
+
+void Base_User_index(void)		//索引 功能函数 本体		（这是强制绑定函数本体）
 {
 	Base_User.IIC.Soft_ReadByte = IICs_ReadByte;		//绑定各个函数
 	Base_User.IIC.Soft_SendByte = IICs_SendByte;		//其实你可以结构体指针对向索引结构体，但是结构体指针->在MDK没有代码补全，还是一直按住.不撒手来的爽。
@@ -39,6 +42,10 @@ void Base_User_index(void)		//索引 功能函数 本体
 	Base_User.Flash.STMFLASH_ReadHalfWord = STMFLASH_ReadHalfWord;
 	Base_User.Flash.STMFLASH_Write = STMFLASH_Write;
 	Base_User.Flash.Test_Write = Test_Write;
+
+	Base_User.Data.Chang_NUM = Data_Chang_NUM;
+	Base_User.Data.Judge = Data_Judge;
+	Base_User.Data.Replace = Data_Replace;
 }
 
 void Base_Init_index(void)		//索引 初始化函数 本体
