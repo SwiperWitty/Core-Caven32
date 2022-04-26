@@ -123,17 +123,16 @@ char IICs_ReadByte(char ack_nack, int Speed)
 
 void IIC_Software_Init(FunctionalState SET)
 {
-	IIC_PeriphClockCmd(SET);	//时钟
 	if(SET)
 	{
-		IIC_GPIO_Init;							//GPIO
+		IIC_GPIO_Init();							//GPIO
 		IIC_SCK_H();
 		IIC_SDA_H();
 	}
-	else	
+	else
 	{
-		IIC_GPIO_Exit;
-	}
+		IIC_GPIO_Exit();
+    }
 	IIC.Soft_ReadByte = IICs_ReadByte;
 	IIC.Soft_SendByte = IICs_SendByte;
 }

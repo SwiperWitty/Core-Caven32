@@ -22,12 +22,13 @@
 #define SPI_CS  		GPIO_Pin_12
 
 //移植修改
-#define SPI_PeriphClockCmd(SET) RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,SET)
+#define SPI_PeriphClockCmd(SET)	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,SET)
 
-#define SPI_GPIO_Init											\
+#define SPI_GPIO_Init()											\
 do																\
 {																\
 	GPIO_InitTypeDef GPIO_InitStructure;						\
+	SPI_PeriphClockCmd(SET);									\
     GPIO_InitStructure.GPIO_Pin = SPI_MOSI | SPI_SCLK | SPI_CS;	\
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;			\
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;			\
@@ -38,7 +39,7 @@ do																\
 	GPIO_Init(SPI_GPIO, &GPIO_InitStructure);					\
 }while(0);		
 		
-#define SPI_GPIO_Exit											\
+#define SPI_GPIO_Exit()											\
 do																\
 {																\
 	GPIO_InitTypeDef GPIO_InitStructure;						\

@@ -39,17 +39,17 @@ void SPI_Software_Init(FunctionalState SET)
 {
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO,ENABLE);
 	GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);			//禁用 jtag
-	SPI_PeriphClockCmd(SET);	//时钟
+
 	if(SET)
 	{
-		SPI_GPIO_Init;
+		SPI_GPIO_Init();
 		SPI_MOSI_H();
 		SPI_SCLK_H();
 		SPI_CS_H();
 	}
-	else	
+	else
 	{
-		SPI_GPIO_Exit;
+		SPI_GPIO_Exit();
 	}
 	SPI.Soft_Write_And_Read_Byte = SPIs_Write_And_Read_Byte;
 }

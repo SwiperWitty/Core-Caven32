@@ -25,6 +25,7 @@ char Free_Show[30];
 extern struct _CV_UART CV_UART;
 unsigned int Overflow_Time,Now_Time;
 char UART_Overflow_num = 0;
+int abd;
 void Mian_Init(void);
 int main(void)
 {
@@ -51,7 +52,19 @@ int main(void)
 		sprintf(Free_Show,"-> TIME: %2d:%2d:%2d S  ",SYS_Watch.hour,SYS_Watch.minutes,SYS_Watch.second);
 		Mode_User.LCD.Show_String(0, 3, Free_Show, GBLUE, BLACK, 16);
 		Data_Replace("123", Free_Show, 0, sizeof(Free_Show));
+		abd = KEY_Touch_IN();
+		if(abd == 0)
+		{
+			BZZ_Control (BZZ_ON);
+			Mode_User.LCD.Show_String(21, 3, "0 ", GBLUE, BLACK, 16);
+		}
+		else
+		{
+			BZZ_Control (BZZ_OF);
+			Mode_User.LCD.Show_String(21, 3, "1 ", GBLUE, BLACK, 16);
+		}
 		
+
 	}
 }
 
@@ -81,5 +94,7 @@ void Mian_Init(void)
 	Mode_User.LCD.Show_String(2, 4, Free_Show, WHITE, BLACK, 16);
 	Data_Replace("123", Free_Show, 0, sizeof(Free_Show));
 
+	KEY_Init(ENABLE);
+	BZZ_Init(ENABLE);
 	Base_User.Delay.Delay_S(1);
 }

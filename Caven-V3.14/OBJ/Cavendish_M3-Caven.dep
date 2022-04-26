@@ -30,7 +30,7 @@ I (..\Lib\inc\stm32f10x_tim.h)(0x4D783BB4)
 I (..\Lib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\Lib\inc\stm32f10x_wwdg.h)(0x4D783BB4)
 I (..\Lib\inc\misc.h)(0x4D783BB4)
-F (.\main.c)(0x62614716)(--c99 -c --cpu Cortex-M3 -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Lib\Base -I ..\Lib\inc -I ..\Lib\Mode -I ..\Lib\src -I ..\Startup-ID:\MDK5\ARM\GigaDevice\GD32F10x_DFP\2.0.2\Device\Include-ID:\MDK5\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DGD32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DCavendish -DGD-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
+F (.\main.c)(0x6267BB51)(--c99 -c --cpu Cortex-M3 -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Lib\Base -I ..\Lib\inc -I ..\Lib\Mode -I ..\Lib\src -I ..\Startup-ID:\MDK5\ARM\GigaDevice\GD32F10x_DFP\2.0.2\Device\Include-ID:\MDK5\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DGD32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DCavendish -DGD-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
 I (..\CMSIS\stm32f10x.h)(0x61AC971B)
 I (..\CMSIS\core_cm3.h)(0x621CA08F)
 I (D:\MDK5\ARM\ARMCC\include\stdint.h)(0x5F63877C)
@@ -60,10 +60,10 @@ I (..\Lib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\Lib\inc\stm32f10x_wwdg.h)(0x4D783BB4)
 I (..\Lib\inc\misc.h)(0x4D783BB4)
 I (..\Lib\Base\base.h)(0x625FC01A)
-I (..\Lib\Base\iic.h)(0x624D6909)
+I (..\Lib\Base\iic.h)(0x6267B777)
 I (..\Lib\Base\sys_time.h)(0x625FF11E)
 I (..\Lib\Base\uart.h)(0x625FEE01)
-I (..\Lib\Base\spi.h)(0x624D6BCA)
+I (..\Lib\Base\spi.h)(0x6267B7DE)
 I (..\Lib\Base\dac.h)(0x624E7E6B)
 I (..\Lib\Base\adc.h)(0x625FB56D)
 I (..\Lib\Base\encoder.h)(0x624E8BB5)
@@ -74,11 +74,11 @@ I (D:\MDK5\ARM\ARMCC\include\stdio.h)(0x5F63877C)
 I (D:\MDK5\ARM\ARMCC\include\stdlib.h)(0x5F63877C)
 I (..\Lib\Mode\Mode.h)(0x6253C813)
 I (..\Lib\Mode\lcd.h)(0x626149B3)
-I (..\Lib\Mode\BZZ.h)(0x626131C7)
+I (..\Lib\Mode\BZZ.h)(0x6267B75A)
 I (..\Lib\Mode\HC595.h)(0x61A78331)
 I (..\Lib\Mode\Steering_engine.h)(0x624E8C64)
 I (..\Lib\Mode\motor.h)(0x624E8794)
-I (..\Lib\Mode\key.h)(0x615EF95B)
+I (..\Lib\Mode\key.h)(0x6267B7B3)
 I (..\Lib\Mode\Tracing.h)(0x621CA7A8)
 I (..\Lib\Mode\Ultrasonic.h)(0x6247E89B)
 I (..\Lib\Mode\mlx90614.h)(0x624D5643)
@@ -331,8 +331,8 @@ I (..\Lib\inc\stm32f10x_tim.h)(0x4D783BB4)
 I (..\Lib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\Lib\inc\stm32f10x_wwdg.h)(0x4D783BB4)
 I (..\Lib\inc\misc.h)(0x4D783BB4)
-F (..\Lib\Base\IIC.c)(0x625281F3)(--c99 -c --cpu Cortex-M3 -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Lib\Base -I ..\Lib\inc -I ..\Lib\Mode -I ..\Lib\src -I ..\Startup-ID:\MDK5\ARM\GigaDevice\GD32F10x_DFP\2.0.2\Device\Include-ID:\MDK5\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DGD32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DCavendish -DGD-o ..\obj\iic.o --omf_browse ..\obj\iic.crf --depend ..\obj\iic.d)
-I (..\Lib\Base\IIC.h)(0x624D6909)
+F (..\Lib\Base\IIC.c)(0x6267B884)(--c99 -c --cpu Cortex-M3 -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Lib\Base -I ..\Lib\inc -I ..\Lib\Mode -I ..\Lib\src -I ..\Startup-ID:\MDK5\ARM\GigaDevice\GD32F10x_DFP\2.0.2\Device\Include-ID:\MDK5\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DGD32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DCavendish -DGD-o ..\obj\iic.o --omf_browse ..\obj\iic.crf --depend ..\obj\iic.d)
+I (..\Lib\Base\IIC.h)(0x6267B777)
 I (..\CMSIS\stm32f10x.h)(0x61AC971B)
 I (..\CMSIS\core_cm3.h)(0x621CA08F)
 I (D:\MDK5\ARM\ARMCC\include\stdint.h)(0x5F63877C)
@@ -362,8 +362,8 @@ I (..\Lib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\Lib\inc\stm32f10x_wwdg.h)(0x4D783BB4)
 I (..\Lib\inc\misc.h)(0x4D783BB4)
 I (..\Lib\Base\sys_time.h)(0x625FF11E)
-F (..\Lib\Base\SPI.c)(0x624D6ACE)(--c99 -c --cpu Cortex-M3 -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Lib\Base -I ..\Lib\inc -I ..\Lib\Mode -I ..\Lib\src -I ..\Startup-ID:\MDK5\ARM\GigaDevice\GD32F10x_DFP\2.0.2\Device\Include-ID:\MDK5\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DGD32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DCavendish -DGD-o ..\obj\spi.o --omf_browse ..\obj\spi.crf --depend ..\obj\spi.d)
-I (..\Lib\Base\SPI.h)(0x624D6BCA)
+F (..\Lib\Base\SPI.c)(0x6267B88D)(--c99 -c --cpu Cortex-M3 -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Lib\Base -I ..\Lib\inc -I ..\Lib\Mode -I ..\Lib\src -I ..\Startup-ID:\MDK5\ARM\GigaDevice\GD32F10x_DFP\2.0.2\Device\Include-ID:\MDK5\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DGD32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DCavendish -DGD-o ..\obj\spi.o --omf_browse ..\obj\spi.crf --depend ..\obj\spi.d)
+I (..\Lib\Base\SPI.h)(0x6267B7DE)
 I (..\CMSIS\stm32f10x.h)(0x61AC971B)
 I (..\CMSIS\core_cm3.h)(0x621CA08F)
 I (D:\MDK5\ARM\ARMCC\include\stdint.h)(0x5F63877C)
@@ -395,7 +395,7 @@ I (..\Lib\inc\misc.h)(0x4D783BB4)
 I (..\Lib\Base\sys_time.h)(0x625FF11E)
 F (..\Lib\Base\Base.c)(0x625FC31C)(--c99 -c --cpu Cortex-M3 -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Lib\Base -I ..\Lib\inc -I ..\Lib\Mode -I ..\Lib\src -I ..\Startup-ID:\MDK5\ARM\GigaDevice\GD32F10x_DFP\2.0.2\Device\Include-ID:\MDK5\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DGD32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DCavendish -DGD-o ..\obj\base.o --omf_browse ..\obj\base.crf --depend ..\obj\base.d)
 I (..\Lib\Base\base.h)(0x625FC01A)
-I (..\Lib\Base\iic.h)(0x624D6909)
+I (..\Lib\Base\iic.h)(0x6267B777)
 I (..\CMSIS\stm32f10x.h)(0x61AC971B)
 I (..\CMSIS\core_cm3.h)(0x621CA08F)
 I (D:\MDK5\ARM\ARMCC\include\stdint.h)(0x5F63877C)
@@ -426,7 +426,7 @@ I (..\Lib\inc\stm32f10x_wwdg.h)(0x4D783BB4)
 I (..\Lib\inc\misc.h)(0x4D783BB4)
 I (..\Lib\Base\sys_time.h)(0x625FF11E)
 I (..\Lib\Base\uart.h)(0x625FEE01)
-I (..\Lib\Base\spi.h)(0x624D6BCA)
+I (..\Lib\Base\spi.h)(0x6267B7DE)
 I (..\Lib\Base\dac.h)(0x624E7E6B)
 I (..\Lib\Base\adc.h)(0x625FB56D)
 I (..\Lib\Base\encoder.h)(0x624E8BB5)
@@ -435,8 +435,8 @@ I (..\Lib\Base\stmflash.h)(0x624E8EA9)
 I (..\Lib\Base\Data_Handle.h)(0x62600107)
 I (D:\MDK5\ARM\ARMCC\include\stdio.h)(0x5F63877C)
 I (D:\MDK5\ARM\ARMCC\include\stdlib.h)(0x5F63877C)
-F (..\Lib\Mode\BZZ.c)(0x619A0B2D)(--c99 -c --cpu Cortex-M3 -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Lib\Base -I ..\Lib\inc -I ..\Lib\Mode -I ..\Lib\src -I ..\Startup-ID:\MDK5\ARM\GigaDevice\GD32F10x_DFP\2.0.2\Device\Include-ID:\MDK5\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DGD32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DCavendish -DGD-o ..\obj\bzz.o --omf_browse ..\obj\bzz.crf --depend ..\obj\bzz.d)
-I (..\Lib\Mode\BZZ.h)(0x626131C7)
+F (..\Lib\Mode\BZZ.c)(0x6267B86E)(--c99 -c --cpu Cortex-M3 -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Lib\Base -I ..\Lib\inc -I ..\Lib\Mode -I ..\Lib\src -I ..\Startup-ID:\MDK5\ARM\GigaDevice\GD32F10x_DFP\2.0.2\Device\Include-ID:\MDK5\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DGD32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DCavendish -DGD-o ..\obj\bzz.o --omf_browse ..\obj\bzz.crf --depend ..\obj\bzz.d)
+I (..\Lib\Mode\BZZ.h)(0x6267B75A)
 I (..\CMSIS\stm32f10x.h)(0x61AC971B)
 I (..\CMSIS\core_cm3.h)(0x621CA08F)
 I (D:\MDK5\ARM\ARMCC\include\stdint.h)(0x5F63877C)
@@ -465,8 +465,8 @@ I (..\Lib\inc\stm32f10x_tim.h)(0x4D783BB4)
 I (..\Lib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\Lib\inc\stm32f10x_wwdg.h)(0x4D783BB4)
 I (..\Lib\inc\misc.h)(0x4D783BB4)
-F (..\Lib\Mode\key.c)(0x61AC9291)(--c99 -c --cpu Cortex-M3 -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Lib\Base -I ..\Lib\inc -I ..\Lib\Mode -I ..\Lib\src -I ..\Startup-ID:\MDK5\ARM\GigaDevice\GD32F10x_DFP\2.0.2\Device\Include-ID:\MDK5\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DGD32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DCavendish -DGD-o ..\obj\key.o --omf_browse ..\obj\key.crf --depend ..\obj\key.d)
-I (..\Lib\Mode\key.h)(0x615EF95B)
+F (..\Lib\Mode\key.c)(0x6267B857)(--c99 -c --cpu Cortex-M3 -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Lib\Base -I ..\Lib\inc -I ..\Lib\Mode -I ..\Lib\src -I ..\Startup-ID:\MDK5\ARM\GigaDevice\GD32F10x_DFP\2.0.2\Device\Include-ID:\MDK5\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DGD32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DCavendish -DGD-o ..\obj\key.o --omf_browse ..\obj\key.crf --depend ..\obj\key.d)
+I (..\Lib\Mode\key.h)(0x6267B7B3)
 I (..\CMSIS\stm32f10x.h)(0x61AC971B)
 I (..\CMSIS\core_cm3.h)(0x621CA08F)
 I (D:\MDK5\ARM\ARMCC\include\stdint.h)(0x5F63877C)
@@ -558,7 +558,7 @@ I (..\Lib\inc\stm32f10x_tim.h)(0x4D783BB4)
 I (..\Lib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\Lib\inc\stm32f10x_wwdg.h)(0x4D783BB4)
 I (..\Lib\inc\misc.h)(0x4D783BB4)
-I (..\Lib\Base\IIC.h)(0x624D6909)
+I (..\Lib\Base\IIC.h)(0x6267B777)
 I (..\Lib\Base\sys_time.h)(0x625FF11E)
 F (..\Lib\Mode\Motor.c)(0x624E8828)(--c99 -c --cpu Cortex-M3 -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Lib\Base -I ..\Lib\inc -I ..\Lib\Mode -I ..\Lib\src -I ..\Startup-ID:\MDK5\ARM\GigaDevice\GD32F10x_DFP\2.0.2\Device\Include-ID:\MDK5\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DGD32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DCavendish -DGD-o ..\obj\motor.o --omf_browse ..\obj\motor.crf --depend ..\obj\motor.d)
 I (..\Lib\Mode\motor.h)(0x624E8794)
@@ -749,18 +749,18 @@ I (..\Lib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\Lib\inc\stm32f10x_wwdg.h)(0x4D783BB4)
 I (..\Lib\inc\misc.h)(0x4D783BB4)
 I (D:\MDK5\ARM\ARMCC\include\stdlib.h)(0x5F63877C)
-I (..\Lib\Mode\BZZ.h)(0x626131C7)
+I (..\Lib\Mode\BZZ.h)(0x6267B75A)
 I (..\Lib\Mode\HC595.h)(0x61A78331)
 I (..\Lib\Mode\Steering_engine.h)(0x624E8C64)
 I (..\Lib\Base\PWM.h)(0x624E86E1)
 I (..\Lib\Base\sys_time.h)(0x625FF11E)
 I (..\Lib\Mode\motor.h)(0x624E8794)
-I (..\Lib\Mode\key.h)(0x615EF95B)
+I (..\Lib\Mode\key.h)(0x6267B7B3)
 I (..\Lib\Base\encoder.h)(0x624E8BB5)
 I (..\Lib\Mode\Tracing.h)(0x621CA7A8)
 I (..\Lib\Mode\Ultrasonic.h)(0x6247E89B)
 I (..\Lib\Mode\mlx90614.h)(0x624D5643)
-I (..\Lib\Base\IIC.h)(0x624D6909)
+I (..\Lib\Base\IIC.h)(0x6267B777)
 F (..\CMSIS\core_cm3.c)(0x4C0C587E)(--c99 -c --cpu Cortex-M3 -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Lib\Base -I ..\Lib\inc -I ..\Lib\Mode -I ..\Lib\src -I ..\Startup-ID:\MDK5\ARM\GigaDevice\GD32F10x_DFP\2.0.2\Device\Include-ID:\MDK5\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DGD32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DCavendish -DGD-o ..\obj\core_cm3.o --omf_browse ..\obj\core_cm3.crf --depend ..\obj\core_cm3.d)
 I (D:\MDK5\ARM\ARMCC\include\stdint.h)(0x5F63877C)
 F (..\CMSIS\system_stm32f10x.c)(0x6198D41A)(--c99 -c --cpu Cortex-M3 -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Lib\Base -I ..\Lib\inc -I ..\Lib\Mode -I ..\Lib\src -I ..\Startup-ID:\MDK5\ARM\GigaDevice\GD32F10x_DFP\2.0.2\Device\Include-ID:\MDK5\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DGD32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DCavendish -DGD-o ..\obj\system_stm32f10x.o --omf_browse ..\obj\system_stm32f10x.crf --depend ..\obj\system_stm32f10x.d)

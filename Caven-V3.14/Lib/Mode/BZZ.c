@@ -1,23 +1,25 @@
 #include "BZZ.h"
 
 
-void BZZ_Init(void)
+void BZZ_Init(FunctionalState SET)
 {
-	GPIO_InitTypeDef GPIO_InitStrue;
-	GPIO_InitStrue.GPIO_Mode = GPIO_Mode_Out_PP;
-	GPIO_InitStrue.GPIO_Speed = GPIO_Speed_50MHz;
-	
-	RCC_APB2PeriphClockCmd(BZZ_GPIO_TIM, ENABLE);
-	GPIO_InitStrue.GPIO_Pin = BZZ;
-	GPIO_Init(BZZ_GPIO, &GPIO_InitStrue);
+	if (SET)
+	{
+		BZZ_GPIO_Init();
+		BZZ_Control (BZZ_OF);
+	}
+	else
+	{
+		BZZ_GPIO_Exit();
+	}
 	
 	BZZ_Control (BZZ_OF);
 }
 
 void BZZ_Control (char OUT)
 {
-	if(OUT) GPIO_ResetBits(BZZ_GPIO, BZZ);
-	else GPIO_SetBits(BZZ_GPIO, BZZ);
+	if(OUT) BZZ_L();		//开
+	else BZZ_H();			//关
 }
 
 

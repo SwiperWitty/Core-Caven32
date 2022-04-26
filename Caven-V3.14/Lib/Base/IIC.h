@@ -28,10 +28,11 @@
 #define IIC_PeriphClockCmd(SET)		RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, SET)	//时钟(F1)
 //#define IIC_PeriphClockCmd(SET)	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB,SET); //时钟(F4)
 
-#define IIC_GPIO_Init									\
+#define IIC_GPIO_Init()									\
 do														\
 {														\
 	GPIO_InitTypeDef GPIO_InitStructure;				\
+	IIC_PeriphClockCmd(SET);							\
     GPIO_InitStructure.GPIO_Pin = IIC_SCK | IIC_SDA;	\
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;	\
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;		\
@@ -39,7 +40,7 @@ do														\
 	GPIO_Init(IIC_GPIO, &GPIO_InitStructure);			\
 }while(0);
 
-#define IIC_GPIO_Exit									\
+#define IIC_GPIO_Exit()									\
 do														\
 {														\
 	GPIO_InitTypeDef GPIO_InitStructure;				\
