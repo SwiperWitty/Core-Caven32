@@ -30,7 +30,7 @@ I (..\Lib\inc\stm32f10x_tim.h)(0x4D783BB4)
 I (..\Lib\inc\stm32f10x_usart.h)(0x4D783BB4)
 I (..\Lib\inc\stm32f10x_wwdg.h)(0x4D783BB4)
 I (..\Lib\inc\misc.h)(0x4D783BB4)
-F (.\main.c)(0x6267BB51)(--c99 -c --cpu Cortex-M3 -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Lib\Base -I ..\Lib\inc -I ..\Lib\Mode -I ..\Lib\src -I ..\Startup-ID:\MDK5\ARM\GigaDevice\GD32F10x_DFP\2.0.2\Device\Include-ID:\MDK5\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DGD32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DCavendish -DGD-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
+F (.\main.c)(0x6267D165)(--c99 -c --cpu Cortex-M3 -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Lib\Base -I ..\Lib\inc -I ..\Lib\Mode -I ..\Lib\src -I ..\Startup-ID:\MDK5\ARM\GigaDevice\GD32F10x_DFP\2.0.2\Device\Include-ID:\MDK5\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DGD32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DCavendish -DGD-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
 I (..\CMSIS\stm32f10x.h)(0x61AC971B)
 I (..\CMSIS\core_cm3.h)(0x621CA08F)
 I (D:\MDK5\ARM\ARMCC\include\stdint.h)(0x5F63877C)

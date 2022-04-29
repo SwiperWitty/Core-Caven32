@@ -56,6 +56,7 @@ int main(void)
 		if(abd == 0)
 		{
 			BZZ_Control (BZZ_ON);
+			Base_User.UART.UART_x_Send_String(3,"KEY -L !\r\n");
 			Mode_User.LCD.Show_String(21, 3, "0 ", GBLUE, BLACK, 16);
 		}
 		else
