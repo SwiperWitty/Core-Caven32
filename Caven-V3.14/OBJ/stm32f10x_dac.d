@@ -2,7 +2,7 @@
 ..\obj\stm32f10x_dac.o: ..\Lib\inc\stm32f10x_dac.h
 ..\obj\stm32f10x_dac.o: ..\CMSIS\stm32f10x.h
 ..\obj\stm32f10x_dac.o: ..\CMSIS\core_cm3.h
-..\obj\stm32f10x_dac.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\stm32f10x_dac.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\stm32f10x_dac.o: ..\CMSIS\system_stm32f10x.h
 ..\obj\stm32f10x_dac.o: ..\User\stm32f10x_conf.h
 ..\obj\stm32f10x_dac.o: ..\Lib\inc\stm32f10x_adc.h

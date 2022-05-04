@@ -2,7 +2,7 @@
 ..\obj\encoder.o: ..\Lib\Base\encoder.h
 ..\obj\encoder.o: ..\CMSIS\stm32f10x.h
 ..\obj\encoder.o: ..\CMSIS\core_cm3.h
-..\obj\encoder.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\encoder.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\encoder.o: ..\CMSIS\system_stm32f10x.h
 ..\obj\encoder.o: ..\User\stm32f10x_conf.h
 ..\obj\encoder.o: ..\Lib\inc\stm32f10x_adc.h

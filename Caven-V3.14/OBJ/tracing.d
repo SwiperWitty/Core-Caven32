@@ -2,7 +2,7 @@
 ..\obj\tracing.o: ..\Lib\Mode\Tracing.h
 ..\obj\tracing.o: ..\CMSIS\stm32f10x.h
 ..\obj\tracing.o: ..\CMSIS\core_cm3.h
-..\obj\tracing.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\tracing.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\tracing.o: ..\CMSIS\system_stm32f10x.h
 ..\obj\tracing.o: ..\User\stm32f10x_conf.h
 ..\obj\tracing.o: ..\Lib\inc\stm32f10x_adc.h

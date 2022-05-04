@@ -3,7 +3,7 @@
 ..\obj\motor.o: ..\Lib\Mode\hc595.h
 ..\obj\motor.o: ..\CMSIS\stm32f10x.h
 ..\obj\motor.o: ..\CMSIS\core_cm3.h
-..\obj\motor.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\motor.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\motor.o: ..\CMSIS\system_stm32f10x.h
 ..\obj\motor.o: ..\User\stm32f10x_conf.h
 ..\obj\motor.o: ..\Lib\inc\stm32f10x_adc.h
@@ -31,5 +31,5 @@
 ..\obj\motor.o: ..\Lib\inc\stm32f10x_wwdg.h
 ..\obj\motor.o: ..\Lib\inc\misc.h
 ..\obj\motor.o: ..\Lib\Base\PWM.h
-..\obj\motor.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdlib.h
+..\obj\motor.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\motor.o: ..\Lib\Base\sys_time.h

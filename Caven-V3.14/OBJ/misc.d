@@ -2,7 +2,7 @@
 ..\obj\misc.o: ..\Lib\inc\misc.h
 ..\obj\misc.o: ..\CMSIS\stm32f10x.h
 ..\obj\misc.o: ..\CMSIS\core_cm3.h
-..\obj\misc.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\misc.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\misc.o: ..\CMSIS\system_stm32f10x.h
 ..\obj\misc.o: ..\User\stm32f10x_conf.h
 ..\obj\misc.o: ..\Lib\inc\stm32f10x_adc.h

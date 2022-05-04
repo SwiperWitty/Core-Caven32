@@ -2,7 +2,7 @@
 ..\obj\sys_time.o: ..\Lib\Base\sys_time.h
 ..\obj\sys_time.o: ..\CMSIS\stm32f10x.h
 ..\obj\sys_time.o: ..\CMSIS\core_cm3.h
-..\obj\sys_time.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\sys_time.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\sys_time.o: ..\CMSIS\system_stm32f10x.h
 ..\obj\sys_time.o: ..\User\stm32f10x_conf.h
 ..\obj\sys_time.o: ..\Lib\inc\stm32f10x_adc.h

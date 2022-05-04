@@ -2,7 +2,7 @@
 ..\obj\iic.o: ..\Lib\Base\IIC.h
 ..\obj\iic.o: ..\CMSIS\stm32f10x.h
 ..\obj\iic.o: ..\CMSIS\core_cm3.h
-..\obj\iic.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\iic.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\iic.o: ..\CMSIS\system_stm32f10x.h
 ..\obj\iic.o: ..\User\stm32f10x_conf.h
 ..\obj\iic.o: ..\Lib\inc\stm32f10x_adc.h

@@ -2,7 +2,7 @@
 ..\obj\spi.o: ..\Lib\Base\SPI.h
 ..\obj\spi.o: ..\CMSIS\stm32f10x.h
 ..\obj\spi.o: ..\CMSIS\core_cm3.h
-..\obj\spi.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\spi.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\spi.o: ..\CMSIS\system_stm32f10x.h
 ..\obj\spi.o: ..\User\stm32f10x_conf.h
 ..\obj\spi.o: ..\Lib\inc\stm32f10x_adc.h

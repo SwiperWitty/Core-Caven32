@@ -3,7 +3,7 @@
 ..\obj\mode.o: ..\Lib\Mode\lcd.h
 ..\obj\mode.o: ..\CMSIS\stm32f10x.h
 ..\obj\mode.o: ..\CMSIS\core_cm3.h
-..\obj\mode.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\mode.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\mode.o: ..\CMSIS\system_stm32f10x.h
 ..\obj\mode.o: ..\User\stm32f10x_conf.h
 ..\obj\mode.o: ..\Lib\inc\stm32f10x_adc.h
@@ -30,7 +30,7 @@
 ..\obj\mode.o: ..\Lib\inc\stm32f10x_usart.h
 ..\obj\mode.o: ..\Lib\inc\stm32f10x_wwdg.h
 ..\obj\mode.o: ..\Lib\inc\misc.h
-..\obj\mode.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdlib.h
+..\obj\mode.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\mode.o: ..\Lib\Mode\BZZ.h
 ..\obj\mode.o: ..\Lib\Mode\HC595.h
 ..\obj\mode.o: ..\Lib\Mode\Steering_engine.h

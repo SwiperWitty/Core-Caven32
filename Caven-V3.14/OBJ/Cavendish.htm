@@ -3,7 +3,7 @@
 <title>Static Call Graph - [..\OBJ\Cavendish.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image ..\OBJ\Cavendish.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue Apr 26 19:03:05 2022
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Mon May 02 22:58:01 2022
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -913,16 +913,16 @@ Global Symbols
 <P><STRONG><a name="[6c]"></a>LCD_Draw_Circle</STRONG> (Thumb, 158 bytes, Stack size 0 bytes, lcd.o(i.LCD_Draw_Circle))
 <BR><BR>[Calls]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Draw_Point
 </UL>
-<BR>[Address Reference Count : 2]<UL><LI> mode.o(i.Mode_User_index)
-<LI> lcd.o(i.LCD_Init)
+<BR>[Address Reference Count : 2]<UL><LI> lcd.o(i.LCD_Init)
+<LI> mode.o(i.Mode_User_index)
 </UL>
 <P><STRONG><a name="[6d]"></a>LCD_Draw_Line</STRONG> (Thumb, 172 bytes, Stack size 0 bytes, lcd.o(i.LCD_Draw_Line))
 <BR><BR>[Calls]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Draw_Point
 </UL>
 <BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Draw_Rectangle
 </UL>
-<BR>[Address Reference Count : 2]<UL><LI> mode.o(i.Mode_User_index)
-<LI> lcd.o(i.LCD_Init)
+<BR>[Address Reference Count : 2]<UL><LI> lcd.o(i.LCD_Init)
+<LI> mode.o(i.Mode_User_index)
 </UL>
 <P><STRONG><a name="[6e]"></a>LCD_Draw_Point</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, lcd.o(i.LCD_Draw_Point))
 <BR><BR>[Calls]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_WR_DATA
@@ -934,8 +934,8 @@ Global Symbols
 <LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Draw_Line
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Draw_Circle
 </UL>
-<BR>[Address Reference Count : 2]<UL><LI> mode.o(i.Mode_User_index)
-<LI> lcd.o(i.LCD_Init)
+<BR>[Address Reference Count : 2]<UL><LI> lcd.o(i.LCD_Init)
+<LI> mode.o(i.Mode_User_index)
 </UL>
 <P><STRONG><a name="[74]"></a>LCD_Draw_Rectangle</STRONG> (Thumb, 74 bytes, Stack size 0 bytes, lcd.o(i.LCD_Draw_Rectangle))
 <BR><BR>[Calls]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Draw_Line
@@ -948,8 +948,8 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Init
 </UL>
-<BR>[Address Reference Count : 2]<UL><LI> mode.o(i.Mode_User_index)
-<LI> lcd.o(i.LCD_Init)
+<BR>[Address Reference Count : 2]<UL><LI> lcd.o(i.LCD_Init)
+<LI> mode.o(i.Mode_User_index)
 </UL>
 <P><STRONG><a name="[dd]"></a>LCD_GPIO_Init</STRONG> (Thumb, 116 bytes, Stack size 0 bytes, lcd.o(i.LCD_GPIO_Init))
 <BR><BR>[Calls]<UL><LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB2PeriphClockCmd
@@ -980,8 +980,8 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Show_Chinese32x32
 <LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Show_Chinese24x24
 </UL>
-<BR>[Address Reference Count : 2]<UL><LI> mode.o(i.Mode_User_index)
-<LI> lcd.o(i.LCD_Init)
+<BR>[Address Reference Count : 2]<UL><LI> lcd.o(i.LCD_Init)
+<LI> mode.o(i.Mode_User_index)
 </UL>
 <P><STRONG><a name="[e1]"></a>LCD_Show_Chinese24x24</STRONG> (Thumb, 322 bytes, Stack size 0 bytes, lcd.o(i.LCD_Show_Chinese24x24))
 <BR><BR>[Calls]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_WR_DATA
@@ -1003,14 +1003,14 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_WR_DATA8
 <LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Address_Set
 </UL>
-<BR>[Address Reference Count : 2]<UL><LI> mode.o(i.Mode_User_index)
-<LI> lcd.o(i.LCD_Init)
+<BR>[Address Reference Count : 2]<UL><LI> lcd.o(i.LCD_Init)
+<LI> mode.o(i.Mode_User_index)
 </UL>
 <P><STRONG><a name="[72]"></a>LCD_Show_String</STRONG> (Thumb, 110 bytes, Stack size 0 bytes, lcd.o(i.LCD_Show_String))
 <BR><BR>[Calls]<UL><LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Show_Char
 </UL>
-<BR>[Address Reference Count : 2]<UL><LI> mode.o(i.Mode_User_index)
-<LI> lcd.o(i.LCD_Init)
+<BR>[Address Reference Count : 2]<UL><LI> lcd.o(i.LCD_Init)
+<LI> mode.o(i.Mode_User_index)
 </UL>
 <P><STRONG><a name="[dc]"></a>LCD_WR_DATA</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, lcd.o(i.LCD_WR_DATA))
 <BR><BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Writ_Bus

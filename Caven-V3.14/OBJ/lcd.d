@@ -2,7 +2,7 @@
 ..\obj\lcd.o: ..\Lib\Mode\lcd.h
 ..\obj\lcd.o: ..\CMSIS\stm32f10x.h
 ..\obj\lcd.o: ..\CMSIS\core_cm3.h
-..\obj\lcd.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\lcd.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\lcd.o: ..\CMSIS\system_stm32f10x.h
 ..\obj\lcd.o: ..\User\stm32f10x_conf.h
 ..\obj\lcd.o: ..\Lib\inc\stm32f10x_adc.h
@@ -29,6 +29,6 @@
 ..\obj\lcd.o: ..\Lib\inc\stm32f10x_usart.h
 ..\obj\lcd.o: ..\Lib\inc\stm32f10x_wwdg.h
 ..\obj\lcd.o: ..\Lib\inc\misc.h
-..\obj\lcd.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdlib.h
+..\obj\lcd.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\lcd.o: ..\Lib\Mode\lcdfont.h
 ..\obj\lcd.o: ..\Lib\Base\sys_time.h

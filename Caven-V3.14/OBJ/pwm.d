@@ -2,7 +2,7 @@
 ..\obj\pwm.o: ..\Lib\Base\PWM.h
 ..\obj\pwm.o: ..\CMSIS\stm32f10x.h
 ..\obj\pwm.o: ..\CMSIS\core_cm3.h
-..\obj\pwm.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\pwm.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\pwm.o: ..\CMSIS\system_stm32f10x.h
 ..\obj\pwm.o: ..\User\stm32f10x_conf.h
 ..\obj\pwm.o: ..\Lib\inc\stm32f10x_adc.h

@@ -2,7 +2,7 @@
 ..\obj\key.o: ..\Lib\Mode\key.h
 ..\obj\key.o: ..\CMSIS\stm32f10x.h
 ..\obj\key.o: ..\CMSIS\core_cm3.h
-..\obj\key.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\key.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\key.o: ..\CMSIS\system_stm32f10x.h
 ..\obj\key.o: ..\User\stm32f10x_conf.h
 ..\obj\key.o: ..\Lib\inc\stm32f10x_adc.h

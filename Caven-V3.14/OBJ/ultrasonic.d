@@ -2,7 +2,7 @@
 ..\obj\ultrasonic.o: ..\Lib\Mode\Ultrasonic.h
 ..\obj\ultrasonic.o: ..\CMSIS\stm32f10x.h
 ..\obj\ultrasonic.o: ..\CMSIS\core_cm3.h
-..\obj\ultrasonic.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\ultrasonic.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\ultrasonic.o: ..\CMSIS\system_stm32f10x.h
 ..\obj\ultrasonic.o: ..\User\stm32f10x_conf.h
 ..\obj\ultrasonic.o: ..\Lib\inc\stm32f10x_adc.h

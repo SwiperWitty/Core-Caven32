@@ -3,7 +3,7 @@
 ..\obj\uart.o: ..\Lib\inc\stm32f10x_rcc.h
 ..\obj\uart.o: ..\CMSIS\stm32f10x.h
 ..\obj\uart.o: ..\CMSIS\core_cm3.h
-..\obj\uart.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\uart.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\uart.o: ..\CMSIS\system_stm32f10x.h
 ..\obj\uart.o: ..\User\stm32f10x_conf.h
 ..\obj\uart.o: ..\Lib\inc\stm32f10x_adc.h
@@ -32,5 +32,5 @@
 ..\obj\uart.o: ..\Lib\inc\misc.h
 ..\obj\uart.o: ..\Lib\Base\sys_time.h
 ..\obj\uart.o: ..\Lib\Base\Data_Handle.h
-..\obj\uart.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdio.h
-..\obj\uart.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdlib.h
+..\obj\uart.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\uart.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h

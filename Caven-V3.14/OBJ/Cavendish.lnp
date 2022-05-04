@@ -20,7 +20,6 @@
 "..\obj\steering_engine.o"
 "..\obj\tracing.o"
 "..\obj\ultrasonic.o"
-"..\obj\hc595.o"
 "..\obj\mode.o"
 "..\obj\core_cm3.o"
 "..\obj\system_stm32f10x.o"

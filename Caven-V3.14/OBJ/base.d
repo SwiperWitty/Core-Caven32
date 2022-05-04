@@ -3,7 +3,7 @@
 ..\obj\base.o: ..\Lib\Base\iic.h
 ..\obj\base.o: ..\CMSIS\stm32f10x.h
 ..\obj\base.o: ..\CMSIS\core_cm3.h
-..\obj\base.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\base.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\base.o: ..\CMSIS\system_stm32f10x.h
 ..\obj\base.o: ..\User\stm32f10x_conf.h
 ..\obj\base.o: ..\Lib\inc\stm32f10x_adc.h
@@ -39,5 +39,5 @@
 ..\obj\base.o: ..\Lib\Base\PWM.h
 ..\obj\base.o: ..\Lib\Base\stmflash.h
 ..\obj\base.o: ..\Lib\Base\Data_Handle.h
-..\obj\base.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdio.h
-..\obj\base.o: D:\MDK5\ARM\ARMCC\Bin\..\include\stdlib.h
+..\obj\base.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\base.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
