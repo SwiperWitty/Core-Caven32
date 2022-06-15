@@ -4,8 +4,8 @@ Component: ARM Compiler 5.06 update 7 (build 960) Tool: armlink [4d3601]
 
 Section Cross References
 
-    main.o(i.Mian_Init) refers to base.o(i.Base_Init_index) for Base_Init_index
-    main.o(i.Mian_Init) refers to mode.o(i.Mode_Init_index) for Mode_Init_index
+    main.o(i.Mian_Init) refers to base.o(i.Base_Index) for Base_Index
+    main.o(i.Mian_Init) refers to mode.o(i.Mode_Index) for Mode_Index
     main.o(i.Mian_Init) refers to data_handle.o(i.Data_Replace) for Data_Replace
     main.o(i.Mian_Init) refers to key.o(i.KEY_Init) for KEY_Init
     main.o(i.Mian_Init) refers to bzz.o(i.BZZ_Init) for BZZ_Init
@@ -253,16 +253,16 @@ Section Cross References
     spi.o(i.SPI_Software_Init) refers to spi.o(i.SPIs_Write_And_Read_Byte) for SPIs_Write_And_Read_Byte
     spi.o(i.SPI_Software_Init) refers to spi.o(.data) for SPI
     spi.o(i.SPIs_Write_And_Read_Byte) refers to sys_time.o(i.Delay_10us) for Delay_10us
-    base.o(i.Base_Init_index) refers to base.o(i.Base_User_index) for Base_User_index
-    base.o(i.Base_Init_index) refers to iic.o(i.IIC_Software_Init) for IIC_Software_Init
-    base.o(i.Base_Init_index) refers to base.o(.bss) for Base_Init
-    base.o(i.Base_Init_index) refers to spi.o(i.SPI_Software_Init) for SPI_Software_Init
-    base.o(i.Base_Init_index) refers to uart.o(i.UART_x_Init) for UART_x_Init
-    base.o(i.Base_Init_index) refers to adc.o(i.ADC_x_Init) for ADC_x_Init
-    base.o(i.Base_Init_index) refers to dac.o(i.DAC_x_Init) for DAC_x_Init
-    base.o(i.Base_Init_index) refers to pwm.o(i.PWM_x_Init) for PWM_x_Init
-    base.o(i.Base_Init_index) refers to sys_time.o(i.Sys_time_Init) for Sys_time_Init
-    base.o(i.Base_Init_index) refers to stmflash.o(i.Flash_Init) for Flash_Init
+    base.o(i.Base_Index) refers to base.o(i.Base_User_index) for Base_User_index
+    base.o(i.Base_Index) refers to iic.o(i.IIC_Software_Init) for IIC_Software_Init
+    base.o(i.Base_Index) refers to base.o(.bss) for Base_Init
+    base.o(i.Base_Index) refers to spi.o(i.SPI_Software_Init) for SPI_Software_Init
+    base.o(i.Base_Index) refers to uart.o(i.UART_x_Init) for UART_x_Init
+    base.o(i.Base_Index) refers to adc.o(i.ADC_x_Init) for ADC_x_Init
+    base.o(i.Base_Index) refers to dac.o(i.DAC_x_Init) for DAC_x_Init
+    base.o(i.Base_Index) refers to pwm.o(i.PWM_x_Init) for PWM_x_Init
+    base.o(i.Base_Index) refers to sys_time.o(i.Sys_time_Init) for Sys_time_Init
+    base.o(i.Base_Index) refers to stmflash.o(i.Flash_Init) for Flash_Init
     base.o(i.Base_User_index) refers to iic.o(i.IICs_ReadByte) for IICs_ReadByte
     base.o(i.Base_User_index) refers to base.o(.bss) for Base_User
     base.o(i.Base_User_index) refers to iic.o(i.IICs_SendByte) for IICs_SendByte
@@ -395,9 +395,9 @@ Section Cross References
     ultrasonic.o(i.Ultrasonic_Init) refers to stm32f10x_gpio.o(i.GPIO_PinRemapConfig) for GPIO_PinRemapConfig
     ultrasonic.o(i.Ultrasonic_Init) refers to stm32f10x_gpio.o(i.GPIO_Init) for GPIO_Init
     ultrasonic.o(i.Ultrasonic_Init) refers to system_stm32f10x.o(.data) for SystemCoreClock
-    mode.o(i.Mode_Init_index) refers to mode.o(i.Mode_User_index) for Mode_User_index
-    mode.o(i.Mode_Init_index) refers to lcd.o(i.LCD_Init) for LCD_Init
-    mode.o(i.Mode_Init_index) refers to mode.o(.data) for Mode_Init
+    mode.o(i.Mode_Index) refers to mode.o(i.Mode_User_index) for Mode_User_index
+    mode.o(i.Mode_Index) refers to lcd.o(i.LCD_Init) for LCD_Init
+    mode.o(i.Mode_Index) refers to mode.o(.data) for Mode_Init
     mode.o(i.Mode_User_index) refers to lcd.o(i.LCD_Fill) for LCD_Fill
     mode.o(i.Mode_User_index) refers to mode.o(.bss) for Mode_User
     mode.o(i.Mode_User_index) refers to lcd.o(i.LCD_Draw_Point) for LCD_Draw_Point
@@ -1569,7 +1569,7 @@ Image Symbol Table
     i.ADC_x_Read_Vol                         0x08001be4   Section        0  adc.o(i.ADC_x_Read_Vol)
     i.BZZ_Control                            0x08001c5c   Section        0  bzz.o(i.BZZ_Control)
     i.BZZ_Init                               0x08001c78   Section        0  bzz.o(i.BZZ_Init)
-    i.Base_Init_index                        0x08001cd0   Section        0  base.o(i.Base_Init_index)
+    i.Base_Index                             0x08001cd0   Section        0  base.o(i.Base_Index)
     i.Base_User_index                        0x08001d20   Section        0  base.o(i.Base_User_index)
     i.BusFault_Handler                       0x08001dc8   Section        0  stm32f10x_it.o(i.BusFault_Handler)
     i.DAC_Cmd                                0x08001dcc   Section        0  stm32f10x_dac.o(i.DAC_Cmd)
@@ -1622,7 +1622,7 @@ Image Symbol Table
     i.LCD_Writ_Bus                           0x08002f6c   Section        0  lcd.o(i.LCD_Writ_Bus)
     i.MemManage_Handler                      0x08002fc0   Section        0  stm32f10x_it.o(i.MemManage_Handler)
     i.Mian_Init                              0x08002fc4   Section        0  main.o(i.Mian_Init)
-    i.Mode_Init_index                        0x08003134   Section        0  mode.o(i.Mode_Init_index)
+    i.Mode_Index                             0x08003134   Section        0  mode.o(i.Mode_Index)
     i.Mode_User_index                        0x0800314c   Section        0  mode.o(i.Mode_User_index)
     i.NMI_Handler                            0x08003194   Section        0  stm32f10x_it.o(i.NMI_Handler)
     i.NVIC_Init                              0x08003198   Section        0  misc.o(i.NVIC_Init)
@@ -1993,7 +1993,7 @@ Image Symbol Table
     ADC_x_Read_Vol                           0x08001be5   Thumb Code   112  adc.o(i.ADC_x_Read_Vol)
     BZZ_Control                              0x08001c5d   Thumb Code    24  bzz.o(i.BZZ_Control)
     BZZ_Init                                 0x08001c79   Thumb Code    82  bzz.o(i.BZZ_Init)
-    Base_Init_index                          0x08001cd1   Thumb Code    42  base.o(i.Base_Init_index)
+    Base_Index                               0x08001cd1   Thumb Code    42  base.o(i.Base_Index)
     Base_User_index                          0x08001d21   Thumb Code    92  base.o(i.Base_User_index)
     BusFault_Handler                         0x08001dc9   Thumb Code     4  stm32f10x_it.o(i.BusFault_Handler)
     DAC_Cmd                                  0x08001dcd   Thumb Code    34  stm32f10x_dac.o(i.DAC_Cmd)
@@ -2046,7 +2046,7 @@ Image Symbol Table
     LCD_Writ_Bus                             0x08002f6d   Thumb Code    78  lcd.o(i.LCD_Writ_Bus)
     MemManage_Handler                        0x08002fc1   Thumb Code     4  stm32f10x_it.o(i.MemManage_Handler)
     Mian_Init                                0x08002fc5   Thumb Code   262  main.o(i.Mian_Init)
-    Mode_Init_index                          0x08003135   Thumb Code    14  mode.o(i.Mode_Init_index)
+    Mode_Index                               0x08003135   Thumb Code    14  mode.o(i.Mode_Index)
     Mode_User_index                          0x0800314d   Thumb Code    36  mode.o(i.Mode_User_index)
     NMI_Handler                              0x08003195   Thumb Code     2  stm32f10x_it.o(i.NMI_Handler)
     NVIC_Init                                0x08003199   Thumb Code   100  misc.o(i.NVIC_Init)
@@ -2340,7 +2340,7 @@ Memory Map of the image
     0x08001be4   0x08001be4   0x00000078   Code   RO           55    i.ADC_x_Read_Vol    adc.o
     0x08001c5c   0x08001c5c   0x0000001c   Code   RO           82    i.BZZ_Control       bzz.o
     0x08001c78   0x08001c78   0x00000058   Code   RO           83    i.BZZ_Init          bzz.o
-    0x08001cd0   0x08001cd0   0x00000050   Code   RO           79    i.Base_Init_index   base.o
+    0x08001cd0   0x08001cd0   0x00000050   Code   RO           79    i.Base_Index        base.o
     0x08001d20   0x08001d20   0x000000a8   Code   RO           80    i.Base_User_index   base.o
     0x08001dc8   0x08001dc8   0x00000004   Code   RO            1    i.BusFault_Handler  stm32f10x_it.o
     0x08001dcc   0x08001dcc   0x00000028   Code   RO          229    i.DAC_Cmd           stm32f10x_dac.o
@@ -2398,7 +2398,7 @@ Memory Map of the image
     0x08002f6c   0x08002f6c   0x00000054   Code   RO          102    i.LCD_Writ_Bus      lcd.o
     0x08002fc0   0x08002fc0   0x00000004   Code   RO            4    i.MemManage_Handler  stm32f10x_it.o
     0x08002fc4   0x08002fc4   0x00000170   Code   RO            9    i.Mian_Init         main.o
-    0x08003134   0x08003134   0x00000018   Code   RO          121    i.Mode_Init_index   mode.o
+    0x08003134   0x08003134   0x00000018   Code   RO          121    i.Mode_Index        mode.o
     0x0800314c   0x0800314c   0x00000048   Code   RO          122    i.Mode_User_index   mode.o
     0x08003194   0x08003194   0x00000002   Code   RO            5    i.NMI_Handler       stm32f10x_it.o
     0x08003196   0x08003196   0x00000002   PAD

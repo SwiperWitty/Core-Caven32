@@ -1,9 +1,8 @@
-#include "Mode.h"
+#include "mode.h"
 
 struct _Mode_Init Mode_Init;
-struct _Mode_User Mode_User;
+struct _Mode_User Mode_User;    //结构体实体
 
-extern struct _LCD LCD;
 
 void Mode_User_index(void)		//索引 功能函数 本体
 {
@@ -19,7 +18,7 @@ void Mode_User_index(void)		//索引 功能函数 本体
     Mode_User.LCD.Show_Picture = LCD_Show_Picture;
 }
 
-void Mode_Init_index(void)
+void Mode_Index(void)
 {
     Mode_Init.LCD_Init = LCD_Init;
 

@@ -1,5 +1,5 @@
 ..\obj\mode.o: ..\Lib\Mode\Mode.c
-..\obj\mode.o: ..\Lib\Mode\Mode.h
+..\obj\mode.o: ..\Lib\Mode\mode.h
 ..\obj\mode.o: ..\Lib\Mode\lcd.h
 ..\obj\mode.o: ..\CMSIS\stm32f10x.h
 ..\obj\mode.o: ..\CMSIS\core_cm3.h

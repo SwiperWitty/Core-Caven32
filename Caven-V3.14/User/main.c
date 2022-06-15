@@ -11,10 +11,6 @@
 #endif
 #endif
 
-extern struct _Base_Init Base_Init;
-extern struct _Base_User Base_User;
-extern struct _Mode_Init Mode_Init;
-extern struct _Mode_User Mode_User;
 
 //要写入到STM32 FLASH的字符串数组
 #define SIZE sizeof(Free_Array)	   //数组长度
@@ -65,16 +61,15 @@ int main(void)
 			Mode_User.LCD.Show_String(21, 3, "1 ", GBLUE, BLACK, 16);
 		}
 		
-
 	}
 }
 
 void Mian_Init(void)
 {
-	Base_Init_index();
-	Mode_Init_index();
+	Base_Index();
+	Mode_Index();
 
-	Base_Init.SYS_Init(ENABLE);
+	Base_Init.SYS_Time_Init(ENABLE);
 	Base_Init.UART_x_Init(UART_3, 115200, ENABLE);
 	Base_User.UART.UART_x_Send_String(UART_3, "{Ready !}\n");
 
