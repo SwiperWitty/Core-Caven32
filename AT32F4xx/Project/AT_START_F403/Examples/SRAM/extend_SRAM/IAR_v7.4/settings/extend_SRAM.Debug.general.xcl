@@ -1,0 +1,15 @@
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2\arm\bin\armproc.dll" 
+
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2\arm\bin\armjlink.dll" 
+
+"D:\AT32F4xx_StdPeriph_Lib_V1.x.x\Project\AT_START_F403\Examples\SRAM\extend_SRAM\IAR_v7.4\Debug\Exe\extend_SRAM.out" 
+
+--plugin "C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2\arm\bin\armbat.dll" 
+
+--device_macro "C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2\arm\config\debugger\ArteryTek\AT32F4xx_XL.dmac" 
+
+--flash_loader "C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2\arm\config\flashloader\ArteryTek\AT32F403\AT32F403ZG\FlashAT32F403ZG.board" 
+
+
+
+

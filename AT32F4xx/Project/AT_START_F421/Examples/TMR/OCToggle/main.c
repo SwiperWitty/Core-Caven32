@@ -1,0 +1,212 @@
+ /**
+  ******************************************************************************
+  * File   : TMR/OCToggle/main.c 
+  * Version: V1.2.7
+  * Date   : 2020-11-10
+  * Brief  : Main program body
+  ******************************************************************************
+  */ 
+
+
+#include "at32f4xx.h"
+
+/** @addtogroup AT32F421_StdPeriph_Examples
+  * @{
+  */
+
+/** @addtogroup TMR_OCToggle
+  * @{
+  */
+
+/* Private typedef -----------------------------------------------------------*/
+/* Private define ------------------------------------------------------------*/
+/* Private macro -------------------------------------------------------------*/
+/* Private variables ---------------------------------------------------------*/
+TMR_TimerBaseInitType  TMR_TMReBaseStructure;
+TMR_OCInitType  TMR_OCInitStructure;
+__IO uint16_t CCR1_Val = 32768;
+__IO uint16_t CCR2_Val = 16384;
+__IO uint16_t CCR3_Val = 8192;
+__IO uint16_t CCR4_Val = 4096;
+uint16_t PrescalerValue = 0;
+
+/* Private function prototypes -----------------------------------------------*/
+void RCC_Configuration(void);
+void GPIO_Configuration(void);
+void NVIC_Configuration(void);
+
+/* Private functions ---------------------------------------------------------*/
+
+/**
+  * @brief  Main program
+  * @param  None
+  * @retval None
+  */
+int main(void)
+{
+  /*!< At this stage the microcontroller clock setting is already configured,
+       this is done through SystemInit() function which is called from startup
+       file (startup_at32f413_xx.s) before to branch to application main.
+       To reconfigure the default setting of SystemInit() function, refer to
+       system_at32f4xx.c file
+     */
+
+  /* System Clocks Configuration */
+  RCC_Configuration();
+
+  /* NVIC Configuration */
+  NVIC_Configuration();
+
+  /* GPIO Configuration */
+  GPIO_Configuration();
+
+  /* ---------------------------------------------------------------------------
+    TMR3 Configuration: Output Compare Toggle Mode:
+    TMR3CLK = SystemCoreClock / 2,
+    The objective is to get TMR3 counter clock at 12 MHz:
+     - Prescaler = (TMR3CLK / TMR3 counter clock) - 1
+    CC1 update rate = TMR3 counter clock / CCR1_Val = 366.2 Hz
+    CC2 update rate = TMR3 counter clock / CCR2_Val = 732.4 Hz
+    CC3 update rate = TMR3 counter clock / CCR3_Val = 1464.8 Hz
+    CC4 update rate = TMR3 counter clock / CCR4_Val = 2929.6 Hz
+  ----------------------------------------------------------------------------*/
+  /* Compute the prescaler value */
+  PrescalerValue = (uint16_t) (SystemCoreClock / 24000000) - 1;
+
+  /* TMRe base configuration */
+  TMR_TimeBaseStructInit(&TMR_TMReBaseStructure);
+  TMR_TMReBaseStructure.TMR_Period = 65535;
+  TMR_TMReBaseStructure.TMR_DIV = PrescalerValue;
+  TMR_TMReBaseStructure.TMR_ClockDivision = 0;
+  TMR_TMReBaseStructure.TMR_CounterMode = TMR_CounterDIR_Up;
+
+  TMR_TimeBaseInit(TMR3, &TMR_TMReBaseStructure);
+
+  /* Output Compare Toggle Mode configuration: Channel1 */
+  TMR_OCStructInit(&TMR_OCInitStructure);
+  TMR_OCInitStructure.TMR_OCMode = TMR_OCMode_Toggle;
+  TMR_OCInitStructure.TMR_OutputState = TMR_OutputState_Enable;
+  TMR_OCInitStructure.TMR_Pulse = CCR1_Val;
+  TMR_OCInitStructure.TMR_OCPolarity = TMR_OCPolarity_Low;
+  TMR_OC1Init(TMR3, &TMR_OCInitStructure);
+
+  TMR_OC1PreloadConfig(TMR3, TMR_OCPreload_Disable);
+
+  /* Output Compare Toggle Mode configuration: Channel2 */
+  TMR_OCInitStructure.TMR_OutputState = TMR_OutputState_Enable;
+  TMR_OCInitStructure.TMR_Pulse = CCR2_Val;
+
+  TMR_OC2Init(TMR3, &TMR_OCInitStructure);
+
+  TMR_OC2PreloadConfig(TMR3, TMR_OCPreload_Disable);
+
+  /* Output Compare Toggle Mode configuration: Channel3 */
+  TMR_OCInitStructure.TMR_OutputState = TMR_OutputState_Enable;
+  TMR_OCInitStructure.TMR_Pulse = CCR3_Val;
+
+  TMR_OC3Init(TMR3, &TMR_OCInitStructure);
+
+  TMR_OC3PreloadConfig(TMR3, TMR_OCPreload_Disable);
+
+  /* Output Compare Toggle Mode configuration: Channel4 */
+  TMR_OCInitStructure.TMR_OutputState = TMR_OutputState_Enable;
+  TMR_OCInitStructure.TMR_Pulse = CCR4_Val;
+
+  TMR_OC4Init(TMR3, &TMR_OCInitStructure);
+
+  TMR_OC4PreloadConfig(TMR3, TMR_OCPreload_Disable);
+
+  /* TMR enable counter */
+  TMR_Cmd(TMR3, ENABLE);
+
+  /* TMR IT enable */
+  TMR_INTConfig(TMR3, TMR_INT_CC1 | TMR_INT_CC2 | TMR_INT_CC3 | TMR_INT_CC4, ENABLE);
+
+  while (1)
+  {}
+}
+
+/**
+  * @brief  Configures the different system clocks.
+  * @param  None
+  * @retval None
+  */
+void RCC_Configuration(void)
+{
+  /* TMR3 clock enable */
+  RCC_APB1PeriphClockCmd(RCC_APB1PERIPH_TMR3, ENABLE);
+
+  /* GPIOA clock enable */
+  RCC_AHBPeriphClockCmd(RCC_AHBPERIPH_GPIOA | RCC_AHBPERIPH_GPIOB, ENABLE);
+}
+
+/**
+  * @brief  Configure the TMR3 Pins.
+  * @param  None
+  * @retval None
+  */
+void GPIO_Configuration(void)
+{
+  GPIO_InitType GPIO_InitStructure;
+
+  GPIO_PinAFConfig(GPIOA, GPIO_PinsSource6, GPIO_AF_1);
+  GPIO_PinAFConfig(GPIOA, GPIO_PinsSource7, GPIO_AF_1);
+  GPIO_PinAFConfig(GPIOB, GPIO_PinsSource0, GPIO_AF_1);
+  GPIO_PinAFConfig(GPIOB, GPIO_PinsSource1, GPIO_AF_1);
+  
+  /* GPIOA Configuration:TMR3 Channel1, 2, 3 and 4 as alternate function push-pull */
+  GPIO_InitStructure.GPIO_Pins = GPIO_Pins_6 | GPIO_Pins_7;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+  GPIO_InitStructure.GPIO_MaxSpeed = GPIO_MaxSpeed_50MHz;
+  GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+  GPIO_InitStructure.GPIO_Pins = GPIO_Pins_0 | GPIO_Pins_1;
+  GPIO_Init(GPIOB, &GPIO_InitStructure);
+
+}
+
+/**
+  * @brief  Configure the nested vectored interrupt controller.
+  * @param  None
+  * @retval None
+  */
+void NVIC_Configuration(void)
+{
+  NVIC_InitType NVIC_InitStructure;
+
+  /* Enable the TMR3 global Interrupt */
+  NVIC_InitStructure.NVIC_IRQChannel = TMR3_GLOBAL_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_Init(&NVIC_InitStructure);
+}
+
+#ifdef  USE_FULL_ASSERT
+
+/**
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
+void assert_failed(uint8_t* file, uint32_t line)
+{
+  /* User can add his own implementation to report the file name and line number,
+     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+
+  while (1)
+  {}
+}
+
+#endif
+
+/**
+  * @}
+  */ 
+
+/**
+  * @}
+  */
+

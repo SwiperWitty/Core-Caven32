@@ -1,0 +1,26 @@
+--cpu Cortex-M4
+".\objects\at32f4xx_it.o"
+".\objects\main.o"
+".\objects\usbd_desc.o"
+".\objects\usbd_usr.o"
+".\objects\usb_bsp.o"
+".\objects\system_at32f4xx.o"
+".\objects\startup_at32f415rct7.o"
+".\objects\at32f4xx_gpio.o"
+".\objects\at32f4xx_rcc.o"
+".\objects\at32f4xx_usart.o"
+".\objects\misc.o"
+".\objects\at32f4xx_exti.o"
+".\objects\at32f4xx_tim.o"
+".\objects\at32_board.o"
+".\objects\usbd_core.o"
+".\objects\usbd_ioreq.o"
+".\objects\usbd_req.o"
+".\objects\usb_core.o"
+".\objects\usb_dcd.o"
+".\objects\usb_dcd_int.o"
+".\objects\usbd_printer_core.o"
+--library_type=microlib --strict --scatter ".\Objects\VCP_Loopback.sct"
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\Listings\VCP_Loopback.map" -o .\Objects\VCP_Loopback.axf

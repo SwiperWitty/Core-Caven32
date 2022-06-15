@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+  <PortType>1</PortType>
+  <COMPort>-1</COMPort>
+  <BoudRate>115200</BoudRate>
+  <CRC>false</CRC>
+  <AppAddress>08005000</AppAddress>
+  <AppDownloadFile>E:\arteryARM\code_sample\AT32F4xx_StdPeriph_Lib_V1.2.7\Project\AT_START_F415\Examples\OTG_Device\HID_IAP_APP_LED3\MDK_v5\Objects\HID_IAP_APP_LED3.hex</AppDownloadFile>
+  <SPIF>false</SPIF>
+  <SPIFAddress>00000000</SPIFAddress>
+  <SPIFDownloadFile>
+  </SPIFDownloadFile>
+</Configuration>

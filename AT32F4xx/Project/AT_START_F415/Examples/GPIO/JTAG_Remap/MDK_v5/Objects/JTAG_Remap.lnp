@@ -1,0 +1,14 @@
+--cpu Cortex-M4
+".\objects\main.o"
+".\objects\at32f4xx_it.o"
+".\objects\system_at32f4xx.o"
+".\objects\startup_at32f415rct7.o"
+".\objects\at32f4xx_gpio.o"
+".\objects\at32f4xx_rcc.o"
+".\objects\at32f4xx_usart.o"
+".\objects\misc.o"
+".\objects\at32_board.o"
+--strict --scatter ".\Objects\JTAG_Remap.sct"
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\Listings\JTAG_Remap.map" -o .\Objects\JTAG_Remap.axf
