@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>AT32F415RCT7,USE_STDPERIPH_DRIVER,AT_START_F415_V1_0</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\..\Libraries\AT32F4xx_StdPeriph_Driver\inc;..\..\..\..\Libraries\CMSIS\CM4\CoreSupport;..\..\..\..\Libraries\CMSIS\CM4\DeviceSupport;..\..\Templates;..\..\..\AT32_Board;..\MDK_v5;.\PLLconfig</IncludePath>
+              <IncludePath>..\..\..\..\Libraries\AT32F4xx_StdPeriph_Driver\inc;..\..\..\..\Libraries\CMSIS\CM4\CoreSupport;..\..\..\..\Libraries\CMSIS\CM4\DeviceSupport;..\..\Templates;..\MDK_v5;.\PLLconfig;.\Lib\API;.\Lib\Base;.\Lib\Mode</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -392,35 +392,7 @@
               <FileType>1</FileType>
               <FilePath>..\at32f4xx_it.c</FilePath>
             </File>
-            <File>
-              <FileName>uart_x.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\uart_x.c</FilePath>
-            </File>
-            <File>
-              <FileName>Check_CRC16.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Check_CRC16.c</FilePath>
-            </File>
-            <File>
-              <FileName>Mode.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Mode.c</FilePath>
-            </File>
-            <File>
-              <FileName>Agreement_Hanlde.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Agreement_Hanlde.c</FilePath>
-            </File>
-            <File>
-              <FileName>Sys_Time.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Sys_Time.c</FilePath>
-            </File>
           </Files>
-        </Group>
-        <Group>
-          <GroupName>BSP</GroupName>
         </Group>
         <Group>
           <GroupName>CMSIS</GroupName>
@@ -548,22 +520,57 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>README</GroupName>
+          <GroupName>API</GroupName>
           <Files>
             <File>
-              <FileName>readme.txt</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\readme.txt</FilePath>
+              <FileName>Agreement_Hanlde.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Lib\API\Agreement_Hanlde.c</FilePath>
+            </File>
+            <File>
+              <FileName>Check_CRC16.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Lib\API\Check_CRC16.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>PPLconfig</GroupName>
+          <GroupName>Base</GroupName>
           <Files>
             <File>
-              <FileName>PLLconfig.c</FileName>
+              <FileName>Sys_Time.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\PLLconfig\PLLconfig.c</FilePath>
+              <FilePath>.\Lib\Base\Sys_Time.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart_x.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Lib\Base\uart_x.c</FilePath>
+            </File>
+            <File>
+              <FileName>Base.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Lib\Base\Base.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Mode</GroupName>
+          <Files>
+            <File>
+              <FileName>Mode.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Lib\Mode\Mode.c</FilePath>
+            </File>
+            <File>
+              <FileName>LED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Lib\Mode\LED.c</FilePath>
+            </File>
+            <File>
+              <FileName>RFID_SET.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Lib\Mode\RFID_SET.c</FilePath>
             </File>
           </Files>
         </Group>

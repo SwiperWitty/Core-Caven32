@@ -1,11 +1,8 @@
 /* Includes ------------------------------------------------------------------*/
-#include "at32f4xx_exti.h"
-//#include "at32_board.h"
 #include "misc.h"
-#include "string.h"
+#include "base.h"
 #include "Mode.h"
-#include "Agreement_Hanlde.h"
-#include "sys_time.h"
+#include "API.h"
 
 // HSE      外部晶振
 // HSI      内部晶振
@@ -18,7 +15,7 @@ U8 array[30] = {1,2,3};
 struct _Agreement Get_DATA;                 //接收数据（框架）
 struct _Agreement Send_DATA;                //发送数据
 
-struct _function Base_API;                  //作为传参用的函数指针
+struct _Function Base_API;                  //作为传参用的函数指针
 
 struct _State_6016
 {
@@ -38,7 +35,7 @@ void Main_Init(void);
 int main(void)
 {
     Main_Init();
-    Delay.Delay_ms(10);
+    Base_User.Delay.Delay_ms(10);
     int time_temp = 0;
 //    Mode_Test_6016.UARTx_Send_String(4,"Hello world !\r\n");        //debug
     while (1)
@@ -53,22 +50,22 @@ int main(void)
 //            Mode_Test_6016.UARTx_Send_String(4,"o\r\n");
         }
         
-        Pick_Agreement(&Uart_4,&Get_DATA,&Base_API,0);
+        Pick_Agreement(&Uart_4.Data,&Get_DATA,&Base_API,0);
         if (Get_DATA.Flag == 'F')              //开始解析(Pick通过)
         {
-            U8 Data[30];
+            U8 Data_temp[30];
             if (Get_DATA.Control.Model == 15)//此消息属于 【集线器】
             {
                 if (Get_DATA.Error.Flag)      //协议有误
                 {
-                    Data[0] = Get_DATA.Error.E_Class;
-                    Data[1] = 0x00;
-                    Data[2] = 0x00;Data[3] = 0x00;
-                    Data[4] = (U8)((Get_DATA.Length >> 8) & 0x00ff);
-                    Data[5] = (U8)(Get_DATA.Length & 0x00ff);
+                    Data_temp[0] = Get_DATA.Error.E_Class;
+                    Data_temp[1] = 0x00;
+                    Data_temp[2] = 0x00;Data_temp[3] = 0x00;
+                    Data_temp[4] = (U8)((Get_DATA.Length >> 8) & 0x00ff);
+                    Data_temp[5] = (U8)(Get_DATA.Length & 0x00ff);
                     Send_DATA.Length = 6;
                     Send_DATA.Head = 0x5A;
-                    Send_DATA.pointer = Data;
+                    Send_DATA.pointer = Data_temp;
                     Send_DATA.Con = 0x0f010000;
                 }
                 else
@@ -76,11 +73,11 @@ int main(void)
                     switch (Get_DATA.Control.MID)           //查看上位机想做什么
                     {
                     case 0:                                 //查看版本信息
-                        Data[0] = 0x00;Data[1] = 0x01;Data[2] = 0x00;Data[3] = 0x00;
+                        Data_temp[0] = 0x00;Data_temp[1] = 0x01;Data_temp[2] = 0x00;Data_temp[3] = 0x00;
                         Send_DATA.Length = 4;
                         break;
                     case 1:                                 //设置波特率
-                        Data[0] = 0x00;                                 //成功
+                        Data_temp[0] = 0x00;                                 //成功
                         if (Get_DATA.pointer[1] == 0)
                             NOW.Bound = 9600;
                         else if (Get_DATA.pointer[1] == 1)
@@ -92,36 +89,36 @@ int main(void)
                         else if (Get_DATA.pointer[1] == 4)
                             NOW.Bound = 460800;
                         else
-                            Data[0] = 0x01;                             //设置 波特率 失败
+                            Data_temp[0] = 0x01;                             //设置 波特率 失败
                         Send_DATA.Length = 1;
                         break;
                     case 2:                                 //读波特率
-                        Data[0] = 0x00;
+                        Data_temp[0] = 0x00;
                         if(NOW.Bound == 9600)
-                            Data[1] = 0x00;
+                            Data_temp[1] = 0x00;
                         else if(NOW.Bound == 19200)
-                            Data[1] = 0x01;
+                            Data_temp[1] = 0x01;
                         else if(NOW.Bound == 115200)
-                            Data[1] = 0x02;
+                            Data_temp[1] = 0x02;
                         else if(NOW.Bound == 230400)
-                            Data[1] = 0x03;
+                            Data_temp[1] = 0x03;
                         else if(NOW.Bound == 460800)
-                            Data[1] = 0x04;
+                            Data_temp[1] = 0x04;
                         Send_DATA.Length = 2;
                         break;
                     case 3:                                 //切换通道
                         NOW.RFID_x = *(Get_DATA.pointer);
                         if (NOW.RFID_x > 16 || NOW.RFID_x < 1)
-                            Data[0] = 0x01;                             //设置 通道 失败  
+                            Data_temp[0] = 0x01;                             //设置 通道 失败  
                         else
-                            Data[0] = 0x00;                             //成功
+                            Data_temp[0] = 0x00;                             //成功
                         Send_DATA.Length = 1;
                         break;
                     default:
                         break;
                     }
                     Send_DATA.Head = 0x5A;
-                    Send_DATA.pointer = Data;
+                    Send_DATA.pointer = Data_temp;
                     Send_DATA.Con = 0x0f010100 + Get_DATA.Control.MID;
                 }
                 Send_Agreement(&Send_DATA,&Base_API);      //回消息
@@ -140,27 +137,29 @@ int main(void)
             char temp;
             NOW.RFID_x_Old = NOW.RFID_x;
             temp = 17 - NOW.RFID_x;
-            Mode_Test_6016.LED_X(temp); 
-            Mode_Test_6016.Switch_RF(temp);
+            Mode_User.LED.Switch(temp); 
+            Mode_User.RFID.Switch(temp);
         }
         if(NOW.Bound_Old != NOW.Bound)
         {
             NOW.Bound_Old = NOW.Bound;
-            Mode_Test_6016.UARTx_Init(4,NOW.Bound);
+            Base_Init.UARTx(4,NOW.Bound);
         }
     }
 }
 
 void Main_Init(void)
 {
-    Sys_time_Init (ENABLE);
-    Mode_Init();
+    Base_Index();
+    Mode_Index();
     
-    Mode_Test_6016.LED_GPIO_Init();
-    Mode_Test_6016.RF_GPIO_Init();
-    Mode_Test_6016.UARTx_Init(4,NOW.Bound);
+    Base_Init.Sys_time(ENABLE);
+    Base_Init.UARTx(4,NOW.Bound);
     
-    Base_API.Send_Data = Mode_Test_6016.UARTx_Send_Data;
-    Base_API.Delay = Delay_ms;
+    Mode_Init.LED_GPIO();
+    Mode_Init.RF_GPIO();
+    
+    Base_API.Send_Data = Base_User.Uart.Send_Data;
+    Base_API.Delay = Base_User.Delay.Delay_ms;
 }
 

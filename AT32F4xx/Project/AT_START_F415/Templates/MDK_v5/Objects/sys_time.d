@@ -1,5 +1,5 @@
-.\objects\sys_time.o: Sys_Time.c
-.\objects\sys_time.o: sys_time.h
+.\objects\sys_time.o: Lib\Base\Sys_Time.c
+.\objects\sys_time.o: Lib\Base\sys_time.h
 .\objects\sys_time.o: ..\..\..\..\Libraries\CMSIS\CM4\DeviceSupport\at32f4xx.h
 .\objects\sys_time.o: ..\..\..\..\Libraries\CMSIS\CM4\CoreSupport\core_cm4.h
 .\objects\sys_time.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h

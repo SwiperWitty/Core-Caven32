@@ -92,8 +92,8 @@ void UART4_IRQHandler(void)
 		res = USART_ReceiveData(UART4);
         if(Uart_4.Rxd_Received == 0)
         {
-            Uart_4.Rxd_Data[Uart_4.Rxd_Number++] = res;
-            if(Uart_4.Rxd_Number >= 1100)
+            Uart_4.Data.Buff[Uart_4.Data.Length++] = res;
+            if(Uart_4.Data.Length >= 1100)
                 Uart_4.Rxd_Received = 1;            //  阻止其溢出及非法访问
             // USART_SendData(UART4,res);
         }

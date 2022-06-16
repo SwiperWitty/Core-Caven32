@@ -2,9 +2,7 @@
 #define _Agreement_Hanlde__H_
 
 #include "Check_CRC16.h"
-#include "Mode.h"
-
-#define Destroy(X,N) memset((X),0,sizeof(N))
+#include "Caven.h"
 
 struct _Protocol
 {
@@ -45,14 +43,22 @@ struct _Agreement
     char Debug;
 };
 
-struct _function
+struct _Function
 {
     void (*Send_Data)(char Channel,const unsigned char * Data,int Length);
     void (*Delay)(int );
 
 };
 
+struct _Agreement_Handle
+{
+    int (*Find_Data)(U8 *source,char Target,int Length);
+    char (*Pick)(struct Caven_Data *source, struct _Agreement *Item ,struct _Function *Fun,char debug);
+    char (*Send)(struct _Agreement *Item,struct _Function *OUT);
+};
 
-char Pick_Agreement(struct _uart_x *source, struct _Agreement *Item ,struct _function *Fun,char debug);
-char Send_Agreement(struct _Agreement *Item,struct _function *OUT);
+
+int Find_Data(U8 *source,char Target,int Length);
+char Pick_Agreement(struct Caven_Data *source, struct _Agreement *Item ,struct _Function *Fun,char debug);
+char Send_Agreement(struct _Agreement *Item,struct _Function *OUT);
 #endif

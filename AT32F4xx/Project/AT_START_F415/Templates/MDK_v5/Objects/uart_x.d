@@ -1,5 +1,5 @@
-.\objects\uart_x.o: uart_x.c
-.\objects\uart_x.o: uart_x.h
+.\objects\uart_x.o: Lib\Base\uart_x.c
+.\objects\uart_x.o: Lib\Base\uart_x.h
 .\objects\uart_x.o: ..\..\..\..\Libraries\CMSIS\CM4\DeviceSupport\at32f4xx.h
 .\objects\uart_x.o: ..\..\..\..\Libraries\CMSIS\CM4\CoreSupport\core_cm4.h
 .\objects\uart_x.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h
@@ -36,4 +36,7 @@
 .\objects\uart_x.o: ..\..\..\..\Libraries\AT32F4xx_StdPeriph_Driver\inc\at32f4xx_xmc.h
 .\objects\uart_x.o: ..\..\..\..\Libraries\AT32F4xx_StdPeriph_Driver\inc\at32f4xx_syscfg.h
 .\objects\uart_x.o: ..\..\..\..\Libraries\AT32F4xx_StdPeriph_Driver\inc\misc.h
+.\objects\uart_x.o: ..\..\Templates\Caven.h
 .\objects\uart_x.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\uart_x.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\uart_x.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h

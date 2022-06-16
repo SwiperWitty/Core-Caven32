@@ -8,6 +8,8 @@
 	底层
 */
 
+//取消 结构体函数在此实体化
+
 #include "at32f4xx.h"
 
 struct _SYS_Watch
@@ -37,7 +39,6 @@ struct _Delay
 	void (*Delay_S)(char num);
 };
 
-extern struct _Delay Delay;
 extern struct _SYS_Watch SYS_Watch;
 
 void Delay_10us(int num);

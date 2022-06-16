@@ -8,8 +8,8 @@
 				
 				2021.10.07
 */
+// 取消 结构体函数在此实体化
 
-struct _Delay Delay;
 struct _SYS_Watch  SYS_Watch = {0,0,0,0,0};
 u32 TimingDelay = 0;
 
@@ -92,9 +92,6 @@ void Sys_time_Init (FunctionalState Set)
 	{
 		if(SysTick_Config(SystemCoreClock/100000))         //10us定时器(无论时钟频率多少)
 			while(1);
-		Delay.Delay_10us = Delay_10us;
-		Delay.Delay_ms = Delay_ms;
-		Delay.Delay_S = Delay_S;
 	}
 	else
 		NVIC_SystemReset();

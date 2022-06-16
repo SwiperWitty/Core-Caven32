@@ -1,11 +1,6 @@
 --cpu=Cortex-M4 --fpu=SoftVFP
 ".\objects\main.o"
 ".\objects\at32f4xx_it.o"
-".\objects\uart_x.o"
-".\objects\check_crc16.o"
-".\objects\mode.o"
-".\objects\agreement_hanlde.o"
-".\objects\sys_time.o"
 ".\objects\system_at32f4xx.o"
 ".\objects\startup_at32f415rct7.o"
 ".\objects\at32f4xx_acc.o"
@@ -29,7 +24,14 @@
 ".\objects\at32f4xx_ertc.o"
 ".\objects\at32f4xx_comp.o"
 ".\objects\misc.o"
-".\objects\pllconfig.o"
+".\objects\agreement_hanlde.o"
+".\objects\check_crc16.o"
+".\objects\sys_time.o"
+".\objects\uart_x.o"
+".\objects\base.o"
+".\objects\mode.o"
+".\objects\led.o"
+".\objects\rfid_set.o"
 --strict --scatter ".\Objects\Template.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

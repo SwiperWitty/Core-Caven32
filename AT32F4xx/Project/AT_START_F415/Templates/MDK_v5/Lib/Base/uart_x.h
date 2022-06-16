@@ -2,14 +2,20 @@
 #define _UART_X__H_
 
 #include "at32f4xx.h"
-#include <stdio.h>
+#include "Caven.h"
 
 struct _uart_x
 {
+    char UART_x;
     char Rxd_Received;
-    int Rxd_Number;
-    unsigned char Rxd_Data[1124];
-    char *Rxd_Opinter;
+    struct Caven_Data Data;
+};
+
+struct _uart
+{
+    void (*Send_String)(char Channel,const char * String);
+    void (*Send_Data)(char Channel,const unsigned char * Data,int Length);
+
 };
 
 extern struct _uart_x Uart_4;               //数据源
