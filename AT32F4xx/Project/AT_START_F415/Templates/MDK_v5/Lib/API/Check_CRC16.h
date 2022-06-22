@@ -5,6 +5,6 @@
 
 #include "Caven.h"
 
-unsigned short CRC16_CCITT_CalculateBuf(unsigned char *ptr, unsigned short len);
+U16 CRC16_CCITT_CalculateBuf(unsigned char *ptr, U16 len);
 
 #endif

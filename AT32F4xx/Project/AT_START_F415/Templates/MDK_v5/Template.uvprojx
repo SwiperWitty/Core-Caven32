@@ -532,6 +532,16 @@
               <FileType>1</FileType>
               <FilePath>.\Lib\API\Check_CRC16.c</FilePath>
             </File>
+            <File>
+              <FileName>API.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Lib\API\API.c</FilePath>
+            </File>
+            <File>
+              <FileName>DATA.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Lib\API\DATA.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

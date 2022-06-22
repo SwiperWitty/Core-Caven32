@@ -38,8 +38,8 @@
 .\objects\rfid_set.o: ..\..\..\..\Libraries\AT32F4xx_StdPeriph_Driver\inc\at32f4xx_xmc.h
 .\objects\rfid_set.o: ..\..\..\..\Libraries\AT32F4xx_StdPeriph_Driver\inc\at32f4xx_syscfg.h
 .\objects\rfid_set.o: ..\..\..\..\Libraries\AT32F4xx_StdPeriph_Driver\inc\misc.h
-.\objects\rfid_set.o: .\Lib\Base\uart_x.h
 .\objects\rfid_set.o: ..\..\Templates\Caven.h
 .\objects\rfid_set.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\rfid_set.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\rfid_set.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h
+.\objects\rfid_set.o: .\Lib\Base\uart_x.h

@@ -51,3 +51,11 @@ char LED_X(char Channel)
     return Channel;
 }
 
+void Power_LED(char state)
+{
+    if(state)
+        GPIOC->BRE = GPIO_Pins_8;
+    else
+        GPIOC->BSRE = GPIO_Pins_8;
+}
+

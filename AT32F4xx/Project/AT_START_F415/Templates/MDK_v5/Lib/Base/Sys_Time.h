@@ -3,7 +3,7 @@
 
 //	无法跨芯片移植
 /*
-	依赖于	SysTick_Config(SystemCoreClock/100000)		//10ms
+	依赖于	SysTick_Config(SystemCoreClock/100000)		//10us
 		2022.2.28
 	底层
 */
@@ -11,28 +11,17 @@
 //取消 结构体函数在此实体化
 
 #include "at32f4xx.h"
+#include "Caven.h"
+
+#define Frequency	100000		//目前是 10us
 
 struct _SYS_Watch
 {
-	char hour;
-	char minutes;
-	char second;
-	u32 sys_time;			//这是系统秒数（hour*3600 + minutes * 60 + second）
-	u32 time_num;			//这是中断溢出次数，达到 100000 就是1S
+	struct  Caven_Watch Watch;
+	int sys_time;			//这是系统秒数（hour*3600 + minutes * 60 + second）
 };
 
-struct _Over_time
-{
-    char *Now_data;
-    char Last_data;
-    int *Now_Time;
-    int Last_Time;
-
-    char Flag;
-    int Set_Time;
-};
-
-struct _Delay
+struct Sys_Time_
 {
 	void (*Delay_10us)(int num);
 	void (*Delay_ms)(int num);
@@ -41,9 +30,12 @@ struct _Delay
 
 extern struct _SYS_Watch SYS_Watch;
 
+//函数目录
 void Delay_10us(int num);
 void Delay_ms(int num);
 void Delay_S(char num);
+
 void Sys_time_Init(FunctionalState Set);
 
+//#undef	Frequency
 #endif

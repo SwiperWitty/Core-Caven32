@@ -36,3 +36,7 @@
 .\objects\sys_time.o: ..\..\..\..\Libraries\AT32F4xx_StdPeriph_Driver\inc\at32f4xx_xmc.h
 .\objects\sys_time.o: ..\..\..\..\Libraries\AT32F4xx_StdPeriph_Driver\inc\at32f4xx_syscfg.h
 .\objects\sys_time.o: ..\..\..\..\Libraries\AT32F4xx_StdPeriph_Driver\inc\misc.h
+.\objects\sys_time.o: ..\..\Templates\Caven.h
+.\objects\sys_time.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\sys_time.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\sys_time.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h

@@ -37,8 +37,8 @@
 .\objects\base.o: ..\..\..\..\Libraries\AT32F4xx_StdPeriph_Driver\inc\at32f4xx_xmc.h
 .\objects\base.o: ..\..\..\..\Libraries\AT32F4xx_StdPeriph_Driver\inc\at32f4xx_syscfg.h
 .\objects\base.o: ..\..\..\..\Libraries\AT32F4xx_StdPeriph_Driver\inc\misc.h
-.\objects\base.o: Lib\Base\uart_x.h
 .\objects\base.o: ..\..\Templates\Caven.h
 .\objects\base.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\base.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\base.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h
+.\objects\base.o: Lib\Base\uart_x.h

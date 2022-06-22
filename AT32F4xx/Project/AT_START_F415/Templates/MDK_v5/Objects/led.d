@@ -38,8 +38,8 @@
 .\objects\led.o: ..\..\..\..\Libraries\AT32F4xx_StdPeriph_Driver\inc\at32f4xx_xmc.h
 .\objects\led.o: ..\..\..\..\Libraries\AT32F4xx_StdPeriph_Driver\inc\at32f4xx_syscfg.h
 .\objects\led.o: ..\..\..\..\Libraries\AT32F4xx_StdPeriph_Driver\inc\misc.h
-.\objects\led.o: .\Lib\Base\uart_x.h
 .\objects\led.o: ..\..\Templates\Caven.h
 .\objects\led.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\led.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\led.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h
+.\objects\led.o: .\Lib\Base\uart_x.h

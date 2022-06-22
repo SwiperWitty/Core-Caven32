@@ -26,6 +26,8 @@
 ".\objects\misc.o"
 ".\objects\agreement_hanlde.o"
 ".\objects\check_crc16.o"
+".\objects\api.o"
+".\objects\data.o"
 ".\objects\sys_time.o"
 ".\objects\uart_x.o"
 ".\objects\base.o"

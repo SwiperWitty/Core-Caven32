@@ -1,11 +1,12 @@
 #include "Mode.h"
 
-struct _Mode_Init Mode_Init;
-struct _Mode_User Mode_User;
+struct Mode_Init_ Mode_Init;
+struct Mode_User_ Mode_User;
 
 void Mode_User_Index(void)
 {
     Mode_User.LED.Switch = LED_X;
+    Mode_User.LED.Power_LED = Power_LED;
     Mode_User.RFID.Switch = Switch_RF;
     
 }

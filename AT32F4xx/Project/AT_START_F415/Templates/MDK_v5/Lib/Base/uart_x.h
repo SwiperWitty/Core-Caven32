@@ -8,10 +8,10 @@ struct _uart_x
 {
     char UART_x;
     char Rxd_Received;
-    struct Caven_Data Data;
+    struct Caven_Data Data;         //通用数据格式
 };
 
-struct _uart
+struct uart_
 {
     void (*Send_String)(char Channel,const char * String);
     void (*Send_Data)(char Channel,const unsigned char * Data,int Length);

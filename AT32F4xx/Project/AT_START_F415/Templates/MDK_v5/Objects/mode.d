@@ -39,9 +39,9 @@
 .\objects\mode.o: ..\..\..\..\Libraries\AT32F4xx_StdPeriph_Driver\inc\at32f4xx_xmc.h
 .\objects\mode.o: ..\..\..\..\Libraries\AT32F4xx_StdPeriph_Driver\inc\at32f4xx_syscfg.h
 .\objects\mode.o: ..\..\..\..\Libraries\AT32F4xx_StdPeriph_Driver\inc\misc.h
-.\objects\mode.o: .\Lib\Base\uart_x.h
 .\objects\mode.o: ..\..\Templates\Caven.h
 .\objects\mode.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\mode.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\mode.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h
+.\objects\mode.o: .\Lib\Base\uart_x.h
 .\objects\mode.o: Lib\Mode\RFID_SET.h

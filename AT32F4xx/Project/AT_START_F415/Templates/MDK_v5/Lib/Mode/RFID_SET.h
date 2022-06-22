@@ -22,7 +22,7 @@
 #define RF_15() SKY_13418(2, 4)
 #define RF_16() SKY_13418(2, 6)
 
-struct _RFID
+struct RFID_
 {
     char (*Switch)(char Channel);
 };

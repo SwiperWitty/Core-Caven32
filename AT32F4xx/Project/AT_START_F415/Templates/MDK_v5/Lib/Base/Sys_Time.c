@@ -10,49 +10,32 @@
 */
 // 取消 结构体函数在此实体化
 
-struct _SYS_Watch  SYS_Watch = {0,0,0,0,0};
+struct _SYS_Watch  SYS_Watch = {0};			//全局地、全文件可调用，但只读
 u32 TimingDelay = 0;
 
 void Sys_Watch_Handle (void)
 {
-	SYS_Watch.time_num++;
-	if(SYS_Watch.time_num > 100000)
+	SYS_Watch.Watch.time_num++;
+	if(SYS_Watch.Watch.time_num > Frequency)
 	{
-		SYS_Watch.time_num = 1;
+		SYS_Watch.Watch.time_num = 1;
 		SYS_Watch.sys_time++;
-		SYS_Watch.second++;
-		if(SYS_Watch.second > 59)
+		SYS_Watch.Watch.second++;
+		if(SYS_Watch.Watch.second > 59)
 		{
-			SYS_Watch.second = 0;
-			SYS_Watch.minutes++;
-			if(SYS_Watch.minutes > 59)
+			SYS_Watch.Watch.second = 0;
+			SYS_Watch.Watch.minutes++;
+			if(SYS_Watch.Watch.minutes > 59)
 			{
-				SYS_Watch.minutes = 0;
-				SYS_Watch.hour++;
-				if(SYS_Watch.hour > 23)
+				SYS_Watch.Watch.minutes = 0;
+				SYS_Watch.Watch.hour ++;
+				if(SYS_Watch.Watch.hour > 23)
 				{
-					SYS_Watch.hour = 0;
+					SYS_Watch.Watch.hour = 0;
 				}
 			}
 		}
 	}
-}
-
-char Over_Time(struct _Over_time *Item)
-{
-    int tmp = (*Item->Now_Time) - Item->Last_Time;  //求时差
-    Item->Flag = 0;
-    if ((*Item->Now_data) != Item->Last_data)       //他不一定是数据内容，可以是接收到数据的【个数】 例如有效的内容长度str_sise()
-    {
-        Item->Last_data = (*Item->Now_data);
-        Item->Last_Time = (*Item->Now_Time);
-    }
-    else if (tmp > Item->Set_Time)                  //不满足上面的条件，且超时
-    {
-        Item->Flag = 'p';
-    }
-
-    return Item->Flag;
 }
 
 void SysTick_Handler(void)			//SYS_TIME中断
@@ -90,7 +73,7 @@ void Sys_time_Init (FunctionalState Set)
 {
 	if(Set)
 	{
-		if(SysTick_Config(SystemCoreClock/100000))         //10us定时器(无论时钟频率多少)
+		if(SysTick_Config(SystemCoreClock/Frequency))         //系统使用滴答定时器，因为RTC定时器的最小细分不足以用于一些场景（例如超声波）
 			while(1);
 	}
 	else
