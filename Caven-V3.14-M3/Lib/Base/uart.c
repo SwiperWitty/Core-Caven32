@@ -9,13 +9,13 @@ char UART_Send_Data(USART_TypeDef *Channel, const U8 *Data, int Length)
     {
         return 0;
     }
-    assert_param(IS_USART_ALL_PERIPH(USARTx));
+    assert_param(IS_USART_ALL_PERIPH(Channel));
 
     while (temp--)
     {
+		while (USART_GetFlagStatus(Channel, USART_FLAG_TC) == RESET)	//完全发送完成;【USART_FLAG_TXE】这个至是说明，数据被cpu取走
+			;		
         USART_SendData(Channel, Data[i++]);
-        while (USART_GetFlagStatus(Channel, USART_FLAG_TC) == RESET)
-            ;
         USART_ClearFlag(Channel, USART_FLAG_TC);
     }
 
@@ -29,13 +29,13 @@ void UART_Send_String(USART_TypeDef *Channel, const char *String)
     {
         return;
     }
-    assert_param(IS_USART_ALL_PERIPH(USARTx));
+    assert_param(IS_USART_ALL_PERIPH(Channel));
 
     while (Length--)
     {
+		while (USART_GetFlagStatus(Channel, USART_FLAG_TC) == RESET)
+			;
         USART_SendData(Channel, String[i++]);
-        while (USART_GetFlagStatus(Channel, USART_FLAG_TC) == RESET)
-            ;
         USART_ClearFlag(Channel, USART_FLAG_TC);
     }
 }

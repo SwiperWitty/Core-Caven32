@@ -28,8 +28,6 @@ int main(void)
 	
 	while (1)
 	{
-		
-
 		sprintf(Free_Show,"-> TIME: %2d:%2d:%2d S  ",SYS_Watch.Watch.hour,SYS_Watch.Watch.minutes,SYS_Watch.Watch.second);
 		Mode_User.LCD.Show_String(0, 3, Free_Show, GBLUE, BLACK, 16);
 		Data_Replace("123", Free_Show, 0, sizeof(Free_Show));
@@ -56,7 +54,6 @@ void Mian_Init(void)
 
 	Base_Init.SYS_Time_Init(ENABLE);
 	Base_Init.Uart(3, 115200, ENABLE);
-//	Base_User.UART.Send_String(UART3, "{Ready !}\n");
 
 	Base_Init.ADC_x_Init(MCU_Temp, ENABLE);
 
@@ -77,5 +74,6 @@ void Mian_Init(void)
 
 	KEY_Init(ENABLE);
 	BZZ_Init(ENABLE);
-	Base_User.Delay.Delay_S(1);
+	Base_User.Delay.Delay_ms(10);
+	Base_User.UART.Send_String(USART3, "{Ready !}\r\n");
 }
