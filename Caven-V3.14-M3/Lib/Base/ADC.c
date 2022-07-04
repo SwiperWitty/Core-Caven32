@@ -1,7 +1,7 @@
 #include "adc.h"
 #include "sys_time.h"
 
-struct _ADC ADC;
+struct ADC_ ADC;
 
 void ADC_x_Init(char ADC_x, FunctionalState SET)
 {

@@ -35,6 +35,9 @@
 ..\obj\mode.o: ..\Lib\Mode\HC595.h
 ..\obj\mode.o: ..\Lib\Mode\Steering_engine.h
 ..\obj\mode.o: ..\Lib\Base\PWM.h
+..\obj\mode.o: ..\Lib\API_Cloud\Caven.h
+..\obj\mode.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\mode.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h
 ..\obj\mode.o: ..\Lib\Base\sys_time.h
 ..\obj\mode.o: ..\Lib\Mode\motor.h
 ..\obj\mode.o: ..\Lib\Mode\key.h

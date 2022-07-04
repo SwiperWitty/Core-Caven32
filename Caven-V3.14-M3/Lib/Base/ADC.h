@@ -19,7 +19,7 @@
 
 #define ADC_De_Time ADC_SampleTime_239Cycles5
 
-struct _ADC
+struct ADC_
 {
 	float (*ADC_x_Read_Vol)(char ADC_x);
 	float (*Read_MCU_Temp)(void);

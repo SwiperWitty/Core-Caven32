@@ -58,7 +58,7 @@ do																\
 
 #define SPI_MISO_IN() SPI_GPIO->IDR &SPI_MISO 		//读取引脚电平
 
-struct _SPI
+struct SPI_
 {
 	char (*Soft_Write_And_Read_Byte) (char Byte_8,int Speed);
 	char (*Auto_Write_And_Read_Byte) (char Byte_8,int Speed);

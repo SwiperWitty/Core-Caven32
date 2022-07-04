@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_HD,USE_STDPERIPH_DRIVER,Cavendish,GD</Define>
               <Undefine></Undefine>
-              <IncludePath>..\User;..\CMSIS;..\Lib\Base;..\Lib\inc;..\Lib\Mode;..\Lib\src;..\Startup</IncludePath>
+              <IncludePath>..\User;..\CMSIS;..\Lib\Base;..\Lib\inc;..\Lib\Mode;..\Lib\src;..\Startup;..\Lib\API_Cloud</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -502,6 +502,31 @@
               <FileName>Mode.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Lib\Mode\Mode.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>API_Cloud</GroupName>
+          <Files>
+            <File>
+              <FileName>Agreement_Hanlde.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Lib\API_Cloud\Agreement_Hanlde.c</FilePath>
+            </File>
+            <File>
+              <FileName>API.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Lib\API_Cloud\API.c</FilePath>
+            </File>
+            <File>
+              <FileName>Check_CRC16.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Lib\API_Cloud\Check_CRC16.c</FilePath>
+            </File>
+            <File>
+              <FileName>DATA.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Lib\API_Cloud\DATA.c</FilePath>
             </File>
           </Files>
         </Group>

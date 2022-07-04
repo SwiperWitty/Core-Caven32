@@ -13,7 +13,7 @@
 #define STM32_FLASH_BASE 0x08000000 // STM32 FLASH的起始地址
 // FLASH解锁键值
 
-struct _Flash
+struct Flash_
 {
     u16 (*STMFLASH_ReadHalfWord)(u32 faddr); //读出半字
 

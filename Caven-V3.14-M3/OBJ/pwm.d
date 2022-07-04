@@ -29,3 +29,7 @@
 ..\obj\pwm.o: ..\Lib\inc\stm32f10x_usart.h
 ..\obj\pwm.o: ..\Lib\inc\stm32f10x_wwdg.h
 ..\obj\pwm.o: ..\Lib\inc\misc.h
+..\obj\pwm.o: ..\Lib\API_Cloud\Caven.h
+..\obj\pwm.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\pwm.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
+..\obj\pwm.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h

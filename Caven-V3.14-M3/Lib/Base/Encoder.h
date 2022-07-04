@@ -7,6 +7,8 @@
         ENCODE(编码器)使用特定IO不可修改IO相关参数（重映射/复用除外）
 	底层
 */
+#include "stm32f10x.h"
+#include "Caven.h"
 
 #define ENCODER_TIM_PERIOD (u16)(65535)   //最大就是 65535
 

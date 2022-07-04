@@ -1,6 +1,6 @@
 #include "IIC.h"
 
-struct _IIC	IIC;			//结构体本体
+struct IIC_	IIC;			//结构体本体
 
 void IIC_StartBit(void)
 {

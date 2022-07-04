@@ -55,7 +55,7 @@ do														\
 
 #define IIC_SDA_IN() IIC_GPIO->IDR &IIC_SDA //读取引脚电平
 
-struct _IIC
+struct IIC_
 {
 	char (*Soft_SendByte) (char Byte_8,int Speed);
 	char (*Soft_ReadByte) (char ack_nack,int Speed);

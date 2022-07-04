@@ -20,29 +20,15 @@
     如果查阅这里，问题都没有解决，那么这就是一个不该由你解决的问题。
 */
 
-extern struct _Base_Init Base_Init;
-extern struct _Base_User Base_User;
+extern struct Base_Init_ Base_Init;
+extern struct Base_User_ Base_User;
 
-/*	基础功能的索引结构体	*/		//外来boy
-extern struct _IIC	IIC;
-extern struct _SPI	SPI;
-extern struct _UART UART;
 
-extern struct _ADC	ADC;
-extern struct _DAC DACx;
-
-extern struct _Delay Delay;
-
-extern struct _Flash Flash;
-
-extern struct _Data	Data;
-// 以上的内容，是实体，在对应的.C文件中调用。但是 Base_User_index 强行绑定了，所以以上内容没有意义（没调用过他们）
-
-struct _Base_Init
+struct Base_Init_
 {
 	void (*IIC_Software_Init)(FunctionalState SET); // FunctionalState 是一个枚举，你可以看成bit,只有0/1.做使能位
 	void (*SPI_Software_Init)(FunctionalState SET);	//不全，没有硬件SPI
-	void (*UART_x_Init)(char UART_x, unsigned int Baud, FunctionalState SET);	//差不多
+	void (*Uart)(char Channel, int Baud,FunctionalState SET);
 	void (*CAN)(FunctionalState SET); //	很明显没写
 
 	void (*ADC_x_Init)(char ADC_x, FunctionalState SET);	//OK
@@ -55,22 +41,21 @@ struct _Base_Init
 	void (*Flash_Init)(FunctionalState SET);	//OK
 };
 
-struct _Base_User
+struct Base_User_
 {
-	struct _IIC IIC; //如果你企图看懂代码内容，请参考IIC.h
-	struct _SPI SPI;
-	struct _UART UART;
+	struct IIC_ IIC; //如果你企图看懂代码内容，请参考IIC.h
+	struct SPI_ SPI;
+    struct Uart_ UART;
 	// CAN没写，谁爱写谁写
 
-	struct _ADC ADC;
-	struct _DAC DACx;
+	struct ADC_ ADC;
+	struct DAC_ DACx;
 
-	struct _Delay Delay;
+	struct Sys_Time_ Delay;
 	//
 	//
 	
-	struct _Flash Flash;
-	struct _Data    Data;
+	struct Flash_ Flash;
 };
 
 void Base_Index(void); //初始化Base索引,真正功能的初始化请调用结构体中函数指针(Base_Init)

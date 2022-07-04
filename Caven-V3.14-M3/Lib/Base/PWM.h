@@ -25,6 +25,7 @@
 */
 
 #include "stm32f10x.h"
+#include "Caven.h"
 
 #define PWM_4	4
 #define PWM_8	8

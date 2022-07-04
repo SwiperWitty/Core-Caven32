@@ -1,4 +1,6 @@
 ..\obj\main.o: main.c
+..\obj\main.o: ..\Lib\Base\base.h
+..\obj\main.o: ..\Lib\Base\iic.h
 ..\obj\main.o: ..\CMSIS\stm32f10x.h
 ..\obj\main.o: ..\CMSIS\core_cm3.h
 ..\obj\main.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h
@@ -28,9 +30,11 @@
 ..\obj\main.o: ..\Lib\inc\stm32f10x_usart.h
 ..\obj\main.o: ..\Lib\inc\stm32f10x_wwdg.h
 ..\obj\main.o: ..\Lib\inc\misc.h
-..\obj\main.o: ..\Lib\Base\base.h
-..\obj\main.o: ..\Lib\Base\iic.h
 ..\obj\main.o: ..\Lib\Base\sys_time.h
+..\obj\main.o: ..\Lib\API_Cloud\Caven.h
+..\obj\main.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\main.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
+..\obj\main.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h
 ..\obj\main.o: ..\Lib\Base\uart.h
 ..\obj\main.o: ..\Lib\Base\spi.h
 ..\obj\main.o: ..\Lib\Base\dac.h
@@ -39,8 +43,6 @@
 ..\obj\main.o: ..\Lib\Base\PWM.h
 ..\obj\main.o: ..\Lib\Base\stmflash.h
 ..\obj\main.o: ..\Lib\Base\Data_Handle.h
-..\obj\main.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
-..\obj\main.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\main.o: ..\Lib\Mode\Mode.h
 ..\obj\main.o: ..\Lib\Mode\lcd.h
 ..\obj\main.o: ..\Lib\Mode\BZZ.h
@@ -51,4 +53,8 @@
 ..\obj\main.o: ..\Lib\Mode\Tracing.h
 ..\obj\main.o: ..\Lib\Mode\Ultrasonic.h
 ..\obj\main.o: ..\Lib\Mode\mlx90614.h
+..\obj\main.o: ..\Lib\API_Cloud\API.h
+..\obj\main.o: ..\Lib\API_Cloud\Agreement_Hanlde.h
+..\obj\main.o: ..\Lib\API_Cloud\DATA.h
+..\obj\main.o: ..\Lib\API_Cloud\Check_CRC16.h
 ..\obj\main.o: ..\Lib\Mode\pic.h

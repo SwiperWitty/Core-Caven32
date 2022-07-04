@@ -2,7 +2,7 @@
 
 因为本怪精力有限，[Cavendish 3.0](https://github.com/SwiperWitty/MCU-Cavendish) 已经**停止维护**，除非出现重大BUG。
 
-Caven 3.14的硬件和Caven 3.0 **不完全一样**，是一个更大的进化，板载硬件DAP-Link和TTL串口（可以Debug和串口打印数据）。
+Caven 3.14的硬件和Caven 3.0 **不完全一样**，是一个更大的进化，板载硬件DAP-Link和TTL串口（可以Debug和串口打印数据），此外3.14系列主时钟设置（ST-F1 72M、GD-F1 96M）。
 
 只需要一根Type-c和一台电脑即可开发 [Caven 3.14](https://github.com/SwiperWitty/Core-STM32/tree/main/Caven-V3.14-M3)！
 
@@ -64,7 +64,7 @@ _____
 
 （不会有人问我标准库是什么吧？拒绝回答这类问题）
 
-
+____
 
 ##### 开始使用Caven框架
 
@@ -72,7 +72,7 @@ _____
 
 索引是必须最先运行的，它的作用是将框架搭起来（简单理解就是，将把肉馅塞到馒头里），让User快乐起来！（这个框架并不怎么占内存）
 
-
+____
 
 #### BASE
 
@@ -147,11 +147,17 @@ _____
 
 ##### LCD显示
 
+
+
+_____
+
 #### 算法部署(API)（长期）
 
 - [ ] PID
 - [ ] 卡尔曼滤波
 - [ ] Other
+
+
 
 ---
 

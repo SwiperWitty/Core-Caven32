@@ -1,6 +1,6 @@
 #include "dac.h"
 
-struct _DAC DACx;
+struct DAC_ DACx;
 
 void DAC_x_Init(char DAC_x,FunctionalState SET)
 {

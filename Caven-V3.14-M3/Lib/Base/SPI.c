@@ -1,6 +1,6 @@
 #include "SPI.h"
 
-struct _SPI	SPI;
+struct SPI_	SPI;
 
 char SPIs_Write_And_Read_Byte(char Byte_8,int Speed)					//Master
 {

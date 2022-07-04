@@ -30,3 +30,7 @@
 ..\obj\ultrasonic.o: ..\Lib\inc\stm32f10x_wwdg.h
 ..\obj\ultrasonic.o: ..\Lib\inc\misc.h
 ..\obj\ultrasonic.o: ..\Lib\Base\sys_time.h
+..\obj\ultrasonic.o: ..\Lib\API_Cloud\Caven.h
+..\obj\ultrasonic.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\ultrasonic.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
+..\obj\ultrasonic.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h

@@ -13,7 +13,7 @@
 #define DAC_1			DAC_Channel_1
 #define DAC_2			DAC_Channel_2
 
-struct _DAC
+struct DAC_
 {
 	float (*DAC_x_Set_Vol)(int DAC_x,float vol);
 };

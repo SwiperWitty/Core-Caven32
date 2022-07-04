@@ -1,6 +1,5 @@
 ..\obj\uart.o: ..\Lib\Base\uart.c
 ..\obj\uart.o: ..\Lib\Base\uart.h
-..\obj\uart.o: ..\Lib\inc\stm32f10x_rcc.h
 ..\obj\uart.o: ..\CMSIS\stm32f10x.h
 ..\obj\uart.o: ..\CMSIS\core_cm3.h
 ..\obj\uart.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h
@@ -30,7 +29,7 @@
 ..\obj\uart.o: ..\Lib\inc\stm32f10x_usart.h
 ..\obj\uart.o: ..\Lib\inc\stm32f10x_wwdg.h
 ..\obj\uart.o: ..\Lib\inc\misc.h
-..\obj\uart.o: ..\Lib\Base\sys_time.h
-..\obj\uart.o: ..\Lib\Base\Data_Handle.h
+..\obj\uart.o: ..\Lib\API_Cloud\Caven.h
 ..\obj\uart.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
 ..\obj\uart.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
+..\obj\uart.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h

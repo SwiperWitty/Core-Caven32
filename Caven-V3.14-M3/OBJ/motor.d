@@ -31,5 +31,8 @@
 ..\obj\motor.o: ..\Lib\inc\stm32f10x_wwdg.h
 ..\obj\motor.o: ..\Lib\inc\misc.h
 ..\obj\motor.o: ..\Lib\Base\PWM.h
+..\obj\motor.o: ..\Lib\API_Cloud\Caven.h
+..\obj\motor.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
 ..\obj\motor.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
+..\obj\motor.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h
 ..\obj\motor.o: ..\Lib\Base\sys_time.h

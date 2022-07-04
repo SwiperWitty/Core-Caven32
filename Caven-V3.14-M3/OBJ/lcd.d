@@ -32,3 +32,6 @@
 ..\obj\lcd.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\lcd.o: ..\Lib\Mode\lcdfont.h
 ..\obj\lcd.o: ..\Lib\Base\sys_time.h
+..\obj\lcd.o: ..\Lib\API_Cloud\Caven.h
+..\obj\lcd.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\lcd.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h

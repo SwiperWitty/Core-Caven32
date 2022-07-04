@@ -29,3 +29,7 @@
 ..\obj\encoder.o: ..\Lib\inc\stm32f10x_usart.h
 ..\obj\encoder.o: ..\Lib\inc\stm32f10x_wwdg.h
 ..\obj\encoder.o: ..\Lib\inc\misc.h
+..\obj\encoder.o: ..\Lib\API_Cloud\Caven.h
+..\obj\encoder.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\encoder.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
+..\obj\encoder.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h

@@ -1,6 +1,4 @@
 #include "encoder.h"
-#include "stm32f10x.h"
-
 
 void Encoder_Init_TIM1(void)
 {

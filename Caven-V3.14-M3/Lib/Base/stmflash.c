@@ -1,6 +1,6 @@
 #include "stmflash.h"
 
-struct _Flash Flash;
+struct Flash_ Flash;
 
 u16 STMFLASH_ReadHalfWord(u32 faddr)
 {
