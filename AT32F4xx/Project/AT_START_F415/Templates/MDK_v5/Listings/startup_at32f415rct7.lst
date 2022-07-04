@@ -535,10 +535,10 @@ ARM Macro Assembler    Page 9
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4 --apcs=interw
 ork --depend=.\objects\startup_at32f415rct7.d -o.\objects\startup_at32f415rct7.
-o -ID:\MDK\Keil\AT32F4xx_DFP\1.3.4\Device\Include -ID:\MDK\ARM\CMSIS\Include --
-predefine="__UVISION_VERSION SETA 532" --predefine="AT32F415RCT7 SETA 1" --list
-=.\listings\startup_at32f415rct7.lst ..\..\..\..\Libraries\CMSIS\CM4\DeviceSupp
-ort\startup\mdk\startup_at32f415rct7.s
+o -ID:\MDK\ARM\ArteryTek\AT32F415_DFP\2.0.6\Device\Include -ID:\MDK\ARM\CMSIS\I
+nclude --predefine="__UVISION_VERSION SETA 532" --predefine="AT32F415RCT7 SETA 
+1" --list=.\listings\startup_at32f415rct7.lst ..\..\..\..\Libraries\CMSIS\CM4\D
+eviceSupport\startup\mdk\startup_at32f415rct7.s
 
 
 
