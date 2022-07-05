@@ -4,7 +4,7 @@
 #include "stm32f10x.h"
 #include "Caven.h"
 
-#define END_Data    'N'             //这个作为串口接收结束词，如果是 'N' 那么就是没有    RXD_Num_MAX
+#define END_Data    '}'             //这个作为串口接收结束词，如果是 'N' 那么就是没有    RXD_Num_MAX
 #define Length_MAX    Buff_Length   //Buff MAX 长度
 
 struct _Uart_Data

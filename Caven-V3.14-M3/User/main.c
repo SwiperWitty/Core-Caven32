@@ -17,7 +17,7 @@
 #define FLASH_SAVE_ADDR 0X08012000 // FLASH_SAVE_ADDR >= 本代码所占用FLASH的大小(16进制) + 0X08000000 + 0X800)
 
 float far, temp, vol;
-char Free_Show[30];
+char Free_Show[100];
 
 int abd,debug_time_data;
 void Mian_Init(void);
@@ -33,7 +33,7 @@ int main(void)
 	{
         API.DATA_Time.Over_Time(&Debug_OVTime);
         if (Debug_OVTime.Flag) {
-            sprintf(Free_Show,"--time: %d:%d:%d -- %d \r\n",SYS_Time.Watch.hour,SYS_Time.Watch.minutes,SYS_Time.Watch.second,SYS_Time.Watch.time_num);
+            sprintf(Free_Show,"-- Time: %d:%d:%d - %d --\r\n",SYS_Time.Watch.hour,SYS_Time.Watch.minutes,SYS_Time.Watch.second,SYS_Time.Watch.time_num);
             Base_User.UART.Send_String(USART3,Free_Show);
         }
 		sprintf(Free_Show,"-> TIME: %2d:%2d:%2d S  ",SYS_Time.Watch.hour,SYS_Time.Watch.minutes,SYS_Time.Watch.second);
@@ -51,13 +51,19 @@ int main(void)
 			BZZ_Control (BZZ_OF);
 			Mode_User.LCD.Show_String(21, 3, "1 ", GBLUE, BLACK, 16);
 		}
-		
+		if(CV_UART[3].Rxd_Received)
+        {
+            Base_User.UART.Send_Data(USART3,CV_UART[3].DATA.Buff,CV_UART[3].DATA.Length);
+            Destroy(&CV_UART[3],CV_UART[3]);
+        }
+          
 	}
 }
 
 void Mian_Init(void)
 {
 	Base_Index();
+    API_Index();
 	Mode_Index();
 
 	Base_Init.SYS_Time_Init(ENABLE);

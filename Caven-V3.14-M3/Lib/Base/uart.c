@@ -235,6 +235,30 @@ void Get_RXD(struct _Uart_Data *Target, char res) //接收处理函数
     }
 }
 
+void USART1_IRQHandler(void)
+{
+    char temp;
+    if (USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)
+    {
+        USART_ClearFlag(USART1, USART_IT_RXNE);
+        temp = USART_ReceiveData(USART1);
+        Get_RXD(&CV_UART[1], temp);
+        //USART_SendData(USART1, temp);               //debug
+    }
+}
+
+void USART3_IRQHandler(void)
+{
+    char temp;
+    if (USART_GetITStatus(USART3, USART_IT_RXNE) != RESET)
+    {
+        USART_ClearFlag(USART3, USART_IT_RXNE);
+        temp = USART_ReceiveData(USART3);
+        Get_RXD(&CV_UART[3], temp);
+        //USART_SendData(USART3, temp);               //debug
+    }
+}
+
 void UART4_IRQHandler(void)
 {
     char temp;
@@ -243,7 +267,7 @@ void UART4_IRQHandler(void)
         USART_ClearFlag(UART4, USART_IT_RXNE);
         temp = USART_ReceiveData(UART4);
         Get_RXD(&CV_UART[4], temp);
-        //USART_SendData(USART1, temp);               //debug
+        //USART_SendData(UART4, temp);               //debug
     }
 }
 

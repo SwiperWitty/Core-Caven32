@@ -30,7 +30,7 @@ I (..\Lib\inc\stm32f10x_tim.h)(0x62A9731A)
 I (..\Lib\inc\stm32f10x_usart.h)(0x62A9731A)
 I (..\Lib\inc\stm32f10x_wwdg.h)(0x62A9731A)
 I (..\Lib\inc\misc.h)(0x62A9731A)
-F (.\main.c)(0x62C3D328)(--c99 -c --cpu Cortex-M3 -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Lib\Base -I ..\Lib\inc -I ..\Lib\Mode -I ..\Lib\src -I ..\Startup -I ..\Lib\API_Cloud-ID:\MDK\GigaDevice\GD32F10x_DFP\2.0.1\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DGD32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DCavendish -DGD-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
+F (.\main.c)(0x62C3FCA1)(--c99 -c --cpu Cortex-M3 -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Lib\Base -I ..\Lib\inc -I ..\Lib\Mode -I ..\Lib\src -I ..\Startup -I ..\Lib\API_Cloud-ID:\MDK\GigaDevice\GD32F10x_DFP\2.0.1\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DGD32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DCavendish -DGD-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
 I (..\Lib\Base\base.h)(0x62C3D1C0)
 I (..\Lib\Base\iic.h)(0x62C2833E)
 I (..\CMSIS\stm32f10x.h)(0x62A9731A)
@@ -66,7 +66,7 @@ I (..\Lib\API_Cloud\Caven.h)(0x62C3CCCD)
 I (D:\MDK\ARM\ARMCC\include\stdio.h)(0x5F63877C)
 I (D:\MDK\ARM\ARMCC\include\stdlib.h)(0x5F63877C)
 I (D:\MDK\ARM\ARMCC\include\string.h)(0x5F63878A)
-I (..\Lib\Base\uart.h)(0x62C29B3D)
+I (..\Lib\Base\uart.h)(0x62C3FC44)
 I (..\Lib\Base\spi.h)(0x62C28355)
 I (..\Lib\Base\dac.h)(0x62C28320)
 I (..\Lib\Base\adc.h)(0x62C28303)
@@ -155,7 +155,7 @@ I (..\Lib\API_Cloud\Caven.h)(0x62C3CCCD)
 I (D:\MDK\ARM\ARMCC\include\stdio.h)(0x5F63877C)
 I (D:\MDK\ARM\ARMCC\include\stdlib.h)(0x5F63877C)
 I (D:\MDK\ARM\ARMCC\include\string.h)(0x5F63878A)
-F (..\Lib\Base\Sys_Time.c)(0x62C3D13B)(--c99 -c --cpu Cortex-M3 -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Lib\Base -I ..\Lib\inc -I ..\Lib\Mode -I ..\Lib\src -I ..\Startup -I ..\Lib\API_Cloud-ID:\MDK\GigaDevice\GD32F10x_DFP\2.0.1\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DGD32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DCavendish -DGD-o ..\obj\sys_time.o --omf_browse ..\obj\sys_time.crf --depend ..\obj\sys_time.d)
+F (..\Lib\Base\Sys_Time.c)(0x62C3F978)(--c99 -c --cpu Cortex-M3 -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Lib\Base -I ..\Lib\inc -I ..\Lib\Mode -I ..\Lib\src -I ..\Startup -I ..\Lib\API_Cloud-ID:\MDK\GigaDevice\GD32F10x_DFP\2.0.1\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DGD32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DCavendish -DGD-o ..\obj\sys_time.o --omf_browse ..\obj\sys_time.crf --depend ..\obj\sys_time.d)
 I (..\Lib\Base\sys_time.h)(0x62C3D3ED)
 I (..\CMSIS\stm32f10x.h)(0x62A9731A)
 I (..\CMSIS\core_cm3.h)(0x62A9731A)
@@ -189,8 +189,8 @@ I (..\Lib\API_Cloud\Caven.h)(0x62C3CCCD)
 I (D:\MDK\ARM\ARMCC\include\stdio.h)(0x5F63877C)
 I (D:\MDK\ARM\ARMCC\include\stdlib.h)(0x5F63877C)
 I (D:\MDK\ARM\ARMCC\include\string.h)(0x5F63878A)
-F (..\Lib\Base\uart.c)(0x62C3906B)(--c99 -c --cpu Cortex-M3 -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Lib\Base -I ..\Lib\inc -I ..\Lib\Mode -I ..\Lib\src -I ..\Startup -I ..\Lib\API_Cloud-ID:\MDK\GigaDevice\GD32F10x_DFP\2.0.1\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DGD32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DCavendish -DGD-o ..\obj\uart.o --omf_browse ..\obj\uart.crf --depend ..\obj\uart.d)
-I (..\Lib\Base\uart.h)(0x62C29B3D)
+F (..\Lib\Base\uart.c)(0x62C3FBAD)(--c99 -c --cpu Cortex-M3 -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Lib\Base -I ..\Lib\inc -I ..\Lib\Mode -I ..\Lib\src -I ..\Startup -I ..\Lib\API_Cloud-ID:\MDK\GigaDevice\GD32F10x_DFP\2.0.1\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DGD32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DCavendish -DGD-o ..\obj\uart.o --omf_browse ..\obj\uart.crf --depend ..\obj\uart.d)
+I (..\Lib\Base\uart.h)(0x62C3FC44)
 I (..\CMSIS\stm32f10x.h)(0x62A9731A)
 I (..\CMSIS\core_cm3.h)(0x62A9731A)
 I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
@@ -424,7 +424,7 @@ I (..\Lib\API_Cloud\Caven.h)(0x62C3CCCD)
 I (D:\MDK\ARM\ARMCC\include\stdio.h)(0x5F63877C)
 I (D:\MDK\ARM\ARMCC\include\stdlib.h)(0x5F63877C)
 I (D:\MDK\ARM\ARMCC\include\string.h)(0x5F63878A)
-I (..\Lib\Base\uart.h)(0x62C29B3D)
+I (..\Lib\Base\uart.h)(0x62C3FC44)
 I (..\Lib\Base\spi.h)(0x62C28355)
 I (..\Lib\Base\dac.h)(0x62C28320)
 I (..\Lib\Base\adc.h)(0x62C28303)
