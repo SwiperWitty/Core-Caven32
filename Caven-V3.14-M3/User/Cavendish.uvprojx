@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_HD,USE_STDPERIPH_DRIVER,Cavendish,GD</Define>
               <Undefine></Undefine>
-              <IncludePath>..\User;..\CMSIS;..\Lib\Base;..\Lib\inc;..\Lib\Mode;..\Lib\src;..\Startup;..\Lib\API_Cloud</IncludePath>
+              <IncludePath>..\User;..\CMSIS;..\Startup;..\SDK\inc;..\SDK\src;..\MCU_Cloud_LIB\API;..\MCU_Cloud_LIB\Base;..\MCU_Cloud_LIB\Mode</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -399,54 +399,59 @@
           <GroupName>Base</GroupName>
           <Files>
             <File>
-              <FileName>Encoder.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Lib\Base\Encoder.c</FilePath>
-            </File>
-            <File>
-              <FileName>PWM.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Lib\Base\PWM.c</FilePath>
-            </File>
-            <File>
-              <FileName>Sys_Time.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Lib\Base\Sys_Time.c</FilePath>
-            </File>
-            <File>
-              <FileName>uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Lib\Base\uart.c</FilePath>
-            </File>
-            <File>
               <FileName>ADC.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\Base\ADC.c</FilePath>
-            </File>
-            <File>
-              <FileName>stmflash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Lib\Base\stmflash.c</FilePath>
-            </File>
-            <File>
-              <FileName>DAC.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Lib\Base\DAC.c</FilePath>
-            </File>
-            <File>
-              <FileName>IIC.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Lib\Base\IIC.c</FilePath>
-            </File>
-            <File>
-              <FileName>SPI.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Lib\Base\SPI.c</FilePath>
+              <FilePath>..\MCU_Cloud_LIB\Base\ADC.c</FilePath>
             </File>
             <File>
               <FileName>Base.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\Base\Base.c</FilePath>
+              <FilePath>..\MCU_Cloud_LIB\Base\Base.c</FilePath>
+            </File>
+            <File>
+              <FileName>DAC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MCU_Cloud_LIB\Base\DAC.c</FilePath>
+            </File>
+            <File>
+              <FileName>Data_Handle.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MCU_Cloud_LIB\Base\Data_Handle.c</FilePath>
+            </File>
+            <File>
+              <FileName>Encoder.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MCU_Cloud_LIB\Base\Encoder.c</FilePath>
+            </File>
+            <File>
+              <FileName>IIC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MCU_Cloud_LIB\Base\IIC.c</FilePath>
+            </File>
+            <File>
+              <FileName>PWM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MCU_Cloud_LIB\Base\PWM.c</FilePath>
+            </File>
+            <File>
+              <FileName>SPI.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MCU_Cloud_LIB\Base\SPI.c</FilePath>
+            </File>
+            <File>
+              <FileName>stmflash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MCU_Cloud_LIB\Base\stmflash.c</FilePath>
+            </File>
+            <File>
+              <FileName>Sys_Time.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MCU_Cloud_LIB\Base\Sys_Time.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MCU_Cloud_LIB\Base\uart.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -456,72 +461,82 @@
             <File>
               <FileName>BZZ.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\Mode\BZZ.c</FilePath>
+              <FilePath>..\MCU_Cloud_LIB\Mode\BZZ.c</FilePath>
+            </File>
+            <File>
+              <FileName>Control_Mode.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MCU_Cloud_LIB\Mode\Control_Mode.c</FilePath>
+            </File>
+            <File>
+              <FileName>HC595.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MCU_Cloud_LIB\Mode\HC595.c</FilePath>
             </File>
             <File>
               <FileName>key.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\Mode\key.c</FilePath>
+              <FilePath>..\MCU_Cloud_LIB\Mode\key.c</FilePath>
             </File>
             <File>
               <FileName>lcd.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\Mode\lcd.c</FilePath>
+              <FilePath>..\MCU_Cloud_LIB\Mode\lcd.c</FilePath>
             </File>
             <File>
               <FileName>mlx90614.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\Mode\mlx90614.c</FilePath>
-            </File>
-            <File>
-              <FileName>Motor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Lib\Mode\Motor.c</FilePath>
-            </File>
-            <File>
-              <FileName>Steering_engine.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Lib\Mode\Steering_engine.c</FilePath>
-            </File>
-            <File>
-              <FileName>Tracing.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Lib\Mode\Tracing.c</FilePath>
-            </File>
-            <File>
-              <FileName>Ultrasonic.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Lib\Mode\Ultrasonic.c</FilePath>
+              <FilePath>..\MCU_Cloud_LIB\Mode\mlx90614.c</FilePath>
             </File>
             <File>
               <FileName>Mode.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\Mode\Mode.c</FilePath>
+              <FilePath>..\MCU_Cloud_LIB\Mode\Mode.c</FilePath>
+            </File>
+            <File>
+              <FileName>Motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MCU_Cloud_LIB\Mode\Motor.c</FilePath>
+            </File>
+            <File>
+              <FileName>MP3.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MCU_Cloud_LIB\Mode\MP3.c</FilePath>
+            </File>
+            <File>
+              <FileName>Steering_engine.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MCU_Cloud_LIB\Mode\Steering_engine.c</FilePath>
+            </File>
+            <File>
+              <FileName>Tracing.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MCU_Cloud_LIB\Mode\Tracing.c</FilePath>
+            </File>
+            <File>
+              <FileName>Ultrasonic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MCU_Cloud_LIB\Mode\Ultrasonic.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>API_Cloud</GroupName>
+          <GroupName>API</GroupName>
           <Files>
             <File>
               <FileName>API.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\API_Cloud\API.c</FilePath>
+              <FilePath>..\MCU_Cloud_LIB\API\API.c</FilePath>
             </File>
             <File>
               <FileName>Check_CRC16.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\API_Cloud\Check_CRC16.c</FilePath>
+              <FilePath>..\MCU_Cloud_LIB\API\Check_CRC16.c</FilePath>
             </File>
             <File>
               <FileName>DATA.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\API_Cloud\DATA.c</FilePath>
-            </File>
-            <File>
-              <FileName>Agreement_Hanlde.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Lib\API_Cloud\API_Magic\Agreement_Hanlde.c</FilePath>
+              <FilePath>..\MCU_Cloud_LIB\API\DATA.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -541,122 +556,122 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Lib</GroupName>
+          <GroupName>SDK</GroupName>
           <Files>
             <File>
               <FileName>misc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\src\misc.c</FilePath>
+              <FilePath>..\SDK\src\misc.c</FilePath>
             </File>
             <File>
               <FileName>stm32f10x_adc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\src\stm32f10x_adc.c</FilePath>
+              <FilePath>..\SDK\src\stm32f10x_adc.c</FilePath>
             </File>
             <File>
               <FileName>stm32f10x_bkp.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\src\stm32f10x_bkp.c</FilePath>
+              <FilePath>..\SDK\src\stm32f10x_bkp.c</FilePath>
             </File>
             <File>
               <FileName>stm32f10x_can.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\src\stm32f10x_can.c</FilePath>
+              <FilePath>..\SDK\src\stm32f10x_can.c</FilePath>
             </File>
             <File>
               <FileName>stm32f10x_cec.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\src\stm32f10x_cec.c</FilePath>
+              <FilePath>..\SDK\src\stm32f10x_cec.c</FilePath>
             </File>
             <File>
               <FileName>stm32f10x_crc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\src\stm32f10x_crc.c</FilePath>
+              <FilePath>..\SDK\src\stm32f10x_crc.c</FilePath>
             </File>
             <File>
               <FileName>stm32f10x_dac.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\src\stm32f10x_dac.c</FilePath>
+              <FilePath>..\SDK\src\stm32f10x_dac.c</FilePath>
             </File>
             <File>
               <FileName>stm32f10x_dbgmcu.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\src\stm32f10x_dbgmcu.c</FilePath>
+              <FilePath>..\SDK\src\stm32f10x_dbgmcu.c</FilePath>
             </File>
             <File>
               <FileName>stm32f10x_dma.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\src\stm32f10x_dma.c</FilePath>
+              <FilePath>..\SDK\src\stm32f10x_dma.c</FilePath>
             </File>
             <File>
               <FileName>stm32f10x_exti.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\src\stm32f10x_exti.c</FilePath>
+              <FilePath>..\SDK\src\stm32f10x_exti.c</FilePath>
             </File>
             <File>
               <FileName>stm32f10x_flash.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\src\stm32f10x_flash.c</FilePath>
+              <FilePath>..\SDK\src\stm32f10x_flash.c</FilePath>
             </File>
             <File>
               <FileName>stm32f10x_fsmc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\src\stm32f10x_fsmc.c</FilePath>
+              <FilePath>..\SDK\src\stm32f10x_fsmc.c</FilePath>
             </File>
             <File>
               <FileName>stm32f10x_gpio.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\src\stm32f10x_gpio.c</FilePath>
+              <FilePath>..\SDK\src\stm32f10x_gpio.c</FilePath>
             </File>
             <File>
               <FileName>stm32f10x_i2c.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\src\stm32f10x_i2c.c</FilePath>
+              <FilePath>..\SDK\src\stm32f10x_i2c.c</FilePath>
             </File>
             <File>
               <FileName>stm32f10x_iwdg.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\src\stm32f10x_iwdg.c</FilePath>
+              <FilePath>..\SDK\src\stm32f10x_iwdg.c</FilePath>
             </File>
             <File>
               <FileName>stm32f10x_pwr.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\src\stm32f10x_pwr.c</FilePath>
+              <FilePath>..\SDK\src\stm32f10x_pwr.c</FilePath>
             </File>
             <File>
               <FileName>stm32f10x_rcc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\src\stm32f10x_rcc.c</FilePath>
+              <FilePath>..\SDK\src\stm32f10x_rcc.c</FilePath>
             </File>
             <File>
               <FileName>stm32f10x_rtc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\src\stm32f10x_rtc.c</FilePath>
+              <FilePath>..\SDK\src\stm32f10x_rtc.c</FilePath>
             </File>
             <File>
               <FileName>stm32f10x_sdio.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\src\stm32f10x_sdio.c</FilePath>
+              <FilePath>..\SDK\src\stm32f10x_sdio.c</FilePath>
             </File>
             <File>
               <FileName>stm32f10x_spi.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\src\stm32f10x_spi.c</FilePath>
+              <FilePath>..\SDK\src\stm32f10x_spi.c</FilePath>
             </File>
             <File>
               <FileName>stm32f10x_tim.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\src\stm32f10x_tim.c</FilePath>
+              <FilePath>..\SDK\src\stm32f10x_tim.c</FilePath>
             </File>
             <File>
               <FileName>stm32f10x_usart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\src\stm32f10x_usart.c</FilePath>
+              <FilePath>..\SDK\src\stm32f10x_usart.c</FilePath>
             </File>
             <File>
               <FileName>stm32f10x_wwdg.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Lib\src\stm32f10x_wwdg.c</FilePath>
+              <FilePath>..\SDK\src\stm32f10x_wwdg.c</FilePath>
             </File>
           </Files>
         </Group>
