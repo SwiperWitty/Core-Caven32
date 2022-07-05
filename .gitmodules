@@ -1,3 +1,6 @@
 [submodule "Caven-V3.14-M3/Lib/API_Cloud"]
 	path = Caven-V3.14-M3/Lib/API_Cloud
 	url = https://github.com/SwiperWitty/API_Cloud
+[submodule "Caven-V3.14-M3 - 小白纯净版/Lib/API_Cloud"]
+	path = Caven-V3.14-M3 - 小白纯净版/Lib/API_Cloud
+	url = git@github.com:SwiperWitty/API_Cloud.git
