@@ -30,7 +30,3 @@
 ..\obj\iic.o: ..\Lib\inc\stm32f10x_wwdg.h
 ..\obj\iic.o: ..\Lib\inc\misc.h
 ..\obj\iic.o: ..\Lib\Base\sys_time.h
-..\obj\iic.o: ..\Lib\API_Cloud\Caven.h
-..\obj\iic.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
-..\obj\iic.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
-..\obj\iic.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h

@@ -32,5 +32,3 @@
 ..\obj\data_handle.o: ..\Lib\inc\stm32f10x_usart.h
 ..\obj\data_handle.o: ..\Lib\inc\stm32f10x_wwdg.h
 ..\obj\data_handle.o: ..\Lib\inc\misc.h
-..\obj\data_handle.o: ..\Lib\API_Cloud\Caven.h
-..\obj\data_handle.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h
