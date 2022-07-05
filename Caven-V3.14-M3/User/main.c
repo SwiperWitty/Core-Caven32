@@ -18,19 +18,27 @@
 
 float far, temp, vol;
 char Free_Show[30];
-unsigned int Overflow_Time,Now_Time;
-char UART_Overflow_num = 0;
-int abd;
+
+int abd,debug_time_data;
 void Mian_Init(void);
 int main(void)
 {
 	Mian_Init();
-	
+	struct _Over_time Debug_OVTime = {
+        .Now_Time = &SYS_Time.Watch,
+        .Now_data = &debug_time_data,
+        .Set_Time.second = 1
+    };
 	while (1)
 	{
-		sprintf(Free_Show,"-> TIME: %2d:%2d:%2d S  ",SYS_Watch.Watch.hour,SYS_Watch.Watch.minutes,SYS_Watch.Watch.second);
+        API.DATA_Time.Over_Time(&Debug_OVTime);
+        if (Debug_OVTime.Flag) {
+            sprintf(Free_Show,"--time: %d:%d:%d -- %d \r\n",SYS_Time.Watch.hour,SYS_Time.Watch.minutes,SYS_Time.Watch.second,SYS_Time.Watch.time_num);
+            Base_User.UART.Send_String(USART3,Free_Show);
+        }
+		sprintf(Free_Show,"-> TIME: %2d:%2d:%2d S  ",SYS_Time.Watch.hour,SYS_Time.Watch.minutes,SYS_Time.Watch.second);
 		Mode_User.LCD.Show_String(0, 3, Free_Show, GBLUE, BLACK, 16);
-		Data_Replace("123", Free_Show, 0, sizeof(Free_Show));
+        Destroy(Free_Show,Free_Show);
 		abd = KEY_Touch_IN();
 		if(abd == 0)
 		{
@@ -66,11 +74,11 @@ void Mian_Init(void)
 		Mode_User.LCD.Show_String(22, 0, "GD", MAGENTA, BLACK, 16); // X = 21、Y = 0 为起点 显示 "GD  "	字体为 BLUE，背景色为 BLACK，字体16
 	Mode_User.LCD.Show_String(5, 0, "Caven Pro", RED, BLACK, 24);
 	Mode_User.LCD.Show_String(29, 14, "1", RED, BLACK, 16); //这里是16字 的极限 0-29（30行） 0-14(15列)
-	Data_Replace("123", Free_Show, '-', 26);				//分割区
+	memset(Free_Show,'-',26);				//分割区
 	Mode_User.LCD.Show_String(0, 2, "-> MCU : 26.10 C ", BLUE, BLACK, 16);
 	Mode_User.LCD.Show_String(0, 3, "-> TIME: 00:00:00 S ", GBLUE, BLACK, 16);
 	Mode_User.LCD.Show_String(2, 4, Free_Show, WHITE, BLACK, 16);
-	Data_Replace("123", Free_Show, 0, sizeof(Free_Show));
+	memset(Free_Show,0,sizeof(Free_Show));				//分割区
 
 	KEY_Init(ENABLE);
 	BZZ_Init(ENABLE);

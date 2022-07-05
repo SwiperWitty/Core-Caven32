@@ -19,8 +19,9 @@
 
 #define Frequency   100000      //目前是 10us
 
-struct _SYS_Watch
+struct _SYS_Time
 {
+    struct Caven_Date Date;
     struct Caven_Watch Watch;
     u32 sys_time;           //这是系统秒数（hour*3600 + minutes * 60 + second）
 };
@@ -32,7 +33,7 @@ struct Sys_Time_
     void (*Delay_S)(char num);
 };
 
-extern struct _SYS_Watch SYS_Watch;
+extern struct _SYS_Time SYS_Time;
 extern struct Sys_Time_ Delay;
 
 void Delay_10us(int num);

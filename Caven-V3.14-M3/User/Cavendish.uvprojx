@@ -399,11 +399,6 @@
           <GroupName>Base</GroupName>
           <Files>
             <File>
-              <FileName>Data_Handle.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Lib\Base\Data_Handle.c</FilePath>
-            </File>
-            <File>
               <FileName>Encoder.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Lib\Base\Encoder.c</FilePath>
@@ -509,11 +504,6 @@
           <GroupName>API_Cloud</GroupName>
           <Files>
             <File>
-              <FileName>Agreement_Hanlde.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Lib\API_Cloud\Agreement_Hanlde.c</FilePath>
-            </File>
-            <File>
               <FileName>API.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Lib\API_Cloud\API.c</FilePath>
@@ -527,6 +517,11 @@
               <FileName>DATA.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Lib\API_Cloud\DATA.c</FilePath>
+            </File>
+            <File>
+              <FileName>Agreement_Hanlde.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Lib\API_Cloud\API_Magic\Agreement_Hanlde.c</FilePath>
             </File>
           </Files>
         </Group>

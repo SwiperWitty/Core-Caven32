@@ -10,30 +10,34 @@
                 -2021.10.07
 减少中断负担           -2022. 07. 04
 */
-
-struct _SYS_Watch  SYS_Watch = {23,59,55,0,0};
+struct _SYS_Time SYS_Time = {
+        .Date.day = 0,
+        .Watch.hour = 23,
+        .Watch.minutes = 59,
+        .Watch.second = 56,
+};
 int Delay_Time;
 static char Daley_Falg = 0;
 
 void Sys_Watch_Handle (void)
 {
-    SYS_Watch.Watch.time_num++;
-    if(SYS_Watch.Watch.time_num > Frequency)
+    SYS_Time.Watch.time_num++;
+    if(SYS_Time.Watch.time_num > Frequency)
     {
-        SYS_Watch.Watch.time_num = 1;
-        SYS_Watch.sys_time++;
-        SYS_Watch.Watch.second++;
-        if(SYS_Watch.Watch.second > 59)
+        SYS_Time.Watch.time_num = 1;
+        SYS_Time.sys_time++;
+        SYS_Time.Watch.second++;
+        if(SYS_Time.Watch.second > 59)
         {
-            SYS_Watch.Watch.second = 0;
-            SYS_Watch.Watch.minutes++;
-            if(SYS_Watch.Watch.minutes > 59)
+            SYS_Time.Watch.second = 0;
+            SYS_Time.Watch.minutes++;
+            if(SYS_Time.Watch.minutes > 59)
             {
-                SYS_Watch.Watch.minutes = 0;
-                SYS_Watch.Watch.hour ++;
-                if(SYS_Watch.Watch.hour > 23)
+                SYS_Time.Watch.minutes = 0;
+                SYS_Time.Watch.hour ++;
+                if(SYS_Time.Watch.hour > 23)
                 {
-                    SYS_Watch.Watch.hour = 0;
+                    SYS_Time.Watch.hour = 0;
                 }
             }
         }

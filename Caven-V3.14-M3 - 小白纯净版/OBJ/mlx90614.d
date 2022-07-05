@@ -31,3 +31,7 @@
 ..\obj\mlx90614.o: ..\Lib\inc\misc.h
 ..\obj\mlx90614.o: ..\Lib\Base\IIC.h
 ..\obj\mlx90614.o: ..\Lib\Base\sys_time.h
+..\obj\mlx90614.o: ..\Lib\API_Cloud\Caven.h
+..\obj\mlx90614.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\mlx90614.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
+..\obj\mlx90614.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h

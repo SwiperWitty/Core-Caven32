@@ -42,4 +42,3 @@
 ..\obj\base.o: ..\Lib\Base\encoder.h
 ..\obj\base.o: ..\Lib\Base\PWM.h
 ..\obj\base.o: ..\Lib\Base\stmflash.h
-..\obj\base.o: ..\Lib\Base\Data_Handle.h

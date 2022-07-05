@@ -31,3 +31,15 @@
 ..\obj\base.o: ..\Lib\inc\stm32f10x_wwdg.h
 ..\obj\base.o: ..\Lib\inc\misc.h
 ..\obj\base.o: ..\Lib\Base\sys_time.h
+..\obj\base.o: ..\Lib\API_Cloud\Caven.h
+..\obj\base.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\base.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
+..\obj\base.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h
+..\obj\base.o: ..\Lib\Base\uart.h
+..\obj\base.o: ..\Lib\Base\spi.h
+..\obj\base.o: ..\Lib\Base\dac.h
+..\obj\base.o: ..\Lib\Base\adc.h
+..\obj\base.o: ..\Lib\Base\encoder.h
+..\obj\base.o: ..\Lib\Base\PWM.h
+..\obj\base.o: ..\Lib\Base\stmflash.h
+..\obj\base.o: ..\Lib\Base\Data_Handle.h

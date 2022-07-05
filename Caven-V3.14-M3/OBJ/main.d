@@ -42,7 +42,6 @@
 ..\obj\main.o: ..\Lib\Base\encoder.h
 ..\obj\main.o: ..\Lib\Base\PWM.h
 ..\obj\main.o: ..\Lib\Base\stmflash.h
-..\obj\main.o: ..\Lib\Base\Data_Handle.h
 ..\obj\main.o: ..\Lib\Mode\Mode.h
 ..\obj\main.o: ..\Lib\Mode\lcd.h
 ..\obj\main.o: ..\Lib\Mode\BZZ.h
@@ -54,7 +53,6 @@
 ..\obj\main.o: ..\Lib\Mode\Ultrasonic.h
 ..\obj\main.o: ..\Lib\Mode\mlx90614.h
 ..\obj\main.o: ..\Lib\API_Cloud\API.h
-..\obj\main.o: ..\Lib\API_Cloud\Agreement_Hanlde.h
-..\obj\main.o: ..\Lib\API_Cloud\DATA.h
 ..\obj\main.o: ..\Lib\API_Cloud\Check_CRC16.h
+..\obj\main.o: ..\Lib\API_Cloud\DATA.h
 ..\obj\main.o: ..\Lib\Mode\pic.h

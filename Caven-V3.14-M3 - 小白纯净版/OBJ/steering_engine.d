@@ -30,3 +30,8 @@
 ..\obj\steering_engine.o: ..\Lib\inc\stm32f10x_usart.h
 ..\obj\steering_engine.o: ..\Lib\inc\stm32f10x_wwdg.h
 ..\obj\steering_engine.o: ..\Lib\inc\misc.h
+..\obj\steering_engine.o: ..\Lib\API_Cloud\Caven.h
+..\obj\steering_engine.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\steering_engine.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
+..\obj\steering_engine.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h
+..\obj\steering_engine.o: ..\Lib\Base\sys_time.h

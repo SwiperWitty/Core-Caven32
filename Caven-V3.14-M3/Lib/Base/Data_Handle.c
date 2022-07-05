@@ -11,14 +11,14 @@ int Data_Overflow_Time(int Target,unsigned int Overflow_Time)
 	{
 		return '0';			//不可以
 	}
-	if(SYS_Watch.Watch.time_num < (98000 - Overflow_Time * 100))	//时间允许下
+	if(SYS_Time.Watch.time_num < (98000 - Overflow_Time * 100))	//时间允许下
 	{
 		if(tep != Target)
 		{
-			Last_time = SYS_Watch.Watch.time_num;
+			Last_time = SYS_Time.Watch.time_num;
 			tep = Target;
 		}
-		else if((SYS_Watch.Watch.time_num - Last_time) > Overflow_Time)		//超时
+		else if((SYS_Time.Watch.time_num - Last_time) > Overflow_Time)		//超时
 		{
 			return -1;
 		}
