@@ -1,0 +1,549 @@
+{
+  "name": "User",
+  "type": "ARM",
+  "mode": "M3-Caven",
+  "toolchain": "AC5",
+  "dependenceList": [
+    {
+      "groupName": "custom",
+      "depList": [
+        {
+          "name": "default",
+          "sourceDirList": [],
+          "libList": [],
+          "incList": [
+            "./.",
+            "./../CMSIS",
+            "./../Startup",
+            "./../SDK/inc",
+            "./../SDK/src",
+            "./../MCU_Cloud_LIB/API",
+            "./../MCU_Cloud_LIB/Base",
+            "./../MCU_Cloud_LIB/Mode",
+            "./../MCU_Cloud_LIB/API_Magic",
+            "./.cmsis/dsp_lib",
+            "./.cmsis/include",
+            "./RTE/_M3-Caven",
+            "./.eide/deps"
+          ],
+          "defineList": [
+            "STM32F10X_HD",
+            "USE_STDPERIPH_DRIVER",
+            "Cavendish",
+            "GD"
+          ]
+        }
+      ]
+    }
+  ],
+  "compileConfig": {
+    "cpuType": "Cortex-M3",
+    "floatingPointHardware": "none",
+    "useCustomScatterFile": false,
+    "scatterFilePath": "undefined",
+    "storageLayout": {
+      "RAM": [
+        {
+          "tag": "RAM",
+          "id": 1,
+          "mem": {
+            "startAddr": "0x0",
+            "size": "0x0"
+          },
+          "isChecked": false,
+          "noInit": false
+        },
+        {
+          "tag": "RAM",
+          "id": 2,
+          "mem": {
+            "startAddr": "0x0",
+            "size": "0x0"
+          },
+          "isChecked": false,
+          "noInit": false
+        },
+        {
+          "tag": "RAM",
+          "id": 3,
+          "mem": {
+            "startAddr": "0x0",
+            "size": "0x0"
+          },
+          "isChecked": false,
+          "noInit": false
+        },
+        {
+          "tag": "IRAM",
+          "id": 1,
+          "mem": {
+            "startAddr": "0x20000000",
+            "size": "0xc000"
+          },
+          "isChecked": true,
+          "noInit": false
+        },
+        {
+          "tag": "IRAM",
+          "id": 2,
+          "mem": {
+            "startAddr": "0x0",
+            "size": "0x0"
+          },
+          "isChecked": false,
+          "noInit": false
+        }
+      ],
+      "ROM": [
+        {
+          "tag": "ROM",
+          "id": 1,
+          "mem": {
+            "startAddr": "0x0",
+            "size": "0x0"
+          },
+          "isChecked": false,
+          "isStartup": false
+        },
+        {
+          "tag": "ROM",
+          "id": 2,
+          "mem": {
+            "startAddr": "0x0",
+            "size": "0x0"
+          },
+          "isChecked": false,
+          "isStartup": false
+        },
+        {
+          "tag": "ROM",
+          "id": 3,
+          "mem": {
+            "startAddr": "0x0",
+            "size": "0x0"
+          },
+          "isChecked": false,
+          "isStartup": false
+        },
+        {
+          "tag": "IROM",
+          "id": 1,
+          "mem": {
+            "startAddr": "0x8000000",
+            "size": "0x40000"
+          },
+          "isChecked": true,
+          "isStartup": true
+        },
+        {
+          "tag": "IROM",
+          "id": 2,
+          "mem": {
+            "startAddr": "0x0",
+            "size": "0x0"
+          },
+          "isChecked": false,
+          "isStartup": false
+        }
+      ]
+    },
+    "options": "null"
+  },
+  "uploader": "JLink",
+  "srcDirs": [
+    "./.eide/deps"
+  ],
+  "virtualFolder": {
+    "name": "<virtual_root>",
+    "files": [],
+    "folders": [
+      {
+        "name": "API",
+        "files": [
+          {
+            "path": "../MCU_Cloud_LIB/API_Magic/Agreement_Hanlde.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/API/API.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/API/Check_CRC16.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/API/DATA_Handle.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/API/Time_Handle.c"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "Base",
+        "files": [
+          {
+            "path": "../MCU_Cloud_LIB/Base/ADC.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/Base/Base.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/Base/DAC.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/Base/Data_Handle.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/Base/Encoder.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/Base/IIC.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/Base/PWM.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/Base/SPI.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/Base/stmflash.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/Base/Sys_Time.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/Base/uart.c"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "CMSIS",
+        "files": [
+          {
+            "path": "../CMSIS/core_cm3.c"
+          },
+          {
+            "path": "../CMSIS/system_stm32f10x.c"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "Mode",
+        "files": [
+          {
+            "path": "../MCU_Cloud_LIB/Mode/BZZ.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/Mode/Control_Mode.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/Mode/HC595.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/Mode/key.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/Mode/lcd.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/Mode/mlx90614.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/Mode/Mode.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/Mode/Motor.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/Mode/MP3.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/Mode/Steering_engine.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/Mode/Tracing.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/Mode/Ultrasonic.c"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "SDK",
+        "files": [
+          {
+            "path": "../SDK/src/misc.c"
+          },
+          {
+            "path": "../SDK/src/stm32f10x_adc.c"
+          },
+          {
+            "path": "../SDK/src/stm32f10x_bkp.c"
+          },
+          {
+            "path": "../SDK/src/stm32f10x_can.c"
+          },
+          {
+            "path": "../SDK/src/stm32f10x_cec.c"
+          },
+          {
+            "path": "../SDK/src/stm32f10x_crc.c"
+          },
+          {
+            "path": "../SDK/src/stm32f10x_dac.c"
+          },
+          {
+            "path": "../SDK/src/stm32f10x_dbgmcu.c"
+          },
+          {
+            "path": "../SDK/src/stm32f10x_dma.c"
+          },
+          {
+            "path": "../SDK/src/stm32f10x_exti.c"
+          },
+          {
+            "path": "../SDK/src/stm32f10x_flash.c"
+          },
+          {
+            "path": "../SDK/src/stm32f10x_fsmc.c"
+          },
+          {
+            "path": "../SDK/src/stm32f10x_gpio.c"
+          },
+          {
+            "path": "../SDK/src/stm32f10x_i2c.c"
+          },
+          {
+            "path": "../SDK/src/stm32f10x_iwdg.c"
+          },
+          {
+            "path": "../SDK/src/stm32f10x_pwr.c"
+          },
+          {
+            "path": "../SDK/src/stm32f10x_rcc.c"
+          },
+          {
+            "path": "../SDK/src/stm32f10x_rtc.c"
+          },
+          {
+            "path": "../SDK/src/stm32f10x_sdio.c"
+          },
+          {
+            "path": "../SDK/src/stm32f10x_spi.c"
+          },
+          {
+            "path": "../SDK/src/stm32f10x_tim.c"
+          },
+          {
+            "path": "../SDK/src/stm32f10x_usart.c"
+          },
+          {
+            "path": "../SDK/src/stm32f10x_wwdg.c"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "Startup",
+        "files": [
+          {
+            "path": "../Startup/startup_stm32f10x_hd.s"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "User",
+        "files": [
+          {
+            "path": "stm32f10x_it.c"
+          },
+          {
+            "path": "main.c"
+          }
+        ],
+        "folders": []
+      }
+    ]
+  },
+  "excludeList": [],
+  "outDir": "build",
+  "deviceName": null,
+  "packDir": null,
+  "uploadConfig": {
+    "bin": "",
+    "baseAddr": "0x08000000",
+    "cpuInfo": {
+      "vendor": "ST",
+      "cpuName": "STM32F103C8"
+    },
+    "proType": 1,
+    "speed": 8000,
+    "otherCmds": ""
+  },
+  "uploadConfigMap": {},
+  "miscInfo": {
+    "uid": "2eea02521816c10504017d81dc9aaa45"
+  },
+  "targets": {
+    "M3-Caven": {
+      "compileConfig": {
+        "cpuType": "Cortex-M3",
+        "floatingPointHardware": "none",
+        "useCustomScatterFile": false,
+        "scatterFilePath": "undefined",
+        "storageLayout": {
+          "RAM": [
+            {
+              "tag": "RAM",
+              "id": 1,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "noInit": false
+            },
+            {
+              "tag": "RAM",
+              "id": 2,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "noInit": false
+            },
+            {
+              "tag": "RAM",
+              "id": 3,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "noInit": false
+            },
+            {
+              "tag": "IRAM",
+              "id": 1,
+              "mem": {
+                "startAddr": "0x20000000",
+                "size": "0xc000"
+              },
+              "isChecked": true,
+              "noInit": false
+            },
+            {
+              "tag": "IRAM",
+              "id": 2,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "noInit": false
+            }
+          ],
+          "ROM": [
+            {
+              "tag": "ROM",
+              "id": 1,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "isStartup": false
+            },
+            {
+              "tag": "ROM",
+              "id": 2,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "isStartup": false
+            },
+            {
+              "tag": "ROM",
+              "id": 3,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "isStartup": false
+            },
+            {
+              "tag": "IROM",
+              "id": 1,
+              "mem": {
+                "startAddr": "0x8000000",
+                "size": "0x40000"
+              },
+              "isChecked": true,
+              "isStartup": true
+            },
+            {
+              "tag": "IROM",
+              "id": 2,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "isStartup": false
+            }
+          ]
+        },
+        "options": "null"
+      },
+      "uploader": "JLink",
+      "uploadConfig": {
+        "bin": "",
+        "baseAddr": "0x08000000",
+        "cpuInfo": {
+          "vendor": "ST",
+          "cpuName": "STM32F103C8"
+        },
+        "proType": 1,
+        "speed": 8000,
+        "otherCmds": ""
+      },
+      "uploadConfigMap": {},
+      "toolchain": "AC5",
+      "custom_dep": {
+        "name": "default",
+        "sourceDirList": [],
+        "libList": [],
+        "incList": [
+          ".",
+          "../CMSIS",
+          "../Startup",
+          "../SDK/inc",
+          "../SDK/src",
+          "../MCU_Cloud_LIB/API",
+          "../MCU_Cloud_LIB/Base",
+          "../MCU_Cloud_LIB/Mode",
+          "../MCU_Cloud_LIB/API_Magic",
+          ".cmsis/dsp_lib",
+          ".cmsis/include",
+          "RTE/_M3-Caven"
+        ],
+        "defineList": [
+          "STM32F10X_HD",
+          "USE_STDPERIPH_DRIVER",
+          "Cavendish",
+          "GD"
+        ]
+      },
+      "excludeList": []
+    }
+  },
+  "version": "3.1"
+}
