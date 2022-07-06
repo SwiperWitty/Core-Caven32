@@ -4,7 +4,7 @@
 
 Caven 3.14的硬件和Caven 3.0 **不完全一样**，是一个更大的进化，板载硬件DAP-Link和TTL串口（可以Debug和串口打印数据），此外3.14系列主时钟设置（ST-F1 72M、GD-F1 96M）。
 
-只需要一根Type-c和一台电脑即可开发 [Caven 3.14](https://github.com/SwiperWitty/Core-STM32/tree/main/Caven-V3.14-M3)！
+只需要一根Type-c和一台电脑即可开发 [Caven 3.14](https://github.com/SwiperWitty/Core-Caven32) ！
 
 本设计仅供于学习、参考，不可商用和水毕业论文（参与开发者随意）！
 
