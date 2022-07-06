@@ -1816,10 +1816,10 @@ Image Symbol Table
     .bss                                     0x20000950   Section     6080  uart.o(.bss)
     .bss                                     0x20002110   Section       32  lcd.o(.bss)
     .bss                                     0x20002130   Section       32  mode.o(.bss)
-    .bss                                     0x20002150   Section       32  api.o(.bss)
-    .bss                                     0x20002170   Section       32  agreement_hanlde.o(.bss)
-    temp_sou                                 0x20002170   Data          32  agreement_hanlde.o(.bss)
-    .bss                                     0x20002190   Section       96  libspace.o(.bss)
+    .bss                                     0x20002150   Section       28  api.o(.bss)
+    .bss                                     0x2000216c   Section       32  agreement_hanlde.o(.bss)
+    temp_sou                                 0x2000216c   Data          32  agreement_hanlde.o(.bss)
+    .bss                                     0x2000218c   Section       96  libspace.o(.bss)
     HEAP                                     0x200021f0   Section      512  startup_stm32f10x_hd.o(HEAP)
     Heap_Mem                                 0x200021f0   Data         512  startup_stm32f10x_hd.o(HEAP)
     STACK                                    0x200023f0   Section     1024  startup_stm32f10x_hd.o(STACK)
@@ -2219,9 +2219,9 @@ Image Symbol Table
     CV_UART                                  0x20000950   Data        6080  uart.o(.bss)
     LCD                                      0x20002110   Data          32  lcd.o(.bss)
     Mode_User                                0x20002130   Data          32  mode.o(.bss)
-    API                                      0x20002150   Data          32  api.o(.bss)
-    __libspace_start                         0x20002190   Data          96  libspace.o(.bss)
-    __temporary_stack_top$libspace           0x200021f0   Data           0  libspace.o(.bss)
+    API                                      0x20002150   Data          28  api.o(.bss)
+    __libspace_start                         0x2000218c   Data          96  libspace.o(.bss)
+    __temporary_stack_top$libspace           0x200021ec   Data           0  libspace.o(.bss)
 
 
 
@@ -2526,9 +2526,10 @@ Memory Map of the image
     0x20000950        -       0x000017c0   Zero   RW           78    .bss                uart.o
     0x20002110        -       0x00000020   Zero   RW          106    .bss                lcd.o
     0x20002130        -       0x00000020   Zero   RW          115    .bss                mode.o
-    0x20002150        -       0x00000020   Zero   RW          132    .bss                api.o
-    0x20002170        -       0x00000020   Zero   RW          139    .bss                agreement_hanlde.o
-    0x20002190        -       0x00000060   Zero   RW          740    .bss                c_w.l(libspace.o)
+    0x20002150        -       0x0000001c   Zero   RW          132    .bss                api.o
+    0x2000216c        -       0x00000020   Zero   RW          139    .bss                agreement_hanlde.o
+    0x2000218c        -       0x00000060   Zero   RW          740    .bss                c_w.l(libspace.o)
+    0x200021ec   COMPRESSED   0x00000004   PAD
     0x200021f0        -       0x00000200   Zero   RW          626    HEAP                startup_stm32f10x_hd.o
     0x200023f0        -       0x00000400   Zero   RW          625    STACK               startup_stm32f10x_hd.o
 
@@ -2542,7 +2543,7 @@ Image component sizes
 
        468         50          0          8          0          0   adc.o
       1766        316         13       1072         32          0   agreement_hanlde.o
-        72         34          0          0         32          0   api.o
+        72         34          0          0         28          0   api.o
        224        104          0          0        112          0   base.o
        116         10          0          0          0          0   bzz.o
         60          4        512          0          0          0   check_crc16.o
@@ -2573,7 +2574,7 @@ Image component sizes
       1244         72          0          0       6080          0   uart.o
 
     ----------------------------------------------------------------------
-     13878       1468      21273       1184       8944          0   Object Totals
+     13878       1468      21273       1184       8940          0   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         30          0          0          3          2          0   (incl. Padding)
 
@@ -2640,8 +2641,8 @@ Image component sizes
          0          0          0          0          0          0   usenofp.o
 
     ----------------------------------------------------------------------
-      5162        324         43          0         96          0   Library Totals
-        20          0          3          0          0          0   (incl. Padding)
+      5162        324         43          0        100          0   Library Totals
+        20          0          3          0          4          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
@@ -2651,7 +2652,7 @@ Image component sizes
       3482        276          0          0          0          0   fz_ws.l
 
     ----------------------------------------------------------------------
-      5162        324         43          0         96          0   Library Totals
+      5162        324         43          0        100          0   Library Totals
 
     ----------------------------------------------------------------------
 

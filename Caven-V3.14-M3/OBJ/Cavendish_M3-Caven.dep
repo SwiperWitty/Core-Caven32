@@ -86,7 +86,7 @@ I (..\MCU_Cloud_LIB\Mode\mlx90614.h)(0x62C53A98)
 I (..\MCU_Cloud_LIB\API\API.h)(0x62C53A98)
 I (..\MCU_Cloud_LIB\API\Check_CRC16.h)(0x62C53A98)
 I (..\MCU_Cloud_LIB\API\Time_Handle.h)(0x62C53A98)
-I (..\MCU_Cloud_LIB\API_Magic\Agreement_Hanlde.h)(0x62C53DEF)
+I (..\MCU_Cloud_LIB\API_Magic\Agreement_Hanlde.h)(0x62C54788)
 I (..\MCU_Cloud_LIB\API\DATA_Handle.h)(0x62C53A98)
 I (..\MCU_Cloud_LIB\Mode\pic.h)(0x62C53A98)
 F (..\MCU_Cloud_LIB\Base\ADC.c)(0x62C53A98)(--c99 -c --cpu Cortex-M3 -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Startup -I ..\SDK\inc -I ..\SDK\src -I ..\MCU_Cloud_LIB\API -I ..\MCU_Cloud_LIB\Base -I ..\MCU_Cloud_LIB\Mode -I ..\MCU_Cloud_LIB\API_Magic-ID:\MDK\GigaDevice\GD32F10x_DFP\2.0.1\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DGD32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DCavendish -DGD-o ..\obj\adc.o --omf_browse ..\obj\adc.crf --depend ..\obj\adc.d)
@@ -893,7 +893,7 @@ I (D:\MDK\ARM\ARMCC\include\stdio.h)(0x5F63877C)
 I (D:\MDK\ARM\ARMCC\include\stdlib.h)(0x5F63877C)
 I (D:\MDK\ARM\ARMCC\include\string.h)(0x5F63878A)
 I (..\MCU_Cloud_LIB\API\Time_Handle.h)(0x62C53A98)
-I (..\MCU_Cloud_LIB\API_Magic\Agreement_Hanlde.h)(0x62C53DEF)
+I (..\MCU_Cloud_LIB\API_Magic\Agreement_Hanlde.h)(0x62C54788)
 I (..\MCU_Cloud_LIB\API\DATA_Handle.h)(0x62C53A98)
 F (..\MCU_Cloud_LIB\API\Check_CRC16.c)(0x62C53A98)(--c99 -c --cpu Cortex-M3 -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Startup -I ..\SDK\inc -I ..\SDK\src -I ..\MCU_Cloud_LIB\API -I ..\MCU_Cloud_LIB\Base -I ..\MCU_Cloud_LIB\Mode -I ..\MCU_Cloud_LIB\API_Magic-ID:\MDK\GigaDevice\GD32F10x_DFP\2.0.1\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DGD32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DCavendish -DGD-o ..\obj\check_crc16.o --omf_browse ..\obj\check_crc16.crf --depend ..\obj\check_crc16.d)
 I (..\MCU_Cloud_LIB\API\Check_CRC16.h)(0x62C53A98)
@@ -902,7 +902,7 @@ I (D:\MDK\ARM\ARMCC\include\stdio.h)(0x5F63877C)
 I (D:\MDK\ARM\ARMCC\include\stdlib.h)(0x5F63877C)
 I (D:\MDK\ARM\ARMCC\include\string.h)(0x5F63878A)
 F (..\MCU_Cloud_LIB\API_Magic\Agreement_Hanlde.c)(0x62C53F00)(--c99 -c --cpu Cortex-M3 -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Startup -I ..\SDK\inc -I ..\SDK\src -I ..\MCU_Cloud_LIB\API -I ..\MCU_Cloud_LIB\Base -I ..\MCU_Cloud_LIB\Mode -I ..\MCU_Cloud_LIB\API_Magic-ID:\MDK\GigaDevice\GD32F10x_DFP\2.0.1\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DGD32F10X_HD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER -DCavendish -DGD-o ..\obj\agreement_hanlde.o --omf_browse ..\obj\agreement_hanlde.crf --depend ..\obj\agreement_hanlde.d)
-I (..\MCU_Cloud_LIB\API_Magic\Agreement_Hanlde.h)(0x62C53DEF)
+I (..\MCU_Cloud_LIB\API_Magic\Agreement_Hanlde.h)(0x62C54788)
 I (..\MCU_Cloud_LIB\API\DATA_Handle.h)(0x62C53A98)
 I (..\MCU_Cloud_LIB\API\Caven.h)(0x62C53A98)
 I (D:\MDK\ARM\ARMCC\include\stdio.h)(0x5F63877C)
