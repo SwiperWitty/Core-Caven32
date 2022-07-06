@@ -7,3 +7,6 @@
 [submodule "Caven-V3.14-M3 - 小白纯净版/MCU_Cloud_LIB"]
 	path = Caven-V3.14-M3 - 小白纯净版/MCU_Cloud_LIB
 	url = git@github.com:SwiperWitty/MCU_Cloud_LIB.git
+[submodule "Caven-V3.14-M3/MCU_Cloud_LIB"]
+	path = Caven-V3.14-M3/MCU_Cloud_LIB
+	url = git@github.com:SwiperWitty/MCU_Cloud_LIB.git
