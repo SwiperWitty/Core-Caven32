@@ -54,5 +54,6 @@
 ..\obj\main.o: ..\MCU_Cloud_LIB\Mode\mlx90614.h
 ..\obj\main.o: ..\MCU_Cloud_LIB\API\API.h
 ..\obj\main.o: ..\MCU_Cloud_LIB\API\Check_CRC16.h
-..\obj\main.o: ..\MCU_Cloud_LIB\API\DATA.h
+..\obj\main.o: ..\MCU_Cloud_LIB\API\Time_Handle.h
+..\obj\main.o: ..\MCU_Cloud_LIB\API\DATA_Handle.h
 ..\obj\main.o: ..\MCU_Cloud_LIB\Mode\pic.h

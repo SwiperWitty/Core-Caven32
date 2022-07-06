@@ -534,9 +534,14 @@
               <FilePath>..\MCU_Cloud_LIB\API\Check_CRC16.c</FilePath>
             </File>
             <File>
-              <FileName>DATA.c</FileName>
+              <FileName>DATA_Handle.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\MCU_Cloud_LIB\API\DATA.c</FilePath>
+              <FilePath>..\MCU_Cloud_LIB\API\DATA_Handle.c</FilePath>
+            </File>
+            <File>
+              <FileName>Time_Handle.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MCU_Cloud_LIB\API\Time_Handle.c</FilePath>
             </File>
           </Files>
         </Group>

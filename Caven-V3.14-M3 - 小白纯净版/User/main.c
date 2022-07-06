@@ -31,7 +31,7 @@ int main(void)
     };
 	while (1)
 	{
-        API.DATA_Time.Over_Time(&Debug_OVTime);
+        API.Time.Over_Time(&Debug_OVTime);
         if (Debug_OVTime.Flag) {
             sprintf(Free_Show,"-- Time: %d:%d:%d - %d --\r\n",SYS_Time.Watch.hour,SYS_Time.Watch.minutes,SYS_Time.Watch.second,SYS_Time.Watch.time_num);
             Base_User.UART.Send_String(USART3,Free_Show);
