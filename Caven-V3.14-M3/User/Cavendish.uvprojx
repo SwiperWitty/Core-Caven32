@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_HD,USE_STDPERIPH_DRIVER,Cavendish,GD</Define>
               <Undefine></Undefine>
-              <IncludePath>..\User;..\CMSIS;..\Startup;..\SDK\inc;..\SDK\src;..\MCU_Cloud_LIB\API;..\MCU_Cloud_LIB\Base;..\MCU_Cloud_LIB\Mode</IncludePath>
+              <IncludePath>..\User;..\CMSIS;..\Startup;..\SDK\inc;..\SDK\src;..\MCU_Cloud_LIB\API;..\MCU_Cloud_LIB\Base;..\MCU_Cloud_LIB\Mode;..\MCU_Cloud_LIB\API_Magic</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -537,6 +537,11 @@
               <FileName>DATA.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\MCU_Cloud_LIB\API\DATA.c</FilePath>
+            </File>
+            <File>
+              <FileName>Agreement_Hanlde.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MCU_Cloud_LIB\API_Magic\Agreement_Hanlde.c</FilePath>
             </File>
           </Files>
         </Group>

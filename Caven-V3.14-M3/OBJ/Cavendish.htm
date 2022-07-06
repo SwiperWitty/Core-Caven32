@@ -3,7 +3,7 @@
 <title>Static Call Graph - [..\OBJ\Cavendish.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image ..\OBJ\Cavendish.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue Jul 05 23:22:14 2022
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Wed Jul 06 09:20:16 2022
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -438,6 +438,10 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset
 </UL>
 
+<P><STRONG><a name="[8d]"></a>_memset_w</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, rt_memclr_w.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_memclr
+</UL>
+
 <P><STRONG><a name="[86]"></a>_printf_int_common</STRONG> (Thumb, 178 bytes, Stack size 0 bytes, _printf_intcommon.o(.text))
 <BR><BR>[Calls]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_post_padding
 <LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_pre_padding
@@ -456,10 +460,6 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> noretval__2sprintf.o(.text)
 </UL>
-<P><STRONG><a name="[8d]"></a>_memset_w</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, rt_memclr_w.o(.text), UNUSED)
-<BR><BR>[Called By]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_memclr
-</UL>
-
 <P><STRONG><a name="[90]"></a>__user_perproc_libspace</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, libspace.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_setup_stackheap
 </UL>
@@ -1021,22 +1021,22 @@ Global Symbols
 <P><STRONG><a name="[5e]"></a>SPIs_Write_And_Read_Byte</STRONG> (Thumb, 154 bytes, Stack size 0 bytes, spi.o(i.SPIs_Write_And_Read_Byte))
 <BR><BR>[Calls]<UL><LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Delay_10us
 </UL>
-<BR>[Address Reference Count : 2]<UL><LI> base.o(i.Base_User_index)
-<LI> spi.o(i.SPI_Software_Init)
+<BR>[Address Reference Count : 2]<UL><LI> spi.o(i.SPI_Software_Init)
+<LI> base.o(i.Base_User_index)
 </UL>
 <P><STRONG><a name="[65]"></a>STMFLASH_Read</STRONG> (Thumb, 34 bytes, Stack size 0 bytes, stmflash.o(i.STMFLASH_Read))
 <BR><BR>[Calls]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;STMFLASH_ReadHalfWord
 </UL>
 <BR>[Called By]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;STMFLASH_Write
 </UL>
-<BR>[Address Reference Count : 2]<UL><LI> base.o(i.Base_User_index)
-<LI> stmflash.o(i.Flash_Init)
+<BR>[Address Reference Count : 2]<UL><LI> stmflash.o(i.Flash_Init)
+<LI> base.o(i.Base_User_index)
 </UL>
 <P><STRONG><a name="[66]"></a>STMFLASH_ReadHalfWord</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stmflash.o(i.STMFLASH_ReadHalfWord))
 <BR><BR>[Called By]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;STMFLASH_Read
 </UL>
-<BR>[Address Reference Count : 2]<UL><LI> base.o(i.Base_User_index)
-<LI> stmflash.o(i.Flash_Init)
+<BR>[Address Reference Count : 2]<UL><LI> stmflash.o(i.Flash_Init)
+<LI> base.o(i.Base_User_index)
 </UL>
 <P><STRONG><a name="[67]"></a>STMFLASH_Write</STRONG> (Thumb, 222 bytes, Stack size 0 bytes, stmflash.o(i.STMFLASH_Write))
 <BR><BR>[Calls]<UL><LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FLASH_Unlock
@@ -1047,8 +1047,8 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Test_Write
 </UL>
-<BR>[Address Reference Count : 2]<UL><LI> base.o(i.Base_User_index)
-<LI> stmflash.o(i.Flash_Init)
+<BR>[Address Reference Count : 2]<UL><LI> stmflash.o(i.Flash_Init)
+<LI> base.o(i.Base_User_index)
 </UL>
 <P><STRONG><a name="[d0]"></a>STMFLASH_Write_NoCheck</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, stmflash.o(i.STMFLASH_Write_NoCheck))
 <BR><BR>[Calls]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FLASH_ProgramHalfWord
@@ -1196,8 +1196,8 @@ Global Symbols
 <P><STRONG><a name="[68]"></a>Test_Write</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, stmflash.o(i.Test_Write))
 <BR><BR>[Calls]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;STMFLASH_Write
 </UL>
-<BR>[Address Reference Count : 2]<UL><LI> base.o(i.Base_User_index)
-<LI> stmflash.o(i.Flash_Init)
+<BR>[Address Reference Count : 2]<UL><LI> stmflash.o(i.Flash_Init)
+<LI> base.o(i.Base_User_index)
 </UL>
 <P><STRONG><a name="[42]"></a>UART4_IRQHandler</STRONG> (Thumb, 42 bytes, Stack size 0 bytes, uart.o(i.UART4_IRQHandler))
 <BR><BR>[Calls]<UL><LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ReceiveData
