@@ -31,12 +31,14 @@
 ..\obj\base.o: ..\SDK\inc\stm32f10x_wwdg.h
 ..\obj\base.o: ..\SDK\inc\misc.h
 ..\obj\base.o: ..\MCU_Cloud_LIB\Base\sys_time.h
+..\obj\base.o: ..\MCU_Cloud_LIB\Base\uart.h
+..\obj\base.o: ..\MCU_Cloud_LIB\Base\spi.h
+..\obj\base.o: ..\MCU_Cloud_LIB\Mode\time.h
+..\obj\base.o: ..\MCU_Cloud_LIB\Base\base.h
 ..\obj\base.o: ..\MCU_Cloud_LIB\API\Caven.h
 ..\obj\base.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
 ..\obj\base.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\base.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h
-..\obj\base.o: ..\MCU_Cloud_LIB\Base\uart.h
-..\obj\base.o: ..\MCU_Cloud_LIB\Base\spi.h
 ..\obj\base.o: ..\MCU_Cloud_LIB\Base\dac.h
 ..\obj\base.o: ..\MCU_Cloud_LIB\Base\adc.h
 ..\obj\base.o: ..\MCU_Cloud_LIB\Base\encoder.h

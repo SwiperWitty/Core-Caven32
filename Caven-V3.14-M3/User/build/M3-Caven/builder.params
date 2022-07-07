@@ -22,10 +22,7 @@
         "../MCU_Cloud_LIB/Base",
         "../MCU_Cloud_LIB/Mode",
         "../MCU_Cloud_LIB/API_Magic",
-        ".cmsis/dsp_lib",
-        ".cmsis/include",
-        "RTE/_M3-Caven",
-        ".eide/deps"
+        "RTE/_M3-Caven"
     ],
     "libDirs": [],
     "defines": [
@@ -93,7 +90,7 @@
         "stm32f10x_it.c"
     ],
     "sourceParams": {},
-    "sourceParamsMtime": 1657087087956.4407,
+    "sourceParamsMtime": 1657092326171.901,
     "options": {
         "version": 4,
         "beforeBuildTasks": [],

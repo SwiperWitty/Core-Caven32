@@ -1,6 +1,8 @@
 ..\obj\mp3.o: ..\MCU_Cloud_LIB\Mode\MP3.c
 ..\obj\mp3.o: ..\MCU_Cloud_LIB\Mode\MP3.h
-..\obj\mp3.o: ..\MCU_Cloud_LIB\Base\uart.h
+..\obj\mp3.o: ..\MCU_Cloud_LIB\Mode\uart_handle.h
+..\obj\mp3.o: ..\MCU_Cloud_LIB\Base\base.h
+..\obj\mp3.o: ..\MCU_Cloud_LIB\Base\iic.h
 ..\obj\mp3.o: ..\CMSIS\stm32f10x.h
 ..\obj\mp3.o: ..\CMSIS\core_cm3.h
 ..\obj\mp3.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h
@@ -30,7 +32,17 @@
 ..\obj\mp3.o: ..\SDK\inc\stm32f10x_usart.h
 ..\obj\mp3.o: ..\SDK\inc\stm32f10x_wwdg.h
 ..\obj\mp3.o: ..\SDK\inc\misc.h
+..\obj\mp3.o: ..\MCU_Cloud_LIB\Base\sys_time.h
+..\obj\mp3.o: ..\MCU_Cloud_LIB\Base\uart.h
+..\obj\mp3.o: ..\MCU_Cloud_LIB\Base\spi.h
+..\obj\mp3.o: ..\MCU_Cloud_LIB\Mode\time.h
+..\obj\mp3.o: ..\MCU_Cloud_LIB\Base\base.h
 ..\obj\mp3.o: ..\MCU_Cloud_LIB\API\Caven.h
 ..\obj\mp3.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
 ..\obj\mp3.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\mp3.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h
+..\obj\mp3.o: ..\MCU_Cloud_LIB\Base\dac.h
+..\obj\mp3.o: ..\MCU_Cloud_LIB\Base\adc.h
+..\obj\mp3.o: ..\MCU_Cloud_LIB\Base\encoder.h
+..\obj\mp3.o: ..\MCU_Cloud_LIB\Base\PWM.h
+..\obj\mp3.o: ..\MCU_Cloud_LIB\Base\stmflash.h

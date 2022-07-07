@@ -30,7 +30,17 @@
 ..\obj\iic.o: ..\SDK\inc\stm32f10x_wwdg.h
 ..\obj\iic.o: ..\SDK\inc\misc.h
 ..\obj\iic.o: ..\MCU_Cloud_LIB\Base\sys_time.h
+..\obj\iic.o: ..\MCU_Cloud_LIB\Mode\time.h
+..\obj\iic.o: ..\MCU_Cloud_LIB\Base\base.h
+..\obj\iic.o: ..\MCU_Cloud_LIB\Base\uart.h
+..\obj\iic.o: ..\MCU_Cloud_LIB\Base\spi.h
+..\obj\iic.o: ..\MCU_Cloud_LIB\Mode\time.h
+..\obj\iic.o: ..\MCU_Cloud_LIB\Base\dac.h
+..\obj\iic.o: ..\MCU_Cloud_LIB\Base\adc.h
+..\obj\iic.o: ..\MCU_Cloud_LIB\Base\encoder.h
 ..\obj\iic.o: ..\MCU_Cloud_LIB\API\Caven.h
 ..\obj\iic.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
 ..\obj\iic.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\iic.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h
+..\obj\iic.o: ..\MCU_Cloud_LIB\Base\PWM.h
+..\obj\iic.o: ..\MCU_Cloud_LIB\Base\stmflash.h

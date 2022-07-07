@@ -11,7 +11,6 @@
     #endif
 #endif
 
-//  未完成  ！！！！ //
 //要写入到STM32 FLASH的字符串数组
 #define SIZE sizeof(Free_Array)	   //数组长度
 #define FLASH_SAVE_ADDR 0X08012000 // FLASH_SAVE_ADDR >= 本代码所占用FLASH的大小(16进制) + 0X08000000 + 0X800)
@@ -34,7 +33,7 @@ int main(void)
         API.Time.Over_Time(&Debug_OVTime);
         if (Debug_OVTime.Flag) {
             sprintf(Free_Show,"-- Time: %d:%d:%d - %d --\r\n",SYS_Time.Watch.hour,SYS_Time.Watch.minutes,SYS_Time.Watch.second,SYS_Time.Watch.time_num);
-            Base_User.UART.Send_String(USART3,Free_Show);
+            UART_Send_String(3,Free_Show);
         }
 		sprintf(Free_Show,"-> TIME: %2d:%2d:%2d S  ",SYS_Time.Watch.hour,SYS_Time.Watch.minutes,SYS_Time.Watch.second);
 		Mode_User.LCD.Show_String(0, 3, Free_Show, GBLUE, BLACK, 16);
@@ -43,7 +42,7 @@ int main(void)
 		if(abd == 0)
 		{
 			BZZ_Control (BZZ_ON);
-			Base_User.UART.Send_String(USART3,"KEY -L !\r\n");
+			UART_Send_String(3,"KEY -L !\r\n");
 			Mode_User.LCD.Show_String(21, 3, "0 ", GBLUE, BLACK, 16);
 		}
 		else
@@ -64,8 +63,10 @@ void Mian_Init(void)
 	Base_Init.SYS_Time_Init(ENABLE);
 	Base_Init.Uart(3, 115200, ENABLE);
 	Base_Init.ADC_x_Init(MCU_Temp, ENABLE);
-	Mode_Init.LCD_Init(ENABLE);
+	Mode_Init.LCD(ENABLE);
 	Mode_User.LCD.Show_Picture(180, 0, 60, 60, gImage_am_60);
+    
+    Uart_Init(3, 115200, ENABLE);
 
 	if (MCU)
 		Mode_User.LCD.Show_String(22, 0, "ST", BLUE, BLACK, 16);
@@ -77,9 +78,8 @@ void Mian_Init(void)
 	Mode_User.LCD.Show_String(0, 2, "-> MCU : 26.10 C ", BLUE, BLACK, 16);
 	Mode_User.LCD.Show_String(0, 3, "-> TIME: 00:00:00 S ", GBLUE, BLACK, 16);
 	Mode_User.LCD.Show_String(2, 4, Free_Show, WHITE, BLACK, 16);
-
+    Mode_User.Delay.Delay_10us(10);
 	KEY_Init(ENABLE);
 	BZZ_Init(ENABLE);
-	Base_User.Delay.Delay_ms(10);
-	Base_User.UART.Send_String(USART3, "{Ready !}\r\n");
+    
 }

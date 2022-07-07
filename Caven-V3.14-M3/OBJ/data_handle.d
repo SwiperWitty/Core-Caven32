@@ -32,5 +32,3 @@
 ..\obj\data_handle.o: ..\SDK\inc\stm32f10x_usart.h
 ..\obj\data_handle.o: ..\SDK\inc\stm32f10x_wwdg.h
 ..\obj\data_handle.o: ..\SDK\inc\misc.h
-..\obj\data_handle.o: ..\MCU_Cloud_LIB\API\Caven.h
-..\obj\data_handle.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h

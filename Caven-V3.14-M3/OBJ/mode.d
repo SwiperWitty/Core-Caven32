@@ -46,3 +46,12 @@
 ..\obj\mode.o: ..\MCU_Cloud_LIB\Mode\Ultrasonic.h
 ..\obj\mode.o: ..\MCU_Cloud_LIB\Mode\mlx90614.h
 ..\obj\mode.o: ..\MCU_Cloud_LIB\Base\IIC.h
+..\obj\mode.o: ..\MCU_Cloud_LIB\Mode\time.h
+..\obj\mode.o: ..\MCU_Cloud_LIB\Base\base.h
+..\obj\mode.o: ..\MCU_Cloud_LIB\Base\uart.h
+..\obj\mode.o: ..\MCU_Cloud_LIB\Base\spi.h
+..\obj\mode.o: ..\MCU_Cloud_LIB\Mode\time.h
+..\obj\mode.o: ..\MCU_Cloud_LIB\Base\dac.h
+..\obj\mode.o: ..\MCU_Cloud_LIB\Base\adc.h
+..\obj\mode.o: ..\MCU_Cloud_LIB\Base\stmflash.h
+..\obj\mode.o: ..\MCU_Cloud_LIB\Mode\uart_handle.h

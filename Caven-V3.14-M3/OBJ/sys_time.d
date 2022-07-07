@@ -29,7 +29,3 @@
 ..\obj\sys_time.o: ..\SDK\inc\stm32f10x_usart.h
 ..\obj\sys_time.o: ..\SDK\inc\stm32f10x_wwdg.h
 ..\obj\sys_time.o: ..\SDK\inc\misc.h
-..\obj\sys_time.o: ..\MCU_Cloud_LIB\API\Caven.h
-..\obj\sys_time.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
-..\obj\sys_time.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
-..\obj\sys_time.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h

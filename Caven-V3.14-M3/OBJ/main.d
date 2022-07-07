@@ -31,12 +31,14 @@
 ..\obj\main.o: ..\SDK\inc\stm32f10x_wwdg.h
 ..\obj\main.o: ..\SDK\inc\misc.h
 ..\obj\main.o: ..\MCU_Cloud_LIB\Base\sys_time.h
+..\obj\main.o: ..\MCU_Cloud_LIB\Base\uart.h
+..\obj\main.o: ..\MCU_Cloud_LIB\Base\spi.h
+..\obj\main.o: ..\MCU_Cloud_LIB\Mode\time.h
+..\obj\main.o: ..\MCU_Cloud_LIB\Base\base.h
 ..\obj\main.o: ..\MCU_Cloud_LIB\API\Caven.h
 ..\obj\main.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
 ..\obj\main.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\main.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h
-..\obj\main.o: ..\MCU_Cloud_LIB\Base\uart.h
-..\obj\main.o: ..\MCU_Cloud_LIB\Base\spi.h
 ..\obj\main.o: ..\MCU_Cloud_LIB\Base\dac.h
 ..\obj\main.o: ..\MCU_Cloud_LIB\Base\adc.h
 ..\obj\main.o: ..\MCU_Cloud_LIB\Base\encoder.h
@@ -52,6 +54,7 @@
 ..\obj\main.o: ..\MCU_Cloud_LIB\Mode\Tracing.h
 ..\obj\main.o: ..\MCU_Cloud_LIB\Mode\Ultrasonic.h
 ..\obj\main.o: ..\MCU_Cloud_LIB\Mode\mlx90614.h
+..\obj\main.o: ..\MCU_Cloud_LIB\Mode\uart_handle.h
 ..\obj\main.o: ..\MCU_Cloud_LIB\API\API.h
 ..\obj\main.o: ..\MCU_Cloud_LIB\API\Check_CRC16.h
 ..\obj\main.o: ..\MCU_Cloud_LIB\API\Time_Handle.h

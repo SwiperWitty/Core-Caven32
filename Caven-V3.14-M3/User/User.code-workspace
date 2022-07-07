@@ -5,39 +5,11 @@
         }
     ],
     "settings": {
-        "files.autoGuessEncoding": true,
-        "C_Cpp.default.configurationProvider": "cl.eide",
-        "C_Cpp.errorSquiggles": "Disabled",
         "files.associations": {
-            ".eideignore": "ignore",
-            "*.h": "c",
-            "*.c": "c",
-            "*.hxx": "cpp",
-            "*.hpp": "cpp",
-            "*.c++": "cpp",
-            "*.cpp": "cpp",
-            "*.cxx": "cpp",
-            "*.cc": "cpp"
-        },
-        "[yaml]": {
-            "editor.insertSpaces": true,
-            "editor.tabSize": 4,
-            "editor.autoIndent": "advanced"
+            "uart_handle.h": "c"
         }
     },
-    "extensions": {
-        "recommendations": [
-            "cl.eide",
-            "keroc.hex-fmt",
-            "xiaoyongdong.srecord",
-            "hars.cppsnippets",
-            "zixuanwang.linkerscript",
-            "redhat.vscode-yaml",
-            "dan-c-underwood.arm",
-            "zixuanwang.linkerscript",
-            "marus25.cortex-debug"
-        ]
-    },
+    "extensions": {},
     "launch": {
         "configurations": [],
         "compounds": []

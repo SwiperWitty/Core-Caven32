@@ -31,7 +31,3 @@
 ..\obj\mlx90614.o: ..\SDK\inc\misc.h
 ..\obj\mlx90614.o: ..\MCU_Cloud_LIB\Base\IIC.h
 ..\obj\mlx90614.o: ..\MCU_Cloud_LIB\Base\sys_time.h
-..\obj\mlx90614.o: ..\MCU_Cloud_LIB\API\Caven.h
-..\obj\mlx90614.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
-..\obj\mlx90614.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
-..\obj\mlx90614.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h

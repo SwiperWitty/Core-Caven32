@@ -29,7 +29,3 @@
 ..\obj\uart.o: ..\SDK\inc\stm32f10x_usart.h
 ..\obj\uart.o: ..\SDK\inc\stm32f10x_wwdg.h
 ..\obj\uart.o: ..\SDK\inc\misc.h
-..\obj\uart.o: ..\MCU_Cloud_LIB\API\Caven.h
-..\obj\uart.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
-..\obj\uart.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
-..\obj\uart.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h

@@ -414,11 +414,6 @@
               <FilePath>..\MCU_Cloud_LIB\Base\DAC.c</FilePath>
             </File>
             <File>
-              <FileName>Data_Handle.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\MCU_Cloud_LIB\Base\Data_Handle.c</FilePath>
-            </File>
-            <File>
               <FileName>Encoder.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\MCU_Cloud_LIB\Base\Encoder.c</FilePath>
@@ -517,6 +512,16 @@
               <FileName>Ultrasonic.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\MCU_Cloud_LIB\Mode\Ultrasonic.c</FilePath>
+            </File>
+            <File>
+              <FileName>Time.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MCU_Cloud_LIB\Mode\Time.c</FilePath>
+            </File>
+            <File>
+              <FileName>UART_Handle.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MCU_Cloud_LIB\Mode\UART_Handle.c</FilePath>
             </File>
           </Files>
         </Group>

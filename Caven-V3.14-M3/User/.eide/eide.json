@@ -21,10 +21,7 @@
             "./../MCU_Cloud_LIB/Base",
             "./../MCU_Cloud_LIB/Mode",
             "./../MCU_Cloud_LIB/API_Magic",
-            "./.cmsis/dsp_lib",
-            "./.cmsis/include",
-            "./RTE/_M3-Caven",
-            "./.eide/deps"
+            "./RTE/_M3-Caven"
           ],
           "defineList": [
             "STM32F10X_HD",
@@ -150,9 +147,7 @@
     "options": "null"
   },
   "uploader": "JLink",
-  "srcDirs": [
-    "./.eide/deps"
-  ],
+  "srcDirs": [],
   "virtualFolder": {
     "name": "<virtual_root>",
     "files": [],
@@ -161,19 +156,19 @@
         "name": "API",
         "files": [
           {
-            "path": "../MCU_Cloud_LIB/API_Magic/Agreement_Hanlde.c"
-          },
-          {
             "path": "../MCU_Cloud_LIB/API/API.c"
           },
           {
             "path": "../MCU_Cloud_LIB/API/Check_CRC16.c"
           },
           {
-            "path": "../MCU_Cloud_LIB/API/DATA_Handle.c"
+            "path": "../MCU_Cloud_LIB/API_Magic/Agreement_Hanlde.c"
           },
           {
             "path": "../MCU_Cloud_LIB/API/Time_Handle.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/API/DATA_Handle.c"
           }
         ],
         "folders": []
@@ -189,9 +184,6 @@
           },
           {
             "path": "../MCU_Cloud_LIB/Base/DAC.c"
-          },
-          {
-            "path": "../MCU_Cloud_LIB/Base/Data_Handle.c"
           },
           {
             "path": "../MCU_Cloud_LIB/Base/Encoder.c"
@@ -263,7 +255,13 @@
             "path": "../MCU_Cloud_LIB/Mode/Steering_engine.c"
           },
           {
+            "path": "../MCU_Cloud_LIB/Mode/Time.c"
+          },
+          {
             "path": "../MCU_Cloud_LIB/Mode/Tracing.c"
+          },
+          {
+            "path": "../MCU_Cloud_LIB/Mode/UART_Handle.c"
           },
           {
             "path": "../MCU_Cloud_LIB/Mode/Ultrasonic.c"
@@ -531,8 +529,6 @@
           "../MCU_Cloud_LIB/Base",
           "../MCU_Cloud_LIB/Mode",
           "../MCU_Cloud_LIB/API_Magic",
-          ".cmsis/dsp_lib",
-          ".cmsis/include",
           "RTE/_M3-Caven"
         ],
         "defineList": [
