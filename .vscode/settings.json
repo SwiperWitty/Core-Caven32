@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "stm32f10x.h": "c",
+        "base.h": "c",
+        "time_handle.h": "c"
+    }
+}

@@ -1,0 +1,4 @@
+[submodule "Magic_API"]
+	path = Magic_API
+	url = git@github.com:SwiperWitty/Magic_API.git
+	branch = main

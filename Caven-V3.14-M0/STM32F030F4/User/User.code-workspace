@@ -1,0 +1,15 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "files.associations": {
+            "adc.h": "c",
+            "uart_handle.h": "c",
+            "stm32f0xx_adc.h": "c"
+        }
+    },
+    "extensions": {}
+}

@@ -1,0 +1,77 @@
+T0B28 000:203.188   SEGGER J-Link V6.86 Log File
+T0B28 000:214.641   DLL Compiled: Sep 24 2020 17:31:31
+T0B28 000:214.651   Logging started @ 2022-09-16 07:43
+T0B28 000:214.660 - 214.665ms
+T0B28 000:215.045 JLINK_SetWarnOutHandler(...)
+T0B28 000:215.429 - 0.388ms
+T0B28 000:215.440 JLINK_OpenEx(...)
+T0B28 000:224.066   Firmware: J-Link V9 compiled May  7 2021 16:26:12
+T0B28 000:234.725   Decompressing FW timestamp took 10089 us
+T0B28 000:242.519   Hardware: V9.50
+T0B28 000:242.559   S/N: 59525105
+T0B28 000:242.573   OEM: SEGGER
+T0B28 000:242.586   Feature(s): JFlash, GDB, RDI, FlashBP, FlashDL
+T0B28 000:245.093   TELNET listener socket opened on port 19021
+T0B28 000:245.202   WEBSRV Starting webserver
+T0B28 000:245.636   WEBSRV Webserver running on local port 19080
+T0B28 000:245.644 - 30.205ms returns "O.K."
+T0B28 000:245.881 JLINK_GetEmuCaps()
+T0B28 000:245.884 - 0.004ms returns 0xB9FF7BBF
+T0B28 000:246.115 JLINK_TIF_GetAvailable(...)
+T0B28 000:246.271 - 0.158ms
+T0B28 000:246.277 JLINK_SetErrorOutHandler(...)
+T0B28 000:246.279 - 0.004ms
+T0B28 000:246.632 JLINK_ExecCommand("ProjectFile = "E:\WORK\Core-Caven32\Caven-V3.14-M4\AT32F403ARE\User\JLinkSettings.ini"", ...). 
+T0B28 000:275.322 - 28.696ms returns 0x00
+T0B28 000:275.341 JLINK_ExecCommand("Device = -AT32F403ARET7", ...). 
+T0B28 000:275.482   Looking for J-Link GUI Server exe at: D:\MDK\ARM\Segger\JLinkGUIServer.exe
+T0B28 000:275.560   Looking for J-Link GUI Server exe at: C:\Program Files (x86)\SEGGER\JLink_V620h\\JLinkGUIServer.exe
+T0B28 000:576.024   Failed to connect to J-Link GUI Server.
+T0B28 049:549.215 - 0.250ms returns 0xFFFFFFFF
+T0B28 049:549.322 JLINK_GetHardwareVersion()
+T0B28 049:549.332 - 0.011ms returns 95000
+T0B28 049:549.380 JLINK_GetDLLVersion()
+T0B28 049:549.385 - 0.006ms returns 68600
+T0B28 049:549.392 JLINK_GetOEMString(...)
+T0B28 049:549.398 JLINK_GetFirmwareString(...)
+T0B28 049:549.403 - 0.006ms
+T0B28 049:549.410 JLINK_GetDLLVersion()
+T0B28 049:549.413 - 0.005ms returns 68600
+T0B28 049:549.417 JLINK_GetCompileDateTime()
+T0B28 049:549.420 - 0.004ms
+T0B28 049:549.428 JLINK_GetFirmwareString(...)
+T0B28 049:549.432 - 0.005ms
+T0B28 049:549.436 JLINK_GetHardwareVersion()
+T0B28 049:549.438 - 0.004ms returns 95000
+T0B28 049:549.443 JLINK_GetSN()
+T0B28 049:549.448 - 0.006ms returns 59525105
+T0B28 049:549.452 JLINK_GetOEMString(...)
+T0B28 049:549.459 JLINK_TIF_Select(JLINKARM_TIF_JTAG)
+T0B28 049:550.277 - 0.827ms returns 0x00
+T0B28 049:550.296 JLINK_HasError()
+T0B28 049:550.356 JLINK_SetSpeed(5000)
+T0B28 049:550.436 - 0.087ms
+T0B28 049:550.844 JLINK_HasError()
+T0B28 049:550.854 JLINK_SetResetType(JLINKARM_RESET_TYPE_NORMAL)
+T0B28 049:550.859 - 0.006ms returns JLINKARM_RESET_TYPE_NORMAL
+T0B28 049:550.864 JLINK_Reset()
+T0B28 049:551.048   
+  ***** Error: 
+T0B28 049:551.054   No CPU core or target device has been selected. Please make sure at least the core J-Link shall connect to, is selected.
+T0B28 049:551.058 - 0.195ms
+T0B28 049:551.075 JLINK_GetIdData(pIdData)
+T0B28 049:551.281   
+  ***** Error: 
+T0B28 049:551.288   No CPU core or target device has been selected. Please make sure at least the core J-Link shall connect to, is selected.
+T0B28 049:551.292 - 0.219ms
+T0B28 049:551.300 JLINK_GetIdData(pIdData)
+T0B28 049:551.425   
+  ***** Error: 
+T0B28 049:551.433   No CPU core or target device has been selected. Please make sure at least the core J-Link shall connect to, is selected.
+T0B28 049:551.437 - 0.139ms
+T0B28 049:555.196 JLINK_GetFirmwareString(...)
+T0B28 049:555.208 - 0.013ms
+T0B28 051:662.670 JLINK_Close()
+T0B28 051:673.296 - 10.634ms
+T0B28 051:673.307   
+T0B28 051:673.310   Closed

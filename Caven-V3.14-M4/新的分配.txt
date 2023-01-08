@@ -1,0 +1,37 @@
+UART2	2
+UART3	2
+
+SPI2	4()+1(DC)+1(NESS) = 6
+
+IIC2	2
+
+CAN	2
+
+SWD	2
+
+SEPT	2
+
+PWM	2*4 = 8
+ENCODE	4*2 = 8
+
+KEY	1
+BZZ	CAN(1)
+LED	CAN(2)
+
+
+
+ADC/DAC	2
+
+XTAL	4
+
+---------
+以上	41
+
+和51 - 41
+
+10个GPIO	--超声波（2__IO）	--循迹（5个输入）	--595（3输出）
+
+如果使用USB需占用 PA11(DM)、PA12（DP）
+
+问题1：
+LCD的RES是否需要和MCU的REST一起?

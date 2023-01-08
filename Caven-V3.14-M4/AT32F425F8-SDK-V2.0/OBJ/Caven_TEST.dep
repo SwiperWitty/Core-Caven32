@@ -1,0 +1,1289 @@
+Dependencies for Project 'Caven', Target 'TEST': (DO NOT MODIFY !)
+CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\ARMCC
+F (.\Main.c)(0x6387710C)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
+I (..\..\..\MCU_LIB-Cloud-\Mode\Mode.h)(0x63832DC8)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base.h)(0x6371077C)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\items.h)(0x638771A1)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+I (..\Config\at32f425_clock.h)(0x6381AF07)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_Exist_GPIO.h)(0x63711990)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_sys_time.h)(0x6370B2EB)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_UART.h)(0x63876D01)
+I (D:\MDK\ARM\ARMCC\include\stdio.h)(0x5F63877C)
+I (..\..\..\MCU_LIB-Cloud-\API\Caven.h)(0x63247B86)
+I (D:\MDK\ARM\ARMCC\include\stdlib.h)(0x5F63877C)
+I (D:\MDK\ARM\ARMCC\include\string.h)(0x5F63878A)
+I (..\..\..\MCU_LIB-Cloud-\Mode\MODE_Time.h)(0x63832E18)
+I (..\..\..\MCU_LIB-Cloud-\Mode\MODE_UART.h)(0x6370B2EB)
+F (.\User_Items.h)(0x63876B9F)()
+F (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base.c)(0x6370B2EB)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\base.o --omf_browse ..\obj\base.crf --depend ..\obj\base.d)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\BASE.h)(0x6371077C)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\items.h)(0x638771A1)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+I (..\Config\at32f425_clock.h)(0x6381AF07)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_Exist_GPIO.h)(0x63711990)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_sys_time.h)(0x6370B2EB)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_UART.h)(0x63876D01)
+I (D:\MDK\ARM\ARMCC\include\stdio.h)(0x5F63877C)
+F (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_ADC.c)(0x6370B2EB)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\base_adc.o --omf_browse ..\obj\base_adc.crf --depend ..\obj\base_adc.d)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_adc.h)(0x63876C73)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\items.h)(0x638771A1)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+I (..\Config\at32f425_clock.h)(0x6381AF07)
+F (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_Exist_GPIO.c)(0x6370B2EB)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\base_exist_gpio.o --omf_browse ..\obj\base_exist_gpio.crf --depend ..\obj\base_exist_gpio.d)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_Exist_GPIO.h)(0x63711990)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\items.h)(0x638771A1)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+I (..\Config\at32f425_clock.h)(0x6381AF07)
+F (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_Flash.c)(0x6370B2EB)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\base_flash.o --omf_browse ..\obj\base_flash.crf --depend ..\obj\base_flash.d)
+F (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_IIC.c)(0x6370B2EB)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\base_iic.o --omf_browse ..\obj\base_iic.crf --depend ..\obj\base_iic.d)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_IIC.h)(0x6370B2EB)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\items.h)(0x638771A1)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+I (..\Config\at32f425_clock.h)(0x6381AF07)
+F (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_PWM.c)(0x638783D9)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\base_pwm.o --omf_browse ..\obj\base_pwm.crf --depend ..\obj\base_pwm.d)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_PWM.h)(0x6370B2EB)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\items.h)(0x638771A1)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+I (..\Config\at32f425_clock.h)(0x6381AF07)
+F (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_SPI.c)(0x6370B2EB)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\base_spi.o --omf_browse ..\obj\base_spi.crf --depend ..\obj\base_spi.d)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_SPI.h)(0x6370B2EB)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\items.h)(0x638771A1)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+I (..\Config\at32f425_clock.h)(0x6381AF07)
+F (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_Sys_Time.c)(0x63876E71)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\base_sys_time.o --omf_browse ..\obj\base_sys_time.crf --depend ..\obj\base_sys_time.d)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_Sys_time.h)(0x6370B2EB)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\items.h)(0x638771A1)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+I (..\Config\at32f425_clock.h)(0x6381AF07)
+F (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_UART.c)(0x638771A1)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\base_uart.o --omf_browse ..\obj\base_uart.crf --depend ..\obj\base_uart.d)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_UART.h)(0x63876D01)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\items.h)(0x638771A1)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+I (..\Config\at32f425_clock.h)(0x6381AF07)
+I (D:\MDK\ARM\ARMCC\include\stdio.h)(0x5F63877C)
+F (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Items.h)(0x638771A1)()
+F (..\..\..\MCU_LIB-Cloud-\Mode\MODE_UART.c)(0x6370B2EB)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\mode_uart.o --omf_browse ..\obj\mode_uart.crf --depend ..\obj\mode_uart.d)
+I (..\..\..\MCU_LIB-Cloud-\Mode\MODE_UART.h)(0x6370B2EB)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base.h)(0x6371077C)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\items.h)(0x638771A1)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+I (..\Config\at32f425_clock.h)(0x6381AF07)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_Exist_GPIO.h)(0x63711990)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_sys_time.h)(0x6370B2EB)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_UART.h)(0x63876D01)
+I (D:\MDK\ARM\ARMCC\include\stdio.h)(0x5F63877C)
+I (..\..\..\MCU_LIB-Cloud-\API\Caven.h)(0x63247B86)
+I (D:\MDK\ARM\ARMCC\include\stdlib.h)(0x5F63877C)
+I (D:\MDK\ARM\ARMCC\include\string.h)(0x5F63878A)
+F (..\..\..\MCU_LIB-Cloud-\Mode\Mode.c)(0x63832E04)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\mode.o --omf_browse ..\obj\mode.crf --depend ..\obj\mode.d)
+I (..\..\..\MCU_LIB-Cloud-\Mode\Mode.h)(0x63832DC8)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base.h)(0x6371077C)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\items.h)(0x638771A1)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+I (..\Config\at32f425_clock.h)(0x6381AF07)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_Exist_GPIO.h)(0x63711990)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_sys_time.h)(0x6370B2EB)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_UART.h)(0x63876D01)
+I (D:\MDK\ARM\ARMCC\include\stdio.h)(0x5F63877C)
+I (..\..\..\MCU_LIB-Cloud-\API\Caven.h)(0x63247B86)
+I (D:\MDK\ARM\ARMCC\include\stdlib.h)(0x5F63877C)
+I (D:\MDK\ARM\ARMCC\include\string.h)(0x5F63878A)
+I (..\..\..\MCU_LIB-Cloud-\Mode\MODE_Time.h)(0x63832E18)
+I (..\..\..\MCU_LIB-Cloud-\Mode\MODE_UART.h)(0x6370B2EB)
+F (..\..\..\MCU_LIB-Cloud-\Mode\MODE_Time.c)(0x63832E18)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\mode_time.o --omf_browse ..\obj\mode_time.crf --depend ..\obj\mode_time.d)
+I (..\..\..\MCU_LIB-Cloud-\Mode\MODE_Time.h)(0x63832E18)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base.h)(0x6371077C)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\items.h)(0x638771A1)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+I (..\Config\at32f425_clock.h)(0x6381AF07)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_Exist_GPIO.h)(0x63711990)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_sys_time.h)(0x6370B2EB)
+I (..\..\..\MCU_LIB-Cloud-\Base_AT32F425\Base_UART.h)(0x63876D01)
+I (D:\MDK\ARM\ARMCC\include\stdio.h)(0x5F63877C)
+I (..\..\..\MCU_LIB-Cloud-\API\Caven.h)(0x63247B86)
+I (D:\MDK\ARM\ARMCC\include\stdlib.h)(0x5F63877C)
+I (D:\MDK\ARM\ARMCC\include\string.h)(0x5F63878A)
+I (..\..\..\MCU_LIB-Cloud-\API\API.h)(0x6315EEBD)
+I (..\..\..\MCU_LIB-Cloud-\API\Check_CRC16.h)(0x6315EEBD)
+I (..\..\..\MCU_LIB-Cloud-\API\Time_Handle.h)(0x6315EEBD)
+I (..\..\..\MCU_LIB-Cloud-\API\DATA_Handle.h)(0x6315EEBD)
+I (..\..\..\MCU_LIB-Cloud-\API\keyboard.h)(0x6315EEBD)
+F (..\..\..\MCU_LIB-Cloud-\API\API.c)(0x6315EEBD)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\api.o --omf_browse ..\obj\api.crf --depend ..\obj\api.d)
+I (..\..\..\MCU_LIB-Cloud-\API\API.h)(0x6315EEBD)
+I (..\..\..\MCU_LIB-Cloud-\API\Check_CRC16.h)(0x6315EEBD)
+I (..\..\..\MCU_LIB-Cloud-\API\Caven.h)(0x63247B86)
+I (D:\MDK\ARM\ARMCC\include\stdio.h)(0x5F63877C)
+I (D:\MDK\ARM\ARMCC\include\stdlib.h)(0x5F63877C)
+I (D:\MDK\ARM\ARMCC\include\string.h)(0x5F63878A)
+I (..\..\..\MCU_LIB-Cloud-\API\Time_Handle.h)(0x6315EEBD)
+I (..\..\..\MCU_LIB-Cloud-\API\DATA_Handle.h)(0x6315EEBD)
+I (..\..\..\MCU_LIB-Cloud-\API\keyboard.h)(0x6315EEBD)
+F (..\..\..\MCU_LIB-Cloud-\API\Check_CRC16.c)(0x6315EEBD)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\check_crc16.o --omf_browse ..\obj\check_crc16.crf --depend ..\obj\check_crc16.d)
+I (..\..\..\MCU_LIB-Cloud-\API\Check_CRC16.h)(0x6315EEBD)
+I (..\..\..\MCU_LIB-Cloud-\API\Caven.h)(0x63247B86)
+I (D:\MDK\ARM\ARMCC\include\stdio.h)(0x5F63877C)
+I (D:\MDK\ARM\ARMCC\include\stdlib.h)(0x5F63877C)
+I (D:\MDK\ARM\ARMCC\include\string.h)(0x5F63878A)
+F (..\..\..\MCU_LIB-Cloud-\API\DATA_Handle.c)(0x6315EEBD)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\data_handle.o --omf_browse ..\obj\data_handle.crf --depend ..\obj\data_handle.d)
+I (..\..\..\MCU_LIB-Cloud-\API\DATA_Handle.h)(0x6315EEBD)
+I (..\..\..\MCU_LIB-Cloud-\API\Caven.h)(0x63247B86)
+I (D:\MDK\ARM\ARMCC\include\stdio.h)(0x5F63877C)
+I (D:\MDK\ARM\ARMCC\include\stdlib.h)(0x5F63877C)
+I (D:\MDK\ARM\ARMCC\include\string.h)(0x5F63878A)
+F (..\..\..\MCU_LIB-Cloud-\API\Keyboard.c)(0x6315EEBD)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\keyboard.o --omf_browse ..\obj\keyboard.crf --depend ..\obj\keyboard.d)
+I (..\..\..\MCU_LIB-Cloud-\API\keyboard.h)(0x6315EEBD)
+I (..\..\..\MCU_LIB-Cloud-\API\Caven.h)(0x63247B86)
+I (D:\MDK\ARM\ARMCC\include\stdio.h)(0x5F63877C)
+I (D:\MDK\ARM\ARMCC\include\stdlib.h)(0x5F63877C)
+I (D:\MDK\ARM\ARMCC\include\string.h)(0x5F63878A)
+F (..\..\..\MCU_LIB-Cloud-\API\libcollections.c)(0x6315EEBD)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\libcollections.o --omf_browse ..\obj\libcollections.crf --depend ..\obj\libcollections.d)
+F (..\..\..\MCU_LIB-Cloud-\API\Time_Handle.c)(0x6370B2EB)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\time_handle.o --omf_browse ..\obj\time_handle.crf --depend ..\obj\time_handle.d)
+I (..\..\..\MCU_LIB-Cloud-\API\Time_Handle.h)(0x6315EEBD)
+I (..\..\..\MCU_LIB-Cloud-\API\Caven.h)(0x63247B86)
+I (D:\MDK\ARM\ARMCC\include\stdio.h)(0x5F63877C)
+I (D:\MDK\ARM\ARMCC\include\stdlib.h)(0x5F63877C)
+I (D:\MDK\ARM\ARMCC\include\string.h)(0x5F63878A)
+F (..\..\..\MCU_LIB-Cloud-\API\Caven.h)(0x63247B86)()
+F (..\Config\at32f425_clock.c)(0x6381AF07)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\at32f425_clock.o --omf_browse ..\obj\at32f425_clock.crf --depend ..\obj\at32f425_clock.d)
+I (..\Config\at32f425_clock.h)(0x6381AF07)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+F (..\Config\at32f425_int.c)(0x63876EA7)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\at32f425_int.o --omf_browse ..\obj\at32f425_int.crf --depend ..\obj\at32f425_int.d)
+I (..\Config\at32f425_int.h)(0x6376EF6A)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+F (..\Config\system_at32f425.c)(0x6376EF5D)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\system_at32f425.o --omf_browse ..\obj\system_at32f425.crf --depend ..\obj\system_at32f425.d)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+F (..\Startup\startup_at32f425.s)(0x6376EF5D)(--cpu Cortex-M4 -g --apcs=interwork --pd "__MICROLIB SETA 1"-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 532" --pd "AT32F425F8P7 SETA 1"--list .\listings\startup_at32f425.lst --xref -o ..\obj\startup_at32f425.o --depend ..\obj\startup_at32f425.d)
+F (..\CMSIS\arm_common_tables.h)(0x6376EF5D)()
+F (..\CMSIS\arm_const_structs.h)(0x6376EF5D)()
+F (..\CMSIS\arm_helium_utils.h)(0x6376EF5D)()
+F (..\CMSIS\arm_math.h)(0x6376EF5D)()
+F (..\CMSIS\arm_mve_tables.h)(0x6376EF5D)()
+F (..\CMSIS\arm_vec_math.h)(0x6376EF5D)()
+F (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)()
+F (..\CMSIS\cmsis_armclang.h)(0x6376EF5D)()
+F (..\CMSIS\cmsis_armclang_ltm.h)(0x6376EF5D)()
+F (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)()
+F (..\CMSIS\cmsis_gcc.h)(0x6376EF5D)()
+F (..\SDK\src\at32f425_acc.c)(0x6376EF65)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\at32f425_acc.o --omf_browse ..\obj\at32f425_acc.crf --depend ..\obj\at32f425_acc.d)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+F (..\SDK\src\at32f425_adc.c)(0x6376EF65)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\at32f425_adc.o --omf_browse ..\obj\at32f425_adc.crf --depend ..\obj\at32f425_adc.d)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+F (..\SDK\src\at32f425_can.c)(0x6376EF65)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\at32f425_can.o --omf_browse ..\obj\at32f425_can.crf --depend ..\obj\at32f425_can.d)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+F (..\SDK\src\at32f425_crc.c)(0x6376EF65)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\at32f425_crc.o --omf_browse ..\obj\at32f425_crc.crf --depend ..\obj\at32f425_crc.d)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+F (..\SDK\src\at32f425_crm.c)(0x6376EF65)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\at32f425_crm.o --omf_browse ..\obj\at32f425_crm.crf --depend ..\obj\at32f425_crm.d)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+F (..\SDK\src\at32f425_debug.c)(0x6376EF65)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\at32f425_debug.o --omf_browse ..\obj\at32f425_debug.crf --depend ..\obj\at32f425_debug.d)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+F (..\SDK\src\at32f425_dma.c)(0x6376EF65)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\at32f425_dma.o --omf_browse ..\obj\at32f425_dma.crf --depend ..\obj\at32f425_dma.d)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+F (..\SDK\src\at32f425_ertc.c)(0x6376EF65)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\at32f425_ertc.o --omf_browse ..\obj\at32f425_ertc.crf --depend ..\obj\at32f425_ertc.d)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+F (..\SDK\src\at32f425_exint.c)(0x6376EF65)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\at32f425_exint.o --omf_browse ..\obj\at32f425_exint.crf --depend ..\obj\at32f425_exint.d)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+F (..\SDK\src\at32f425_flash.c)(0x6376EF65)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\at32f425_flash.o --omf_browse ..\obj\at32f425_flash.crf --depend ..\obj\at32f425_flash.d)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+F (..\SDK\src\at32f425_gpio.c)(0x6376EF65)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\at32f425_gpio.o --omf_browse ..\obj\at32f425_gpio.crf --depend ..\obj\at32f425_gpio.d)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+F (..\SDK\src\at32f425_i2c.c)(0x6376EF65)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\at32f425_i2c.o --omf_browse ..\obj\at32f425_i2c.crf --depend ..\obj\at32f425_i2c.d)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+F (..\SDK\src\at32f425_misc.c)(0x6376EF65)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\at32f425_misc.o --omf_browse ..\obj\at32f425_misc.crf --depend ..\obj\at32f425_misc.d)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+F (..\SDK\src\at32f425_pwc.c)(0x6376EF65)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\at32f425_pwc.o --omf_browse ..\obj\at32f425_pwc.crf --depend ..\obj\at32f425_pwc.d)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+F (..\SDK\src\at32f425_scfg.c)(0x6376EF65)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\at32f425_scfg.o --omf_browse ..\obj\at32f425_scfg.crf --depend ..\obj\at32f425_scfg.d)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+F (..\SDK\src\at32f425_spi.c)(0x6376EF65)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\at32f425_spi.o --omf_browse ..\obj\at32f425_spi.crf --depend ..\obj\at32f425_spi.d)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+F (..\SDK\src\at32f425_tmr.c)(0x6376EF65)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\at32f425_tmr.o --omf_browse ..\obj\at32f425_tmr.crf --depend ..\obj\at32f425_tmr.d)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+F (..\SDK\src\at32f425_usart.c)(0x6376EF65)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\at32f425_usart.o --omf_browse ..\obj\at32f425_usart.crf --depend ..\obj\at32f425_usart.d)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+F (..\SDK\src\at32f425_usb.c)(0x6376EF65)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\at32f425_usb.o --omf_browse ..\obj\at32f425_usb.crf --depend ..\obj\at32f425_usb.d)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+F (..\SDK\src\at32f425_wdt.c)(0x6376EF65)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\at32f425_wdt.o --omf_browse ..\obj\at32f425_wdt.crf --depend ..\obj\at32f425_wdt.d)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)
+F (..\SDK\src\at32f425_wwdt.c)(0x6376EF65)(--c99 --execute_only -c --cpu Cortex-M4 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\Config -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F425 -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\..\..\MCU_LIB-Cloud-\API-ID:\MDK\ARM\ArteryTek\AT32F425_DFP\2.0.5\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F425F8P7 -DAT32F425F8T7 -DUSE_STDPERIPH_DRIVER -DAT_START_F425_V1 -DDEFAULT-o ..\obj\at32f425_wwdt.o --omf_browse ..\obj\at32f425_wwdt.crf --depend ..\obj\at32f425_wwdt.d)
+I (..\Config\at32f425_conf.h)(0x6381AF07)
+I (..\SDK\inc\at32f425_acc.h)(0x6376EF64)
+I (..\Config\at32f425.h)(0x6376EF81)
+I (..\CMSIS\core_cm4.h)(0x6376EF5D)
+I (D:\MDK\ARM\ARMCC\include\stdint.h)(0x5F63877C)
+I (..\CMSIS\cmsis_version.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_compiler.h)(0x6376EF5D)
+I (..\CMSIS\cmsis_armcc.h)(0x6376EF5D)
+I (..\CMSIS\mpu_armv7.h)(0x6376EF5D)
+I (..\Config\system_at32f425.h)(0x6376EF5D)
+I (..\SDK\inc\at32f425_def.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crm.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_can.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usb.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_tmr.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_ertc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_gpio.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_i2c.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_usart.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_pwc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_adc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_spi.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_dma.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_debug.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_flash.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_crc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_wwdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_wdt.h)(0x6376EF65)
+I (..\SDK\inc\at32f425_exint.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_misc.h)(0x6376EF64)
+I (..\SDK\inc\at32f425_scfg.h)(0x6376EF64)

@@ -1,0 +1,76 @@
+T059C 000:166.716   SEGGER J-Link V7.56 Log File
+T059C 000:166.848   DLL Compiled: Oct  7 2021 16:08:24
+T059C 000:166.859   Logging started @ 2022-12-24 07:09
+T059C 000:166.862 - 166.864ms
+T059C 000:166.869 JLINK_SetWarnOutHandler(...)
+T059C 000:166.873 - 0.005ms
+T059C 000:166.876 JLINK_OpenEx(...)
+T059C 000:171.178   Firmware: J-Link V9 compiled May  7 2021 16:26:12
+T059C 000:171.815   Firmware: J-Link V9 compiled May  7 2021 16:26:12
+T059C 000:171.977   Decompressing FW timestamp took 125 us
+T059C 000:179.115   Hardware: V9.50
+T059C 000:179.150   S/N: 59525105
+T059C 000:179.154   OEM: SEGGER
+T059C 000:179.158   Feature(s): JFlash, GDB, RDI, FlashBP, FlashDL
+T059C 000:186.510   TELNET listener socket opened on port 19021
+T059C 000:186.625   WEBSRV WEBSRV_Init(): Starting webserver thread(s)
+T059C 000:186.686   WEBSRV Failed to put socket into listener state (port 19080)
+T059C 000:186.747   WEBSRV Webserver running on local port 19081
+T059C 000:193.013 - 26.165ms returns "O.K."
+T059C 000:193.153 JLINK_GetEmuCaps()
+T059C 000:193.158 - 0.006ms returns 0xB9FF7BBF
+T059C 000:193.164 JLINK_TIF_GetAvailable(...)
+T059C 000:193.439 - 0.279ms
+T059C 000:193.464 JLINK_SetErrorOutHandler(...)
+T059C 000:193.467 - 0.004ms
+T059C 000:193.502 JLINK_ExecCommand("ProjectFile = "E:\WORK\Core-Caven32\Caven-V3.14-M4\AT32F415RC-SDK-V2.0\User\JLinkSettings.ini"", ...). 
+T059C 000:201.011   Ref file found at: D:\MDK\ARM\Segger\JLinkDevices.ref
+T059C 000:201.091   XML referenced by ref file: C:\Program Files\SEGGER\JLink\JLinkDevices.xml
+T059C 000:201.110   XML file found at: D:\MDK\ARM\Segger\JLinkDevices.xml
+T059C 000:201.113   Ignoring XML in DLL dir and using ref file instead.
+T059C 000:201.865   C:\Program Files\SEGGER\JLink\JLinkDevices.xml evaluated successfully.
+T059C 000:240.056   Device "AC33M6128L" selected.
+T059C 000:240.502 - 47.007ms returns 0x00
+T059C 000:240.534 JLINK_ExecCommand("Device = -AT32F415RCT7", ...). 
+T059C 000:240.861   Device "AC33M6128L" selected.
+T059C 000:241.212 - 0.679ms returns 0x00
+T059C 000:241.227 JLINK_ExecCommand("DisableConnectionTimeout", ...). 
+T059C 000:241.235 - 0.014ms returns 0x01
+T059C 000:241.250 JLINK_GetHardwareVersion()
+T059C 000:241.256 - 0.006ms returns 95000
+T059C 000:241.265 JLINK_GetDLLVersion()
+T059C 000:241.269 - 0.004ms returns 75600
+T059C 000:241.273 JLINK_GetOEMString(...)
+T059C 000:241.278 JLINK_GetFirmwareString(...)
+T059C 000:241.282 - 0.005ms
+T059C 000:241.291 JLINK_GetDLLVersion()
+T059C 000:241.294 - 0.004ms returns 75600
+T059C 000:241.297 JLINK_GetCompileDateTime()
+T059C 000:241.300 - 0.004ms
+T059C 000:241.323 JLINK_GetFirmwareString(...)
+T059C 000:241.326 - 0.004ms
+T059C 000:241.330 JLINK_GetHardwareVersion()
+T059C 000:241.333 - 0.007ms returns 95000
+T059C 000:241.341 JLINK_GetSN()
+T059C 000:241.344 - 0.005ms returns 59525105
+T059C 000:241.348 JLINK_GetOEMString(...)
+T059C 000:241.356 JLINK_TIF_Select(JLINKARM_TIF_SWD)
+T059C 000:243.588 - 2.245ms returns 0x00
+T059C 000:243.625 JLINK_HasError()
+T059C 000:243.648 JLINK_SetSpeed(5000)
+T059C 000:243.799 - 0.156ms
+T059C 000:244.514 JLINK_HasError()
+T059C 000:244.524 JLINK_SetResetType(JLINKARM_RESET_TYPE_NORMAL)
+T059C 000:244.527 - 0.005ms returns JLINKARM_RESET_TYPE_NORMAL
+T059C 000:244.531 JLINK_Reset()
+T059C 001:094.696 - 850.178ms
+T059C 001:094.777 JLINK_GetId()
+T059C 001:421.123 - 326.389ms returns 0x00000000
+T059C 001:421.230 JLINK_GetId()
+T059C 001:748.582 - 327.369ms returns 0x00000000
+T059C 001:753.251 JLINK_GetFirmwareString(...)
+T059C 001:753.264 - 0.014ms
+T059C 002:551.635 JLINK_Close()
+T059C 002:554.813 - 3.188ms
+T059C 002:554.825   
+T059C 002:554.828   Closed

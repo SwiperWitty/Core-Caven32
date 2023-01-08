@@ -1,0 +1,12 @@
+eclipse.preferences.version=1
+encoding//API/API.h=UTF-8
+encoding//API/Caven.h=UTF-8
+encoding//API/Time_Handle.c=UTF-8
+encoding//API/Time_Handle.h=UTF-8
+encoding//Base_CH32V203/Exist_GPIO.h=UTF-8
+encoding//Base_CH32V203/Items.h=UTF-8
+encoding//Base_CH32V203/Sys_Time.c=UTF-8
+encoding//Base_CH32V203/Sys_Time.h=UTF-8
+encoding//Base_CH32V203/USBLIB/CONFIG/usb_desc.c=UTF-8
+encoding//Base_CH32V203/USBLIB/CONFIG/usb_desc.h=UTF-8
+encoding//Base_CH32V203/USBLIB/CONFIG/usb_endp.c=UTF-8

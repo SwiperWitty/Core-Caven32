@@ -1,0 +1,18 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "EIDE.SourceTree.AutoSearchIncludePath": true,
+        "EIDE.SourceTree.AutoSearchObjFile": true,
+        "files.associations": {
+            "base_exist_gpio.h": "c",
+            "stm32f10x_gpio.h": "c",
+            "mode_uart.h": "c",
+            "base_iic.h": "c"
+        }
+    },
+    "extensions": {}
+}
