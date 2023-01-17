@@ -49,3 +49,4 @@
 ..\obj\mode.o: ..\..\..\MCU_LIB-Cloud-\Mode\MODE_Time.h
 ..\obj\mode.o: ..\..\..\MCU_LIB-Cloud-\Mode\LED.h
 ..\obj\mode.o: ..\..\..\MCU_LIB-Cloud-\Mode\MODE_UART.h
+..\obj\mode.o: ..\..\..\MCU_LIB-Cloud-\Mode\DS18B20.h

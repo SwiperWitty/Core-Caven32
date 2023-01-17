@@ -58,7 +58,7 @@ int main (void)
             {
                 Mode_User.Delay.Delay_ms(10);
                 Mode_User.UART.WAY_Send_Data(1,Mode_User.UART.DATA_UART[1]->UART_RxdBuff,Mode_User.UART.DATA_UART[1]->DATA.Length);
-
+                DS18B20_Get_Temp();
             }
             
             Destroy(Mode_User.UART.DATA_UART[1],sizeof(*Mode_User.UART.DATA_UART[1]));
@@ -102,12 +102,21 @@ void Main_Init(void)
     Mode_Init.LED(ENABLE);
     Mode_Init.UART(1,115200,ENABLE);
     Mode_Init.User_ADC(ENABLE);
+    if(Mode_Init.DS18B20(ENABLE))
+    {
+        Mode_User.UART.WAY_Send_String(1,"s: ds18b20 go\r\n");
+    }
+    else
+    {
+        Mode_User.UART.WAY_Send_String(1,"s: ds18b20 error\r\n");
+    }
 //    Mode_Init.Steering_Engine(ENABLE);
 //    Mode_Init.UART(2,115200,ENABLE);
 //    Mode_Init.UART(3,115200,ENABLE);   
 
     SPI_Start_Init(ENABLE);
-
+    
+    float po = Mode_User.DS18B20.Get_Temp();
     Mode_User.LED.LED_SET(1,DISABLE);
     Mode_User.LED.LED_SET(2,DISABLE);
 //    Mode_User.Steering_Engine.Set_Angle(1,90);

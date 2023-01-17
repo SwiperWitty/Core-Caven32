@@ -49,6 +49,7 @@
 ..\obj\main.o: ..\..\..\MCU_LIB-Cloud-\Mode\MODE_Time.h
 ..\obj\main.o: ..\..\..\MCU_LIB-Cloud-\Mode\LED.h
 ..\obj\main.o: ..\..\..\MCU_LIB-Cloud-\Mode\MODE_UART.h
+..\obj\main.o: ..\..\..\MCU_LIB-Cloud-\Mode\DS18B20.h
 ..\obj\main.o: ..\..\..\MCU_LIB-Cloud-\API\API.h
 ..\obj\main.o: ..\..\..\MCU_LIB-Cloud-\API\Check_CRC16.h
 ..\obj\main.o: ..\..\..\MCU_LIB-Cloud-\API\Time_Handle.h

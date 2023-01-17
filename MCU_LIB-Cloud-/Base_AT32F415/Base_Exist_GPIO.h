@@ -100,8 +100,8 @@
 #endif
 
 #ifdef Exist_DS18B20
-    #define DS18B20_IO    GPIO_PINS_1
-    #define DS18B20_Clock    GPIOA
+    #define DS18B20_IO    GPIO_PINS_8
+    #define DS18B20_Clock    GPIOC
 
     #define DS18B20_IO_H() DS18B20_Clock->scr = DS18B20_IO
     #define DS18B20_IO_L() DS18B20_Clock->clr = DS18B20_IO
@@ -119,8 +119,6 @@ void BZZ_GPIO_Init(int Set);
 
 void HC138_GPIO_Init(int Set);
 void HC595_GPIO_Init(int Set);
-
-void DS18B20_GPIO_Init(int Set);
 
 void KEY_GPIO_Init(int Set);
 
