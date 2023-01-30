@@ -29,28 +29,31 @@
 
     #define FLASH_START     ((uint32_t)0x08000000)  //0x0800 0000
 //BootLoader
-    #define FLASH_BOOT_SIZE (14 * FLASH_AREA_SIZE)  //28k(BootLoader占用)
+    #define FLASH_BOOT_SIZE (16 * FLASH_AREA_SIZE)  //28k(BootLoader占用)
     
 //APP
-    #define FLASH_APP       (FLASH_START + FLASH_APP_SIZE)  //Flash存放【APP的代码区】
     #define FLASH_APP_SIZE  (100 * FLASH_AREA_SIZE)         //
-    #define FLASH_APP_END   (FLASH_APP+FLASH_APP_SIZE)      //Flash存放【APP的代码区】结束
+    #define FLASH_APP_START (FLASH_START + FLASH_BOOT_SIZE)  //Flash存放【APP的代码区】
+    #define FLASH_APP_END   (FLASH_APP_START+FLASH_APP_SIZE)//Flash存放【APP的代码区】结束
     
 //Data
-    #define FLASH_DATA      FLASH_APP_END               //Flash存放【掉电保存数据】
-    #define FLASH_DATA_END  (FLASH_START + FLASH_SIZE)  //Flash存放【掉电保存数据】一直到最大Flash
+    #define FLASH_DATA_START FLASH_APP_END                  //Flash存放【掉电保存数据】
+    #define FLASH_DATA_END  (FLASH_DATA_START + FLASH_SIZE) //Flash存放【掉电保存数据】一直到最大Flash
 
     #define FLASH_END       FLASH_DATA_END              //Flash最大Flash
 #endif
 
 #define Fast_R08_Flash(x)   *(__IO uint8_t*)(x)
 #define Fast_R16_Flash(x)   *(__IO uint16_t*)(x)
+#define GET_Area_Addr(Area) ((Area) * FLASH_AREA_SIZE + FLASH_START)
+#define GET_Addr_Area(Addr) ((Addr - FLASH_START) / FLASH_AREA_SIZE)
 
+char Flash_Addr_Check(int Addr_Start,int Addr_End);
 
-char Flash_Clear_Area(char Area_Start,char Area_End);
+char Flash_Clear_Area(char Area_Start,char Area_End);               //以区位单位，清除数据（0xff）
 
 char Flash_Read_Data (int Addr,void *Data,int Lenght);
 char Flash_Save_Data (int Addr,const uint16_t *Data,int Lenght);
-
+char Flash_Save_Area (void * Data,char Area_Start,int Lenght);      //保存一个区数据
 
 #endif

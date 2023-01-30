@@ -64,7 +64,7 @@
 "..\obj\usbd_core.o"
 "..\obj\usbd_int.o"
 "..\obj\usbd_sdr.o"
---strict --scatter "..\OBJ\Caven.sct"
+--library_type=microlib --strict --scatter "..\OBJ\Caven.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list ".\Listings\Caven.map" -o ..\OBJ\Caven.axf

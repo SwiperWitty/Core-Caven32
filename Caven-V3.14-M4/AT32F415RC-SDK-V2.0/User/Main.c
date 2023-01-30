@@ -15,8 +15,9 @@ int temp_2 = 0;
 int temp_3 = 0;
 U8 temp_String[300];
 U8 temp1_String[300];
+char *temp_po;
 U16 *temp_list;
-U16 temp_data[0x2000];
+char temp_data[0x2000];
 U16 temp1_data[1000];
 float temp_f;
 int i;
@@ -24,12 +25,13 @@ int i;
 void Main_Init(void);
 int main (void)
 {
-    Main_Init();
-    for(int a = 0;a < 100;a ++)
+    for(int a = 0;a < 124;a ++)
     {
-        temp_String[a] = 0xfa;
+        temp_String[a] = 0x88;
         temp_data[a] = a;
     }
+    Main_Init();
+    
 //    memcpy(temp1_data,temp_data,10);
 //    for(int a = 0;a < 14;a ++)
 //    {
@@ -58,7 +60,7 @@ int main (void)
             {
                 Mode_User.Delay.Delay_ms(10);
                 Mode_User.UART.WAY_Send_Data(1,Mode_User.UART.DATA_UART[1]->UART_RxdBuff,Mode_User.UART.DATA_UART[1]->DATA.Length);
-                DS18B20_Get_Temp();
+
             }
             
             Destroy(Mode_User.UART.DATA_UART[1],sizeof(*Mode_User.UART.DATA_UART[1]));
@@ -102,21 +104,44 @@ void Main_Init(void)
     Mode_Init.LED(ENABLE);
     Mode_Init.UART(1,115200,ENABLE);
     Mode_Init.User_ADC(ENABLE);
-    if(Mode_Init.DS18B20(ENABLE))
-    {
-        Mode_User.UART.WAY_Send_String(1,"s: ds18b20 go\r\n");
-    }
-    else
-    {
-        Mode_User.UART.WAY_Send_String(1,"s: ds18b20 error\r\n");
-    }
 //    Mode_Init.Steering_Engine(ENABLE);
 //    Mode_Init.UART(2,115200,ENABLE);
 //    Mode_Init.UART(3,115200,ENABLE);   
-
-    SPI_Start_Init(ENABLE);
+    if(Mode_Init.DS18B20(ENABLE))
+    {
+        Mode_User.UART.WAY_Send_String(1,"s: Secc DS\r\n");
+    }
+    else
+    {
+        Mode_User.UART.WAY_Send_String(1,"s: Error DS\r\n");
+    }
     
-    float po = Mode_User.DS18B20.Get_Temp();
+    char TEMP_ARRAY[200] = {"{see you ! }\r\n"};
+    if(Fast_R08_Flash(FLASH_DATA_START) == '{')
+    {
+        printf("p: flash secc !\r\n");
+        printf("p: %s \n",(char *)FLASH_DATA_START);
+    }
+    else
+    {
+        printf("p: flash null !\r\n");
+        Flash_Save_Area (TEMP_ARRAY,GET_Addr_Area(FLASH_DATA_START),50);       //存
+        printf("p: %s \n",(char *)FLASH_DATA_START);
+    }
+    
+
+//    for(int i = 0;i <= 10;i++)
+//    {
+//        for(int j = 0;j <= 0x0f;j++)
+//        {
+//            printf("%02x ",temp_po[i*16 + j]);
+//        }
+//        printf(" --%d-- \r\n",i);       //发初始数据
+//    }
+
+    
+    SPI_Start_Init(ENABLE);
+
     Mode_User.LED.LED_SET(1,DISABLE);
     Mode_User.LED.LED_SET(2,DISABLE);
 //    Mode_User.Steering_Engine.Set_Angle(1,90);
@@ -124,6 +149,7 @@ void Main_Init(void)
 //    Mode_User.LCD.Show_Picture(0,0,60,60,gImage_am_60);
 
     Mode_User.Sys_Clock.Set_TIME(SYS_Time.Watch);
+    
     
 //    printf("system_core_clock: %d \r\n",SystemCoreClock);
     

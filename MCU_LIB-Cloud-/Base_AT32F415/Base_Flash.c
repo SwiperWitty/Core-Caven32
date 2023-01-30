@@ -2,34 +2,43 @@
 
 #include "Caven.h"              //MAX,MIN
 
-#define GET_Area_Addr(Area) ((Area) * FLASH_AREA_SIZE + FLASH_START)
 
 
-static flash_status_type Flash_Addr_Check(int Addr_Start,int Addr_End)
+
+char Flash_Addr_Check(int Addr_Start,int Addr_End)
 {
     flash_status_type back = FLASH_OPERATE_DONE;
     if((Addr_Start >= FLASH_END) || (Addr_Start < FLASH_START))
     { 
-//        printf("ERROR\r\n"); 
+        printf("S-ERROR\r\n"); 
         back = FLASH_PROGRAM_ERROR;
+        return back;
     }
-    if((Addr_End > FLASH_END)  || (Addr_End < FLASH_START))
+    if((Addr_End > FLASH_END)  || (Addr_End <= FLASH_START))
     { 
-//        printf("ERROR\r\n"); 
+        printf("E-ERROR\r\n"); 
         back = FLASH_PROGRAM_ERROR;
+        return back;
     }
+    if(Addr_Start > FLASH_END)
+    {
+        back = FLASH_PROGRAM_ERROR;
+        return back;
+    }
+    printf("ch- p: [S - %d,E -%d) \r\n",(Addr_Start-FLASH_START)/FLASH_AREA_SIZE,(Addr_End-FLASH_START)/FLASH_AREA_SIZE);
     return back;
 }
 
 char Flash_Clear_Area(char Area_Start,char Area_End)
 {
-    flash_status_type status = FLASH_OPERATE_DONE;
+    char status = FLASH_OPERATE_DONE;
     
     status = Flash_Addr_Check(GET_Area_Addr(Area_Start),GET_Area_Addr(Area_End));
     if(status == FLASH_PROGRAM_ERROR) {return ERROR;}
+//    printf("clr- p: [S_Area %d , E_Area %d) \r\n",Area_Start,Area_End);
     
     flash_unlock();
-    for(int i = Area_Start;i < Area_End;i++)
+    for(int i = Area_Start;i <= Area_End;i++)
     {
         /* wait for operation to be completed */
         status = flash_operation_wait_for(ERASE_TIMEOUT);
@@ -41,29 +50,48 @@ char Flash_Clear_Area(char Area_Start,char Area_End)
         //Clear
         status = flash_sector_erase(GET_Area_Addr(i));
         if(status != FLASH_OPERATE_DONE)
-        {return ERROR;}
+        {
+//            printf("p: Clr ERROR \r\n");
+            return ERROR;
+        }
+        else
+        {
+//            printf("p: Clr secc %d \r\n",i);
+        }
     }
     flash_lock();
     return SUCCESS;
 }
 
-char Flash_Read_Data (int Addr,void *Data,int Lenght)
+
+char Flash_Save_Area (void * Data,char Area_Start,int Lenght)
 {
-    if(Addr%2)  Addr++;
     char back = SUCCESS;
-    back = Flash_Addr_Check(Addr,Addr + Lenght);
-    if(back == FLASH_PROGRAM_ERROR)
-    {return ERROR; }
-    if(Data == NULL)
-    {return ERROR; }
+    char Buff[FLASH_AREA_SIZE];         //缓冲区      而且要
+    char status = FLASH_OPERATE_DONE;
+    memcpy(Buff,Data,Lenght);           //向前对齐
+    status = Flash_Addr_Check(GET_Area_Addr(Area_Start),GET_Area_Addr(Area_Start));
+    if(status == FLASH_PROGRAM_ERROR) {return ERROR;}
     
-//    for(int i;i < Lenght;i += 2)
-//    {
-//        *((uint16_t*) Data + i) = Fast_R16_Flash(Addr + i);
-//        Addr += 2;
-//    }
-    memcpy(Data,(uint16_t*)Addr,Lenght);        //复制
+    flash_unlock();
+    status = flash_operation_wait_for(ERASE_TIMEOUT);
+    if((status == FLASH_PROGRAM_ERROR) || (status == FLASH_EPP_ERROR))
+    {flash_flag_clear(FLASH_PRGMERR_FLAG | FLASH_EPPERR_FLAG);}
+    else if(status == FLASH_OPERATE_TIMEOUT)
+    {return ERROR;}
     
+    status = flash_sector_erase(GET_Area_Addr(Area_Start));         //清除一区
+    if(status != FLASH_OPERATE_DONE)
+    {return ERROR;}
+    
+    for(int i = 0;i < FLASH_AREA_SIZE;i++)                          //保存
+    {
+        status = flash_byte_program(GET_Area_Addr(Area_Start)+i, Buff[i]);
+        if(status !=  FLASH_OPERATE_DONE)
+        {return ERROR;}
+    }
+    
+    flash_lock();
     return back;
 }
 
@@ -71,7 +99,7 @@ char Flash_Save_Data(int Addr,const uint16_t *Data,int Lenght)
 {
     uint16_t flash_buf[FLASH_AREA_SIZE];        //缓冲区      而且要
     
-    flash_status_type status = FLASH_OPERATE_DONE;
+    char status = FLASH_OPERATE_DONE;
     char back = SUCCESS;
     uint32_t Temp;
     
@@ -166,4 +194,26 @@ char Flash_Save_Data(int Addr,const uint16_t *Data,int Lenght)
 }
 
 
+char Flash_Read_Data (int Addr,void *Data,int Lenght)
+{
+    if(Addr%2)  {Addr++;}       //首地址最好不要是单数
+    char back = SUCCESS;
+    back = Flash_Addr_Check(Addr,(Addr + Lenght));
+    if(back == ERROR)
+    {return ERROR; }
+    if(Data == NULL)
+    {return ERROR; }
+    
+//    for(int i;i < Lenght;i += 2)
+//    {
+//        *((uint16_t*) Data + i) = Fast_R16_Flash(Addr + i);
+//        Addr += 2;
+//    }
+
+    int * Pointer = (int *)(Addr);
+
+    memcpy(Data,Pointer,Lenght);        //复制,void *memcpy(void *str1, const void *str2, size_t n) 
+    
+    return back;
+}
 

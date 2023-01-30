@@ -12,6 +12,7 @@
 /****************/
 #include "stdio.h"
 
+#define UART_pf
 
 /* 【宏函数群】   */
 #ifdef Exist_UART
