@@ -31,7 +31,7 @@
 #define Exist_UART
 #define Exist_IIC
 #define Exist_SPI
-//#define Exist_USB
+#define Exist_USB
 //#define Exist_CAN
 
 #define Exist_FLASH

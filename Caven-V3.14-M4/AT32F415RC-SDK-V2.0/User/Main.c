@@ -97,6 +97,7 @@ int main (void)
 void Main_Init(void)
 {
     system_clock_config();
+    nvic_priority_group_config(NVIC_PRIORITY_GROUP_4);
     Mode_Index();
     API_Index();
     
@@ -104,6 +105,8 @@ void Main_Init(void)
     Mode_Init.LED(ENABLE);
     Mode_Init.UART(1,115200,ENABLE);
     Mode_Init.User_ADC(ENABLE);
+    
+    USB_User_init ();
 //    Mode_Init.Steering_Engine(ENABLE);
 //    Mode_Init.UART(2,115200,ENABLE);
 //    Mode_Init.UART(3,115200,ENABLE);   
@@ -127,8 +130,9 @@ void Main_Init(void)
         printf("p: flash null !\r\n");
         Flash_Save_Area (TEMP_ARRAY,GET_Addr_Area(FLASH_DATA_START),50);       //存
         printf("p: %s \n",(char *)FLASH_DATA_START);
+        
     }
-    
+    keyboard_send_string((u8 *)FLASH_DATA_START, strlen((char *)FLASH_DATA_START));       //
 
 //    for(int i = 0;i <= 10;i++)
 //    {
@@ -149,7 +153,6 @@ void Main_Init(void)
 //    Mode_User.LCD.Show_Picture(0,0,60,60,gImage_am_60);
 
     Mode_User.Sys_Clock.Set_TIME(SYS_Time.Watch);
-    
     
 //    printf("system_core_clock: %d \r\n",SystemCoreClock);
     
