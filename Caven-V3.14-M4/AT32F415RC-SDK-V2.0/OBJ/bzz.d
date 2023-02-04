@@ -43,6 +43,7 @@
 ..\obj\bzz.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_SPI.h
 ..\obj\bzz.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_IIC.h
 ..\obj\bzz.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_ADC.h
+..\obj\bzz.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_PWM.h
 ..\obj\bzz.o: ..\..\..\MCU_LIB-Cloud-\API\Caven.h
 ..\obj\bzz.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\bzz.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h

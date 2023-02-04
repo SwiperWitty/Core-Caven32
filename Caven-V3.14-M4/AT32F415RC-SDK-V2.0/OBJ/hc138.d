@@ -43,6 +43,7 @@
 ..\obj\hc138.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_SPI.h
 ..\obj\hc138.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_IIC.h
 ..\obj\hc138.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_ADC.h
+..\obj\hc138.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_PWM.h
 ..\obj\hc138.o: ..\..\..\MCU_LIB-Cloud-\API\Caven.h
 ..\obj\hc138.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\hc138.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h

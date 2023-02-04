@@ -51,6 +51,7 @@
 ..\obj\usb_user.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_SPI.h
 ..\obj\usb_user.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_IIC.h
 ..\obj\usb_user.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_ADC.h
+..\obj\usb_user.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_PWM.h
 ..\obj\usb_user.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\composite_HID\USB_User.h
 ..\obj\usb_user.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\usb_drivers\inc\usb_core.h
 ..\obj\usb_user.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\usb_drivers\inc\usbd_int.h

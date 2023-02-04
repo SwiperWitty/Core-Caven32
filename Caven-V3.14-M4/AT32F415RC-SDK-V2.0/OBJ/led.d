@@ -43,6 +43,7 @@
 ..\obj\led.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_SPI.h
 ..\obj\led.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_IIC.h
 ..\obj\led.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_ADC.h
+..\obj\led.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_PWM.h
 ..\obj\led.o: ..\..\..\MCU_LIB-Cloud-\API\Caven.h
 ..\obj\led.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\led.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h

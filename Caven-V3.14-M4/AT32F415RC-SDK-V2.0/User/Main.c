@@ -91,6 +91,14 @@ int main (void)
         
         Mode_User.Delay.Delay_ms(10);
 //        SPI_SET_Addr_SendData(1,0xf8,0xaa);
+		
+//		
+		TIM4_PWMx_SetValue(1,14);
+		Mode_User.Delay.Delay_ms(10);
+		
+		TIM4_PWMx_SetValue(1,0);
+		Mode_User.Delay.Delay_ms(100);
+
     }
 }
 
@@ -107,8 +115,11 @@ void Main_Init(void)
     Mode_Init.User_ADC(ENABLE);
     
     USB_User_init ();
+	TIM4_PWM_Start_Init(27,1440,ENABLE);		//25 144
+//	TIM4_PWMx_SetValue(1,125);
+	
 //    Mode_Init.Steering_Engine(ENABLE);
-//    Mode_Init.UART(2,115200,ENABLE);
+    Mode_Init.UART(2,115200,ENABLE);
 //    Mode_Init.UART(3,115200,ENABLE);   
     if(Mode_Init.DS18B20(ENABLE))
     {
@@ -132,7 +143,7 @@ void Main_Init(void)
         printf("p: %s \n",(char *)FLASH_DATA_START);
         
     }
-    keyboard_send_string((u8 *)FLASH_DATA_START, strlen((char *)FLASH_DATA_START));       //
+//    keyboard_send_string((u8 *)FLASH_DATA_START, strlen((char *)FLASH_DATA_START));       //会while
 
 //    for(int i = 0;i <= 10;i++)
 //    {
@@ -154,9 +165,9 @@ void Main_Init(void)
 
     Mode_User.Sys_Clock.Set_TIME(SYS_Time.Watch);
     
-//    printf("system_core_clock: %d \r\n",SystemCoreClock);
+    printf("system_core_clock: %d \r\n",SystemCoreClock);
     
-    Mode_User.UART.WAY_Send_String(1,"s: hello world !\r\n");
+//    Mode_User.UART.WAY_Send_String(1,"s: hello world !\r\n");
 //    printf("p: hello world !\r\n");
     temp_list = Mode_User.USER_ADC.DATA_List;
 

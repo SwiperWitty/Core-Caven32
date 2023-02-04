@@ -43,3 +43,4 @@
 ..\obj\ds18b20.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_SPI.h
 ..\obj\ds18b20.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_IIC.h
 ..\obj\ds18b20.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_ADC.h
+..\obj\ds18b20.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_PWM.h

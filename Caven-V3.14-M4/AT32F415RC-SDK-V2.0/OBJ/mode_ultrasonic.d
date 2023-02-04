@@ -43,6 +43,7 @@
 ..\obj\mode_ultrasonic.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_SPI.h
 ..\obj\mode_ultrasonic.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_IIC.h
 ..\obj\mode_ultrasonic.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_ADC.h
+..\obj\mode_ultrasonic.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_PWM.h
 ..\obj\mode_ultrasonic.o: ..\..\..\MCU_LIB-Cloud-\API\Caven.h
 ..\obj\mode_ultrasonic.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\mode_ultrasonic.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h

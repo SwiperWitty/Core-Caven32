@@ -43,6 +43,7 @@
 ..\obj\steering_engine.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_SPI.h
 ..\obj\steering_engine.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_IIC.h
 ..\obj\steering_engine.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_ADC.h
+..\obj\steering_engine.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_PWM.h
 ..\obj\steering_engine.o: ..\..\..\MCU_LIB-Cloud-\API\Caven.h
 ..\obj\steering_engine.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\steering_engine.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h

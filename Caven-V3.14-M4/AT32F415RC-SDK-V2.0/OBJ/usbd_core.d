@@ -51,3 +51,4 @@
 ..\obj\usbd_core.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_SPI.h
 ..\obj\usbd_core.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_IIC.h
 ..\obj\usbd_core.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_ADC.h
+..\obj\usbd_core.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_PWM.h

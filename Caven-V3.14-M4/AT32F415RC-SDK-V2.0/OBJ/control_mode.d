@@ -43,3 +43,4 @@
 ..\obj\control_mode.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_SPI.h
 ..\obj\control_mode.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_IIC.h
 ..\obj\control_mode.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_ADC.h
+..\obj\control_mode.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_PWM.h
