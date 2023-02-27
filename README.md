@@ -151,6 +151,8 @@ MDK会用吧？
 
 WCH-Link相关：[看这里](https://github.com/SwiperWitty/CMSIS-DAPbyWCH)
 
+如果需要给WCH-Link下载程序，那么**需要将CH549的D-接到VDD激活CH549的USB下载模式**，然后如果是**V1.0版本**的WCH-Link固件，需要根据TX接GND去切换RSIC-V/ARM下载模式。当然你可以选择直接下载ARM专用固件或者RSIC-V专用固件。
+
 芯片检测不到：[看这里](https://blog.csdn.net/ReCclay/article/details/103449476)   的【 三、设置keil 章节】的 【3、配置好相应的Flash Download选项】
 
 如果问题还是没有解决：[看这里](https://www.baidu.com/)
