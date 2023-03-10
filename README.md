@@ -12,6 +12,10 @@ _____
 
 本设计仅供于学习、参考，不可商用和水毕业论文（参与开发者随意）！
 
+![image-20230310112954286](https://gitee.com/Swiper_witty/caven_img/raw/master/img/202303101129356.png)
+
+使用之前记得装驱动！！！
+
 [MCU的MDK依赖&工具&资料](https://github.com/SwiperWitty/MCU_Pack-Datasheet_Lib) （因为这个东西不经常变更就不放在这里了）
 
 [子模块链接](https://github.com/SwiperWitty/MCU_LIB-Cloud-) （里面有食用方法）

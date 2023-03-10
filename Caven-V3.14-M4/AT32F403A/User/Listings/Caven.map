@@ -193,6 +193,9 @@ Removing Unused input sections from the image.
     Removing base.o(.rev16_text), (4 bytes).
     Removing base.o(.revsh_text), (4 bytes).
     Removing base.o(.rrx_text), (6 bytes).
+    Removing uart.o(.rev16_text), (4 bytes).
+    Removing uart.o(.revsh_text), (4 bytes).
+    Removing uart.o(.rrx_text), (6 bytes).
     Removing exist_gpio.o(.rev16_text), (4 bytes).
     Removing exist_gpio.o(.revsh_text), (4 bytes).
     Removing exist_gpio.o(.rrx_text), (6 bytes).
@@ -212,7 +215,7 @@ Removing Unused input sections from the image.
     Removing ds18b20.o(.revsh_text), (4 bytes).
     Removing ds18b20.o(.rrx_text), (6 bytes).
     Removing ds18b20.o(i.DS18B20_Delay), (2 bytes).
-    Removing ds18b20.o(i.DS18B20_Get_Temp), (196 bytes).
+    Removing ds18b20.o(i.DS18B20_Get_Temp), (188 bytes).
     Removing ds18b20.o(i.DS18B20_Init), (6 bytes).
     Removing ds18b20.o(i.DS18B20_Start), (4 bytes).
     Removing ds18b20.o(i.Read_Byte), (4 bytes).
@@ -884,7 +887,7 @@ Removing Unused input sections from the image.
     Removing ddiv.o(.text), (222 bytes).
     Removing dfltul.o(.text), (24 bytes).
 
-696 unused section(s) (total 27294 bytes) removed from the image.
+699 unused section(s) (total 27300 bytes) removed from the image.
 
 ==============================================================================
 
@@ -897,30 +900,30 @@ Image Symbol Table
     ../clib/microlib/ctype/ctype.c           0x00000000   Number         0  ctype_c.o ABSOLUTE
     ../clib/microlib/ctype/ctype.c           0x00000000   Number         0  isspace_c.o ABSOLUTE
     ../clib/microlib/errno.c                 0x00000000   Number         0  errno.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry5.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry2.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry12b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry12a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry5.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11b.o ABSOLUTE
-    ../clib/microlib/longlong.c              0x00000000   Number         0  llushr.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry12a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry12b.o ABSOLUTE
     ../clib/microlib/longlong.c              0x00000000   Number         0  llshl.o ABSOLUTE
+    ../clib/microlib/longlong.c              0x00000000   Number         0  llushr.o ABSOLUTE
     ../clib/microlib/string/memcpy.c         0x00000000   Number         0  memcpyb.o ABSOLUTE
     ../clib/microlib/string/memcpy.c         0x00000000   Number         0  memcpya.o ABSOLUTE
     ../clib/microlib/string/strcpy.c         0x00000000   Number         0  strcpy.o ABSOLUTE
     ../clib/microlib/string/strlen.c         0x00000000   Number         0  strlen.o ABSOLUTE
     ../clib/microlib/stubs.s                 0x00000000   Number         0  iusefp.o ABSOLUTE
-    ../clib/scanf.c                          0x00000000   Number         0  _sgetc.o ABSOLUTE
     ../clib/scanf.c                          0x00000000   Number         0  strtod.o ABSOLUTE
+    ../clib/scanf.c                          0x00000000   Number         0  _sgetc.o ABSOLUTE
     ../clib/scanf.c                          0x00000000   Number         0  scanf_fp.o ABSOLUTE
     ../fplib/microlib/d2f.c                  0x00000000   Number         0  d2f.o ABSOLUTE
     ../fplib/microlib/f2d.c                  0x00000000   Number         0  f2d.o ABSOLUTE
@@ -952,6 +955,7 @@ Image Symbol Table
     ..\..\..\MCU_LIB-Cloud-\Mode\DS18B20.c   0x00000000   Number         0  ds18b20.o ABSOLUTE
     ..\..\..\MCU_LIB-Cloud-\Mode\HC138.c     0x00000000   Number         0  hc138.o ABSOLUTE
     ..\..\..\MCU_LIB-Cloud-\Mode\HC595.c     0x00000000   Number         0  hc595.o ABSOLUTE
+    ..\..\..\MCU_LIB-Cloud-\Mode\LCD.c       0x00000000   Number         0  lcd.o ABSOLUTE
     ..\..\..\MCU_LIB-Cloud-\Mode\LED.c       0x00000000   Number         0  led.o ABSOLUTE
     ..\..\..\MCU_LIB-Cloud-\Mode\MODE_MP3.c  0x00000000   Number         0  mode_mp3.o ABSOLUTE
     ..\..\..\MCU_LIB-Cloud-\Mode\MODE_Motor.c 0x00000000   Number         0  mode_motor.o ABSOLUTE
@@ -962,7 +966,6 @@ Image Symbol Table
     ..\..\..\MCU_LIB-Cloud-\Mode\Mode.c      0x00000000   Number         0  mode.o ABSOLUTE
     ..\..\..\MCU_LIB-Cloud-\Mode\Steering_engine.c 0x00000000   Number         0  steering_engine.o ABSOLUTE
     ..\..\..\MCU_LIB-Cloud-\Mode\key.c       0x00000000   Number         0  key.o ABSOLUTE
-    ..\..\..\MCU_LIB-Cloud-\Mode\lcd.c       0x00000000   Number         0  lcd.o ABSOLUTE
     ..\..\..\MCU_LIB-Cloud-\Mode\mlx90614.c  0x00000000   Number         0  mlx90614.o ABSOLUTE
     ..\CMSIS\system_at32f403a_407.c          0x00000000   Number         0  system_at32f403a_407.o ABSOLUTE
     ..\Config\at32f403a_407_clock.c          0x00000000   Number         0  at32f403a_407_clock.o ABSOLUTE
@@ -995,11 +998,13 @@ Image Symbol Table
     ..\Startup\startup_at32f403a_407.s       0x00000000   Number         0  startup_at32f403a_407.o ABSOLUTE
     ..\\..\\..\\MCU_LIB-Cloud-\\Base_AT32F403A\\Base.c 0x00000000   Number         0  base.o ABSOLUTE
     ..\\..\\..\\MCU_LIB-Cloud-\\Base_AT32F403A\\Exist_GPIO.c 0x00000000   Number         0  exist_gpio.o ABSOLUTE
+    ..\\..\\..\\MCU_LIB-Cloud-\\Base_AT32F403A\\uart.c 0x00000000   Number         0  uart.o ABSOLUTE
     ..\\..\\..\\MCU_LIB-Cloud-\\Mode\\BZZ.c  0x00000000   Number         0  bzz.o ABSOLUTE
     ..\\..\\..\\MCU_LIB-Cloud-\\Mode\\Control_Mode.c 0x00000000   Number         0  control_mode.o ABSOLUTE
     ..\\..\\..\\MCU_LIB-Cloud-\\Mode\\DS18B20.c 0x00000000   Number         0  ds18b20.o ABSOLUTE
     ..\\..\\..\\MCU_LIB-Cloud-\\Mode\\HC138.c 0x00000000   Number         0  hc138.o ABSOLUTE
     ..\\..\\..\\MCU_LIB-Cloud-\\Mode\\HC595.c 0x00000000   Number         0  hc595.o ABSOLUTE
+    ..\\..\\..\\MCU_LIB-Cloud-\\Mode\\LCD.c  0x00000000   Number         0  lcd.o ABSOLUTE
     ..\\..\\..\\MCU_LIB-Cloud-\\Mode\\LED.c  0x00000000   Number         0  led.o ABSOLUTE
     ..\\..\\..\\MCU_LIB-Cloud-\\Mode\\MODE_MP3.c 0x00000000   Number         0  mode_mp3.o ABSOLUTE
     ..\\..\\..\\MCU_LIB-Cloud-\\Mode\\MODE_Motor.c 0x00000000   Number         0  mode_motor.o ABSOLUTE
@@ -1009,7 +1014,6 @@ Image Symbol Table
     ..\\..\\..\\MCU_LIB-Cloud-\\Mode\\Mode.c 0x00000000   Number         0  mode.o ABSOLUTE
     ..\\..\\..\\MCU_LIB-Cloud-\\Mode\\Steering_engine.c 0x00000000   Number         0  steering_engine.o ABSOLUTE
     ..\\..\\..\\MCU_LIB-Cloud-\\Mode\\key.c  0x00000000   Number         0  key.o ABSOLUTE
-    ..\\..\\..\\MCU_LIB-Cloud-\\Mode\\lcd.c  0x00000000   Number         0  lcd.o ABSOLUTE
     ..\\CMSIS\\system_at32f403a_407.c        0x00000000   Number         0  system_at32f403a_407.o ABSOLUTE
     ..\\Config\\at32f403a_407_clock.c        0x00000000   Number         0  at32f403a_407_clock.o ABSOLUTE
     ..\\Config\\at32f403a_407_int.c          0x00000000   Number         0  at32f403a_407_int.o ABSOLUTE
@@ -1211,43 +1215,43 @@ Memory Map of the image
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x08000000   0x08000000   0x00000184   Data   RO         4350    RESET               startup_at32f403a_407.o
-    0x08000184   0x08000184   0x00000000   Code   RO         4491  * .ARM.Collect$$$$00000000  mc_w.l(entry.o)
-    0x08000184   0x08000184   0x00000004   Code   RO         4508    .ARM.Collect$$$$00000001  mc_w.l(entry2.o)
-    0x08000188   0x08000188   0x00000004   Code   RO         4511    .ARM.Collect$$$$00000004  mc_w.l(entry5.o)
-    0x0800018c   0x0800018c   0x00000000   Code   RO         4513    .ARM.Collect$$$$00000008  mc_w.l(entry7b.o)
-    0x0800018c   0x0800018c   0x00000000   Code   RO         4515    .ARM.Collect$$$$0000000A  mc_w.l(entry8b.o)
-    0x0800018c   0x0800018c   0x00000008   Code   RO         4516    .ARM.Collect$$$$0000000B  mc_w.l(entry9a.o)
-    0x08000194   0x08000194   0x00000004   Code   RO         4523    .ARM.Collect$$$$0000000E  mc_w.l(entry12b.o)
-    0x08000198   0x08000198   0x00000000   Code   RO         4518    .ARM.Collect$$$$0000000F  mc_w.l(entry10a.o)
-    0x08000198   0x08000198   0x00000000   Code   RO         4520    .ARM.Collect$$$$00000011  mc_w.l(entry11a.o)
-    0x08000198   0x08000198   0x00000004   Code   RO         4509    .ARM.Collect$$$$00002712  mc_w.l(entry2.o)
-    0x0800019c   0x0800019c   0x00000024   Code   RO         4351    .text               startup_at32f403a_407.o
-    0x080001c0   0x080001c0   0x00000024   Code   RO         4538    .text               mc_w.l(init.o)
-    0x080001e4   0x080001e4   0x00000004   Code   RO         4413    i.BusFault_Handler  at32f403a_407_int.o
-    0x080001e8   0x080001e8   0x00000002   Code   RO         4414    i.DebugMon_Handler  at32f403a_407_int.o
-    0x080001ea   0x080001ea   0x00000004   Code   RO         4415    i.HardFault_Handler  at32f403a_407_int.o
-    0x080001ee   0x080001ee   0x00000004   Code   RO         4416    i.MemManage_Handler  at32f403a_407_int.o
-    0x080001f2   0x080001f2   0x00000002   Code   RO         4417    i.NMI_Handler       at32f403a_407_int.o
-    0x080001f4   0x080001f4   0x00000002   Code   RO         4418    i.PendSV_Handler    at32f403a_407_int.o
-    0x080001f6   0x080001f6   0x00000002   Code   RO         4419    i.SVC_Handler       at32f403a_407_int.o
-    0x080001f8   0x080001f8   0x00000002   Code   RO         4420    i.SysTick_Handler   at32f403a_407_int.o
+    0x08000000   0x08000000   0x00000184   Data   RO         4365    RESET               startup_at32f403a_407.o
+    0x08000184   0x08000184   0x00000000   Code   RO         4506  * .ARM.Collect$$$$00000000  mc_w.l(entry.o)
+    0x08000184   0x08000184   0x00000004   Code   RO         4523    .ARM.Collect$$$$00000001  mc_w.l(entry2.o)
+    0x08000188   0x08000188   0x00000004   Code   RO         4526    .ARM.Collect$$$$00000004  mc_w.l(entry5.o)
+    0x0800018c   0x0800018c   0x00000000   Code   RO         4528    .ARM.Collect$$$$00000008  mc_w.l(entry7b.o)
+    0x0800018c   0x0800018c   0x00000000   Code   RO         4530    .ARM.Collect$$$$0000000A  mc_w.l(entry8b.o)
+    0x0800018c   0x0800018c   0x00000008   Code   RO         4531    .ARM.Collect$$$$0000000B  mc_w.l(entry9a.o)
+    0x08000194   0x08000194   0x00000004   Code   RO         4538    .ARM.Collect$$$$0000000E  mc_w.l(entry12b.o)
+    0x08000198   0x08000198   0x00000000   Code   RO         4533    .ARM.Collect$$$$0000000F  mc_w.l(entry10a.o)
+    0x08000198   0x08000198   0x00000000   Code   RO         4535    .ARM.Collect$$$$00000011  mc_w.l(entry11a.o)
+    0x08000198   0x08000198   0x00000004   Code   RO         4524    .ARM.Collect$$$$00002712  mc_w.l(entry2.o)
+    0x0800019c   0x0800019c   0x00000024   Code   RO         4366    .text               startup_at32f403a_407.o
+    0x080001c0   0x080001c0   0x00000024   Code   RO         4553    .text               mc_w.l(init.o)
+    0x080001e4   0x080001e4   0x00000004   Code   RO         4428    i.BusFault_Handler  at32f403a_407_int.o
+    0x080001e8   0x080001e8   0x00000002   Code   RO         4429    i.DebugMon_Handler  at32f403a_407_int.o
+    0x080001ea   0x080001ea   0x00000004   Code   RO         4430    i.HardFault_Handler  at32f403a_407_int.o
+    0x080001ee   0x080001ee   0x00000004   Code   RO         4431    i.MemManage_Handler  at32f403a_407_int.o
+    0x080001f2   0x080001f2   0x00000002   Code   RO         4432    i.NMI_Handler       at32f403a_407_int.o
+    0x080001f4   0x080001f4   0x00000002   Code   RO         4433    i.PendSV_Handler    at32f403a_407_int.o
+    0x080001f6   0x080001f6   0x00000002   Code   RO         4434    i.SVC_Handler       at32f403a_407_int.o
+    0x080001f8   0x080001f8   0x00000002   Code   RO         4435    i.SysTick_Handler   at32f403a_407_int.o
     0x080001fa   0x080001fa   0x00000002   PAD
-    0x080001fc   0x080001fc   0x00000070   Code   RO         4314    i.SystemInit        system_at32f403a_407.o
-    0x0800026c   0x0800026c   0x00000004   Code   RO         4421    i.UsageFault_Handler  at32f403a_407_int.o
-    0x08000270   0x08000270   0x0000000e   Code   RO         4561    i.__scatterload_copy  mc_w.l(handlers.o)
-    0x0800027e   0x0800027e   0x00000002   Code   RO         4562    i.__scatterload_null  mc_w.l(handlers.o)
-    0x08000280   0x08000280   0x0000000e   Code   RO         4563    i.__scatterload_zeroinit  mc_w.l(handlers.o)
+    0x080001fc   0x080001fc   0x00000070   Code   RO         4329    i.SystemInit        system_at32f403a_407.o
+    0x0800026c   0x0800026c   0x00000004   Code   RO         4436    i.UsageFault_Handler  at32f403a_407_int.o
+    0x08000270   0x08000270   0x0000000e   Code   RO         4576    i.__scatterload_copy  mc_w.l(handlers.o)
+    0x0800027e   0x0800027e   0x00000002   Code   RO         4577    i.__scatterload_null  mc_w.l(handlers.o)
+    0x08000280   0x08000280   0x0000000e   Code   RO         4578    i.__scatterload_zeroinit  mc_w.l(handlers.o)
     0x0800028e   0x0800028e   0x00000004   Code   RO            4    i.main              main.o
     0x08000292   0x08000292   0x00000002   PAD
-    0x08000294   0x08000294   0x00000010   Data   RO         4559    Region$$Table       anon$$obj.o
+    0x08000294   0x08000294   0x00000010   Data   RO         4574    Region$$Table       anon$$obj.o
 
 
     Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x080002a4, Size: 0x00000400, Max: 0x00038000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000        -       0x00000400   Zero   RW         4348    STACK               startup_at32f403a_407.o
+    0x20000000        -       0x00000400   Zero   RW         4363    STACK               startup_at32f403a_407.o
 
 
 ==============================================================================
@@ -1257,13 +1261,13 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-        26          0          0          0          0       4294   at32f403a_407_int.o
-         4          0          0          0          0       1907   main.o
+        26          0          0          0          0       4246   at32f403a_407_int.o
+         4          0          0          0          0       1903   main.o
         36          8        388          0       1024        840   startup_at32f403a_407.o
-       112         12          0          0          0        521   system_at32f403a_407.o
+       112         12          0          0          0        513   system_at32f403a_407.o
 
     ----------------------------------------------------------------------
-       182         20        404          0       1024       7562   Object Totals
+       182         20        404          0       1024       7502   Object Totals
          0          0         16          0          0          0   (incl. Generated)
          4          0          0          0          0          0   (incl. Padding)
 
@@ -1303,8 +1307,8 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-       272         36        404          0       1024       6934   Grand Totals
-       272         36        404          0       1024       6934   ELF Image Totals
+       272         36        404          0       1024       6874   Grand Totals
+       272         36        404          0       1024       6874   ELF Image Totals
        272         36        404          0          0          0   ROM Totals
 
 ==============================================================================

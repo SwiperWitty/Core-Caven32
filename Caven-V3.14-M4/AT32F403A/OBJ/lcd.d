@@ -1,4 +1,4 @@
-..\obj\lcd.o: ..\..\..\MCU_LIB-Cloud-\Mode\lcd.c
+..\obj\lcd.o: ..\..\..\MCU_LIB-Cloud-\Mode\LCD.c
 ..\obj\lcd.o: ..\..\..\MCU_LIB-Cloud-\Mode\LCD.h
 ..\obj\lcd.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\Base.h
 ..\obj\lcd.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\uart.h
