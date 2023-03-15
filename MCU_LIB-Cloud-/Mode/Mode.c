@@ -55,6 +55,10 @@ static void Mode_User_index(void)		//索引 功能函数 本体
     Mode_User.UART.DATA_UART = CV_UART;
 #endif
 
+#ifdef Exist_USB
+
+#endif
+
 #ifdef Exist_KEY
     Mode_User.KEY.KEY_State = KEY_State;
 #endif
@@ -83,22 +87,28 @@ static void Mode_User_index(void)		//索引 功能函数 本体
 void Mode_Index(void) 
 {
     Mode_User_index();
-
-#ifdef Exist_LCD
-    Mode_Init.LCD = LCD_Init;
-#endif
+    
 #ifdef Exist_SYS_TIME
     Mode_Init.Sys_Clock = Sys_Clock_Init;
 #endif
+    
 #ifdef Exist_UART
     Mode_Init.UART = Uart_Init;
 #endif
+#ifdef Exist_USB
+    Mode_Init.USB = USB_User_init;
+#endif
+    
 #ifdef Exist_LED
     Mode_Init.LED = LED_Init;
+#endif
+#ifdef Exist_LCD
+    Mode_Init.LCD = LCD_Init;
 #endif
 #ifdef Exist_BZZ
     Mode_Init.BZZ = BZZ_Init;
 #endif
+
 #ifdef Exist_HC595
     Mode_Init.HC_595 = HC595_Init;
 #endif

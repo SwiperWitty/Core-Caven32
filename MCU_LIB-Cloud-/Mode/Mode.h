@@ -25,6 +25,10 @@
     #include "MODE_UART.h"
 #endif
 
+#ifdef Exist_USB
+#include "USB_User.h"
+#endif
+
 #ifdef Exist_HC595
     #include "HC595.h"			//驱动输出
 #endif
@@ -89,6 +93,10 @@ struct _Mode_Init
 #ifdef Exist_UART
 	void (*UART)(char Channel,int Baud,int SET);
 #endif
+#ifdef Exist_USB
+	void (*USB)(void);
+#endif
+    
 #ifdef Exist_LED
 	void (*LED)(int SET);
 #endif
@@ -140,6 +148,10 @@ struct _Mode_User
 #ifdef Exist_UART
     struct _Uart_ UART;                             //面向对象
 #endif
+#ifdef Exist_USB
+    //
+#endif    
+
 #ifdef Exist_LED
     struct LED_ LED;
 #endif
