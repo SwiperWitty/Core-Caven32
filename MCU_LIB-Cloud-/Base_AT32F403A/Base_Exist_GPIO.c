@@ -1,22 +1,25 @@
-#include "Exist_GPIO.h"
+#include "Base_Exist_GPIO.h"
 
 void LCD_GPIO_Init(int SET)
 {
 #ifdef Exist_LCD
-    GPIO_InitTypeDef  GPIO_InitStructure;
+    gpio_init_type GPIO_InitStructure;
     if (SET)
     {
-        RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);   //使能A端口时钟
+        crm_periph_reset(CRM_GPIOA_PERIPH_RESET, TRUE);   //使能A端口时钟
 
-        GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;      //LCD_DC
-        GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;         //推挽输出
-        GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//速度50MHz
-        GPIO_Init(GPIOA, &GPIO_InitStructure);    //初始化GPIOA
+        GPIO_InitStructure.gpio_pins = GPIO_PINS_10;      //LCD_DC
+        GPIO_InitStructure.gpio_mode = GPIO_MODE_OUTPUT;         //推挽输出
+        GPIO_InitStructure.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
+        GPIO_InitStructure.gpio_pull = GPIO_PULL_NONE;
+        GPIO_InitStructure.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;   
     }
     else
     {
-        GPIO_PinAFConfig(GPIOA,GPIO_PinSource5,GPIO_AF_0);
+        GPIO_InitStructure.gpio_pins = GPIO_PINS_10;
+        GPIO_InitStructure.gpio_mode = GPIO_MODE_INPUT;
     }
+    gpio_init(GPIOA, &GPIO_InitStructure);    //初始化GPIOA
 #endif
 }
 

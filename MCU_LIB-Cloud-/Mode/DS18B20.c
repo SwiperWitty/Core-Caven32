@@ -54,6 +54,7 @@ char DS18B20_Start (void)
 char DS18B20_Init (int Set)
 {
 	char temp = 0;
+    DS18B20_Delay (1);
 #ifdef Exist_DS18B20
     DS18B20_IO_Config(WRITE_Config);
     DS18B20_Delay (1);
@@ -166,7 +167,7 @@ float DS18B20_Get_Temp(void)
         Data += Temp_L;
 
 		Temp = Data;
-		Temp *= 0.0625;	
+		Temp *= (float)0.0625;	
 		if(t)
 		{Temp = -Temp;}
     }

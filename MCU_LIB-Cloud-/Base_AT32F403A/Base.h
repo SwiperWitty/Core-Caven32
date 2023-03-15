@@ -2,7 +2,7 @@
 #define _BASE_H__
 
 #include "uart.h"
-#include "spi.h"
+#include "Base_SPI.h"
 #include "IIC.h"
 
 #include "adc.h"
@@ -10,7 +10,7 @@
 #include "sys_time.h"
 #include "PWM.h"
 
-#include "Exist_GPIO.h"
+#include "Base_Exist_GPIO.h"
 
 /*
     SDK->Items->GPIO(Exist_GPIO)->BASE->

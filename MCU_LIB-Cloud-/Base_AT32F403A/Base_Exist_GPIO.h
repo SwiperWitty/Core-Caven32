@@ -23,10 +23,10 @@
  */
 
 #ifdef Exist_LCD
-    #define LCD_DC_Clr() GPIOA->BCR = GPIO_Pin_10    //DC_GPIO
-    #define LCD_DC_Set() GPIOA->BSHR = GPIO_Pin_10   //PA10
-//    #define LCD_RES_Clr()                                     //RES               //Caven 使用硬件复位
-//    #define LCD_RES_Set()
+    #define LCD_DC_L() GPIOA->clr = GPIO_PINS_10    //DC_GPIO
+    #define LCD_DC_H() GPIOA->scr = GPIO_PINS_10   //PA10
+//    #define LCD_RES_L()                                     //RES               //Caven 使用硬件复位
+//    #define LCD_RES_H()
 #endif
 
 #ifdef Exist_OLED
