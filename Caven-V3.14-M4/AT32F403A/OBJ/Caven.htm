@@ -3,11 +3,11 @@
 <title>Static Call Graph - [..\OBJ\Caven.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image ..\OBJ\Caven.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Thu Mar 02 11:44:06 2023
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Wed Mar 15 20:04:56 2023
 <BR><P>
-<H3>Maximum Stack Usage =          0 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        168 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
-
+LCD_Draw_Rectangle &rArr; LCD_Draw_Line &rArr; LCD_Draw_Point &rArr; LCD_Address_Set &rArr; LCD_WR_DATA &rArr; LCD_Writ_Bus &rArr; SPI_Send_DATA
 <P>
 <H3>
 Mutually Recursive functions
@@ -27,6 +27,7 @@ Function Pointers
  <LI><a href="#[4c]">CAN2_RX1_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[4d]">CAN2_SE_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[4a]">CAN2_TX_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
+ <LI><a href="#[5a]">CRC16_CCITT_CalculateBuf</a> from check_crc16.o(i.CRC16_CCITT_CalculateBuf) referenced from api.o(i.API_Index)
  <LI><a href="#[f]">CRM_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[15]">DMA1_Channel1_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[16]">DMA1_Channel2_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
@@ -41,6 +42,7 @@ Function Pointers
  <LI><a href="#[45]">DMA2_Channel4_5_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[51]">DMA2_Channel6_7_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[7]">DebugMon_Handler</a> from at32f403a_407_int.o(i.DebugMon_Handler) referenced from startup_at32f403a_407.o(RESET)
+ <LI><a href="#[60]">Debug_Out</a> from mode.o(i.Debug_Out) referenced from mode.o(i.Mode_User_index)
  <LI><a href="#[55]">EMAC_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[56]">EMAC_WKUP_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[10]">EXINT0_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
@@ -51,15 +53,27 @@ Function Pointers
  <LI><a href="#[14]">EXINT4_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[21]">EXINT9_5_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[e]">FLASH_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
+ <LI><a href="#[5e]">Find_Data</a> from data_handle.o(i.Find_Data) referenced from api.o(i.API_Index)
  <LI><a href="#[2]">HardFault_Handler</a> from at32f403a_407_int.o(i.HardFault_Handler) referenced from startup_at32f403a_407.o(RESET)
+ <LI><a href="#[5b]">Hourly_to_Seconds</a> from time_handle.o(i.Hourly_to_Seconds) referenced from api.o(i.API_Index)
  <LI><a href="#[2a]">I2C1_ERR_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[29]">I2C1_EVT_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[2c]">I2C2_ERR_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[2b]">I2C2_EVT_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[48]">I2C3_ERR_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[47]">I2C3_EVT_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
+ <LI><a href="#[64]">LCD_Draw_Circle</a> from lcd.o(i.LCD_Draw_Circle) referenced from mode.o(i.Mode_User_index)
+ <LI><a href="#[63]">LCD_Draw_Line</a> from lcd.o(i.LCD_Draw_Line) referenced from mode.o(i.Mode_User_index)
+ <LI><a href="#[62]">LCD_Draw_Point</a> from lcd.o(i.LCD_Draw_Point) referenced from mode.o(i.Mode_User_index)
+ <LI><a href="#[65]">LCD_Draw_Rectangle</a> from lcd.o(i.LCD_Draw_Rectangle) referenced from mode.o(i.Mode_User_index)
+ <LI><a href="#[61]">LCD_Fill</a> from lcd.o(i.LCD_Fill) referenced from mode.o(i.Mode_User_index)
+ <LI><a href="#[5f]">LCD_Init</a> from lcd.o(i.LCD_Init) referenced from mode.o(i.Mode_Index)
+ <LI><a href="#[67]">LCD_Show_Chinese</a> from lcd.o(i.LCD_Show_Chinese) referenced from mode.o(i.Mode_User_index)
+ <LI><a href="#[68]">LCD_Show_Picture</a> from lcd.o(i.LCD_Show_Picture) referenced from mode.o(i.Mode_User_index)
+ <LI><a href="#[66]">LCD_Show_String</a> from lcd.o(i.LCD_Show_String) referenced from mode.o(i.Mode_User_index)
  <LI><a href="#[3]">MemManage_Handler</a> from at32f403a_407_int.o(i.MemManage_Handler) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[1]">NMI_Handler</a> from at32f403a_407_int.o(i.NMI_Handler) referenced from startup_at32f403a_407.o(RESET)
+ <LI><a href="#[5d]">Over_Time</a> from time_handle.o(i.Over_Time) referenced from api.o(i.API_Index)
  <LI><a href="#[b]">PVM_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[8]">PendSV_Handler</a> from at32f403a_407_int.o(i.PendSV_Handler) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[33]">RTCAlarm_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
@@ -67,11 +81,12 @@ Function Pointers
  <LI><a href="#[0]">Reset_Handler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[3b]">SDIO1_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[46]">SDIO2_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
- <LI><a href="#[2d]">SPI1_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
+ <LI><a href="#[2d]">SPI1_IRQHandler</a> from base_spi.o(i.SPI1_IRQHandler) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[2e]">SPI2_I2S2EXT_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[3d]">SPI3_I2S3EXT_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[49]">SPI4_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[6]">SVC_Handler</a> from at32f403a_407_int.o(i.SVC_Handler) referenced from startup_at32f403a_407.o(RESET)
+ <LI><a href="#[5c]">Seconds_to_Hourly</a> from time_handle.o(i.Seconds_to_Hourly) referenced from api.o(i.API_Index)
  <LI><a href="#[9]">SysTick_Handler</a> from at32f403a_407_int.o(i.SysTick_Handler) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[58]">SystemInit</a> from system_at32f403a_407.o(i.SystemInit) referenced from startup_at32f403a_407.o(.text)
  <LI><a href="#[c]">TAMPER_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
@@ -106,6 +121,7 @@ Function Pointers
  <LI><a href="#[a]">WWDT_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[3a]">XMC_IRQHandler</a> from startup_at32f403a_407.o(.text) referenced from startup_at32f403a_407.o(RESET)
  <LI><a href="#[59]">__main</a> from entry.o(.ARM.Collect$$$$00000000) referenced from startup_at32f403a_407.o(.text)
+ <LI><a href="#[69]">fputc</a> from main.o(i.fputc) referenced from printfb.o(i.__0printf$bare)
  <LI><a href="#[57]">main</a> from main.o(i.main) referenced from entry9a.o(.ARM.Collect$$$$0000000B)
 </UL>
 <P>
@@ -115,27 +131,27 @@ Global Symbols
 <P><STRONG><a name="[59]"></a>__main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry.o(.ARM.Collect$$$$00000000))
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32f403a_407.o(.text)
 </UL>
-<P><STRONG><a name="[5d]"></a>_main_stk</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry2.o(.ARM.Collect$$$$00000001))
+<P><STRONG><a name="[a3]"></a>_main_stk</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry2.o(.ARM.Collect$$$$00000001))
 
-<P><STRONG><a name="[5a]"></a>_main_scatterload</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry5.o(.ARM.Collect$$$$00000004))
-<BR><BR>[Calls]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload
+<P><STRONG><a name="[6a]"></a>_main_scatterload</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry5.o(.ARM.Collect$$$$00000004))
+<BR><BR>[Calls]<UL><LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload
 </UL>
 
-<P><STRONG><a name="[5c]"></a>__main_after_scatterload</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry5.o(.ARM.Collect$$$$00000004))
-<BR><BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload
+<P><STRONG><a name="[6c]"></a>__main_after_scatterload</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry5.o(.ARM.Collect$$$$00000004))
+<BR><BR>[Called By]<UL><LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload
 </UL>
 
-<P><STRONG><a name="[5e]"></a>_main_clock</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry7b.o(.ARM.Collect$$$$00000008))
+<P><STRONG><a name="[a4]"></a>_main_clock</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry7b.o(.ARM.Collect$$$$00000008))
 
-<P><STRONG><a name="[5f]"></a>_main_cpp_init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry8b.o(.ARM.Collect$$$$0000000A))
+<P><STRONG><a name="[a5]"></a>_main_cpp_init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry8b.o(.ARM.Collect$$$$0000000A))
 
-<P><STRONG><a name="[60]"></a>_main_init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry9a.o(.ARM.Collect$$$$0000000B))
+<P><STRONG><a name="[a6]"></a>_main_init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry9a.o(.ARM.Collect$$$$0000000B))
 
-<P><STRONG><a name="[61]"></a>__rt_lib_shutdown_fini</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry12b.o(.ARM.Collect$$$$0000000E))
+<P><STRONG><a name="[a7]"></a>__rt_lib_shutdown_fini</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry12b.o(.ARM.Collect$$$$0000000E))
 
-<P><STRONG><a name="[62]"></a>__rt_final_cpp</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry10a.o(.ARM.Collect$$$$0000000F))
+<P><STRONG><a name="[a8]"></a>__rt_final_cpp</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry10a.o(.ARM.Collect$$$$0000000F))
 
-<P><STRONG><a name="[63]"></a>__rt_final_exit</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry11a.o(.ARM.Collect$$$$00000011))
+<P><STRONG><a name="[a9]"></a>__rt_final_exit</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry11a.o(.ARM.Collect$$$$00000011))
 
 <P><STRONG><a name="[0]"></a>Reset_Handler</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, startup_at32f403a_407.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32f403a_407.o(RESET)
@@ -273,9 +289,6 @@ Global Symbols
 <P><STRONG><a name="[46]"></a>SDIO2_IRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_at32f403a_407.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32f403a_407.o(RESET)
 </UL>
-<P><STRONG><a name="[2d]"></a>SPI1_IRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_at32f403a_407.o(.text))
-<BR>[Address Reference Count : 1]<UL><LI> startup_at32f403a_407.o(RESET)
-</UL>
 <P><STRONG><a name="[2e]"></a>SPI2_I2S2EXT_IRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_at32f403a_407.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32f403a_407.o(RESET)
 </UL>
@@ -375,34 +388,303 @@ Global Symbols
 <P><STRONG><a name="[3a]"></a>XMC_IRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_at32f403a_407.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32f403a_407.o(RESET)
 </UL>
-<P><STRONG><a name="[5b]"></a>__scatterload</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, init.o(.text))
-<BR><BR>[Calls]<UL><LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main_after_scatterload
+<P><STRONG><a name="[6b]"></a>__scatterload</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, init.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main_after_scatterload
 </UL>
-<BR>[Called By]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_main_scatterload
+<BR>[Called By]<UL><LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_main_scatterload
 </UL>
 
-<P><STRONG><a name="[64]"></a>__scatterload_rt2</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, init.o(.text), UNUSED)
+<P><STRONG><a name="[aa]"></a>__scatterload_rt2</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, init.o(.text), UNUSED)
+
+<P><STRONG><a name="[80]"></a>API_Index</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, api.o(i.API_Index))
+<BR><BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Init
+</UL>
 
 <P><STRONG><a name="[4]"></a>BusFault_Handler</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, at32f403a_407_int.o(i.BusFault_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32f403a_407.o(RESET)
 </UL>
+<P><STRONG><a name="[6d]"></a>CRC16_CCITT_CalateByte</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, check_crc16.o(i.CRC16_CCITT_CalateByte))
+<BR><BR>[Called By]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CRC16_CCITT_CalculateBuf
+</UL>
+
+<P><STRONG><a name="[5a]"></a>CRC16_CCITT_CalculateBuf</STRONG> (Thumb, 36 bytes, Stack size 16 bytes, check_crc16.o(i.CRC16_CCITT_CalculateBuf))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = CRC16_CCITT_CalculateBuf
+</UL>
+<BR>[Calls]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CRC16_CCITT_CalateByte
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> api.o(i.API_Index)
+</UL>
 <P><STRONG><a name="[7]"></a>DebugMon_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, at32f403a_407_int.o(i.DebugMon_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32f403a_407.o(RESET)
+</UL>
+<P><STRONG><a name="[60]"></a>Debug_Out</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, mode.o(i.Debug_Out))
+<BR>[Address Reference Count : 1]<UL><LI> mode.o(i.Mode_User_index)
+</UL>
+<P><STRONG><a name="[5e]"></a>Find_Data</STRONG> (Thumb, 28 bytes, Stack size 12 bytes, data_handle.o(i.Find_Data))
+<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = Find_Data
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> api.o(i.API_Index)
 </UL>
 <P><STRONG><a name="[2]"></a>HardFault_Handler</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, at32f403a_407_int.o(i.HardFault_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32f403a_407.o(RESET)
 </UL>
+<P><STRONG><a name="[5b]"></a>Hourly_to_Seconds</STRONG> (Thumb, 50 bytes, Stack size 12 bytes, time_handle.o(i.Hourly_to_Seconds))
+<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = Hourly_to_Seconds
+</UL>
+<BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Over_Time
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> api.o(i.API_Index)
+</UL>
+<P><STRONG><a name="[6e]"></a>LCD_Address_Set</STRONG> (Thumb, 58 bytes, Stack size 24 bytes, lcd.o(i.LCD_Address_Set))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = LCD_Address_Set &rArr; LCD_WR_DATA &rArr; LCD_Writ_Bus &rArr; SPI_Send_DATA
+</UL>
+<BR>[Calls]<UL><LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_WR_DATA
+<LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_WR_CMD
+</UL>
+<BR>[Called By]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Show_Picture
+<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Show_Char
+<LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Fill
+<LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Draw_Point
+</UL>
+
+<P><STRONG><a name="[64]"></a>LCD_Draw_Circle</STRONG> (Thumb, 158 bytes, Stack size 32 bytes, lcd.o(i.LCD_Draw_Circle))
+<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = LCD_Draw_Circle &rArr; LCD_Draw_Point &rArr; LCD_Address_Set &rArr; LCD_WR_DATA &rArr; LCD_Writ_Bus &rArr; SPI_Send_DATA
+</UL>
+<BR>[Calls]<UL><LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Draw_Point
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mode.o(i.Mode_User_index)
+</UL>
+<P><STRONG><a name="[63]"></a>LCD_Draw_Line</STRONG> (Thumb, 172 bytes, Stack size 72 bytes, lcd.o(i.LCD_Draw_Line))
+<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = LCD_Draw_Line &rArr; LCD_Draw_Point &rArr; LCD_Address_Set &rArr; LCD_WR_DATA &rArr; LCD_Writ_Bus &rArr; SPI_Send_DATA
+</UL>
+<BR>[Calls]<UL><LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Draw_Point
+</UL>
+<BR>[Called By]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Draw_Rectangle
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mode.o(i.Mode_User_index)
+</UL>
+<P><STRONG><a name="[62]"></a>LCD_Draw_Point</STRONG> (Thumb, 28 bytes, Stack size 16 bytes, lcd.o(i.LCD_Draw_Point))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = LCD_Draw_Point &rArr; LCD_Address_Set &rArr; LCD_WR_DATA &rArr; LCD_Writ_Bus &rArr; SPI_Send_DATA
+</UL>
+<BR>[Calls]<UL><LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_WR_DATA
+<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Address_Set
+</UL>
+<BR>[Called By]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Show_Char
+<LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Draw_Line
+<LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Draw_Circle
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mode.o(i.Mode_User_index)
+</UL>
+<P><STRONG><a name="[65]"></a>LCD_Draw_Rectangle</STRONG> (Thumb, 74 bytes, Stack size 32 bytes, lcd.o(i.LCD_Draw_Rectangle))
+<BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = LCD_Draw_Rectangle &rArr; LCD_Draw_Line &rArr; LCD_Draw_Point &rArr; LCD_Address_Set &rArr; LCD_WR_DATA &rArr; LCD_Writ_Bus &rArr; SPI_Send_DATA
+</UL>
+<BR>[Calls]<UL><LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Draw_Line
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mode.o(i.Mode_User_index)
+</UL>
+<P><STRONG><a name="[61]"></a>LCD_Fill</STRONG> (Thumb, 62 bytes, Stack size 32 bytes, lcd.o(i.LCD_Fill))
+<BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = LCD_Fill &rArr; LCD_Address_Set &rArr; LCD_WR_DATA &rArr; LCD_Writ_Bus &rArr; SPI_Send_DATA
+</UL>
+<BR>[Calls]<UL><LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_WR_DATA
+<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Address_Set
+</UL>
+<BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Init
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mode.o(i.Mode_User_index)
+</UL>
+<P><STRONG><a name="[71]"></a>LCD_GPIO_Init</STRONG> (Thumb, 68 bytes, Stack size 16 bytes, base_exist_gpio.o(i.LCD_GPIO_Init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = LCD_GPIO_Init &rArr; gpio_init
+</UL>
+<BR>[Calls]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_periph_reset
+<LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_init
+</UL>
+<BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Init
+</UL>
+
+<P><STRONG><a name="[5f]"></a>LCD_Init</STRONG> (Thumb, 426 bytes, Stack size 16 bytes, lcd.o(i.LCD_Init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = LCD_Init &rArr; LCD_Fill &rArr; LCD_Address_Set &rArr; LCD_WR_DATA &rArr; LCD_Writ_Bus &rArr; SPI_Send_DATA
+</UL>
+<BR>[Calls]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Delay
+<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_Start_Init
+<LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_GPIO_Init
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_WR_DATA8
+<LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_WR_CMD
+<LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Fill
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mode.o(i.Mode_Index)
+</UL>
+<P><STRONG><a name="[77]"></a>LCD_Show_Char</STRONG> (Thumb, 298 bytes, Stack size 56 bytes, lcd.o(i.LCD_Show_Char))
+<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = LCD_Show_Char &rArr; LCD_Draw_Point &rArr; LCD_Address_Set &rArr; LCD_WR_DATA &rArr; LCD_Writ_Bus &rArr; SPI_Send_DATA
+</UL>
+<BR>[Calls]<UL><LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_WR_DATA
+<LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Draw_Point
+<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Address_Set
+</UL>
+<BR>[Called By]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Show_String
+</UL>
+
+<P><STRONG><a name="[67]"></a>LCD_Show_Chinese</STRONG> (Thumb, 88 bytes, Stack size 44 bytes, lcd.o(i.LCD_Show_Chinese))
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = LCD_Show_Chinese &rArr; LCD_Show_Chinese32x32
+</UL>
+<BR>[Calls]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Show_Chinese32x32
+<LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Show_Chinese24x24
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mode.o(i.Mode_User_index)
+</UL>
+<P><STRONG><a name="[78]"></a>LCD_Show_Chinese24x24</STRONG> (Thumb, 8 bytes, Stack size 16 bytes, lcd.o(i.LCD_Show_Chinese24x24))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = LCD_Show_Chinese24x24
+</UL>
+<BR>[Called By]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Show_Chinese
+</UL>
+
+<P><STRONG><a name="[79]"></a>LCD_Show_Chinese32x32</STRONG> (Thumb, 8 bytes, Stack size 16 bytes, lcd.o(i.LCD_Show_Chinese32x32))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = LCD_Show_Chinese32x32
+</UL>
+<BR>[Called By]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Show_Chinese
+</UL>
+
+<P><STRONG><a name="[68]"></a>LCD_Show_Picture</STRONG> (Thumb, 102 bytes, Stack size 40 bytes, lcd.o(i.LCD_Show_Picture))
+<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = LCD_Show_Picture &rArr; LCD_Address_Set &rArr; LCD_WR_DATA &rArr; LCD_Writ_Bus &rArr; SPI_Send_DATA
+</UL>
+<BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_WR_DATA8
+<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Address_Set
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mode.o(i.Mode_User_index)
+</UL>
+<P><STRONG><a name="[66]"></a>LCD_Show_String</STRONG> (Thumb, 110 bytes, Stack size 40 bytes, lcd.o(i.LCD_Show_String))
+<BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = LCD_Show_String &rArr; LCD_Show_Char &rArr; LCD_Draw_Point &rArr; LCD_Address_Set &rArr; LCD_WR_DATA &rArr; LCD_Writ_Bus &rArr; SPI_Send_DATA
+</UL>
+<BR>[Calls]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Show_Char
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> mode.o(i.Mode_User_index)
+</UL>
+<P><STRONG><a name="[6f]"></a>LCD_WR_CMD</STRONG> (Thumb, 46 bytes, Stack size 8 bytes, lcd.o(i.LCD_WR_CMD))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = LCD_WR_CMD &rArr; LCD_Writ_Bus &rArr; SPI_Send_DATA
+</UL>
+<BR>[Calls]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_CS_Set
+<LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Writ_Bus
+</UL>
+<BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Init
+<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Address_Set
+</UL>
+
+<P><STRONG><a name="[70]"></a>LCD_WR_DATA</STRONG> (Thumb, 34 bytes, Stack size 8 bytes, lcd.o(i.LCD_WR_DATA))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = LCD_WR_DATA &rArr; LCD_Writ_Bus &rArr; SPI_Send_DATA
+</UL>
+<BR>[Calls]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_CS_Set
+<LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Writ_Bus
+</UL>
+<BR>[Called By]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Show_Char
+<LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Fill
+<LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Draw_Point
+<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Address_Set
+</UL>
+
+<P><STRONG><a name="[76]"></a>LCD_WR_DATA8</STRONG> (Thumb, 28 bytes, Stack size 8 bytes, lcd.o(i.LCD_WR_DATA8))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = LCD_WR_DATA8 &rArr; LCD_Writ_Bus &rArr; SPI_Send_DATA
+</UL>
+<BR>[Calls]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_CS_Set
+<LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Writ_Bus
+</UL>
+<BR>[Called By]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Show_Picture
+<LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Init
+</UL>
+
+<P><STRONG><a name="[7b]"></a>LCD_Writ_Bus</STRONG> (Thumb, 12 bytes, Stack size 8 bytes, lcd.o(i.LCD_Writ_Bus))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = LCD_Writ_Bus &rArr; SPI_Send_DATA
+</UL>
+<BR>[Calls]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_Send_DATA
+</UL>
+<BR>[Called By]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_WR_DATA8
+<LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_WR_DATA
+<LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_WR_CMD
+</UL>
+
+<P><STRONG><a name="[7d]"></a>Main_Init</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, main.o(i.Main_Init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = Main_Init &rArr; Uart2_Init &rArr; usart_init &rArr; crm_clocks_freq_get
+</UL>
+<BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_clock_config
+<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Mode_Index
+<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;API_Index
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart2_Init
+<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
+</UL>
+<BR>[Called By]<UL><LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
 <P><STRONG><a name="[3]"></a>MemManage_Handler</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, at32f403a_407_int.o(i.MemManage_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32f403a_407.o(RESET)
 </UL>
+<P><STRONG><a name="[7f]"></a>Mode_Index</STRONG> (Thumb, 14 bytes, Stack size 8 bytes, mode.o(i.Mode_Index))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = Mode_Index
+</UL>
+<BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Mode_User_index
+</UL>
+<BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Init
+</UL>
+
 <P><STRONG><a name="[1]"></a>NMI_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, at32f403a_407_int.o(i.NMI_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32f403a_407.o(RESET)
+</UL>
+<P><STRONG><a name="[5d]"></a>Over_Time</STRONG> (Thumb, 204 bytes, Stack size 20 bytes, time_handle.o(i.Over_Time))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = Over_Time &rArr; Hourly_to_Seconds
+</UL>
+<BR>[Calls]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Hourly_to_Seconds
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> api.o(i.API_Index)
 </UL>
 <P><STRONG><a name="[8]"></a>PendSV_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, at32f403a_407_int.o(i.PendSV_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32f403a_407.o(RESET)
 </UL>
+<P><STRONG><a name="[2d]"></a>SPI1_IRQHandler</STRONG> (Thumb, 50 bytes, Stack size 8 bytes, base_spi.o(i.SPI1_IRQHandler))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = SPI1_IRQHandler
+</UL>
+<BR>[Calls]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;spi_i2s_interrupt_enable
+<LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;spi_i2s_flag_get
+<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_CS_Set
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> startup_at32f403a_407.o(RESET)
+</UL>
+<P><STRONG><a name="[86]"></a>SPI2_GPIO_Init</STRONG> (Thumb, 146 bytes, Stack size 16 bytes, base_spi.o(i.SPI2_GPIO_Init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = SPI2_GPIO_Init &rArr; gpio_init
+</UL>
+<BR>[Calls]<UL><LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_init
+<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_default_para_init
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_periph_clock_enable
+</UL>
+<BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_Start_Init
+</UL>
+
+<P><STRONG><a name="[7a]"></a>SPI_CS_Set</STRONG> (Thumb, 54 bytes, Stack size 0 bytes, base_spi.o(i.SPI_CS_Set))
+<BR><BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_Start_Init
+<LI><a href="#[2d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI1_IRQHandler
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_WR_DATA8
+<LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_WR_DATA
+<LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_WR_CMD
+</UL>
+
+<P><STRONG><a name="[7c]"></a>SPI_Send_DATA</STRONG> (Thumb, 72 bytes, Stack size 8 bytes, base_spi.o(i.SPI_Send_DATA))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = SPI_Send_DATA
+</UL>
+<BR>[Called By]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Writ_Bus
+</UL>
+
+<P><STRONG><a name="[74]"></a>SPI_Start_Init</STRONG> (Thumb, 26 bytes, Stack size 16 bytes, base_spi.o(i.SPI_Start_Init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = SPI_Start_Init &rArr; SPI2_GPIO_Init &rArr; gpio_init
+</UL>
+<BR>[Calls]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_CS_Set
+<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI2_GPIO_Init
+</UL>
+<BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Init
+</UL>
+
 <P><STRONG><a name="[6]"></a>SVC_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, at32f403a_407_int.o(i.SVC_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32f403a_407.o(RESET)
+</UL>
+<P><STRONG><a name="[5c]"></a>Seconds_to_Hourly</STRONG> (Thumb, 78 bytes, Stack size 16 bytes, time_handle.o(i.Seconds_to_Hourly))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = Seconds_to_Hourly
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> api.o(i.API_Index)
 </UL>
 <P><STRONG><a name="[9]"></a>SysTick_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, at32f403a_407_int.o(i.SysTick_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32f403a_407.o(RESET)
@@ -410,21 +692,255 @@ Global Symbols
 <P><STRONG><a name="[58]"></a>SystemInit</STRONG> (Thumb, 100 bytes, Stack size 0 bytes, system_at32f403a_407.o(i.SystemInit))
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32f403a_407.o(.text)
 </UL>
+<P><STRONG><a name="[81]"></a>Uart2_Init</STRONG> (Thumb, 192 bytes, Stack size 24 bytes, main.o(i.Uart2_Init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = Uart2_Init &rArr; usart_init &rArr; crm_clocks_freq_get
+</UL>
+<BR>[Calls]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_transmitter_enable
+<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_reset
+<LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_receiver_enable
+<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_parity_selection_config
+<LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_interrupt_enable
+<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_init
+<LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_enable
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nvic_priority_group_config
+<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nvic_irq_enable
+<LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_init
+<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_default_para_init
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_periph_clock_enable
+</UL>
+<BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Init
+</UL>
+
 <P><STRONG><a name="[5]"></a>UsageFault_Handler</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, at32f403a_407_int.o(i.UsageFault_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32f403a_407.o(RESET)
 </UL>
-<P><STRONG><a name="[65]"></a>__scatterload_copy</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_copy), UNUSED)
+<P><STRONG><a name="[92]"></a>__0printf$bare</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, printfb.o(i.__0printf$bare), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_core
+</UL>
 
-<P><STRONG><a name="[66]"></a>__scatterload_null</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_null), UNUSED)
+<P><STRONG><a name="[ab]"></a>__1printf$bare</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, printfb.o(i.__0printf$bare), UNUSED)
 
-<P><STRONG><a name="[67]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
+<P><STRONG><a name="[82]"></a>__2printf</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, printfb.o(i.__0printf$bare))
+<BR><BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Init
+</UL>
 
-<P><STRONG><a name="[57]"></a>main</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, main.o(i.main))
+<P><STRONG><a name="[ac]"></a>__scatterload_copy</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_copy), UNUSED)
+
+<P><STRONG><a name="[ad]"></a>__scatterload_null</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_null), UNUSED)
+
+<P><STRONG><a name="[ae]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
+
+<P><STRONG><a name="[9d]"></a>crm_ahb_div_set</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, at32f403a_407_crm.o(i.crm_ahb_div_set))
+<BR><BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_clock_config
+</UL>
+
+<P><STRONG><a name="[9f]"></a>crm_apb1_div_set</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, at32f403a_407_crm.o(i.crm_apb1_div_set))
+<BR><BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_clock_config
+</UL>
+
+<P><STRONG><a name="[9e]"></a>crm_apb2_div_set</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, at32f403a_407_crm.o(i.crm_apb2_div_set))
+<BR><BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_clock_config
+</UL>
+
+<P><STRONG><a name="[a0]"></a>crm_auto_step_mode_enable</STRONG> (Thumb, 34 bytes, Stack size 0 bytes, at32f403a_407_crm.o(i.crm_auto_step_mode_enable))
+<BR><BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_clock_config
+</UL>
+
+<P><STRONG><a name="[9b]"></a>crm_clock_source_enable</STRONG> (Thumb, 90 bytes, Stack size 0 bytes, at32f403a_407_crm.o(i.crm_clock_source_enable))
+<BR><BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_clock_config
+</UL>
+
+<P><STRONG><a name="[94]"></a>crm_clocks_freq_get</STRONG> (Thumb, 268 bytes, Stack size 24 bytes, at32f403a_407_crm.o(i.crm_clocks_freq_get))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = crm_clocks_freq_get
+</UL>
+<BR>[Calls]<UL><LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_sysclk_switch_status_get
+</UL>
+<BR>[Called By]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_init
+</UL>
+
+<P><STRONG><a name="[97]"></a>crm_flag_get</STRONG> (Thumb, 42 bytes, Stack size 8 bytes, at32f403a_407_crm.o(i.crm_flag_get))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = crm_flag_get
+</UL>
+<BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_clock_config
+<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_hext_stable_wait
+</UL>
+
+<P><STRONG><a name="[96]"></a>crm_hext_stable_wait</STRONG> (Thumb, 46 bytes, Stack size 12 bytes, at32f403a_407_crm.o(i.crm_hext_stable_wait))
+<BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = crm_hext_stable_wait &rArr; crm_flag_get
+</UL>
+<BR>[Calls]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_flag_get
+</UL>
+<BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_clock_config
+</UL>
+
+<P><STRONG><a name="[88]"></a>crm_periph_clock_enable</STRONG> (Thumb, 62 bytes, Stack size 8 bytes, at32f403a_407_crm.o(i.crm_periph_clock_enable))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = crm_periph_clock_enable
+</UL>
+<BR>[Called By]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI2_GPIO_Init
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart2_Init
+</UL>
+
+<P><STRONG><a name="[72]"></a>crm_periph_reset</STRONG> (Thumb, 62 bytes, Stack size 8 bytes, at32f403a_407_crm.o(i.crm_periph_reset))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = crm_periph_reset
+</UL>
+<BR>[Called By]<UL><LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_GPIO_Init
+<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_reset
+</UL>
+
+<P><STRONG><a name="[9c]"></a>crm_pll_config</STRONG> (Thumb, 104 bytes, Stack size 8 bytes, at32f403a_407_crm.o(i.crm_pll_config))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = crm_pll_config
+</UL>
+<BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_clock_config
+</UL>
+
+<P><STRONG><a name="[9a]"></a>crm_reset</STRONG> (Thumb, 80 bytes, Stack size 0 bytes, at32f403a_407_crm.o(i.crm_reset))
+<BR><BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_clock_config
+</UL>
+
+<P><STRONG><a name="[a1]"></a>crm_sysclk_switch</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, at32f403a_407_crm.o(i.crm_sysclk_switch))
+<BR><BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_clock_config
+</UL>
+
+<P><STRONG><a name="[95]"></a>crm_sysclk_switch_status_get</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, at32f403a_407_crm.o(i.crm_sysclk_switch_status_get))
+<BR><BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_clock_config
+<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_clocks_freq_get
+<LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_core_clock_update
+</UL>
+
+<P><STRONG><a name="[69]"></a>fputc</STRONG> (Thumb, 36 bytes, Stack size 16 bytes, main.o(i.fputc))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = fputc
+</UL>
+<BR>[Calls]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_flag_get
+<LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_data_transmit
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> printfb.o(i.__0printf$bare)
+</UL>
+<P><STRONG><a name="[87]"></a>gpio_default_para_init</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, at32f403a_407_gpio.o(i.gpio_default_para_init))
+<BR><BR>[Called By]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI2_GPIO_Init
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart2_Init
+</UL>
+
+<P><STRONG><a name="[73]"></a>gpio_init</STRONG> (Thumb, 168 bytes, Stack size 20 bytes, at32f403a_407_gpio.o(i.gpio_init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = gpio_init
+</UL>
+<BR>[Called By]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI2_GPIO_Init
+<LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_GPIO_Init
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart2_Init
+</UL>
+
+<P><STRONG><a name="[57]"></a>main</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, main.o(i.main))
+<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = main &rArr; Main_Init &rArr; Uart2_Init &rArr; usart_init &rArr; crm_clocks_freq_get
+</UL>
+<BR>[Calls]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Init
+</UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
-</UL><P>
+</UL>
+<P><STRONG><a name="[8b]"></a>nvic_irq_enable</STRONG> (Thumb, 190 bytes, Stack size 32 bytes, at32f403a_407_misc.o(i.nvic_irq_enable))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = nvic_irq_enable
+</UL>
+<BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart2_Init
+</UL>
+
+<P><STRONG><a name="[8a]"></a>nvic_priority_group_config</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, at32f403a_407_misc.o(i.nvic_priority_group_config))
+<BR><BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart2_Init
+</UL>
+
+<P><STRONG><a name="[84]"></a>spi_i2s_flag_get</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, at32f403a_407_spi.o(i.spi_i2s_flag_get))
+<BR><BR>[Called By]<UL><LI><a href="#[2d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI1_IRQHandler
+</UL>
+
+<P><STRONG><a name="[85]"></a>spi_i2s_interrupt_enable</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, at32f403a_407_spi.o(i.spi_i2s_interrupt_enable))
+<BR><BR>[Called By]<UL><LI><a href="#[2d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI1_IRQHandler
+</UL>
+
+<P><STRONG><a name="[7e]"></a>system_clock_config</STRONG> (Thumb, 106 bytes, Stack size 8 bytes, at32f403a_407_clock.o(i.system_clock_config))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = system_clock_config &rArr; system_core_clock_update
+</UL>
+<BR>[Calls]<UL><LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_sysclk_switch_status_get
+<LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_sysclk_switch
+<LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_reset
+<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_pll_config
+<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_hext_stable_wait
+<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_flag_get
+<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_clock_source_enable
+<LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_auto_step_mode_enable
+<LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_apb2_div_set
+<LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_apb1_div_set
+<LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_ahb_div_set
+<LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_core_clock_update
+</UL>
+<BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Init
+</UL>
+
+<P><STRONG><a name="[a2]"></a>system_core_clock_update</STRONG> (Thumb, 222 bytes, Stack size 32 bytes, system_at32f403a_407.o(i.system_core_clock_update))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = system_core_clock_update
+</UL>
+<BR>[Calls]<UL><LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_sysclk_switch_status_get
+</UL>
+<BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_clock_config
+</UL>
+
+<P><STRONG><a name="[99]"></a>usart_data_transmit</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, at32f403a_407_usart.o(i.usart_data_transmit))
+<BR><BR>[Called By]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fputc
+</UL>
+
+<P><STRONG><a name="[91]"></a>usart_enable</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, at32f403a_407_usart.o(i.usart_enable))
+<BR><BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart2_Init
+</UL>
+
+<P><STRONG><a name="[98]"></a>usart_flag_get</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, at32f403a_407_usart.o(i.usart_flag_get))
+<BR><BR>[Called By]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fputc
+</UL>
+
+<P><STRONG><a name="[8c]"></a>usart_init</STRONG> (Thumb, 120 bytes, Stack size 48 bytes, at32f403a_407_usart.o(i.usart_init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = usart_init &rArr; crm_clocks_freq_get
+</UL>
+<BR>[Calls]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_clocks_freq_get
+</UL>
+<BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart2_Init
+</UL>
+
+<P><STRONG><a name="[90]"></a>usart_interrupt_enable</STRONG> (Thumb, 54 bytes, Stack size 12 bytes, at32f403a_407_usart.o(i.usart_interrupt_enable))
+<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = usart_interrupt_enable
+</UL>
+<BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart2_Init
+</UL>
+
+<P><STRONG><a name="[8f]"></a>usart_parity_selection_config</STRONG> (Thumb, 76 bytes, Stack size 0 bytes, at32f403a_407_usart.o(i.usart_parity_selection_config))
+<BR><BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart2_Init
+</UL>
+
+<P><STRONG><a name="[8e]"></a>usart_receiver_enable</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, at32f403a_407_usart.o(i.usart_receiver_enable))
+<BR><BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart2_Init
+</UL>
+
+<P><STRONG><a name="[89]"></a>usart_reset</STRONG> (Thumb, 208 bytes, Stack size 8 bytes, at32f403a_407_usart.o(i.usart_reset))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = usart_reset &rArr; crm_periph_reset
+</UL>
+<BR>[Calls]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_periph_reset
+</UL>
+<BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart2_Init
+</UL>
+
+<P><STRONG><a name="[8d]"></a>usart_transmitter_enable</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, at32f403a_407_usart.o(i.usart_transmitter_enable))
+<BR><BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart2_Init
+</UL>
+<P>
 <H3>
 Local Symbols
-</H3><P>
+</H3>
+<P><STRONG><a name="[75]"></a>LCD_Delay</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, lcd.o(i.LCD_Delay))
+<BR><BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_Init
+</UL>
+
+<P><STRONG><a name="[83]"></a>Mode_User_index</STRONG> (Thumb, 42 bytes, Stack size 0 bytes, mode.o(i.Mode_User_index))
+<BR><BR>[Called By]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Mode_Index
+</UL>
+
+<P><STRONG><a name="[93]"></a>_printf_core</STRONG> (Thumb, 34 bytes, Stack size 24 bytes, printfb.o(i._printf_core), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__0printf$bare
+</UL>
+<P>
 <H3>
 Undefined Global Symbols
 </H3><HR></body></html>

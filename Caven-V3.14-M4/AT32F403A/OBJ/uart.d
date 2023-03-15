@@ -37,3 +37,5 @@
 ..\obj\uart.o: ..\SDK\inc\at32f403a_407_misc.h
 ..\obj\uart.o: ..\SDK\inc\at32f403a_407_usb.h
 ..\obj\uart.o: ..\SDK\inc\at32f403a_407_emac.h
+..\obj\uart.o: ..\Config\at32f403a_407_clock.h
+..\obj\uart.o: ..\Config\at32f403a_407.h

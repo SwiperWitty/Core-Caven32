@@ -337,7 +337,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>AT32F403ARET7</Define>
+              <Define>AT32F403ARET7,DEFAULT</Define>
               <Undefine></Undefine>
               <IncludePath>..\User;..\CMSIS;..\SDK\inc;..\SDK\src;..\Startup;..\..\..\MCU_LIB-Cloud-\API;..\..\..\MCU_LIB-Cloud-\Base_AT32F403A;..\..\..\MCU_LIB-Cloud-\Mode;..\Config</IncludePath>
             </VariousControls>
@@ -424,11 +424,6 @@
               <FilePath>..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\PWM.c</FilePath>
             </File>
             <File>
-              <FileName>SPI.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\SPI.c</FilePath>
-            </File>
-            <File>
               <FileName>stmflash.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\stmflash.c</FilePath>
@@ -449,9 +444,14 @@
               <FilePath>..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\Items.h</FilePath>
             </File>
             <File>
-              <FileName>Exist_GPIO.c</FileName>
+              <FileName>Base_Exist_GPIO.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\Exist_GPIO.c</FilePath>
+              <FilePath>..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\Base_Exist_GPIO.c</FilePath>
+            </File>
+            <File>
+              <FileName>Base_SPI.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\Base_SPI.c</FilePath>
             </File>
           </Files>
         </Group>

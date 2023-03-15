@@ -39,9 +39,11 @@
 ..\obj\ds18b20.o: ..\SDK\inc\at32f403a_407_misc.h
 ..\obj\ds18b20.o: ..\SDK\inc\at32f403a_407_usb.h
 ..\obj\ds18b20.o: ..\SDK\inc\at32f403a_407_emac.h
-..\obj\ds18b20.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\spi.h
+..\obj\ds18b20.o: ..\Config\at32f403a_407_clock.h
+..\obj\ds18b20.o: ..\Config\at32f403a_407.h
+..\obj\ds18b20.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\Base_SPI.h
 ..\obj\ds18b20.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\IIC.h
 ..\obj\ds18b20.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\adc.h
 ..\obj\ds18b20.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\sys_time.h
 ..\obj\ds18b20.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\PWM.h
-..\obj\ds18b20.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\Exist_GPIO.h
+..\obj\ds18b20.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\Base_Exist_GPIO.h

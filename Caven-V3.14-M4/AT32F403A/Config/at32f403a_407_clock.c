@@ -28,16 +28,17 @@
 /**
   * @brief  system clock config program
   * @note   the system clock is configured as follow:
-  *         - system clock        = hick / 12 * pll_mult
-  *         - system clock source = pll (hick)
-  *         - sclk                = 192000000
+  *         - system clock        = hext * pll_mult
+  *         - system clock source = pll (hext)
+  *         - hext                = 12000000
+  *         - sclk                = 240000000
   *         - ahbdiv              = 1
-  *         - ahbclk              = 192000000
+  *         - ahbclk              = 240000000
   *         - apb1div             = 2
-  *         - apb1clk             = 96000000
+  *         - apb1clk             = 120000000
   *         - apb2div             = 2
-  *         - apb2clk             = 96000000
-  *         - pll_mult            = 48
+  *         - apb2clk             = 120000000
+  *         - pll_mult            = 20
   *         - pll_range           = GT72MHZ (greater than 72 mhz)
   * @param  none
   * @retval none
@@ -47,16 +48,16 @@ void system_clock_config(void)
   /* reset crm */
   crm_reset();
 
-  /* enable hick */
-  crm_clock_source_enable(CRM_CLOCK_SOURCE_HICK, TRUE);
+  /* enable hext */
+  crm_clock_source_enable(CRM_CLOCK_SOURCE_HEXT, TRUE);
 
-   /* wait till hick is ready */
-  while(crm_flag_get(CRM_HICK_STABLE_FLAG) != SET)
+   /* wait till hext is ready */
+  while(crm_hext_stable_wait() == ERROR)
   {
   }
 
   /* config pll clock resource */
-  crm_pll_config(CRM_PLL_SOURCE_HICK, CRM_PLL_MULT_48, CRM_PLL_OUTPUT_RANGE_GT72MHZ);
+  crm_pll_config(CRM_PLL_SOURCE_HEXT, CRM_PLL_MULT_20, CRM_PLL_OUTPUT_RANGE_GT72MHZ);
 
   /* enable pll */
   crm_clock_source_enable(CRM_CLOCK_SOURCE_PLL, TRUE);
@@ -88,10 +89,6 @@ void system_clock_config(void)
 
   /* disable auto step mode */
   crm_auto_step_mode_enable(FALSE);
-
-  /* config usbclk from pll */
-  crm_usb_clock_div_set(CRM_USB_DIV_4);
-  crm_usb_clock_source_select(CRM_USB_CLOCK_SOURCE_PLL);
 
   /* update system_core_clock global variable */
   system_core_clock_update();

@@ -39,12 +39,14 @@
 ..\obj\lcd.o: ..\SDK\inc\at32f403a_407_misc.h
 ..\obj\lcd.o: ..\SDK\inc\at32f403a_407_usb.h
 ..\obj\lcd.o: ..\SDK\inc\at32f403a_407_emac.h
-..\obj\lcd.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\spi.h
+..\obj\lcd.o: ..\Config\at32f403a_407_clock.h
+..\obj\lcd.o: ..\Config\at32f403a_407.h
+..\obj\lcd.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\Base_SPI.h
 ..\obj\lcd.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\IIC.h
 ..\obj\lcd.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\adc.h
 ..\obj\lcd.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\sys_time.h
 ..\obj\lcd.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\PWM.h
-..\obj\lcd.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\Exist_GPIO.h
+..\obj\lcd.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\Base_Exist_GPIO.h
 ..\obj\lcd.o: ..\..\..\MCU_LIB-Cloud-\API\Caven.h
 ..\obj\lcd.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
 ..\obj\lcd.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h

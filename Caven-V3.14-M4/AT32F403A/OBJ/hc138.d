@@ -39,12 +39,14 @@
 ..\obj\hc138.o: ..\SDK\inc\at32f403a_407_misc.h
 ..\obj\hc138.o: ..\SDK\inc\at32f403a_407_usb.h
 ..\obj\hc138.o: ..\SDK\inc\at32f403a_407_emac.h
-..\obj\hc138.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\spi.h
+..\obj\hc138.o: ..\Config\at32f403a_407_clock.h
+..\obj\hc138.o: ..\Config\at32f403a_407.h
+..\obj\hc138.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\Base_SPI.h
 ..\obj\hc138.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\IIC.h
 ..\obj\hc138.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\adc.h
 ..\obj\hc138.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\sys_time.h
 ..\obj\hc138.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\PWM.h
-..\obj\hc138.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\Exist_GPIO.h
+..\obj\hc138.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\Base_Exist_GPIO.h
 ..\obj\hc138.o: ..\..\..\MCU_LIB-Cloud-\API\Caven.h
 ..\obj\hc138.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
 ..\obj\hc138.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h

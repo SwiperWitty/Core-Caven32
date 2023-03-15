@@ -39,9 +39,11 @@
 ..\obj\control_mode.o: ..\SDK\inc\at32f403a_407_misc.h
 ..\obj\control_mode.o: ..\SDK\inc\at32f403a_407_usb.h
 ..\obj\control_mode.o: ..\SDK\inc\at32f403a_407_emac.h
-..\obj\control_mode.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\spi.h
+..\obj\control_mode.o: ..\Config\at32f403a_407_clock.h
+..\obj\control_mode.o: ..\Config\at32f403a_407.h
+..\obj\control_mode.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\Base_SPI.h
 ..\obj\control_mode.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\IIC.h
 ..\obj\control_mode.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\adc.h
 ..\obj\control_mode.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\sys_time.h
 ..\obj\control_mode.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\PWM.h
-..\obj\control_mode.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\Exist_GPIO.h
+..\obj\control_mode.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\Base_Exist_GPIO.h
