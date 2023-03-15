@@ -37,10 +37,6 @@
 ..\obj\ds18b20.o: ..\Config\at32f415_clock.h
 ..\obj\ds18b20.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_Exist_GPIO.h
 ..\obj\ds18b20.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_sys_time.h
-..\obj\ds18b20.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_Flash.h
 ..\obj\ds18b20.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_UART.h
 ..\obj\ds18b20.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
 ..\obj\ds18b20.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_SPI.h
-..\obj\ds18b20.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_IIC.h
-..\obj\ds18b20.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_ADC.h
-..\obj\ds18b20.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_PWM.h

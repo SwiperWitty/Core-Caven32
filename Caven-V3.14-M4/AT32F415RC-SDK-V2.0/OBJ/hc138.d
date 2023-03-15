@@ -37,13 +37,9 @@
 ..\obj\hc138.o: ..\Config\at32f415_clock.h
 ..\obj\hc138.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_Exist_GPIO.h
 ..\obj\hc138.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_sys_time.h
-..\obj\hc138.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_Flash.h
 ..\obj\hc138.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_UART.h
 ..\obj\hc138.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
 ..\obj\hc138.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_SPI.h
-..\obj\hc138.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_IIC.h
-..\obj\hc138.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_ADC.h
-..\obj\hc138.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_PWM.h
 ..\obj\hc138.o: ..\..\..\MCU_LIB-Cloud-\API\Caven.h
 ..\obj\hc138.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\hc138.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h

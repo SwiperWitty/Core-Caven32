@@ -13,7 +13,7 @@
 
 */
 #define TURE   TRUE
-#define DEBUG_OUT   2           //Debug 通道(目前是串口1)->MODE
+#define DEBUG_OUT   3           //Debug 通道(目前是串口1)->MODE
 #define MCU_SYS_Freq SystemCoreClock        //刚启动是xM，经过配置文件之后就是144（system_clock_config()之后）
 #define	NOP()		__nop()
                                                     /*  基本外设就能实现的功能    */

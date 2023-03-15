@@ -46,9 +46,5 @@
 ..\obj\usbd_core.o: ..\Config\at32f415_clock.h
 ..\obj\usbd_core.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_Exist_GPIO.h
 ..\obj\usbd_core.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_sys_time.h
-..\obj\usbd_core.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_Flash.h
 ..\obj\usbd_core.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_UART.h
 ..\obj\usbd_core.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_SPI.h
-..\obj\usbd_core.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_IIC.h
-..\obj\usbd_core.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_ADC.h
-..\obj\usbd_core.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_PWM.h

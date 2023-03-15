@@ -17,7 +17,7 @@
     #define UART_Length_MAX    Buff_Length      //Buff MAX 长度(来自Caven)
 #endif
 
-//#define DEBUG_RX_TX                   //
+#define DEBUG_RX_TX                   //
 
 struct _Uart_Data
 {

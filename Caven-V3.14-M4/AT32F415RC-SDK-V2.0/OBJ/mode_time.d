@@ -37,13 +37,9 @@
 ..\obj\mode_time.o: ..\Config\at32f415_clock.h
 ..\obj\mode_time.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_Exist_GPIO.h
 ..\obj\mode_time.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_sys_time.h
-..\obj\mode_time.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_Flash.h
 ..\obj\mode_time.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_UART.h
 ..\obj\mode_time.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
 ..\obj\mode_time.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_SPI.h
-..\obj\mode_time.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_IIC.h
-..\obj\mode_time.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_ADC.h
-..\obj\mode_time.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_PWM.h
 ..\obj\mode_time.o: ..\..\..\MCU_LIB-Cloud-\API\Caven.h
 ..\obj\mode_time.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\mode_time.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h

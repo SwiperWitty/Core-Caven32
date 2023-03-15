@@ -7,7 +7,9 @@
 
 char Flash_Addr_Check(int Addr_Start,int Addr_End)
 {
+	
     flash_status_type back = FLASH_OPERATE_DONE;
+#ifdef Exist_FLASH 
     if((Addr_Start >= FLASH_END) || (Addr_Start < FLASH_START))
     { 
         printf("S-ERROR\r\n"); 
@@ -26,13 +28,14 @@ char Flash_Addr_Check(int Addr_Start,int Addr_End)
         return back;
     }
     printf("ch- p: [S - %d,E -%d) \r\n",(Addr_Start-FLASH_START)/FLASH_AREA_SIZE,(Addr_End-FLASH_START)/FLASH_AREA_SIZE);
+#endif
     return back;
 }
 
 char Flash_Clear_Area(char Area_Start,char Area_End)
 {
     char status = FLASH_OPERATE_DONE;
-    
+#ifdef Exist_FLASH 
     status = Flash_Addr_Check(GET_Area_Addr(Area_Start),GET_Area_Addr(Area_End));
     if(status == FLASH_PROGRAM_ERROR) {return ERROR;}
 //    printf("clr- p: [S_Area %d , E_Area %d) \r\n",Area_Start,Area_End);
@@ -60,13 +63,15 @@ char Flash_Clear_Area(char Area_Start,char Area_End)
         }
     }
     flash_lock();
-    return SUCCESS;
+#endif
+    return status;
 }
 
 
 char Flash_Save_Area (void * Data,char Area_Start,int Lenght)
 {
     char back = SUCCESS;
+#ifdef Exist_FLASH 
     char Buff[FLASH_AREA_SIZE];         //缓冲区      而且要
     char status = FLASH_OPERATE_DONE;
     memcpy(Buff,Data,Lenght);           //向前对齐
@@ -92,15 +97,16 @@ char Flash_Save_Area (void * Data,char Area_Start,int Lenght)
     }
     
     flash_lock();
+#endif
     return back;
 }
 
 char Flash_Save_Data(int Addr,const uint16_t *Data,int Lenght)
 {
+	char back = SUCCESS;
+#ifdef Exist_FLASH 
     uint16_t flash_buf[FLASH_AREA_SIZE];        //缓冲区      而且要
-    
     char status = FLASH_OPERATE_DONE;
-    char back = SUCCESS;
     uint32_t Temp;
     
     if(Addr%2)  Addr++;
@@ -189,15 +195,16 @@ char Flash_Save_Data(int Addr,const uint16_t *Data,int Lenght)
         flash_lock();
 
     }
-    
-    return SUCCESS;
+#endif
+    return back;
 }
 
 
 char Flash_Read_Data (int Addr,void *Data,int Lenght)
 {
+	char back = SUCCESS;
+#ifdef Exist_FLASH 
     if(Addr%2)  {Addr++;}       //首地址最好不要是单数
-    char back = SUCCESS;
     back = Flash_Addr_Check(Addr,(Addr + Lenght));
     if(back == ERROR)
     {return ERROR; }
@@ -213,7 +220,7 @@ char Flash_Read_Data (int Addr,void *Data,int Lenght)
     int * Pointer = (int *)(Addr);
 
     memcpy(Data,Pointer,Lenght);        //复制,void *memcpy(void *str1, const void *str2, size_t n) 
-    
+#endif
     return back;
 }
 

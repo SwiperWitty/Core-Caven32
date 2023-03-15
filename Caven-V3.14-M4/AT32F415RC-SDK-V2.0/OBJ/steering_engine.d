@@ -37,13 +37,9 @@
 ..\obj\steering_engine.o: ..\Config\at32f415_clock.h
 ..\obj\steering_engine.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_Exist_GPIO.h
 ..\obj\steering_engine.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_sys_time.h
-..\obj\steering_engine.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_Flash.h
 ..\obj\steering_engine.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_UART.h
 ..\obj\steering_engine.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
 ..\obj\steering_engine.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_SPI.h
-..\obj\steering_engine.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_IIC.h
-..\obj\steering_engine.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_ADC.h
-..\obj\steering_engine.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_PWM.h
 ..\obj\steering_engine.o: ..\..\..\MCU_LIB-Cloud-\API\Caven.h
 ..\obj\steering_engine.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\steering_engine.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h

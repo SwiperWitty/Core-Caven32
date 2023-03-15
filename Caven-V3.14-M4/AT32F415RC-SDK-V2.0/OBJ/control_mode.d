@@ -37,10 +37,6 @@
 ..\obj\control_mode.o: ..\Config\at32f415_clock.h
 ..\obj\control_mode.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_Exist_GPIO.h
 ..\obj\control_mode.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_sys_time.h
-..\obj\control_mode.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_Flash.h
 ..\obj\control_mode.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_UART.h
 ..\obj\control_mode.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
 ..\obj\control_mode.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_SPI.h
-..\obj\control_mode.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_IIC.h
-..\obj\control_mode.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_ADC.h
-..\obj\control_mode.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\Base_PWM.h
