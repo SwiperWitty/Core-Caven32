@@ -1,7 +1,6 @@
 #include "Mode.h"
 #include "API.h"
 #include "pic.h"
-#include "USB_User.h"
 
 /*
             软件文件夹->AT32文件夹->Keil工程
@@ -32,13 +31,6 @@ int main (void)
     }
     Main_Init();
     
-//    memcpy(temp1_data,temp_data,10);
-//    for(int a = 0;a < 14;a ++)
-//    {
-//        printf("%d \r\n",temp1_data[a]);
-//    }
-//    USB_User_init ();//
-//    keyboard_send_string((U8*)"hello !\r\n", strlen("hello !\r\n"));
     while(1)
     {
         Mode_User.Sys_Clock.Get_TIME();
@@ -110,11 +102,12 @@ void Main_Init(void)
     API_Index();
     
     Mode_Init.Sys_Clock(ENABLE);
+    Mode_Init.LCD(ENABLE);
     Mode_Init.LED(ENABLE);
     Mode_Init.UART(1,115200,ENABLE);
     Mode_Init.User_ADC(ENABLE);
+    Mode_Init.USB();
     
-    USB_User_init ();
 	TIM4_PWM_Start_Init(27,1440,ENABLE);		//25 144
 //	TIM4_PWMx_SetValue(1,125);
 	
@@ -154,14 +147,11 @@ void Main_Init(void)
 //        printf(" --%d-- \r\n",i);       //发初始数据
 //    }
 
-    
-    SPI_Start_Init(ENABLE);
-
+    Mode_User.LCD.Show_Picture(0,0,60,60,gImage_am_60);     //Photo
     Mode_User.LED.LED_SET(1,DISABLE);
     Mode_User.LED.LED_SET(2,DISABLE);
 //    Mode_User.Steering_Engine.Set_Angle(1,90);
     Mode_User.Delay.Delay_ms(100);
-//    Mode_User.LCD.Show_Picture(0,0,60,60,gImage_am_60);
 
     Mode_User.Sys_Clock.Set_TIME(SYS_Time.Watch);
     

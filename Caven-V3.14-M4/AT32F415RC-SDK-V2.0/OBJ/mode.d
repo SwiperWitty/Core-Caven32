@@ -48,6 +48,13 @@
 ..\obj\mode.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\mode.o: D:\MDK\ARM\ARMCC\Bin\..\include\string.h
 ..\obj\mode.o: ..\..\..\MCU_LIB-Cloud-\Mode\MODE_Time.h
+..\obj\mode.o: ..\..\..\MCU_LIB-Cloud-\Mode\LCD.h
 ..\obj\mode.o: ..\..\..\MCU_LIB-Cloud-\Mode\LED.h
 ..\obj\mode.o: ..\..\..\MCU_LIB-Cloud-\Mode\MODE_UART.h
+..\obj\mode.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\composite_HID\USB_User.h
+..\obj\mode.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\usb_drivers\inc\usb_core.h
+..\obj\mode.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\usb_drivers\inc\usb_std.h
+..\obj\mode.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\composite_HID\usb_conf.h
+..\obj\mode.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\usb_drivers\inc\usbd_core.h
+..\obj\mode.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F415\composite_HID\cdc_keyboard_class.h
 ..\obj\mode.o: ..\..\..\MCU_LIB-Cloud-\Mode\DS18B20.h

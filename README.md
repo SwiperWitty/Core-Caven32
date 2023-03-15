@@ -20,7 +20,7 @@ _____
 
 [子模块链接](https://github.com/SwiperWitty/MCU_LIB-Cloud-) （里面有食用方法）
 
-
+硬件资料 [嘉立创EDA](https://u.lceda.cn/account/user/projects/index/detail?project=c74409cf0db64e179e8eee7457e84763&folder=all) 或者 [SwiperWitty/PCB-MCU](https://github.com/SwiperWitty/PCB-MCU) ，注意是Caven 3.14哦！
 
 
 
