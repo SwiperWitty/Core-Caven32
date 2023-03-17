@@ -3,7 +3,7 @@
 <title>Static Call Graph - [..\OBJ\Caven.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image ..\OBJ\Caven.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Thu Mar 16 01:36:12 2023
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Fri Mar 17 16:14:39 2023
 <BR><P>
 <H3>Maximum Stack Usage =        168 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -131,7 +131,7 @@ Global Symbols
 <P><STRONG><a name="[59]"></a>__main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry.o(.ARM.Collect$$$$00000000))
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32f403a_407.o(.text)
 </UL>
-<P><STRONG><a name="[a4]"></a>_main_stk</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry2.o(.ARM.Collect$$$$00000001))
+<P><STRONG><a name="[a3]"></a>_main_stk</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry2.o(.ARM.Collect$$$$00000001))
 
 <P><STRONG><a name="[6a]"></a>_main_scatterload</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry5.o(.ARM.Collect$$$$00000004))
 <BR><BR>[Calls]<UL><LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload
@@ -141,17 +141,17 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload
 </UL>
 
-<P><STRONG><a name="[a5]"></a>_main_clock</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry7b.o(.ARM.Collect$$$$00000008))
+<P><STRONG><a name="[a4]"></a>_main_clock</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry7b.o(.ARM.Collect$$$$00000008))
 
-<P><STRONG><a name="[a6]"></a>_main_cpp_init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry8b.o(.ARM.Collect$$$$0000000A))
+<P><STRONG><a name="[a5]"></a>_main_cpp_init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry8b.o(.ARM.Collect$$$$0000000A))
 
-<P><STRONG><a name="[a7]"></a>_main_init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry9a.o(.ARM.Collect$$$$0000000B))
+<P><STRONG><a name="[a6]"></a>_main_init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry9a.o(.ARM.Collect$$$$0000000B))
 
-<P><STRONG><a name="[a8]"></a>__rt_lib_shutdown_fini</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry12b.o(.ARM.Collect$$$$0000000E))
+<P><STRONG><a name="[a7]"></a>__rt_lib_shutdown_fini</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry12b.o(.ARM.Collect$$$$0000000E))
 
-<P><STRONG><a name="[a9]"></a>__rt_final_cpp</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry10a.o(.ARM.Collect$$$$0000000F))
+<P><STRONG><a name="[a8]"></a>__rt_final_cpp</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry10a.o(.ARM.Collect$$$$0000000F))
 
-<P><STRONG><a name="[aa]"></a>__rt_final_exit</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry11a.o(.ARM.Collect$$$$00000011))
+<P><STRONG><a name="[a9]"></a>__rt_final_exit</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry11a.o(.ARM.Collect$$$$00000011))
 
 <P><STRONG><a name="[0]"></a>Reset_Handler</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, startup_at32f403a_407.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32f403a_407.o(RESET)
@@ -394,7 +394,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_main_scatterload
 </UL>
 
-<P><STRONG><a name="[ab]"></a>__scatterload_rt2</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, init.o(.text), UNUSED)
+<P><STRONG><a name="[aa]"></a>__scatterload_rt2</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, init.o(.text), UNUSED)
 
 <P><STRONG><a name="[80]"></a>API_Index</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, api.o(i.API_Index))
 <BR><BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Init
@@ -600,7 +600,7 @@ Global Symbols
 <LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LCD_WR_CMD
 </UL>
 
-<P><STRONG><a name="[7d]"></a>Main_Init</STRONG> (Thumb, 44 bytes, Stack size 8 bytes, main.o(i.Main_Init))
+<P><STRONG><a name="[7d]"></a>Main_Init</STRONG> (Thumb, 52 bytes, Stack size 8 bytes, main.o(i.Main_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = Main_Init &rArr; Uart3_Init &rArr; usart_init &rArr; crm_clocks_freq_get
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_clock_config
@@ -692,16 +692,15 @@ Global Symbols
 <P><STRONG><a name="[58]"></a>SystemInit</STRONG> (Thumb, 100 bytes, Stack size 0 bytes, system_at32f403a_407.o(i.SystemInit))
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32f403a_407.o(.text)
 </UL>
-<P><STRONG><a name="[81]"></a>Uart3_Init</STRONG> (Thumb, 214 bytes, Stack size 24 bytes, main.o(i.Uart3_Init))
+<P><STRONG><a name="[81]"></a>Uart3_Init</STRONG> (Thumb, 204 bytes, Stack size 24 bytes, main.o(i.Uart3_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = Uart3_Init &rArr; usart_init &rArr; crm_clocks_freq_get
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_transmitter_enable
 <LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_reset
-<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_receiver_enable
-<LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_parity_selection_config
-<LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_interrupt_enable
+<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_parity_selection_config
+<LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_interrupt_enable
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_init
-<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_enable
+<LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_enable
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nvic_priority_group_config
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nvic_irq_enable
 <LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_pin_remap_config
@@ -715,61 +714,61 @@ Global Symbols
 <P><STRONG><a name="[5]"></a>UsageFault_Handler</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, at32f403a_407_int.o(i.UsageFault_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_at32f403a_407.o(RESET)
 </UL>
-<P><STRONG><a name="[93]"></a>__0printf$bare</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, printfb.o(i.__0printf$bare), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_core
+<P><STRONG><a name="[92]"></a>__0printf$bare</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, printfb.o(i.__0printf$bare), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_core
 </UL>
 
-<P><STRONG><a name="[ac]"></a>__1printf$bare</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, printfb.o(i.__0printf$bare), UNUSED)
+<P><STRONG><a name="[ab]"></a>__1printf$bare</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, printfb.o(i.__0printf$bare), UNUSED)
 
 <P><STRONG><a name="[82]"></a>__2printf</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, printfb.o(i.__0printf$bare))
 <BR><BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Init
 </UL>
 
-<P><STRONG><a name="[ad]"></a>__scatterload_copy</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_copy), UNUSED)
+<P><STRONG><a name="[ac]"></a>__scatterload_copy</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_copy), UNUSED)
 
-<P><STRONG><a name="[ae]"></a>__scatterload_null</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_null), UNUSED)
+<P><STRONG><a name="[ad]"></a>__scatterload_null</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_null), UNUSED)
 
-<P><STRONG><a name="[af]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
+<P><STRONG><a name="[ae]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
 
-<P><STRONG><a name="[9e]"></a>crm_ahb_div_set</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, at32f403a_407_crm.o(i.crm_ahb_div_set))
+<P><STRONG><a name="[9d]"></a>crm_ahb_div_set</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, at32f403a_407_crm.o(i.crm_ahb_div_set))
 <BR><BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_clock_config
 </UL>
 
-<P><STRONG><a name="[a0]"></a>crm_apb1_div_set</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, at32f403a_407_crm.o(i.crm_apb1_div_set))
+<P><STRONG><a name="[9f]"></a>crm_apb1_div_set</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, at32f403a_407_crm.o(i.crm_apb1_div_set))
 <BR><BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_clock_config
 </UL>
 
-<P><STRONG><a name="[9f]"></a>crm_apb2_div_set</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, at32f403a_407_crm.o(i.crm_apb2_div_set))
+<P><STRONG><a name="[9e]"></a>crm_apb2_div_set</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, at32f403a_407_crm.o(i.crm_apb2_div_set))
 <BR><BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_clock_config
 </UL>
 
-<P><STRONG><a name="[a1]"></a>crm_auto_step_mode_enable</STRONG> (Thumb, 34 bytes, Stack size 0 bytes, at32f403a_407_crm.o(i.crm_auto_step_mode_enable))
+<P><STRONG><a name="[a0]"></a>crm_auto_step_mode_enable</STRONG> (Thumb, 34 bytes, Stack size 0 bytes, at32f403a_407_crm.o(i.crm_auto_step_mode_enable))
 <BR><BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_clock_config
 </UL>
 
-<P><STRONG><a name="[9c]"></a>crm_clock_source_enable</STRONG> (Thumb, 90 bytes, Stack size 0 bytes, at32f403a_407_crm.o(i.crm_clock_source_enable))
+<P><STRONG><a name="[9b]"></a>crm_clock_source_enable</STRONG> (Thumb, 90 bytes, Stack size 0 bytes, at32f403a_407_crm.o(i.crm_clock_source_enable))
 <BR><BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_clock_config
 </UL>
 
-<P><STRONG><a name="[95]"></a>crm_clocks_freq_get</STRONG> (Thumb, 268 bytes, Stack size 24 bytes, at32f403a_407_crm.o(i.crm_clocks_freq_get))
+<P><STRONG><a name="[94]"></a>crm_clocks_freq_get</STRONG> (Thumb, 268 bytes, Stack size 24 bytes, at32f403a_407_crm.o(i.crm_clocks_freq_get))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = crm_clocks_freq_get
 </UL>
-<BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_sysclk_switch_status_get
+<BR>[Calls]<UL><LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_sysclk_switch_status_get
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_init
 </UL>
 
-<P><STRONG><a name="[98]"></a>crm_flag_get</STRONG> (Thumb, 42 bytes, Stack size 8 bytes, at32f403a_407_crm.o(i.crm_flag_get))
+<P><STRONG><a name="[97]"></a>crm_flag_get</STRONG> (Thumb, 42 bytes, Stack size 8 bytes, at32f403a_407_crm.o(i.crm_flag_get))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = crm_flag_get
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_clock_config
-<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_hext_stable_wait
+<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_hext_stable_wait
 </UL>
 
-<P><STRONG><a name="[97]"></a>crm_hext_stable_wait</STRONG> (Thumb, 46 bytes, Stack size 12 bytes, at32f403a_407_crm.o(i.crm_hext_stable_wait))
+<P><STRONG><a name="[96]"></a>crm_hext_stable_wait</STRONG> (Thumb, 46 bytes, Stack size 12 bytes, at32f403a_407_crm.o(i.crm_hext_stable_wait))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = crm_hext_stable_wait &rArr; crm_flag_get
 </UL>
-<BR>[Calls]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_flag_get
+<BR>[Calls]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_flag_get
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_clock_config
 </UL>
@@ -788,31 +787,31 @@ Global Symbols
 <LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_reset
 </UL>
 
-<P><STRONG><a name="[9d]"></a>crm_pll_config</STRONG> (Thumb, 104 bytes, Stack size 8 bytes, at32f403a_407_crm.o(i.crm_pll_config))
+<P><STRONG><a name="[9c]"></a>crm_pll_config</STRONG> (Thumb, 104 bytes, Stack size 8 bytes, at32f403a_407_crm.o(i.crm_pll_config))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = crm_pll_config
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_clock_config
 </UL>
 
-<P><STRONG><a name="[9b]"></a>crm_reset</STRONG> (Thumb, 80 bytes, Stack size 0 bytes, at32f403a_407_crm.o(i.crm_reset))
+<P><STRONG><a name="[9a]"></a>crm_reset</STRONG> (Thumb, 80 bytes, Stack size 0 bytes, at32f403a_407_crm.o(i.crm_reset))
 <BR><BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_clock_config
 </UL>
 
-<P><STRONG><a name="[a2]"></a>crm_sysclk_switch</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, at32f403a_407_crm.o(i.crm_sysclk_switch))
+<P><STRONG><a name="[a1]"></a>crm_sysclk_switch</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, at32f403a_407_crm.o(i.crm_sysclk_switch))
 <BR><BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_clock_config
 </UL>
 
-<P><STRONG><a name="[96]"></a>crm_sysclk_switch_status_get</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, at32f403a_407_crm.o(i.crm_sysclk_switch_status_get))
+<P><STRONG><a name="[95]"></a>crm_sysclk_switch_status_get</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, at32f403a_407_crm.o(i.crm_sysclk_switch_status_get))
 <BR><BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_clock_config
-<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_clocks_freq_get
-<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_core_clock_update
+<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_clocks_freq_get
+<LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_core_clock_update
 </UL>
 
 <P><STRONG><a name="[69]"></a>fputc</STRONG> (Thumb, 36 bytes, Stack size 16 bytes, main.o(i.fputc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = fputc
 </UL>
-<BR>[Calls]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_flag_get
-<LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_data_transmit
+<BR>[Calls]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_flag_get
+<LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usart_data_transmit
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> printfb.o(i.__0printf$bare)
 </UL>
@@ -863,61 +862,57 @@ Global Symbols
 <P><STRONG><a name="[7e]"></a>system_clock_config</STRONG> (Thumb, 106 bytes, Stack size 8 bytes, at32f403a_407_clock.o(i.system_clock_config))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = system_clock_config &rArr; system_core_clock_update
 </UL>
-<BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_sysclk_switch_status_get
-<LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_sysclk_switch
-<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_reset
-<LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_pll_config
-<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_hext_stable_wait
-<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_flag_get
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_clock_source_enable
-<LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_auto_step_mode_enable
-<LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_apb2_div_set
-<LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_apb1_div_set
-<LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_ahb_div_set
-<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_core_clock_update
+<BR>[Calls]<UL><LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_sysclk_switch_status_get
+<LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_sysclk_switch
+<LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_reset
+<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_pll_config
+<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_hext_stable_wait
+<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_flag_get
+<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_clock_source_enable
+<LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_auto_step_mode_enable
+<LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_apb2_div_set
+<LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_apb1_div_set
+<LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_ahb_div_set
+<LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_core_clock_update
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Init
 </UL>
 
-<P><STRONG><a name="[a3]"></a>system_core_clock_update</STRONG> (Thumb, 222 bytes, Stack size 32 bytes, system_at32f403a_407.o(i.system_core_clock_update))
+<P><STRONG><a name="[a2]"></a>system_core_clock_update</STRONG> (Thumb, 222 bytes, Stack size 32 bytes, system_at32f403a_407.o(i.system_core_clock_update))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = system_core_clock_update
 </UL>
-<BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_sysclk_switch_status_get
+<BR>[Calls]<UL><LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_sysclk_switch_status_get
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_clock_config
 </UL>
 
-<P><STRONG><a name="[9a]"></a>usart_data_transmit</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, at32f403a_407_usart.o(i.usart_data_transmit))
+<P><STRONG><a name="[99]"></a>usart_data_transmit</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, at32f403a_407_usart.o(i.usart_data_transmit))
 <BR><BR>[Called By]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fputc
 </UL>
 
-<P><STRONG><a name="[92]"></a>usart_enable</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, at32f403a_407_usart.o(i.usart_enable))
+<P><STRONG><a name="[91]"></a>usart_enable</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, at32f403a_407_usart.o(i.usart_enable))
 <BR><BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart3_Init
 </UL>
 
-<P><STRONG><a name="[99]"></a>usart_flag_get</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, at32f403a_407_usart.o(i.usart_flag_get))
+<P><STRONG><a name="[98]"></a>usart_flag_get</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, at32f403a_407_usart.o(i.usart_flag_get))
 <BR><BR>[Called By]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fputc
 </UL>
 
 <P><STRONG><a name="[8d]"></a>usart_init</STRONG> (Thumb, 120 bytes, Stack size 48 bytes, at32f403a_407_usart.o(i.usart_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = usart_init &rArr; crm_clocks_freq_get
 </UL>
-<BR>[Calls]<UL><LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_clocks_freq_get
+<BR>[Calls]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crm_clocks_freq_get
 </UL>
 <BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart3_Init
 </UL>
 
-<P><STRONG><a name="[91]"></a>usart_interrupt_enable</STRONG> (Thumb, 54 bytes, Stack size 12 bytes, at32f403a_407_usart.o(i.usart_interrupt_enable))
+<P><STRONG><a name="[90]"></a>usart_interrupt_enable</STRONG> (Thumb, 54 bytes, Stack size 12 bytes, at32f403a_407_usart.o(i.usart_interrupt_enable))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = usart_interrupt_enable
 </UL>
 <BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart3_Init
 </UL>
 
-<P><STRONG><a name="[90]"></a>usart_parity_selection_config</STRONG> (Thumb, 76 bytes, Stack size 0 bytes, at32f403a_407_usart.o(i.usart_parity_selection_config))
-<BR><BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart3_Init
-</UL>
-
-<P><STRONG><a name="[8f]"></a>usart_receiver_enable</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, at32f403a_407_usart.o(i.usart_receiver_enable))
+<P><STRONG><a name="[8f]"></a>usart_parity_selection_config</STRONG> (Thumb, 76 bytes, Stack size 0 bytes, at32f403a_407_usart.o(i.usart_parity_selection_config))
 <BR><BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Uart3_Init
 </UL>
 
@@ -944,8 +939,8 @@ Local Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Mode_Index
 </UL>
 
-<P><STRONG><a name="[94]"></a>_printf_core</STRONG> (Thumb, 34 bytes, Stack size 24 bytes, printfb.o(i._printf_core), UNUSED)
-<BR><BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__0printf$bare
+<P><STRONG><a name="[93]"></a>_printf_core</STRONG> (Thumb, 34 bytes, Stack size 24 bytes, printfb.o(i._printf_core), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__0printf$bare
 </UL>
 <P>
 <H3>

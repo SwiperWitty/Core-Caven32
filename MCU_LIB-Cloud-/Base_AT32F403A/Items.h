@@ -2,7 +2,7 @@
 #define _ITEMS__H_
 
 #include "at32f403a_407.h"
-#include "at32f403a_407_clock.h"     //软件配置的 基于内部48Mhz晶振  (48 / 6 / 2) * 36      APB 144M、APB1 72M、APB2 144M、（TIM All 144M）（ADC All 18M）（UART All 18M）
+#include "at32f403a_407_clock.h"     //软件配置的 只允许使用外部时钟12Mhz->240Mhz(sclk)
 
 /*
     SDK->Items->GPIO(Exist_GPIO)->BASE->

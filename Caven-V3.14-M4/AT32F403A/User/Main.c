@@ -2,6 +2,8 @@
 #include "API.h"
 
 #include "pic.h"
+
+#define Photo gImage_maoL
 void Uart3_Init(int Baud,int Set);
 
 void Main_Init(void);
@@ -20,11 +22,11 @@ void Main_Init(void)
     Mode_Index();
     API_Index();
 
-//    Mode_Init.LCD(ENABLE);
+    Mode_Init.LCD(ENABLE);
     Uart3_Init(115200,ENABLE);
 	int i = 100 * 100 * 100;
 	while(i--);
-//    Mode_User.LCD.Show_Picture(180,0,60,60,gImage_am_60);
+//    Mode_User.LCD.Show_Picture(0,0,240,240,Photo);
     printf("holle world ! \r\n");
     
 }
@@ -62,7 +64,7 @@ void Uart3_Init(int Baud,int Set)
 
     usart_init(Temp, Baud, USART_DATA_8BITS, USART_STOP_1_BIT);   //波特率、位数、停止位
     usart_transmitter_enable(Temp, TRUE);         //发送使能
-    usart_receiver_enable(Temp, TRUE);            //接收使能
+//    usart_receiver_enable(Temp, TRUE);            //接收使能
 
     usart_parity_selection_config(Temp,USART_PARITY_NONE);    //无奇偶校验
     usart_interrupt_enable(Temp, USART_RDBF_INT, TRUE);

@@ -17,7 +17,7 @@
         <TargetCommonOption>
           <Device>-AT32F415RCT7</Device>
           <Vendor>ArteryTek</Vendor>
-          <PackID>ArteryTek.AT32F415_DFP.2.0.6</PackID>
+          <PackID>ArteryTek.AT32F415_DFP.2.0.7</PackID>
           <Cpu>IRAM(0x20000000,0x8000) IROM(0x08000000,0x40000) CPUTYPE("Cortex-M4") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
