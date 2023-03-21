@@ -58,7 +58,7 @@ I (..\..\..\MCU_LIB-Cloud-\API\Check_CRC16.h)(0x63BB6DF7)
 I (..\..\..\MCU_LIB-Cloud-\API\Time_Handle.h)(0x63BB6DF7)
 I (..\..\..\MCU_LIB-Cloud-\API\DATA_Handle.h)(0x63BB6DF7)
 I (..\..\..\MCU_LIB-Cloud-\API\keyboard.h)(0x63BB6DF7)
-I (..\..\..\MCU_LIB-Cloud-\Mode\pic.h)(0x6414159E)
+I (..\..\..\MCU_LIB-Cloud-\Mode\pic.h)(0x64199207)
 F (..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\ADC.c)(0x63BB6DF7)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\API -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\Config-ID:\MDK\ArteryTek\AT32F403A_407_DFP\2.1.0\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F403ARET7 -DAT32F403ARET7 -DDEFAULT-o ..\obj\adc.o --omf_browse ..\obj\adc.crf --depend ..\obj\adc.d)
 F (..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\Base.c)(0x63BB6DF7)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\API -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\Config-ID:\MDK\ArteryTek\AT32F403A_407_DFP\2.1.0\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F403ARET7 -DAT32F403ARET7 -DDEFAULT-o ..\obj\base.o --omf_browse ..\obj\base.crf --depend ..\obj\base.d)
 I (..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\base.h)(0x6411A97A)
@@ -538,7 +538,7 @@ I (..\..\..\MCU_LIB-Cloud-\API\Caven.h)(0x63BB6DF7)
 I (D:\MDK\ARM\ARMCC\include\stdio.h)(0x5F63877C)
 I (D:\MDK\ARM\ARMCC\include\stdlib.h)(0x5F63877C)
 I (D:\MDK\ARM\ARMCC\include\string.h)(0x5F63878A)
-F (..\..\..\MCU_LIB-Cloud-\Mode\LCD.c)(0x6411B12B)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\API -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\Config-ID:\MDK\ArteryTek\AT32F403A_407_DFP\2.1.0\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F403ARET7 -DAT32F403ARET7 -DDEFAULT-o ..\obj\lcd.o --omf_browse ..\obj\lcd.crf --depend ..\obj\lcd.d)
+F (..\..\..\MCU_LIB-Cloud-\Mode\LCD.c)(0x64182B31)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\CMSIS -I ..\SDK\inc -I ..\SDK\src -I ..\Startup -I ..\..\..\MCU_LIB-Cloud-\API -I ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A -I ..\..\..\MCU_LIB-Cloud-\Mode -I ..\Config-ID:\MDK\ArteryTek\AT32F403A_407_DFP\2.1.0\Device\Include-ID:\MDK\ARM\CMSIS\Include-D__UVISION_VERSION="532" -DAT32F403ARET7 -DAT32F403ARET7 -DDEFAULT-o ..\obj\lcd.o --omf_browse ..\obj\lcd.crf --depend ..\obj\lcd.d)
 I (..\..\..\MCU_LIB-Cloud-\Mode\LCD.h)(0x63BB6DF7)
 I (..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\Base.h)(0x6411A97A)
 I (..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\uart.h)(0x64000E79)
