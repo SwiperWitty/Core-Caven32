@@ -136,6 +136,10 @@ usb_sts_type usbd_init(otg_core_type *otgdev,
     *        the vbus pin (pa9) can be used for other functionality.
     */
     otgdev->usb_reg->gccfg_bit.vbusig = TRUE;
+//    printf("addr : %d: %p \r\n",(otgdev->usb_reg->gccfg_bit.vbusig),&(otgdev->usb_reg->gccfg_bit));       //!!!!
+//    printf("addr usb : %p \r\n",(int *)OTG1_GLOBAL);
+//    int * USB_Vbus = (int *)0x50000038;
+//    *USB_Vbus |= (0x01 << 21);
   }
 
   /* usb device core init */
