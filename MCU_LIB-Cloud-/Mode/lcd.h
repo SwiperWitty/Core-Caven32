@@ -20,7 +20,9 @@
 #define LCD_CMD 0  //写命令
 #define LCD_DATA 1 //写数据
 
-extern U16 BACK_COLOR; //背景色
+extern U16	BACK_COLOR; //背景色
+extern U8 	HORIZONTAL; //设置横屏或者竖屏
+
 //画笔颜色
 #define WHITE         	 0xFFFF
 #define BLACK         	 0x0000	  

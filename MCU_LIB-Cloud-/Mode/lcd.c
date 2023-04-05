@@ -2,7 +2,7 @@
 #include "lcdfont.h" //字库
 
 U16 BACK_COLOR = BLACK; //背景色
-
+U8 	HORIZONTAL = USE_HORIZONTAL;
 
 #ifdef Exist_LCD
 void LCD_Writ_Bus(U8 dat)
@@ -72,7 +72,7 @@ void LCD_WR_CMD(U8 dat)
 ******************************************************************************/
 void LCD_Address_Set(U16 x1, U16 y1, U16 x2, U16 y2)
 {
-	if (USE_HORIZONTAL == 0)
+	if (HORIZONTAL == 0)
 	{
 		LCD_WR_CMD(0x2a); //列地址设置
 		LCD_WR_DATA(x1);
@@ -82,7 +82,7 @@ void LCD_Address_Set(U16 x1, U16 y1, U16 x2, U16 y2)
 		LCD_WR_DATA(y2);
 		LCD_WR_CMD(0x2c); //储存器写
 	}
-	else if (USE_HORIZONTAL == 1)
+	else if (HORIZONTAL == 1)
 	{
 		LCD_WR_CMD(0x2a); //列地址设置
 		LCD_WR_DATA(x1);
@@ -92,7 +92,7 @@ void LCD_Address_Set(U16 x1, U16 y1, U16 x2, U16 y2)
 		LCD_WR_DATA(y2 + 80);
 		LCD_WR_CMD(0x2c); //储存器写
 	}
-	else if (USE_HORIZONTAL == 2)
+	else if (HORIZONTAL == 2)
 	{
 		LCD_WR_CMD(0x2a); //列地址设置
 		LCD_WR_DATA(x1);
@@ -550,14 +550,21 @@ void LCD_Init(int Set)
 	LCD_Delay (20);
 	LCD_WR_CMD(0x36);
 	LCD_Delay(50);
-	if (USE_HORIZONTAL == 0)
-		LCD_WR_DATA8(0x00);
-	else if (USE_HORIZONTAL == 1)
-		LCD_WR_DATA8(0xC0);
-	else if (USE_HORIZONTAL == 2)
-		LCD_WR_DATA8(0x70);
-	else
-		LCD_WR_DATA8(0xA0);
+	switch (HORIZONTAL)
+	{
+		case 0:
+			LCD_WR_DATA8(0x00);
+			break;
+		case 1:
+			LCD_WR_DATA8(0xC0);
+			break;
+		case 2:
+			LCD_WR_DATA8(0x70);
+			break;
+		default:
+			LCD_WR_DATA8(0xA0);
+			break;
+	}
 
 	LCD_WR_CMD(0x3A);
 	LCD_WR_DATA8(0x05);
