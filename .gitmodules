@@ -1,4 +1,0 @@
-[submodule "MCU_LIB-Cloud-"]
-	path = MCU_LIB-Cloud-
-	url = https://github.com/SwiperWitty/MCU_LIB-Cloud-.git
-	branch = main
