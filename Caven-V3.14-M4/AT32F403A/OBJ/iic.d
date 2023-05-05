@@ -1,1 +1,1 @@
-..\obj\iic.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\IIC.c
+..\obj\iic.o: ..\..\..\Caven-MCU_Lib\Base_AT32F403A\IIC.c

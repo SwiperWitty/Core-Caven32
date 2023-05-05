@@ -515,17 +515,17 @@ ARM Macro Assembler    Page 8
               00000000 
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4 --apcs=interw
-ork --depend=..\obj\startup_at32f415.d -o..\obj\startup_at32f415.o -ID:\MDK\ARM
-\ArteryTek\AT32F415_DFP\2.0.6\Device\Include -ID:\MDK\ARM\CMSIS\Include --prede
-fine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 532" --predefine="
+ork --depend=..\obj\startup_at32f415.d -o..\obj\startup_at32f415.o -ID:\MDK\Art
+eryTek\AT32F415_DFP\2.0.7\Device\Include -ID:\MDK\ARM\CMSIS\Include --predefine
+="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 532" --predefine="AT32
 
 
 
 ARM Macro Assembler    Page 9 
 
 
-AT32F415RCT7 SETA 1" --list=.\listings\startup_at32f415.lst ..\Startup\mdk\star
-tup_at32f415.s
+F415RCT7 SETA 1" --list=.\listings\startup_at32f415.lst ..\Startup\mdk\startup_
+at32f415.s
 
 
 

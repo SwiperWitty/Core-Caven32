@@ -7,8 +7,10 @@
 项目文件->  
             云端库文件夹...
 */
+#ifdef PICTURE
 #define Photo1 gImage_maoL
 #define Photo2 gImage_fan
+#endif
 
 int temp = 0;
 int i;
@@ -34,6 +36,7 @@ int main (void)
 				
 			}while(Mode_User.KEY.KEY_State(1) == 0);
 		}
+        #ifdef PICTURE
 		if(i%2 == 1 && temp != i)
 		{
 			temp = i;
@@ -44,6 +47,7 @@ int main (void)
 			temp = i;
 			Mode_User.LCD.Show_Picture(0,0,240,240,Photo1);     //Photo
 		}
+        #endif
     }
 }
 
@@ -59,7 +63,9 @@ void Main_Init(void)
 	Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
     Mode_Init.KEY(1,ENABLE);
 
+#ifdef PICTURE
 	Mode_User.LCD.Show_Picture(0,0,240,240,Photo1);     //Photo
+#endif
     printf("system_core_clock: %d \r\n",SystemCoreClock);
 
 //    temp_list = Mode_User.USER_ADC.DATA_List;

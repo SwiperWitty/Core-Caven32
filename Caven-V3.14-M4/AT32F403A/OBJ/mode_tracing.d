@@ -1,1 +1,1 @@
-..\obj\mode_tracing.o: ..\..\..\MCU_LIB-Cloud-\Mode\MODE_Tracing.c
+..\obj\mode_tracing.o: ..\..\..\Caven-MCU_Lib\Mode\MODE_Tracing.c

@@ -1,0 +1,4 @@
+[submodule "Caven-MCU_Lib"]
+	path = Caven-MCU_Lib
+	url = https://github.com/SwiperWitty/Caven-MCU_Lib.git
+	branch = main

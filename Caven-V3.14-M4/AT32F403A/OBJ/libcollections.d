@@ -1,1 +1,1 @@
-..\obj\libcollections.o: ..\..\..\MCU_LIB-Cloud-\API\libcollections.c
+..\obj\libcollections.o: ..\..\..\Caven-MCU_Lib\API\libcollections.c

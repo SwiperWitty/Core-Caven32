@@ -1,6 +1,6 @@
-..\obj\uart.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\uart.c
-..\obj\uart.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\uart.h
-..\obj\uart.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\Items.h
+..\obj\uart.o: ..\..\..\Caven-MCU_Lib\Base_AT32F403A\uart.c
+..\obj\uart.o: ..\..\..\Caven-MCU_Lib\Base_AT32F403A\uart.h
+..\obj\uart.o: ..\User\Items.h
 ..\obj\uart.o: ..\CMSIS\at32f403a_407.h
 ..\obj\uart.o: ..\CMSIS\core_cm4.h
 ..\obj\uart.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h

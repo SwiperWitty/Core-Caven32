@@ -1,14 +1,13 @@
-#ifdef Cavendish
-    #include "Mode.h"
-    #include "API.h"
-    #include "pic.h" //图片
+#include "Mode.h"
+#include "API.h"
+#include "pic.h" //图片
 
-    #ifdef ST
-        #define MCU 1 // STM32
-    #else
-        #define MCU 0 // GD 32
-    #endif
+#ifdef ST
+    #define MCU 1 // STM32
+#else
+    #define MCU 0 // GD 32
 #endif
+
 
 int led;
 int num = 0;

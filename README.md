@@ -12,7 +12,7 @@ _____
 
 本设计仅供于学习、参考，不可商用和水毕业论文（参与开发者随意）！
 
-![image-20230310112954286](https://gitee.com/Swiper_witty/caven_img/raw/master/img/202303101129356.png)
+![image-20230505200449603](https://gitee.com/Swiper_witty/caven_img/raw/master/img/202305052004679.png)
 
 使用之前记得装驱动！！！
 

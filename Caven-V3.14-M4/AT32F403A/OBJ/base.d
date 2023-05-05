@@ -1,7 +1,6 @@
-..\obj\base.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\Base.c
-..\obj\base.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\base.h
-..\obj\base.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\uart.h
-..\obj\base.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\Items.h
+..\obj\base.o: ..\..\..\Caven-MCU_Lib\Base_AT32F403A\Base.c
+..\obj\base.o: ..\..\..\Caven-MCU_Lib\Base_AT32F403A\base.h
+..\obj\base.o: ..\User\items.h
 ..\obj\base.o: ..\CMSIS\at32f403a_407.h
 ..\obj\base.o: ..\CMSIS\core_cm4.h
 ..\obj\base.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h
@@ -40,9 +39,10 @@
 ..\obj\base.o: ..\SDK\inc\at32f403a_407_emac.h
 ..\obj\base.o: ..\Config\at32f403a_407_clock.h
 ..\obj\base.o: ..\Config\at32f403a_407.h
-..\obj\base.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\Base_SPI.h
-..\obj\base.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\IIC.h
-..\obj\base.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\adc.h
-..\obj\base.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\sys_time.h
-..\obj\base.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\PWM.h
-..\obj\base.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\Base_Exist_GPIO.h
+..\obj\base.o: ..\..\..\Caven-MCU_Lib\Base_AT32F403A\uart.h
+..\obj\base.o: ..\..\..\Caven-MCU_Lib\Base_AT32F403A\Base_SPI.h
+..\obj\base.o: ..\..\..\Caven-MCU_Lib\Base_AT32F403A\IIC.h
+..\obj\base.o: ..\..\..\Caven-MCU_Lib\Base_AT32F403A\adc.h
+..\obj\base.o: ..\..\..\Caven-MCU_Lib\Base_AT32F403A\sys_time.h
+..\obj\base.o: ..\..\..\Caven-MCU_Lib\Base_AT32F403A\PWM.h
+..\obj\base.o: ..\..\..\Caven-MCU_Lib\Base_AT32F403A\Base_Exist_GPIO.h

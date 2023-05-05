@@ -1,6 +1,6 @@
-..\obj\base_spi.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\Base_SPI.c
-..\obj\base_spi.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\Base_SPI.h
-..\obj\base_spi.o: ..\..\..\MCU_LIB-Cloud-\Base_AT32F403A\items.h
+..\obj\base_spi.o: ..\..\..\Caven-MCU_Lib\Base_AT32F403A\Base_SPI.c
+..\obj\base_spi.o: ..\..\..\Caven-MCU_Lib\Base_AT32F403A\Base_SPI.h
+..\obj\base_spi.o: ..\User\items.h
 ..\obj\base_spi.o: ..\CMSIS\at32f403a_407.h
 ..\obj\base_spi.o: ..\CMSIS\core_cm4.h
 ..\obj\base_spi.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h
