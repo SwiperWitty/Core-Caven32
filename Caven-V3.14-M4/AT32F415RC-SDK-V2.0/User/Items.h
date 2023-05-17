@@ -50,7 +50,8 @@
 //#define Exist_Voice               //语音播报(MP3)
 
 //#define Exist_Motor               //电机
-//#define Exist_Steering_Engine       //舵机
+//#define Exist_Steering_Engine     //舵机
+#define Exist_STEP_Motor
 
 //#define Exist_MLX90614            //红外测温
 

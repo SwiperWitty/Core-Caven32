@@ -2,6 +2,8 @@
 #include "API.h"
 #include "pic.h"
 
+#include "MODE_Motor_BYJ.h"
+
 /*
             软件文件夹->AT32文件夹->Keil工程
 项目文件->  
@@ -62,7 +64,12 @@ void Main_Init(void)
     Mode_Init.LCD(ENABLE);
 	Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
     Mode_Init.KEY(1,ENABLE);
-
+    Motor_BYJ_Init(1);
+    
+    Motor_BYJ_Drive(1,0,360);
+    
+    Motor_BYJ_Drive(0,0,360);
+    while(1);
 #ifdef PICTURE
 	Mode_User.LCD.Show_Picture(0,0,240,240,Photo1);     //Photo
 #endif
