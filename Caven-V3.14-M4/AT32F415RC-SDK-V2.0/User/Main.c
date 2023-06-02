@@ -24,19 +24,20 @@ int main (void)
     while(1)
     {
         Mode_User.Sys_Clock.Get_TIME();
-		if(Mode_User.KEY.KEY_State(1) == 0)
+		if(Mode_User.KEY.K_State(1) == 0)
 		{
-			if(Mode_User.KEY.KEY_State(1) == 0)
+			if(Mode_User.KEY.K_State(1) == 0)
 			{
 				i++;
 				if(i > 100)
 				{i = 1;}
 				printf("Key num : %d",i);
+//                Mode_User.USB_HID.Keyboard_Send_String("USB-HID Hello world !\r\n");
 			}
 			do{
 				Mode_User.Delay.Delay_ms(5);
 				
-			}while(Mode_User.KEY.KEY_State(1) == 0);
+			}while(Mode_User.KEY.K_State(1) == 0);
 		}
         #ifdef PICTURE
 		if(i%2 == 1 && temp != i)
@@ -64,12 +65,14 @@ void Main_Init(void)
     Mode_Init.LCD(ENABLE);
 	Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
     Mode_Init.KEY(1,ENABLE);
+//    Mode_Init.USB(ENABLE);
+    
     Motor_BYJ_Init(1);
     
     Motor_BYJ_Drive(1,0,360);
     
     Motor_BYJ_Drive(0,0,360);
-    while(1);
+
 #ifdef PICTURE
 	Mode_User.LCD.Show_Picture(0,0,240,240,Photo1);     //Photo
 #endif

@@ -13,7 +13,7 @@
 
 */
 #define TURE   TRUE
-#define DEBUG_OUT   3           //Debug 通道(Caved 3.14是串口1)->MODE
+#define DEBUG_OUT   3           //Debug 通道(Caved 3.14是串口3)->MODE
 #define MCU_SYS_Freq SystemCoreClock        //刚启动是xM，经过配置文件之后就是144（system_clock_config()之后）
 
 
@@ -30,9 +30,9 @@
 //#define Exist_DAC
 
 #define Exist_UART
-//#define Exist_IIC
+#define Exist_IIC
 //#define Exist_SPI
-#define Exist_USB
+//#define Exist_USB
 //#define Exist_CAN
 
 //#define Exist_FLASH
