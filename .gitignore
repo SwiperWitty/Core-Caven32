@@ -18,7 +18,6 @@
 
 # Libraries
 *.lib
-*.a
 *.la
 *.lo
 
@@ -55,4 +54,3 @@ dkms.conf
 *.log
 Objects
 OBJ
-.gitignore
