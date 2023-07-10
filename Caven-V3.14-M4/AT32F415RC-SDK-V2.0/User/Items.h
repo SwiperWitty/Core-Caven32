@@ -35,7 +35,7 @@
 //#define Exist_USB
 //#define Exist_CAN
 
-//#define Exist_FLASH
+#define Exist_FLASH
     
                                                     /*  只需要加上逻辑才能的功能    */
 #define Exist_LCD
