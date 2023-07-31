@@ -3,6 +3,7 @@
 
 #include "at32f415.h"
 #include "at32f415_clock.h"     //软件配置的 基于内部48Mhz晶振  (48 / 6 / 2) * 36      APB 144M、APB1 72M、APB2 144M、（TIM All 144M）（ADC All 18M）（UART All 18M）
+#include "stdio.h"
 
 /*
     SDK->Items->GPIO(Exist_GPIO)->BASE->
@@ -32,7 +33,7 @@
 #define Exist_UART
 #define Exist_IIC
 //#define Exist_SPI
-//#define Exist_USB
+#define Exist_USB
 //#define Exist_CAN
 
 #define Exist_FLASH
@@ -55,6 +56,7 @@
 #define Exist_STEP_Motor
 
 //#define Exist_MLX90614            //红外测温
+#define Exist_RTC8564               //时钟
 
 #define	NOP()		__nop()
 

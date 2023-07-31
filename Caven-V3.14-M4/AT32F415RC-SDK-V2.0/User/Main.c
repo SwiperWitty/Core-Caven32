@@ -32,7 +32,7 @@ int main (void)
 				if(i > 100)
 				{i = 1;}
 				printf("Key num : %d",i);
-//                Mode_User.USB_HID.Keyboard_Send_String("USB-HID Hello world !\r\n");
+                Mode_User.USB_HID.Keyboard_Send_String("USB-HID Hello world !\r\n");
 			}
 			do{
 				Mode_User.Delay.Delay_ms(5);
@@ -65,13 +65,16 @@ void Main_Init(void)
     Mode_Init.LCD(ENABLE);
 	Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
     Mode_Init.KEY(1,ENABLE);
-//    Mode_Init.USB(ENABLE);
+    Mode_Init.USB(ENABLE);
     
-    Motor_BYJ_Init(1);
-    
-    Motor_BYJ_Drive(1,0,360);
-    
-    Motor_BYJ_Drive(0,0,360);
+    char temp = 0;
+    RTC8564_Init (ENABLE);
+    Mode_User.Delay.Delay_ms(50);
+
+//    Motor_BYJ_Init(1);
+//    
+//    Motor_BYJ_Drive(1,0,360);
+//    Motor_BYJ_Drive(0,0,360);
 
 #ifdef PICTURE
 	Mode_User.LCD.Show_Picture(0,0,240,240,Photo1);     //Photo
