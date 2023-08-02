@@ -1,24 +1,28 @@
 # Core-Caven32
 
-因为本怪精力有限，[Cavendish 3.0](https://github.com/SwiperWitty/MCU-Cavendish) 已经**停止维护**，除非出现重大BUG。
+​	因为本怪精力有限，[Cavendish 3.0]已经**停止维护**，除非出现重大BUG，现在推出了新硬件**Caven 3.14** ！**Core-Caven32**就是为其设计的全新代码框架。
 
-Caven 3.14的硬件和Caven 3.0 **不完全一样**，是一个更大的进化，板载硬件DAP-Link和TTL串口（可以Debug和串口打印数据），此外3.14系列主时钟设置（ST-F1 72M、GD-F1 96M）。
+​	Caven 3.14 板载硬件DAP-Link和TTL串口（可以Debug和串口3打印数据），此外还有一个LCD-1。3寸屏。
 
-只需要一根Type-c和一台电脑即可开发 [Caven 3.14](https://github.com/SwiperWitty/Core-Caven32) ！
+​	只需要一根Type-c数据线和一台电脑即可开发 [Caven 3.14](https://github.com/SwiperWitty/Core-Caven32) ！
 
 _____
 
-其实Core-Caven32里面放的是一个32位系统的代码库,包括ARM-M0、ARM-M3、ARM-M4、RISC-V（虽然它的初衷是为Cavend 3.14服务）。
+​	其实Core-Caven32里面放的是一个32位系统的代码库,包括ARM-M0、ARM-M0+、ARM-M3、ARM-M4(F)、RISC-V（虽然它的初衷是为Cavend 3.14服务）。
 
 本设计仅供于学习、参考，不可商用和水毕业论文（参与开发者随意）！
 
-![image-20230505200449603](https://gitee.com/Swiper_witty/caven_img/raw/master/img/202305052004679.png)
+![image-20230802143110689](https://gitee.com/Swiper_witty/caven_img/raw/master/img/202308021431731.png)
+
+
+
+______
 
 ### 开始使用
 
 **驱动&资料**
 
-[MCU的MDK依赖&工具&资料](https://github.com/SwiperWitty/MCU_Pack-Datasheet_Lib) （因为这个东西不经常变更就不放在这里了）
+[MCU的Keil依赖&工具&资料](https://github.com/SwiperWitty/MCU_Pack-Datasheet_Lib) （因为这个东西不经常变更就不放在这里了）
 
 [子模块链接](https://github.com/SwiperWitty/MCU_LIB-Cloud-) （里面有食用方法）
 
@@ -28,7 +32,7 @@ _____
 
 **关于git 下载此项目**
 
-因为这个工程里面有子模块（就是上面那个子模块链接，以防呆瓜不看，再说一遍），所以**使用之前**要从`\Core-Caven32`文件`cd`到`\Caven-MCU_Lib`
+​	因为这个工程里面有子模块（就是上面那个子模块链接，以防呆瓜不看，再说一遍），所以**使用之前**要从`\Core-Caven32`文件`cd`到`\Caven-MCU_Lib`
 
 ~~~shell
 git clone https://github.com/SwiperWitty/Core-Caven32.git
@@ -44,11 +48,11 @@ git checkout main
 cd ..
 ~~~
 
-如图
+
 
 ![image-20230802141749444](https://gitee.com/Swiper_witty/caven_img/raw/master/img/202308021417513.png)
 
-
+______
 
 ### 主要功能
 
@@ -59,6 +63,8 @@ cd ..
 ![image-20220913201218059](https://raw.githubusercontent.com/SwiperWitty/img/main/img/image-20220913201218059.png)
 
 
+
+_______
 
 ### 工程结构
 
@@ -72,7 +78,7 @@ cd ..
 
 ___
 
-### 资源
+### 硬件芯片资源
 
 ![image-20220822194832619](https://raw.githubusercontent.com/SwiperWitty/img/main/img/image-20220822194832619.png)
 
@@ -171,7 +177,7 @@ Github会clone吧？
 
 
 
-#### MDK设置
+**MDK设置**
 
 ![image-20220617113014960](https://raw.githubusercontent.com/SwiperWitty/img/main/img/image-20220617113014960.png)
 
@@ -186,9 +192,11 @@ WCH-Link相关：[看这里](https://www.wch.cn/downloads/WCH-LinkUserManual_PDF
 
 芯片检测不到：[看这里](https://blog.csdn.net/ReCclay/article/details/103449476)   的【 三、设置keil 章节】的 【3、配置好相应的Flash Download选项】
 
-如果问题还是没有解决：[看这里](https://www.baidu.com/)
+如果问题还是没有解决：[看这里](https://www.baidu.com/) 
 
 
+
+_____
 
 ### 如何找到UP？
 
