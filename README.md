@@ -14,13 +14,39 @@ _____
 
 ![image-20230505200449603](https://gitee.com/Swiper_witty/caven_img/raw/master/img/202305052004679.png)
 
-使用之前记得装驱动！！！
+### 开始使用
+
+**驱动&资料**
 
 [MCU的MDK依赖&工具&资料](https://github.com/SwiperWitty/MCU_Pack-Datasheet_Lib) （因为这个东西不经常变更就不放在这里了）
 
 [子模块链接](https://github.com/SwiperWitty/MCU_LIB-Cloud-) （里面有食用方法）
 
 硬件资料 [嘉立创EDA](https://u.lceda.cn/account/user/projects/index/detail?project=c74409cf0db64e179e8eee7457e84763&folder=all) 或者 [SwiperWitty/PCB-MCU](https://github.com/SwiperWitty/PCB-MCU) ，注意是Caven 3.14哦！
+
+
+
+**关于git 下载此项目**
+
+因为这个工程里面有子模块（就是上面那个子模块链接，以防呆瓜不看，再说一遍），所以**使用之前**要从`\Core-Caven32`文件`cd`到`\Caven-MCU_Lib`
+
+~~~shell
+git clone https://github.com/SwiperWitty/Core-Caven32.git
+
+cd .\Core-Caven32\
+git branch
+
+cd .\Caven-MCU_Lib\
+git submodule update --init --recursive
+git branch
+git checkout main
+
+cd ..
+~~~
+
+如图
+
+![image-20230802141749444](https://gitee.com/Swiper_witty/caven_img/raw/master/img/202308021417513.png)
 
 
 
@@ -161,3 +187,12 @@ WCH-Link相关：[看这里](https://www.wch.cn/downloads/WCH-LinkUserManual_PDF
 芯片检测不到：[看这里](https://blog.csdn.net/ReCclay/article/details/103449476)   的【 三、设置keil 章节】的 【3、配置好相应的Flash Download选项】
 
 如果问题还是没有解决：[看这里](https://www.baidu.com/)
+
+
+
+### 如何找到UP？
+
+卡文迪许怪
+
+[GitHub](https://github.com/SwiperWitty) & [Bilibili](https://space.bilibili.com/102898291?spm_id_from=333.1007.0.0) 
+
