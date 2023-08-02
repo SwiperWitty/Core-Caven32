@@ -734,11 +734,11 @@ ARM Macro Assembler    Page 12
               00000000 
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp.sp --apcs=
-interwork --depend=.\output\startup_gd32f450_470.d -o.\output\startup_gd32f450_
-470.o -ID:\MDK\GigaDevice\GD32F4xx_DFP\3.0.3\Device\F4XX\Include -ID:\MDK\ARM\C
-MSIS\Include --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SET
-A 532" --predefine="GD32F450 SETA 1" --list=.\list\startup_gd32f450_470.lst ..\
-Startup\startup_gd32f450_470.s
+interwork --depend=..\obj\startup_gd32f450_470.d -o..\obj\startup_gd32f450_470.
+o -ID:\MDK\GigaDevice\GD32F4xx_DFP\3.0.3\Device\F4XX\Include -ID:\MDK\ARM\CMSIS
+\Include --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 53
+2" --predefine="GD32F450 SETA 1" --list=.\list\startup_gd32f450_470.lst ..\Star
+tup\startup_gd32f450_470.s
 
 
 
