@@ -70,7 +70,7 @@ _______
 
 ![image-20220916142856598](https://raw.githubusercontent.com/SwiperWitty/img/main/img/image-20220916142856598.png)
 
-其中**MCU_LIB-Cloud-**文件
+其中**Caven-MCU_Lib**文件
 
 ​	目的是减少重复造轮子（比如串口收发逻辑等），明明都是可以用同一个函数表达，只是底层不同。
 
