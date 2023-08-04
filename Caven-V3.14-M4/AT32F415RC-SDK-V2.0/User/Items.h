@@ -14,17 +14,19 @@
 
 */
 #define TURE   TRUE
-#define DEBUG_OUT   3           //Debug 通道(Caved 3.14是串口3)->MODE
+#define DEBUG_OUT   1           //Debug 通道(Caved 3.14是串口3)->MODE
 #define MCU_SYS_Freq SystemCoreClock        //刚启动是xM，经过配置文件之后就是144（system_clock_config()之后）
 
 
                                              /*  基本外设就能实现的功能    */
-#define Exist_SYS_TIME
+#ifndef Exist_SYS_TIME
+    #define Exist_SYS_TIME      //一定存在
+#endif
 //#define Exist_PWM
 //#define Exist_ENCODE
 
 #define Exist_KEY
-//#define Exist_LED
+#define Exist_LED
 //#define Exist_BZZ
 
 //#define Exist_ADC
@@ -33,11 +35,11 @@
 #define Exist_UART
 #define Exist_IIC
 //#define Exist_SPI
-#define Exist_USB
+//#define Exist_USB
 //#define Exist_CAN
 
 #define Exist_FLASH
-    
+
                                                     /*  只需要加上逻辑才能的功能    */
 #define Exist_LCD
 //#define Exist_OLED            //一般这两个是二选一（占用的都是SPI）
@@ -117,6 +119,27 @@
 #ifdef Exist_MLX90614
     #ifndef Exist_IIC
         #define Exist_IIC
+    #endif
+#endif
+
+/*  冲突  */
+#if DEBUG_OUT == 1
+    #ifdef Exist_USB
+        #warning (UART1 And USB Clash !!!)
+    #endif
+#endif
+
+#ifdef Exist_LCD
+    #ifdef Exist_OLED
+        #warning (LCD And OLED Have A Clash !!!)
+        #undef Exist_OLED
+    #endif
+#endif
+
+#ifdef Exist_ADC
+    #ifdef Exist_DAC
+        #warning (ADC And DAC Have A Clash !!!)
+        #undef Exist_DAC
     #endif
 #endif
 
