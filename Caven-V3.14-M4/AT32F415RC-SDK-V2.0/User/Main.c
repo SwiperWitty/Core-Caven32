@@ -38,27 +38,26 @@ int main (void)
     Main_Init();
     while(1)
     {
-//        Mode_User.Sys_Clock.Get_TIME();
-//		if(Mode_User.KEY.K_State(1) == 0)
-//		{
-//			if(Mode_User.KEY.K_State(1) == 0)
-//			{
-//				i++;
-//				if(i > 100)
-//				{i = 1;}
-//				printf("Key num : %d",i);
-////                Mode_User.USB_HID.Keyboard_Send_String("USB-HID Hello world !\r\n");
-//			}
-//			do{
-//				Mode_User.Delay.Delay_ms(5);
-//				
-//			}while(Mode_User.KEY.K_State(1) == 0);
-//		}
+        Mode_User.Sys_Clock.Get_TIME();
+		if(Mode_User.KEY.K_State(1) == 0)
+		{
+			if(Mode_User.KEY.K_State(1) == 0)
+			{
+				i++;
+				if(i > 100)
+				{i = 1;}
+				printf("Key num : %d",i);
+//                Mode_User.USB_HID.Keyboard_Send_String("USB-HID Hello world !\r\n");
+			}
+			do{
+				Mode_User.Delay.Delay_ms(5);
+				
+			}while(Mode_User.KEY.K_State(1) == 0);
+		}
         Mode_User.LED.LED_SET(2,ENABLE);
-        Mode_User.Delay.Delay_ms(500);
+        Mode_User.Delay.Delay_ms(20);
         Mode_User.LED.LED_SET(2,DISABLE);
-        Mode_User.Delay.Delay_ms(500);
-        
+        Mode_User.Delay.Delay_ms(20);
         
         #ifdef PICTURE
 		if(i%2 == 1 && temp != i)
@@ -95,16 +94,16 @@ void Main_Init(void)
     Flash_Read_Data (FLASH_DATA_START,&temp_a,sizeof(temp_a));
     printf("get flash: %x \r\n",temp_a.start);
     
-//    if(temp_a.start == 0x5a && temp_a.end == 0xa5)
-//    {
-//        temp_a.start += 1;
-//        temp_a.L32 = (int)&temp_a.start;
-//    }
-//    else
-//    {
-//        temp_a = temp_default;
-//    }
-//    Flash_Save_Data (FLASH_DATA_START,&temp_a,sizeof(temp_a));
+    if(temp_a.start == 0x5a && temp_a.end == 0xa5)
+    {
+        temp_a.start += 1;
+        temp_a.L32 = (int)&temp_a.start;
+    }
+    else
+    {
+        temp_a = temp_default;
+    }
+    Flash_Save_Data (FLASH_DATA_START,&temp_a,sizeof(temp_a));
     
     
 //    Motor_BYJ_Init(1);
