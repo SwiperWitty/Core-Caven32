@@ -82,11 +82,12 @@ void Main_Init(void)
     API_Index();
     
     Mode_Init.Sys_Clock(ENABLE);
+	
     Mode_Init.LCD(ENABLE);
 	Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
     Mode_Init.KEY(1,ENABLE);
     Mode_Init.LED(ENABLE);
-//    Mode_Init.USB(ENABLE);
+
     
     RTC8564_Init (ENABLE);
     Mode_User.Delay.Delay_ms(50);
