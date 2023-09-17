@@ -1,18 +1,16 @@
-## 文件的说明
+# HC32L110
 
-华大的这个MCU属于宽电压的MCU，如果要选M0+，建议使用HC32L1XX系列。
-
-低功耗time
-
-低功耗uart
+这个单片机主要是做低功耗，或者简单的低成本设计。
 
 
 
-![image-20230908093101248](https://gitee.com/Swiper_witty/caven_img/raw/master/img/202309080931301.png)
+### 主要功能
 
-适用于低功耗场景bms。
+- GPIO
+- UART
+- ADC
 
 
 
-
+这个内存太小，实在没办法做系统，小白也不会用这个做东西。所以，这个工程部分不会做`Cavend`框架。
 
