@@ -34,7 +34,7 @@
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
           <SFDFile>$$Device:HC32L110C6PA$SVD\HC32L110C.SFR</SFDFile>
-          <bCustSvd>0</bCustSvd>
+          <bCustSvd>1</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
           <IncludePath></IncludePath>
@@ -337,7 +337,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>DEFAULT,</Define>
+              <Define>DEFAULT,LOW_POW</Define>
               <Undefine></Undefine>
               <IncludePath>..\CMSIS;..\Config;..\SDK\inc;..\Startup;..\User;.\driver</IncludePath>
             </VariousControls>
@@ -412,6 +412,11 @@
               <FileName>Base_UART.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\driver\Base_UART.c</FilePath>
+            </File>
+            <File>
+              <FileName>Base_Sys_Time.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\driver\Base_Sys_Time.c</FilePath>
             </File>
           </Files>
         </Group>

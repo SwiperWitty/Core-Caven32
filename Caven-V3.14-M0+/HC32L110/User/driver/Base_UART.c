@@ -1,6 +1,5 @@
 #include "Base_UART.h" 
 #include "uart.h"
-#include "lpuart.h"
 #include "bt.h"
 
 #ifdef Exist_UART
@@ -8,101 +7,6 @@ static uint8_t Temp;
 
 #endif
 
-uint8_t u8TxData[10] = {0x55,0x55,0x55,0x55,0x55,0x55,0x55,0x55,0x55,0x55};//"Xiaohua MCU!";
-uint8_t u8RxData[10];
-uint8_t u8TxCnt=0,u8RxCnt=0;
-void TxIntCallback(void)
-{
-    if(u8TxCnt<5)
-    {
-        M0P_LPUART->SBUF = u8RxData[u8TxCnt];
-
-        u8TxCnt++;
-    }
-    else //if(u8TxCnt>10)
-    {
-        u8TxCnt = 0;
-        u8RxCnt = 0;
-        LPUart_ClrStatus(LPUartTxEmpty);   
-        LPUart_DisableIrq(LPUartTxIrq);
-        LPUart_EnableIrq(LPUartRxIrq);
-    }
-    
-}
-void RxIntCallback(void)
-{
-    if(u8RxCnt<5)
-    {
-        u8RxData[u8RxCnt]=LPUart_ReceiveData();
-		if(LPUart_CheckEvenOrOdd(Even,u8RxData[u8RxCnt])!=Ok)
-		{
-			u8RxCnt=0;
-		}
-		else
-		{
-			u8RxCnt++;
-		}
-    }
-    else 
-    {
-        u8RxCnt = 0;
-    }
-}
-void ErrIntCallback(void)
-{
-  
-}
-
-/**
- ***********************
- **使用这个函数需要
- **配置P25、P26为UART收发端口
- **配置波特率9600bps、偶校验、1stop
- **/
-void Uartlp_Init (int Baud,int Set)
-{
-    stc_lpuart_config_t  stcConfig;
-    stc_lpuart_irq_cb_t stcLPUartIrqCb;
-    stc_lpuart_multimode_t stcMulti;
-    stc_lpuart_sclk_sel_t  stcLpuart_clk;
-    stc_lpuart_mode_t       stcRunMode;
-    
-    if(Set > 0 & Baud != 0)
-    {
-        Clk_SetPeripheralGate(ClkPeripheralLpUart,TRUE);//使能LPUART时钟
-        Clk_SetPeripheralGate(ClkPeripheralBt,TRUE);
-        
-        //通道端口配置
-        Gpio_InitIOExt(2,5,GpioDirOut,TRUE,FALSE,FALSE,FALSE);
-        Gpio_InitIOExt(2,6,GpioDirOut,TRUE,FALSE,FALSE,FALSE);
-
-        Gpio_SetFunc_UART2RX_P25();
-        Gpio_SetFunc_UART2TX_P26();
-        
-        stcLpuart_clk.enSclk_sel = LPUart_Rcl;//LPUart_Pclk;//
-    
-        stcLpuart_clk.enSclk_Prs = LPUartDiv1;
-        stcConfig.pstcLpuart_clk = &stcLpuart_clk;
-            
-        stcRunMode.enLpMode = LPUartLPMode;     // 正常工作模式或低功耗工作模式配置
-        stcRunMode.enMode   = LPUartMode3;
-        stcConfig.pstcRunMode = &stcRunMode;
-
-        stcLPUartIrqCb.pfnRxIrqCb = RxIntCallback;
-        stcLPUartIrqCb.pfnTxIrqCb = TxIntCallback;
-        stcLPUartIrqCb.pfnRxErrIrqCb = ErrIntCallback;
-        stcConfig.pstcIrqCb = &stcLPUartIrqCb;
-        stcConfig.bTouchNvic = TRUE;
-
-        stcMulti.enMulti_mode = LPUartNormal;   // 只有模式2/3才有多主机模式
-
-        stcConfig.pstcMultiMode = &stcMulti; 
-        LPUart_EnableIrq(LPUartRxIrq);
-        LPUart_Init(&stcConfig);
-
-        LPUart_EnableFunc(LPUartRx);
-    }
-}
 
 void Uart0_Init(int Baud,int Set)
 {

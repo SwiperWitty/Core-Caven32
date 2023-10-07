@@ -31,7 +31,7 @@
 //#define Exist_ADC
 //#define Exist_DAC
 
-#define Exist_UART
+//#define Exist_UART
 
 #define Exist_FLASH
 
