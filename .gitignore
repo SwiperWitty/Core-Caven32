@@ -57,6 +57,11 @@ OBJ
 obj
 
 # KEIL
+**/Listings/*
+**/list/*
+**/output/*
 **.uvguix.*
 **.uvguix
+**.uvoptx
+
 

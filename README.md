@@ -52,6 +52,22 @@ cd ..
 
 ![image-20230802141749444](https://gitee.com/Swiper_witty/caven_img/raw/master/img/202308021417513.png)
 
+如果`port 443 after : Timed out`，你可以试试
+
+设置网络代理，系统代理的 IP 地址和端口号。
+
+~~~~shell
+git config --global http.proxy http://127.0.0.1:7890 
+~~~~
+
+或者，取消网络代理（例如使用gitee）
+
+~~~~
+git config --global --unset http.proxy
+~~~~
+
+
+
 ______
 
 ### 主要功能
