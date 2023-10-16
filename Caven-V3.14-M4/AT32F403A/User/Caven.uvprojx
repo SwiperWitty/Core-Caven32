@@ -554,11 +554,6 @@
               <FilePath>..\..\..\Caven-MCU_Lib\API\API.c</FilePath>
             </File>
             <File>
-              <FileName>Check_CRC16.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\API\Check_CRC16.c</FilePath>
-            </File>
-            <File>
               <FileName>DATA_Handle.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\API\DATA_Handle.c</FilePath>
@@ -579,9 +574,9 @@
               <FilePath>..\..\..\Caven-MCU_Lib\API\Time_Handle.c</FilePath>
             </File>
             <File>
-              <FileName>Caven.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\API\Caven.h</FilePath>
+              <FileName>Check_CRC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Check_CRC.c</FilePath>
             </File>
           </Files>
         </Group>
