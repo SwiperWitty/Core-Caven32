@@ -16,26 +16,38 @@
 
 int temp = 0;
 int i;
-typedef struct flash_data
-{
-    U8 start;
-    int L32;
-    char array[10];
-    U8 end;
-} test_flash;
 
-test_flash temp_a;
-test_flash temp_default = {
-    .start = 0x5a,
-    .L32 = NULL,
-    .array = "12345\n",
-    .end = 0xa5,
+u8 array_buff[300];
+u8 array_r_temp[300];
+u8 array_t_temp[300];
+
+Caven_info_packet_Type standard = {
+    .Head =0xFA8A,
+    .Versions = 1,
+    .Type = 1,
+    .Addr = 0xF2,
+    .Size = 300,
 };
+Caven_info_packet_Type get_pack_temp;
+Caven_info_packet_Type send_pack_temp = {
+    .Head = 0xFA8A,
+    .Versions = 0x01,
+    .Type = 1,
+    .Addr = 0xF0,
+    .Cmd = 0,
+    .Cmd_sub = 7,
+    .Size = 0x02,
+    
+    .Result = 0,
+    .End_crc = 0x1122,
+};
+
 
 void Main_Init(void);
 int main (void)
 {
     Main_Init();
+
     while(1)
     {
         Mode_User.Sys_Clock.Get_TIME();
@@ -54,8 +66,25 @@ int main (void)
 				
 			}while(Mode_User.KEY.K_State(1) == 0);
 		}
+        if(get_pack_temp.Result &= 0x80)
+        {
+            printf("Head        : %x \n",get_pack_temp.Head);
+            printf("Versions    : %x \n",get_pack_temp.Versions);
+            printf("Type        : %x \n",get_pack_temp.Type);
+            printf("Addr        : %x \n",get_pack_temp.Addr);
+            printf("Cmd         : %x \n",get_pack_temp.Cmd);
+            printf("Cmd_sub     : %x \n",get_pack_temp.Cmd_sub);
+            printf("Size        : %x \n",get_pack_temp.Size);
+            printf("p_Data_addr : %p \n",get_pack_temp.p_Data);
+            printf("Result      : %x \n",get_pack_temp.Result);
+            printf("End_crc     : %x \n",get_pack_temp.End_crc);
+
+            temp = Caven_info_Split_packet_Fun(get_pack_temp, array_buff);
+            Mode_User.UART.WAY_Send_Data(3,array_buff,temp);
+            Caven_info_packet_clean_Fun(&get_pack_temp);
+        }
         Mode_User.LED.LED_SET(2,ENABLE);
-        Mode_User.Delay.Delay_ms(20);
+        Mode_User.Delay.Delay_ms(200);
         Mode_User.LED.LED_SET(2,DISABLE);
         Mode_User.Delay.Delay_ms(20);
         
@@ -74,6 +103,11 @@ int main (void)
     }
 }
 
+void Uart_Caven_info_packet_Handle (u8 data)
+{
+    Caven_info_Make_packet_Fun(standard, &get_pack_temp,data);
+}
+
 void Main_Init(void)
 {
     system_clock_config();
@@ -84,29 +118,17 @@ void Main_Init(void)
     Mode_Init.Sys_Clock(ENABLE);
 	
     Mode_Init.LCD(ENABLE);
-	Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
+	Mode_Init.UART(DEBUG_OUT,115200,&Uart_Caven_info_packet_Handle,ENABLE);   
     Mode_Init.KEY(1,ENABLE);
     Mode_Init.LED(ENABLE);
 
     
-    RTC8564_Init (ENABLE);
+//    RTC8564_Init (ENABLE);
     Mode_User.Delay.Delay_ms(50);
-    
-    Flash_Read_Data (FLASH_DATA_START,&temp_a,sizeof(temp_a));
-    printf("get flash: %x \r\n",temp_a.start);
-    
-    if(temp_a.start == 0x5a && temp_a.end == 0xa5)
-    {
-        temp_a.start += 1;
-        temp_a.L32 = (int)&temp_a.start;
-    }
-    else
-    {
-        temp_a = temp_default;
-    }
-    Flash_Save_Data (FLASH_DATA_START,&temp_a,sizeof(temp_a));
-    
-    
+    Caven_info_packet_index_Fun(&get_pack_temp, array_r_temp);
+    Caven_info_packet_index_Fun(&send_pack_temp, array_t_temp);
+    Caven_info_packet_clean_Fun(&get_pack_temp);
+
 //    Motor_BYJ_Init(1);
 //    
 //    Motor_BYJ_Drive(1,0,360);
@@ -116,5 +138,5 @@ void Main_Init(void)
 	Mode_User.LCD.Show_Picture(0,0,240,240,Photo1);     //Photo
 #endif
     printf("system_core_clock: %d \r\n",SystemCoreClock);
-    
+    Mode_User.Delay.Delay_ms(200);
 }

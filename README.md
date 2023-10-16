@@ -2,7 +2,7 @@
 
 ​	因为本怪精力有限，[Cavendish 3.0]已经**停止维护**，除非出现重大BUG，现在推出了新硬件**Caven 3.14** ！**Core-Caven32**就是为其设计的全新代码框架。
 
-​	Caven 3.14 板载硬件DAP-Link和TTL串口（可以Debug和串口3打印数据），此外还有一个LCD-1。3寸屏。
+​	Caven 3.14 板载硬件DAP-Link和TTL串口（可以Debug和串口3打印数据），此外还有一个LCD-1.3寸屏。
 
 ​	只需要一根Type-c数据线和一台电脑即可开发 [Caven 3.14](https://github.com/SwiperWitty/Core-Caven32) ！
 

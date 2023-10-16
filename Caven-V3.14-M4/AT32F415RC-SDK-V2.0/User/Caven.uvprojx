@@ -336,7 +336,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>AT32F415RCT7,USE_STDPERIPH_DRIVER,DEFAULT,Ins_HSCLK</Define>
+              <Define>AT32F415RCT7,USE_STDPERIPH_DRIVER,CAVEN,DEFAULT,Ins_HSCLK</Define>
               <Undefine></Undefine>
               <IncludePath>..\User;..\CMSIS;..\Config;..\SDK\inc;..\Startup\mdk;..\..\..\Caven-MCU_Lib\Mode;..\..\..\Caven-MCU_Lib\API;..\..\..\Caven-MCU_Lib\Base_AT32F415;..\..\..\Caven-MCU_Lib\Base_AT32F415\usb_drivers\inc;..\..\..\Caven-MCU_Lib\Base_AT32F415\composite_HID</IncludePath>
             </VariousControls>
@@ -616,6 +616,11 @@
               <FileName>Check_CRC.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\API\Check_CRC.c</FilePath>
+            </File>
+            <File>
+              <FileName>Caven_info_frame.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Caven_info_frame.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -14,7 +14,7 @@
 
 */
 #define TURE   TRUE
-#define DEBUG_OUT   1           //Debug 通道(Caved 3.14是串口3)->MODE
+#define DEBUG_OUT   3           //Debug 通道(Caved 3.14是串口3)->MODE
 #define MCU_SYS_Freq SystemCoreClock        //刚启动是xM，经过配置文件之后就是144（system_clock_config()之后）
 
 
