@@ -60,8 +60,11 @@ obj
 **/Listings/*
 **/list/*
 **/output/*
-*.uvguix.*
-*.uvguix
-*.uvoptx
+**/build/*
+**/.cmsis/*
+
+**/*.uvguix.*
+**/*.uvguix
+**/*.uvoptx
 
 

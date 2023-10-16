@@ -1,0 +1,470 @@
+{
+  "name": "Caven",
+  "type": "ARM",
+  "dependenceList": [],
+  "srcDirs": [
+    ".eide/deps"
+  ],
+  "virtualFolder": {
+    "name": "<virtual_root>",
+    "files": [],
+    "folders": [
+      {
+        "name": "API",
+        "files": [
+          {
+            "path": "../../../Caven-MCU_Lib/API/API.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/API/Check_CRC.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/API/DATA_Handle.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/API/Keyboard.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/API/libcollections.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/API/Time_Handle.c"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "Base",
+        "files": [
+          {
+            "path": "../../../Caven-MCU_Lib/Base_AT32F415/Base.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Base_AT32F415/Base_ADC.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Base_AT32F415/Base_Exist_GPIO.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Base_AT32F415/Base_Flash.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Base_AT32F415/Base_IIC.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Base_AT32F415/Base_PWM.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Base_AT32F415/Base_SPI.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Base_AT32F415/Base_Sys_Time.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Base_AT32F415/Base_UART.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Base_AT32F415/usb_drivers/src/usb_core.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Base_AT32F415/usb_drivers/src/usbd_core.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Base_AT32F415/usb_drivers/src/usbd_int.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Base_AT32F415/usb_drivers/src/usbd_sdr.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Base_AT32F415/composite_HID/cdc_keyboard_class.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Base_AT32F415/composite_HID/cdc_keyboard_desc.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Base_AT32F415/composite_HID/usb_user.c"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "CMSIS",
+        "files": [
+          {
+            "path": "../CMSIS/arm_common_tables.h"
+          },
+          {
+            "path": "../CMSIS/arm_const_structs.h"
+          },
+          {
+            "path": "../CMSIS/arm_helium_utils.h"
+          },
+          {
+            "path": "../CMSIS/arm_math.h"
+          },
+          {
+            "path": "../CMSIS/arm_mve_tables.h"
+          },
+          {
+            "path": "../CMSIS/arm_vec_math.h"
+          },
+          {
+            "path": "../CMSIS/cmsis_armcc.h"
+          },
+          {
+            "path": "../CMSIS/cmsis_armclang.h"
+          },
+          {
+            "path": "../CMSIS/cmsis_armclang_ltm.h"
+          },
+          {
+            "path": "../CMSIS/cmsis_compiler.h"
+          },
+          {
+            "path": "../CMSIS/cmsis_gcc.h"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "Config",
+        "files": [
+          {
+            "path": "../Config/at32f415_clock.c"
+          },
+          {
+            "path": "../Config/at32f415_int.c"
+          },
+          {
+            "path": "../Config/system_at32f415.c"
+          },
+          {
+            "path": "../Config/at32f415_conf.h"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "Mode",
+        "files": [
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/BZZ.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/Control_Mode.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/DS18B20.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/HC138.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/HC595.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/key.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/lcd.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/LED.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/mlx90614.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/MODE_Motor_BYJ.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/MODE_Motor.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/MODE_MP3.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/Mode_RTC8564.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/MODE_Time.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/MODE_Tracing.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/MODE_UART.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/MODE_Ultrasonic.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/Mode.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/Steering_engine.c"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "SDK",
+        "files": [
+          {
+            "path": "../SDK/src/at32f415_adc.c"
+          },
+          {
+            "path": "../SDK/src/at32f415_can.c"
+          },
+          {
+            "path": "../SDK/src/at32f415_cmp.c"
+          },
+          {
+            "path": "../SDK/src/at32f415_crc.c"
+          },
+          {
+            "path": "../SDK/src/at32f415_crm.c"
+          },
+          {
+            "path": "../SDK/src/at32f415_debug.c"
+          },
+          {
+            "path": "../SDK/src/at32f415_dma.c"
+          },
+          {
+            "path": "../SDK/src/at32f415_ertc.c"
+          },
+          {
+            "path": "../SDK/src/at32f415_exint.c"
+          },
+          {
+            "path": "../SDK/src/at32f415_flash.c"
+          },
+          {
+            "path": "../SDK/src/at32f415_gpio.c"
+          },
+          {
+            "path": "../SDK/src/at32f415_i2c.c"
+          },
+          {
+            "path": "../SDK/src/at32f415_misc.c"
+          },
+          {
+            "path": "../SDK/src/at32f415_pwc.c"
+          },
+          {
+            "path": "../SDK/src/at32f415_sdio.c"
+          },
+          {
+            "path": "../SDK/src/at32f415_spi.c"
+          },
+          {
+            "path": "../SDK/src/at32f415_tmr.c"
+          },
+          {
+            "path": "../SDK/src/at32f415_usart.c"
+          },
+          {
+            "path": "../SDK/src/at32f415_usb.c"
+          },
+          {
+            "path": "../SDK/src/at32f415_wdt.c"
+          },
+          {
+            "path": "../SDK/src/at32f415_wwdt.c"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "Startup",
+        "files": [
+          {
+            "path": "../Startup/mdk/startup_at32f415.s"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "User",
+        "files": [
+          {
+            "path": "Main.c"
+          },
+          {
+            "path": "User_Items.h"
+          },
+          {
+            "path": "Items.h"
+          }
+        ],
+        "folders": []
+      }
+    ]
+  },
+  "outDir": "build",
+  "deviceName": "-AT32F415RCT7",
+  "packDir": ".pack/ArteryTek/AT32F415_DFP.2.0.7",
+  "miscInfo": {
+    "uid": "2e7535a6fcbfccf12dddf83b6b196288"
+  },
+  "targets": {
+    "Default": {
+      "excludeList": [],
+      "toolchain": "AC5",
+      "compileConfig": {
+        "cpuType": "Cortex-M4",
+        "floatingPointHardware": "none",
+        "scatterFilePath": "",
+        "useCustomScatterFile": false,
+        "storageLayout": {
+          "RAM": [
+            {
+              "tag": "RAM",
+              "id": 1,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "noInit": false
+            },
+            {
+              "tag": "RAM",
+              "id": 2,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "noInit": false
+            },
+            {
+              "tag": "RAM",
+              "id": 3,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "noInit": false
+            },
+            {
+              "tag": "IRAM",
+              "id": 1,
+              "mem": {
+                "startAddr": "0x20000000",
+                "size": "0x8000"
+              },
+              "isChecked": true,
+              "noInit": false
+            },
+            {
+              "tag": "IRAM",
+              "id": 2,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "noInit": false
+            }
+          ],
+          "ROM": [
+            {
+              "tag": "ROM",
+              "id": 1,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "isStartup": false
+            },
+            {
+              "tag": "ROM",
+              "id": 2,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "isStartup": false
+            },
+            {
+              "tag": "ROM",
+              "id": 3,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "isStartup": false
+            },
+            {
+              "tag": "IROM",
+              "id": 1,
+              "mem": {
+                "startAddr": "0x8000000",
+                "size": "0x40000"
+              },
+              "isChecked": true,
+              "isStartup": true
+            },
+            {
+              "tag": "IROM",
+              "id": 2,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "isStartup": false
+            }
+          ]
+        },
+        "options": "null"
+      },
+      "uploader": "JLink",
+      "uploadConfig": {
+        "bin": "",
+        "baseAddr": "",
+        "cpuInfo": {
+          "vendor": "null",
+          "cpuName": "null"
+        },
+        "proType": 1,
+        "speed": 8000,
+        "otherCmds": ""
+      },
+      "uploadConfigMap": {},
+      "custom_dep": {
+        "name": "default",
+        "incList": [
+          ".",
+          "../CMSIS",
+          "../Config",
+          "../SDK/inc",
+          "../Startup/mdk",
+          "../../../Caven-MCU_Lib/Mode",
+          "../../../Caven-MCU_Lib/API",
+          "../../../Caven-MCU_Lib/Base_AT32F415",
+          "../../../Caven-MCU_Lib/Base_AT32F415/usb_drivers/inc",
+          "../../../Caven-MCU_Lib/Base_AT32F415/composite_HID",
+          ".cmsis/include",
+          "RTE/_Default",
+          ".eide/deps"
+        ],
+        "libList": [],
+        "sourceDirList": [],
+        "defineList": [
+          "AT32F415RCT7",
+          "USE_STDPERIPH_DRIVER",
+          "DEFAULT",
+          "Ins_HSCLK"
+        ]
+      }
+    }
+  },
+  "version": "3.3"
+}
