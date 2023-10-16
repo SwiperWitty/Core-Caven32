@@ -55,3 +55,8 @@ dkms.conf
 Objects
 OBJ
 obj
+
+# KEIL
+**.uvguix.*
+**.uvguix
+
