@@ -138,5 +138,7 @@ void Main_Init(void)
 	Mode_Use.LCD.Show_Picture(0,0,240,240,Photo1);     //Photo
 #endif
     printf("system_core_clock: %d \r\n",SystemCoreClock);
+    printf("agreement versions: %02d \r\n",standard.Versions);
+    printf("equipment type/number: 0x%02x/0x%02x \r\n",standard.Type,standard.Addr);
     Mode_Use.Delay.Delay_ms(200);
 }
