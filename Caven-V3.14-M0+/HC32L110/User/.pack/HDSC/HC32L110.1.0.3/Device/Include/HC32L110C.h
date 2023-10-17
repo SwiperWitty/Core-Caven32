@@ -1,28 +1,28 @@
 /*******************************************************************************
-* Copyright (C) 2017, Xiaohua Semiconductor Co.,Ltd All rights reserved.
+* Copyright (C) 2017, Huada Semiconductor Co.,Ltd All rights reserved.
 *
 * This software is owned and published by:
-* Xiaohua Semiconductor Co.,Ltd ("XHSC").
+* Huada Semiconductor Co.,Ltd ("HDSC").
 *
 * BY DOWNLOADING, INSTALLING OR USING THIS SOFTWARE, YOU AGREE TO BE BOUND
 * BY ALL THE TERMS AND CONDITIONS OF THIS AGREEMENT.
 *
-* This software contains source code for use with XHSC
-* components. This software is licensed by XHSC to be adapted only
-* for use in systems utilizing XHSC components. XHSC shall not be
+* This software contains source code for use with HDSC
+* components. This software is licensed by HDSC to be adapted only
+* for use in systems utilizing HDSC components. HDSC shall not be
 * responsible for misuse or illegal use of this software for devices not
-* supported herein. XHSC is providing this software "AS IS" and will
+* supported herein. HDSC is providing this software "AS IS" and will
 * not be responsible for issues arising from incorrect user implementation
 * of the software.
 *
 * Disclaimer:
-* XHSC MAKES NO WARRANTY, EXPRESS OR IMPLIED, ARISING BY LAW OR OTHERWISE,
+* HDSC MAKES NO WARRANTY, EXPRESS OR IMPLIED, ARISING BY LAW OR OTHERWISE,
 * REGARDING THE SOFTWARE (INCLUDING ANY ACOOMPANYING WRITTEN MATERIALS),
 * ITS PERFORMANCE OR SUITABILITY FOR YOUR INTENDED USE, INCLUDING,
 * WITHOUT LIMITATION, THE IMPLIED WARRANTY OF MERCHANTABILITY, THE IMPLIED
 * WARRANTY OF FITNESS FOR A PARTICULAR PURPOSE OR USE, AND THE IMPLIED
 * WARRANTY OF NONINFRINGEMENT.
-* XHSC SHALL HAVE NO LIABILITY (WHETHER IN CONTRACT, WARRANTY, TORT,
+* HDSC SHALL HAVE NO LIABILITY (WHETHER IN CONTRACT, WARRANTY, TORT,
 * NEGLIGENCE OR OTHERWISE) FOR ANY DAMAGES WHATSOEVER (INCLUDING, WITHOUT
 * LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION,
 * LOSS OF BUSINESS INFORMATION, OR OTHER PECUNIARY LOSS) ARISING FROM USE OR
@@ -40,19 +40,19 @@
 * at all times.
 */
 /******************************************************************************/
-/** \\file HC32L110.h
+/** \\file HC32L110C.h
 **
 ** Auto generate.
-** Headerfile for HC32L110 series MCU
+** Headerfile for HC32L110C series MCU
 **
 ** History:
 **
-**   - 2018-09-13  0.1   First version for Device Driver Library of Module.
+**   - 2018-09-14  0.1   First version for Device Driver Library of Module.
 **
 ******************************************************************************/
 
-#ifndef __HC32L110_H__
-#define __HC32L110_H__
+#ifndef __HC32L110C_H__
+#define __HC32L110C_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -106,8 +106,8 @@ typedef enum IRQn
 } IRQn_Type;
 
 
-#include "core_cm0plus.h"
-#include "stdint.h"
+#include <core_cm0plus.h>
+#include <stdint.h>
 
 #define SUCCESS         (0)
 #define ERROR           (-1)
@@ -3660,5 +3660,5 @@ typedef struct
 }
 #endif
 
-#endif /* __HC32L110_H__ */
+#endif /* __HC32L110C_H__ */
 

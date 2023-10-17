@@ -2,13 +2,10 @@
 
 volatile int LptTest_L    = 0;
 volatile int LptTest_falg = 0;
-volatile uint32_t Clk_Val = 0;
-
-uint32_t Lpt_CNT = 0;
 int Delay_num = 0;
 
 #define CLK_H 1 
-#define Lpt_10MS 100 	// MAX [200] * 10 (ms)
+
 
 int SYS_Status = 0;
 
@@ -22,13 +19,10 @@ int main(void)
 				{
 					LptTest_falg = 0;
 					Lpt_Stop();
-					Lpt_ARRSet(Lpt_CNT);
-					if(Delay_num == 1)
-					{
-						SYSClkwork_Mode (m_Clk_H);	// have 
-					}
+					Lpt_ARRSet(0);
 					if (LptTest_L >= 2) 
 					{
+                        
 						User_do_check();
 						
 						SYS_Status++;
@@ -36,61 +30,71 @@ int main(void)
 					if(SYS_Status == 0)					// nothing
 					{
 						Lpt_Run();
-//                		SYSClkwork_Mode (m_Clk_L); // or 
+//						Base_NOP_Delay(100, Delay_num);
 						Low_Pow_MODE(TRUE);
 					}
 				}
             } break;
             case (1): {
                 SYS_Status++;
-                /* do something	*/
+                // do something
             } break;
             case (2): {
                 SYS_Status++;
                 LptTest_L = 0;
                 Lpt_Run();
-                /* run time	*/
+                // run time
             } break;
             case (3): {
                 SYS_Status = 0;
-//                SYSClkwork_Mode (m_Clk_L); // or 
-				Low_Pow_MODE(TRUE); 
-                /* low pow & clean Status	*/
+				Low_Pow_MODE(TRUE);
+                // low pow & clean Status
             } break;
             default:
                 break;
         }
-		Base_NOP_Delay(1, Delay_num);
+		Base_NOP_Delay(10, Delay_num);
     }
 }
 
 int User_do_check(void)
 {
     int retval = 0;
-	User_GPIO_set(MOSA, 1);
-	User_GPIO_set(MOSB, 1);
-    Base_NOP_Delay(10, Delay_num);
-    User_GPIO_set(MOSA, 0);
-	User_GPIO_set(MOSB, 0);
+    User_GPIO_set(MOSB, 1);
+    Base_NOP_Delay(1000, Delay_num);
+    User_GPIO_set(MOSB, 0);
+
     return retval;
 }
 
-
-
-
-
+volatile uint32_t Clk_Val = 0;
 void Main_Init(void)
 {
-    Clk_Val = Clk_GetHClkFreq();
-	SYSClkwork_Mode (m_Clk_H);		// Start 
+    stc_clk_config_t stcClkCfg;
 	
+    stcClkCfg.enHClkDiv = ClkDiv1;
+    stcClkCfg.enPClkDiv = ClkDiv1;
+    
+    Clk_Val = Clk_GetHClkFreq();
+	
+#if CLK_H 
+	Clk_SetRCHFreq(ClkFreq4Mhz); 
+	stcClkCfg.enClkSrc  = ClkRCH; 
+	Delay_num = 200; 
+#else 
+	stcClkCfg.enClkSrc  = ClkRCL;
+	Delay_num = 1;
+#endif
+	
+	Clk_Init(&stcClkCfg);
 	Clk_SetRCLFreq(ClkFreq32768);	//  \ ClkFreq32768 
 	Clk_Enable(ClkRCL, TRUE);
-	
+    
     User_GPIO_Init(TRUE);
-	
-	User_GPIO_set(MOSA, 1);
-	User_GPIO_set(MOSB, 1);
+    User_GPIO_set(GPO, 0);
+    User_GPIO_set(MOSA, 1);
+    User_GPIO_set(MOSB, 1);
+
     //	Uart_lp_Init (TRUE);
     TIME_lp_Init(TRUE);
     Base_NOP_Delay(500, Delay_num);
@@ -101,29 +105,7 @@ void Main_Init(void)
 	
 	User_GPIO_set(MOSA, 0);
     User_GPIO_set(MOSB, 0); // 全关
-//	SYSClkwork_Mode (m_Clk_L);
-	
-}
-
-void SYSClkwork_Mode (User_Clk_Type Mode)
-{
-    stc_clk_config_t stcClkCfg;
-	
-    stcClkCfg.enHClkDiv = ClkDiv1;
-    stcClkCfg.enPClkDiv = ClkDiv1;
-    
-    if (Mode == m_Clk_H)
-    {
-        Clk_SetRCHFreq(ClkFreq4Mhz); 
-        stcClkCfg.enClkSrc  = ClkRCH; 
-        Delay_num = 200; 
-    }
-    else
-    {
-        stcClkCfg.enClkSrc  = ClkRCL;
-        Delay_num = 1;
-    }
-    Clk_Init(&stcClkCfg);
+	Low_Pow_MODE(TRUE);
 }
 
 void LptInt(void)
@@ -142,8 +124,7 @@ int TIME_lp_Init(int Set)
 {
     stc_lpt_config_t stcConfig; // time
     int retval          = Ok;
-	Lpt_CNT = 0xFFFF - (327*Lpt_10MS);
-	
+    uint16_t ms100 = 10;
     if (Set) {
         Clk_SetPeripheralGate(ClkPeripheralLpTim, TRUE);
         stcConfig.enGateP  = LptPositive;
@@ -165,7 +146,7 @@ int TIME_lp_Init(int Set)
             EnableNvic(LPTIM_IRQn, 3, TRUE);
 
             // 设置重载值，计数初值，启动计数
-            Lpt_ARRSet(Lpt_CNT);
+            Lpt_ARRSet(0xFFFF-3276*ms100);
             Lpt_Run();
         }
     } else {
@@ -192,6 +173,7 @@ void Low_Pow_MODE(int Set)
 		Lpm_GotoLpmMode();
 #endif
 	}
+	
 }
 
 /**
@@ -283,7 +265,5 @@ void RxIntCallback(void)
 void ErrIntCallback(void)
 {
 }
-
-
 
 

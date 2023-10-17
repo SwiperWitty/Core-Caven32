@@ -10,15 +10,13 @@
     "files": [],
     "folders": [
       {
-        "name": "::CMSIS",
-        "files": [],
-        "folders": []
-      },
-      {
-        "name": "Config",
+        "name": "User",
         "files": [
           {
-            "path": "../Config/system_hc32l110.c"
+            "path": "Main.c"
+          },
+          {
+            "path": "Items.h"
           }
         ],
         "folders": []
@@ -34,6 +32,21 @@
           },
           {
             "path": "driver/Base_UART.c"
+          },
+          {
+            "path": "driver/Base_Sys_Time.c"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "Config",
+        "files": [
+          {
+            "path": "../Config/system_hc32l110.c"
+          },
+          {
+            "path": "../Config/interrupts_hc32l110.c"
           }
         ],
         "folders": []
@@ -67,9 +80,6 @@
           },
           {
             "path": "../SDK/src/i2c.c"
-          },
-          {
-            "path": "../SDK/src/interrupts_hc32l110.c"
           },
           {
             "path": "../SDK/src/lpm.c"
@@ -120,22 +130,15 @@
         "folders": []
       },
       {
-        "name": "User",
-        "files": [
-          {
-            "path": "Main.c"
-          },
-          {
-            "path": "Items.h"
-          }
-        ],
+        "name": "::CMSIS",
+        "files": [],
         "folders": []
       }
     ]
   },
   "outDir": "build",
-  "deviceName": null,
-  "packDir": null,
+  "deviceName": "HC32L110C6PA",
+  "packDir": ".pack/HDSC/HC32L110.1.0.3",
   "miscInfo": {
     "uid": "bed23d3bcf80a83c3f13def6eb82519a"
   },
@@ -277,13 +280,14 @@
           "../SDK/inc",
           "../Startup",
           ".",
-          ".cmsis/include",
-          "RTE/_Cavend",
-          ".eide/deps"
+          "driver",
+          "RTE/_Cavend"
         ],
         "libList": [],
         "sourceDirList": [],
-        "defineList": []
+        "defineList": [
+          "DEFAULT"
+        ]
       }
     }
   },

@@ -8,6 +8,7 @@
 
 - GPIO
 - UART
+- TIME
 - ADC
 
 
