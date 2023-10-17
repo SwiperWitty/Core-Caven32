@@ -19,6 +19,7 @@
 */
 
 #include "debug.h"
+#include "Items.h"
 
 /* Global typedef */
 

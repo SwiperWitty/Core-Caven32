@@ -3,6 +3,7 @@
         "stm32f10x.h": "c",
         "base.h": "c",
         "time_handle.h": "c",
-        "caven.h": "c"
+        "caven.h": "c",
+        "items.h": "c"
     }
 }

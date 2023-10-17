@@ -1,3 +1,12 @@
 eclipse.preferences.version=1
+encoding//Base_CH32V203/Base_ADC.c=UTF-8
+encoding//Base_CH32V203/Base_Flash.c=UTF-8
+encoding//Base_CH32V203/Base_IIC.c=UTF-8
+encoding//Base_CH32V203/Base_SPI.c=UTF-8
+encoding//Base_CH32V203/Base_Sys_Time.c=UTF-8
+encoding//Base_CH32V203/Base_UART.c=UTF-8
 encoding//Base_CH32V203/Items.h=UTF-8
 encoding//Peripheral/inc/ch32v20x.h=UTF-8
+encoding//User/Items.h=UTF-8
+encoding//User/ch32v20x_it.h=GBK
+encoding//User/main.c=GBK
