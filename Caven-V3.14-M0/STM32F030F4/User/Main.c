@@ -16,9 +16,9 @@ int main (void)
     
     while(1)
     {
-		SYS_Time.Watch = Mode_User.Sys_Clock.Get_TIME();
+		SYS_Time.Watch = Mode_Use.Sys_Clock.Get_TIME();
         API.Time.Over_Time(&LED);
-        Mode_User.LED.LED_SET(1,LED.Flip);
+        Mode_Use.LED.LED_SET(1,LED.Flip);
         
         if(LED.Flag)
         {
@@ -30,8 +30,8 @@ int main (void)
         
         if(CV_UART[1]->Rxd_Received == 1)
         {
-            Mode_User.UART.WAY_Send_Data(1,CV_UART[1]->DATA.Poit_U8,CV_UART[1]->DATA.Length);
-            Mode_User.UART.WAY_Send_String(1," \r\n");
+            Mode_Use.UART.WAY_Send_Data(1,CV_UART[1]->DATA.Poit_U8,CV_UART[1]->DATA.Length);
+            Mode_Use.UART.WAY_Send_String(1," \r\n");
             Destroy(&CV_UART[1],sizeof(CV_UART[1]));
         }
         SYS_Delay_ms (5);
@@ -52,15 +52,15 @@ void Main_Init(void)
     SPI_Start_Init(ENABLE);
 
     
-    Mode_User.Delay.Delay_ms(100);
-    Mode_User.UART.WAY_Send_String(1,"hello world !\r\n");
+    Mode_Use.Delay.Delay_ms(100);
+    Mode_Use.UART.WAY_Send_String(1,"hello world !\r\n");
     Debug_Out("hello world !\r\n");
 	
 	sprintf(Free_array,"->%2d:%2d:%2d \r\n", SYS_Time.Watch.hour,SYS_Time.Watch.minutes,SYS_Time.Watch.second);
 	Debug_Out(Free_array);
 	
-	Mode_User.Sys_Clock.Set_TIME(SYS_Time.Watch);
-	Mode_User.Delay.Delay_ms(1000);
+	Mode_Use.Sys_Clock.Set_TIME(SYS_Time.Watch);
+	Mode_Use.Delay.Delay_ms(1000);
     
     IIC_Start_Init(ENABLE);
 }

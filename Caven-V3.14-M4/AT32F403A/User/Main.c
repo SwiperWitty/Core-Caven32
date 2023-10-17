@@ -26,7 +26,7 @@ void Main_Init(void)
     Uart3_Init(115200,ENABLE);
 	int i = 100 * 100 * 100;
 	while(i--);
-//    Mode_User.LCD.Show_Picture(0,0,240,240,Photo);
+//    Mode_Use.LCD.Show_Picture(0,0,240,240,Photo);
     printf("holle world ! \r\n");
     
 }
@@ -40,10 +40,10 @@ void Uart3_Init(int Baud,int Set)
     if (Set)
         set = TRUE;
 
-    crm_periph_clock_enable(CRM_USART3_PERIPH_CLOCK, set);                  //ÖØÓ³ÉäÊ±ÖÓ
+    crm_periph_clock_enable(CRM_USART3_PERIPH_CLOCK, set);                  //ï¿½ï¿½Ó³ï¿½ï¿½Ê±ï¿½ï¿½
     crm_periph_clock_enable(CRM_IOMUX_PERIPH_CLOCK, TRUE);      
     crm_periph_clock_enable(CRM_GPIOC_PERIPH_CLOCK, TRUE);
-    gpio_pin_remap_config(USART3_GMUX_0001,TRUE);                           //ÖØÓ³Éä´®¿Ú
+    gpio_pin_remap_config(USART3_GMUX_0001,TRUE);                           //ï¿½ï¿½Ó³ï¿½ä´®ï¿½ï¿½
     gpio_init_type gpio_init_struct;
     gpio_default_para_init(&gpio_init_struct);
 
@@ -62,11 +62,11 @@ void Uart3_Init(int Baud,int Set)
     nvic_priority_group_config(NVIC_PRIORITY_GROUP_0);
     nvic_irq_enable(USART3_IRQn, 0, 3);
 
-    usart_init(Temp, Baud, USART_DATA_8BITS, USART_STOP_1_BIT);   //²¨ÌØÂÊ¡¢Î»Êý¡¢Í£Ö¹Î»
-    usart_transmitter_enable(Temp, TRUE);         //·¢ËÍÊ¹ÄÜ
-//    usart_receiver_enable(Temp, TRUE);            //½ÓÊÕÊ¹ÄÜ
+    usart_init(Temp, Baud, USART_DATA_8BITS, USART_STOP_1_BIT);   //ï¿½ï¿½ï¿½ï¿½ï¿½Ê¡ï¿½Î»ï¿½ï¿½ï¿½ï¿½Í£Ö¹Î»
+    usart_transmitter_enable(Temp, TRUE);         //ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½
+//    usart_receiver_enable(Temp, TRUE);            //ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½
 
-    usart_parity_selection_config(Temp,USART_PARITY_NONE);    //ÎÞÆæÅ¼Ð£Ñé
+    usart_parity_selection_config(Temp,USART_PARITY_NONE);    //ï¿½ï¿½ï¿½ï¿½Å¼Ð£ï¿½ï¿½
     usart_interrupt_enable(Temp, USART_RDBF_INT, TRUE);
     usart_enable(Temp, TRUE);
 

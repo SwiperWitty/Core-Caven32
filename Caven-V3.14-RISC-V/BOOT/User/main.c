@@ -54,7 +54,7 @@ int main(void)
         Pick_Agreement(&HID_Data, &USB_Pack, &Fun,0);           //HID_Data.DATA/HID_Data
         Pick_Agreement(&CV_UART[1].DATA, &UART_Pack, &Fun,0);   //UART
 
-        if (USB_Pack.Flag == 'F')                   //usbÊý¾Ý
+        if (USB_Pack.Flag == 'F')                   //usbï¿½ï¿½ï¿½ï¿½
         {
             U8 Data_temp[1024] = {0};
             if (USB_Pack.Error.Flag) {
@@ -71,33 +71,33 @@ int main(void)
             }
             else
             {
-                if (USB_Pack.Control.Class == 1)        //ÅäÖÃÓë¹ÜÀíClass
+                if (USB_Pack.Control.Class == 1)        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Class
                 {
-                    switch (USB_Pack.Control.MID)   //²é¿´ÉÏÎ»»úÏë×öÊ²Ã´
+                    switch (USB_Pack.Control.MID)   //ï¿½é¿´ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê²Ã´
                     {
-                    case 0:         //²éÑ¯¶ÁÐ´Æ÷ÐÅÏ¢
+                    case 0:         //ï¿½ï¿½Ñ¯ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½Ï¢
                         Send_DATA.Length = 0x00;
                         break;
-                    case (0x01):    //²é¿´°æ±¾ÐÅÏ¢
+                    case (0x01):    //ï¿½é¿´ï¿½æ±¾ï¿½ï¿½Ï¢
                         Data_temp[0] = 0x01;
                         Data_temp[1] = 0x01;
                         Data_temp[2] = 0x07;
                         Data_temp[3] = 0x06;
                         Send_DATA.Length = 4;
                         break;
-                    case (0x02):             //ÉèÖÃ²¨ÌØÂÊ£¨²»¿ÉÉèÖÃ²¨ÌØÂÊ£©
-                        Data_temp[0] = 0x01; //ÉèÖÃÊ§°Ü
+                    case (0x02):             //ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½ï¿½Ê£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½ï¿½Ê£ï¿½
+                        Data_temp[0] = 0x01; //ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
                         Send_DATA.Length = 1;
                         break;
-                    case (0x03):    //²éÑ¯²¨ÌØÂÊ
+                    case (0x03):    //ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                         Data_temp[0] = 0x02;        //115200
                         Send_DATA.Length = 1;
                         break;
-                    case (0x0F):    //¸´Î»
+                    case (0x0F):    //ï¿½ï¿½Î»
                         Debug_Out("Reset !\r\n \r\n\r\n");
                         NVIC_SystemReset();
                         break;
-                        Data_temp[0] = 0x00; // ²Ù×÷ ³É¹¦
+                        Data_temp[0] = 0x00; // ï¿½ï¿½ï¿½ï¿½ ï¿½É¹ï¿½
                         Send_DATA.Length = 1;
                         break;
                     default:
@@ -105,11 +105,11 @@ int main(void)
                     }
                     Send_DATA.Con = 0x00010100 + USB_Pack.Control.MID;
                 }
-                else if (USB_Pack.Control.Class == 2)   //RFIDÅäÖÃÓë²Ù×÷Class
+                else if (USB_Pack.Control.Class == 2)   //RFIDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Class
                 {
                     Send_DATA.Con = 0x00010200 + USB_Pack.Control.MID;
                 }
-                else if (USB_Pack.Control.Class == 3)   //¶ÁÐ´Æ÷ÈÕÖ¾
+                else if (USB_Pack.Control.Class == 3)   //ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½Ö¾
                 {
                     Send_DATA.Con = 0x00010300 + USB_Pack.Control.MID;
                 }
@@ -117,31 +117,31 @@ int main(void)
                 {
                     switch(USB_Pack.Control.MID)
                     {
-                        case 0:                     //Ó¦ÓÃÉý¼¶
+                        case 0:                     //Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                             Send_DATA.Length = 5;
                             memcpy(Data_temp,USB_Pack.Buff,Send_DATA.Length);
-                            Data_temp[4] = 1;       //Éý¼¶Ê§°Ü
+                            Data_temp[4] = 1;       //ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
                             break;
-                        case 1:                     //»ù´øÉý¼¶
-                            if (USB_Pack.Buff[0] == 0xff) {     //½áÊø
-                                uint16_t Serial[4] = {Soft_Version,0xffff};     //³ÌÐòÆô¶¯°æ±¾ & Ä¬ÈÏ±£ÁôDATA
+                        case 1:                     //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                            if (USB_Pack.Buff[0] == 0xff) {     //ï¿½ï¿½ï¿½ï¿½
+                                uint16_t Serial[4] = {Soft_Version,0xffff};     //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ±¾ & Ä¬ï¿½Ï±ï¿½ï¿½ï¿½DATA
                                 Serial[2] = Down_num >> 16;
-                                Serial[3] = Down_num & 0x0000ffff;              //³ÌÐò³¤¶È
-                                Save_Flash(FLASH_DATA,Serial,sizeof(Serial));   //µôµç±£´æÆô¶¯Öµ&³¤¶È
+                                Serial[3] = Down_num & 0x0000ffff;              //ï¿½ï¿½ï¿½ò³¤¶ï¿½
+                                Save_Flash(FLASH_DATA,Serial,sizeof(Serial));   //ï¿½ï¿½ï¿½ç±£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ&ï¿½ï¿½ï¿½ï¿½
 //                                printf(" %d !\r\n",Down_num);
 //                                printf("updata over !\r\n");
                             }
                             else {
-                                memset(Data_temp,0xff,0x200);                           //ÄÚ´æÖØÖÃ
-                                str_num = (USB_Pack.Buff[4] << 8) + USB_Pack.Buff[5];   //ËüÖ»ÓÐÔÚAPPÊý¾ÝÊ±²ÅÓÐÒâÒå
-                                memcpy(Data_temp,(USB_Pack.Buff + 6),str_num);          //ÒÔData_tempÎª»º´æ£¬¿Õ°×Ìî0XFF
-                                Save_Flash(FLASH_CODE + Down_num,(uint16_t *)Data_temp,FLASH_PAGE_SIZE);  //¿ªÊ¼Ð´Flash(256)
-                                Down_num += str_num;                //ÕâÊÇAPPµÄµ±Ç°³¤¶È£¨Ï£ÍûËüÊÇ256µÄÕûÊý±¶£©
+                                memset(Data_temp,0xff,0x200);                           //ï¿½Ú´ï¿½ï¿½ï¿½ï¿½ï¿½
+                                str_num = (USB_Pack.Buff[4] << 8) + USB_Pack.Buff[5];   //ï¿½ï¿½Ö»ï¿½ï¿½ï¿½ï¿½APPï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                                memcpy(Data_temp,(USB_Pack.Buff + 6),str_num);          //ï¿½ï¿½Data_tempÎªï¿½ï¿½ï¿½æ£¬ï¿½Õ°ï¿½ï¿½ï¿½0XFF
+                                Save_Flash(FLASH_CODE + Down_num,(uint16_t *)Data_temp,FLASH_PAGE_SIZE);  //ï¿½ï¿½Ê¼Ð´Flash(256)
+                                Down_num += str_num;                //ï¿½ï¿½ï¿½ï¿½APPï¿½Äµï¿½Ç°ï¿½ï¿½ï¿½È£ï¿½Ï£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½256ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                             }
 
                             Send_DATA.Length = 5;
                             memcpy(Data_temp,USB_Pack.Buff,Send_DATA.Length);
-                            Data_temp[4] = 0;       //Éý¼¶³É¹¦
+                            Data_temp[4] = 0;       //ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½
                             break;
                         default:
                             break;
@@ -152,11 +152,11 @@ int main(void)
                 Send_DATA.pointer = Data_temp;
             }
             usb++;
-            Send_Agreement(&Send_DATA, &Fun);       //»ØÏûÏ¢(bug)
-            Destroy(&Send_DATA, sizeof(Send_DATA)); //Ïú»Ù
+            Send_Agreement(&Send_DATA, &Fun);       //ï¿½ï¿½ï¿½ï¿½Ï¢(bug)
+            Destroy(&Send_DATA, sizeof(Send_DATA)); //ï¿½ï¿½ï¿½ï¿½
             Destroy(&USB_Pack, sizeof(USB_Pack));
         }
-        if (UART_Pack.Flag == 'F')                   //UARTÊý¾Ý
+        if (UART_Pack.Flag == 'F')                   //UARTï¿½ï¿½ï¿½ï¿½
         {
             U8 Data_temp[1024] = {0};
             if (UART_Pack.Error.Flag) {
@@ -173,33 +173,33 @@ int main(void)
             }
             else
             {
-                if (UART_Pack.Control.Class == 1)        //ÅäÖÃÓë¹ÜÀíClass
+                if (UART_Pack.Control.Class == 1)        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Class
                 {
-                    switch (UART_Pack.Control.MID)   //²é¿´ÉÏÎ»»úÏë×öÊ²Ã´
+                    switch (UART_Pack.Control.MID)   //ï¿½é¿´ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê²Ã´
                     {
-                    case 0:         //²éÑ¯¶ÁÐ´Æ÷ÐÅÏ¢
+                    case 0:         //ï¿½ï¿½Ñ¯ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½Ï¢
                         Send_DATA.Length = 0x00;
                         break;
-                    case (0x01):    //²é¿´°æ±¾ÐÅÏ¢
+                    case (0x01):    //ï¿½é¿´ï¿½æ±¾ï¿½ï¿½Ï¢
                         Data_temp[0] = 0x01;
                         Data_temp[1] = 0x01;
                         Data_temp[2] = 0x07;
                         Data_temp[3] = 0x06;
                         Send_DATA.Length = 4;
                         break;
-                    case (0x02):             //ÉèÖÃ²¨ÌØÂÊ£¨²»¿ÉÉèÖÃ²¨ÌØÂÊ£©
-                        Data_temp[0] = 0x01; //ÉèÖÃÊ§°Ü
+                    case (0x02):             //ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½ï¿½Ê£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½ï¿½Ê£ï¿½
+                        Data_temp[0] = 0x01; //ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
                         Send_DATA.Length = 1;
                         break;
-                    case (0x03):    //²éÑ¯²¨ÌØÂÊ
+                    case (0x03):    //ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                         Data_temp[0] = 0x02;        //115200
                         Send_DATA.Length = 1;
                         break;
-                    case (0x0F):    //¸´Î»
+                    case (0x0F):    //ï¿½ï¿½Î»
                         Debug_Out("Reset !\r\n \r\n\r\n");
                         NVIC_SystemReset();
                         break;
-                        Data_temp[0] = 0x00; // ²Ù×÷ ³É¹¦
+                        Data_temp[0] = 0x00; // ï¿½ï¿½ï¿½ï¿½ ï¿½É¹ï¿½
                         Send_DATA.Length = 1;
                         break;
                     default:
@@ -207,11 +207,11 @@ int main(void)
                     }
                     Send_DATA.Con = 0x00010100 + UART_Pack.Control.MID;
                 }
-                else if (UART_Pack.Control.Class == 2)   //RFIDÅäÖÃÓë²Ù×÷Class
+                else if (UART_Pack.Control.Class == 2)   //RFIDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Class
                 {
                     Send_DATA.Con = 0x00010200 + UART_Pack.Control.MID;
                 }
-                else if (UART_Pack.Control.Class == 3)   //¶ÁÐ´Æ÷ÈÕÖ¾
+                else if (UART_Pack.Control.Class == 3)   //ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½Ö¾
                 {
                     Send_DATA.Con = 0x00010300 + UART_Pack.Control.MID;
                 }
@@ -219,30 +219,30 @@ int main(void)
                 {
                     switch(UART_Pack.Control.MID)
                     {
-                        case 0:                     //Ó¦ÓÃÉý¼¶
+                        case 0:                     //Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                             Send_DATA.Length = 5;
                             memcpy(Data_temp,UART_Pack.Buff,Send_DATA.Length);
-                            Data_temp[4] = 1;       //Éý¼¶Ê§°Ü
+                            Data_temp[4] = 1;       //ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
                             break;
-                        case 1:                     //»ù´øÉý¼¶
-                            if (UART_Pack.Buff[0] == 0xff) {     //½áÊø
-                                uint16_t Serial[4] = {Soft_Version,0xffff};     //³ÌÐòÆô¶¯°æ±¾ & Ä¬ÈÏ±£ÁôDATA
+                        case 1:                     //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                            if (UART_Pack.Buff[0] == 0xff) {     //ï¿½ï¿½ï¿½ï¿½
+                                uint16_t Serial[4] = {Soft_Version,0xffff};     //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ±¾ & Ä¬ï¿½Ï±ï¿½ï¿½ï¿½DATA
                                 Serial[2] = Down_num >> 16;
-                                Serial[3] = Down_num & 0x0000ffff;              //³ÌÐò³¤¶È
-                                Save_Flash(FLASH_DATA,Serial,sizeof(Serial));   //µôµç±£´æÆô¶¯Öµ&³¤¶È
+                                Serial[3] = Down_num & 0x0000ffff;              //ï¿½ï¿½ï¿½ò³¤¶ï¿½
+                                Save_Flash(FLASH_DATA,Serial,sizeof(Serial));   //ï¿½ï¿½ï¿½ç±£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ&ï¿½ï¿½ï¿½ï¿½
 //                                printf(" %d !\r\n",Down_num);
 //                                printf("updata over !\r\n");
                             }
                             else {
-                                memset(Data_temp,0xff,0x200);                           //ÄÚ´æÖØÖÃ
-                                str_num = (UART_Pack.Buff[4] << 8) + UART_Pack.Buff[5]; //ËüÖ»ÓÐÔÚAPPÊý¾ÝÊ±²ÅÓÐÒâÒå
-                                memcpy(Data_temp,(UART_Pack.Buff + 6),str_num);         //ÒÔData_tempÎª»º´æ£¬¿Õ°×Ìî0XFF
-                                Save_Flash(FLASH_CODE + Down_num, (uint16_t *)Data_temp,FLASH_PAGE_SIZE);  //¿ªÊ¼Ð´Flash(256)
-                                Down_num += str_num;                //ÕâÊÇAPPµÄµ±Ç°³¤¶È£¨Ï£ÍûËüÊÇ256µÄÕûÊý±¶£©
+                                memset(Data_temp,0xff,0x200);                           //ï¿½Ú´ï¿½ï¿½ï¿½ï¿½ï¿½
+                                str_num = (UART_Pack.Buff[4] << 8) + UART_Pack.Buff[5]; //ï¿½ï¿½Ö»ï¿½ï¿½ï¿½ï¿½APPï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                                memcpy(Data_temp,(UART_Pack.Buff + 6),str_num);         //ï¿½ï¿½Data_tempÎªï¿½ï¿½ï¿½æ£¬ï¿½Õ°ï¿½ï¿½ï¿½0XFF
+                                Save_Flash(FLASH_CODE + Down_num, (uint16_t *)Data_temp,FLASH_PAGE_SIZE);  //ï¿½ï¿½Ê¼Ð´Flash(256)
+                                Down_num += str_num;                //ï¿½ï¿½ï¿½ï¿½APPï¿½Äµï¿½Ç°ï¿½ï¿½ï¿½È£ï¿½Ï£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½256ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                             }
                             Send_DATA.Length = 5;
                             memcpy(Data_temp,UART_Pack.Buff,Send_DATA.Length);
-                            Data_temp[4] = 0;       //Éý¼¶³É¹¦
+                            Data_temp[4] = 0;       //ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½
                             break;
                         default:
                             break;
@@ -253,30 +253,30 @@ int main(void)
                 Send_DATA.pointer = Data_temp;
             }
             usb++;
-            Send_Agreement(&Send_DATA, &Fun);       //»ØÏûÏ¢(bug)
-            Destroy(&Send_DATA, sizeof(Send_DATA)); //Ïú»Ù
+            Send_Agreement(&Send_DATA, &Fun);       //ï¿½ï¿½ï¿½ï¿½Ï¢(bug)
+            Destroy(&Send_DATA, sizeof(Send_DATA)); //ï¿½ï¿½ï¿½ï¿½
             Destroy(&UART_Pack, sizeof(UART_Pack));
         }
         sprintf(Free_array,"Time: %2d:%2d:%2d \r\n",SYS_Time.Watch.hour,SYS_Time.Watch.minutes,SYS_Time.Watch.second);
 
         API.Time.Over_Time(&USB_F);
-        API.Time.Over_Time(&LED_F);         //LEDÉÁË¸
+        API.Time.Over_Time(&LED_F);         //LEDï¿½ï¿½Ë¸
         if(LED_F.Flip)
         {
-            Mode_User.LED.LED_SET(2,ENABLE);
+            Mode_Use.LED.LED_SET(2,ENABLE);
         }
         else
         {
-            Mode_User.LED.LED_SET(2,DISABLE);
+            Mode_Use.LED.LED_SET(2,DISABLE);
         }
         if (USB_F.Flag) {
             USB_F.Flag = 0;
 //            printf("Time: %2d:%2d:%2d \r\n",SYS_Time.Watch.hour,SYS_Time.Watch.minutes,SYS_Time.Watch.second);
         }
-//        Mode_User.Delay.Delay_ms(700);
-//        Mode_User.LED.LED_SET(1,DISABLE);
-//        Mode_User.Delay.Delay_ms(700);
-//        Mode_User.LED.LED_SET(1,ENABLE);
+//        Mode_Use.Delay.Delay_ms(700);
+//        Mode_Use.LED.LED_SET(1,DISABLE);
+//        Mode_Use.Delay.Delay_ms(700);
+//        Mode_Use.LED.LED_SET(1,ENABLE);
 
     }
 }
@@ -301,19 +301,19 @@ char Send_Data(const U8 *Data, int Length)      //USB
                 for(int i = 0;i< temp;i++) HIDTxBuffer[i] = Data[num + i];
                 temp = 0;
             }
-            USBD_HID_Data_Updata();                         //·¢usb
+            USBD_HID_Data_Updata();                         //ï¿½ï¿½usb
         } while (temp);
     }
     if (UART_Pack.Flag)
     {
-        Mode_User.UART.Send_Data(1,Data,temp);              //·¢´®¿Ú
+        Mode_Use.UART.Send_Data(1,Data,temp);              //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     }
     return bk;
 }
 
 void Main_Init (void)
 {
-    //Bootloard³õÊ¼»¯
+    //Bootloardï¿½ï¿½Ê¼ï¿½ï¿½
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
     Mode_Index();               //!!
     API_Index();
@@ -322,10 +322,10 @@ void Main_Init (void)
     Mode_Init.TIME(ENABLE);
     Mode_Init.LED(ENABLE);
     Mode_Init.BZZ(ENABLE);
-    Mode_User.LED.LED_SET(1,ENABLE);
-    Mode_User.LED.LED_SET(2,DISABLE);
-    Mode_User.BZZ.BZZ_SET(DISABLE);
-    Mode_User.UART.Send_String(1,"Start BootLoader \r\n");
+    Mode_Use.LED.LED_SET(1,ENABLE);
+    Mode_Use.LED.LED_SET(2,DISABLE);
+    Mode_Use.BZZ.BZZ_SET(DISABLE);
+    Mode_Use.UART.Send_String(1,"Start BootLoader \r\n");
 
     printf("Soft_Version : %x \r\n",Fast_Flash(FLASH_DATA));
     if (Fast_Flash(FLASH_DATA) == Soft_Version) {
@@ -335,29 +335,29 @@ void Main_Init (void)
         printf("Flash-test: addr :%x -- data :%x \r\n",FLASH_CODE + 12,Fast_Flash(FLASH_CODE + 12));
         printf("Flash-test: addr :%x -- data :%x \r\n",(FLASH_CODE + end + 2),Fast_8_Flash(FLASH_CODE + end));
 
-        Mode_User.UART.Send_String(1,"Jump to APP \r\n\r\n");
-        Mode_User.LED.LED_SET(1,DISABLE);
-        Mode_User.LED.LED_SET(2,ENABLE);
-        Mode_Init.TIME(DISABLE);                //Ç¿ÖÆ¹Ø±ÕµÎ´ð¶¨Ê±Æ÷
+        Mode_Use.UART.Send_String(1,"Jump to APP \r\n\r\n");
+        Mode_Use.LED.LED_SET(1,DISABLE);
+        Mode_Use.LED.LED_SET(2,ENABLE);
+        Mode_Init.TIME(DISABLE);                //Ç¿ï¿½Æ¹Ø±ÕµÎ´ï¿½Ê±ï¿½ï¿½
 //        __disable_irq();
         GO_TO_APP();
     }
 
-    //USB³õÊ¼»¯
+    //USBï¿½ï¿½Ê¼ï¿½ï¿½
     Set_USBConfig();
     USB_Init();
     USB_Port_Set(DISABLE, DISABLE);
-    Mode_User.Delay.Delay_ms(700);
+    Mode_Use.Delay.Delay_ms(700);
     USB_Port_Set(ENABLE, ENABLE);
     USB_Interrupts_Config();
 
-    Mode_User.Delay.Delay_ms(700);
+    Mode_Use.Delay.Delay_ms(700);
 
-    //ÒÔÏÂÊÇ½âÐ­ÒéÓÃµÄº¯ÊýºÍÊý¾Ý
-    Fun.Delay = Mode_User.Delay.Delay_ms;
+    //ï¿½ï¿½ï¿½ï¿½ï¿½Ç½ï¿½Ð­ï¿½ï¿½ï¿½ÃµÄºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    Fun.Delay = Mode_Use.Delay.Delay_ms;
     Fun.Now_Time = &SYS_Time.Watch;
     Fun.Over_Time = Over_Time;
-    Fun.Debug_Out = Mode_User.Debug_Out;
+    Fun.Debug_Out = Mode_Use.Debug_Out;
     Fun.Result_Code = CRC16_CCITT_CalculateBuf;
     Fun.Send_Data = Send_Data;
 

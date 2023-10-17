@@ -29,8 +29,8 @@ void Main_Init (void)
     gpio_default_para_init(&gpio_init_struct);
 	
 	Mode_Index();
-	Mode_Init.UART(1,115200,ENABLE);
-	Mode_User.UART.WAY_Send_String(1,"hello world ! \r\n");
+	Mode_Init.UART(1,115200,NULL,ENABLE);
+	Mode_Use.UART.WAY_Send_String(1,"hello world ! \r\n");
 	
     /* configure the led gpio */
     gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;

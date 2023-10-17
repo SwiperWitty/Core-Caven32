@@ -50,21 +50,21 @@ int main (void)
 
     while(1)
     {
-        Mode_User.Sys_Clock.Get_TIME();
-		if(Mode_User.KEY.K_State(1) == 0)
+        Mode_Use.Sys_Clock.Get_TIME();
+		if(Mode_Use.KEY.K_State(1) == 0)
 		{
-			if(Mode_User.KEY.K_State(1) == 0)
+			if(Mode_Use.KEY.K_State(1) == 0)
 			{
 				i++;
 				if(i > 100)
 				{i = 1;}
 				printf("Key num : %d",i);
-//                Mode_User.USB_HID.Keyboard_Send_String("USB-HID Hello world !\r\n");
+//                Mode_Use.USB_HID.Keyboard_Send_String("USB-HID Hello world !\r\n");
 			}
 			do{
-				Mode_User.Delay.Delay_ms(5);
+				Mode_Use.Delay.Delay_ms(5);
 				
-			}while(Mode_User.KEY.K_State(1) == 0);
+			}while(Mode_Use.KEY.K_State(1) == 0);
 		}
         if(get_pack_temp.Result &= 0x80)
         {
@@ -80,24 +80,24 @@ int main (void)
             printf("End_crc     : %x \n",get_pack_temp.End_crc);
 
             temp = Caven_info_Split_packet_Fun(get_pack_temp, array_buff);
-            Mode_User.UART.WAY_Send_Data(3,array_buff,temp);
+            Mode_Use.UART.WAY_Send_Data(3,array_buff,temp);
             Caven_info_packet_clean_Fun(&get_pack_temp);
         }
-        Mode_User.LED.LED_SET(2,ENABLE);
-        Mode_User.Delay.Delay_ms(200);
-        Mode_User.LED.LED_SET(2,DISABLE);
-        Mode_User.Delay.Delay_ms(20);
+        Mode_Use.LED.LED_SET(2,ENABLE);
+        Mode_Use.Delay.Delay_ms(200);
+        Mode_Use.LED.LED_SET(2,DISABLE);
+        Mode_Use.Delay.Delay_ms(20);
         
         #ifdef PICTURE
 		if(i%2 == 1 && temp != i)
 		{
 			temp = i;
-			Mode_User.LCD.Show_Picture(0,0,240,240,Photo2);     //Photo
+			Mode_Use.LCD.Show_Picture(0,0,240,240,Photo2);     //Photo
 		}
 		else if(i%2 == 0 && temp != i)
 		{
 			temp = i;
-			Mode_User.LCD.Show_Picture(0,0,240,240,Photo1);     //Photo
+			Mode_Use.LCD.Show_Picture(0,0,240,240,Photo1);     //Photo
 		}
         #endif
     }
@@ -124,7 +124,7 @@ void Main_Init(void)
 
     
 //    RTC8564_Init (ENABLE);
-    Mode_User.Delay.Delay_ms(50);
+    Mode_Use.Delay.Delay_ms(50);
     Caven_info_packet_index_Fun(&get_pack_temp, array_r_temp);
     Caven_info_packet_index_Fun(&send_pack_temp, array_t_temp);
     Caven_info_packet_clean_Fun(&get_pack_temp);
@@ -135,8 +135,8 @@ void Main_Init(void)
 //    Motor_BYJ_Drive(0,0,360);
 
 #ifdef PICTURE
-	Mode_User.LCD.Show_Picture(0,0,240,240,Photo1);     //Photo
+	Mode_Use.LCD.Show_Picture(0,0,240,240,Photo1);     //Photo
 #endif
     printf("system_core_clock: %d \r\n",SystemCoreClock);
-    Mode_User.Delay.Delay_ms(200);
+    Mode_Use.Delay.Delay_ms(200);
 }
