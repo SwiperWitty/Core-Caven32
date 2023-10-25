@@ -35,6 +35,19 @@ ______
 ​	因为这个工程里面有子模块（就是上面那个子模块链接，以防呆瓜不看，再说一遍），所以**使用之前**要从`\Core-Caven32`文件`cd`到`\Caven-MCU_Lib`
 
 ~~~shell
+git clone --recursive https://github.com/SwiperWitty/Core-Caven32.git
+#推荐使用这个，一步到位。
+cd .\Caven-MCU_Lib\
+git submodule update --init --recursive
+git branch
+git checkout main
+
+cd ..
+~~~
+
+
+
+~~~shell
 git clone https://github.com/SwiperWitty/Core-Caven32.git
 
 cd .\Core-Caven32\
