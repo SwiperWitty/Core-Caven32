@@ -75,7 +75,7 @@ git config --global http.proxy http://127.0.0.1:7890
 
 或者，取消网络代理（例如使用gitee）
 
-~~~~
+~~~~shell
 git config --global --unset http.proxy
 ~~~~
 
