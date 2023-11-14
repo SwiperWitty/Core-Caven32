@@ -10,7 +10,7 @@
             云端库文件夹...
 */
 #ifdef PICTURE
-#define Photo1 gImage_maoL
+#define Photo1 0
 #define Photo2 gImage_fan
 #endif
 
@@ -92,13 +92,13 @@ int main (void)
 		if(i%2 == 1 && temp != i)
 		{
 			temp = i;
-			Mode_Use.LCD.Show_Picture(0,0,240,240,Photo2);     //Photo
+//			Mode_Use.LCD.Show_Picture(0,0,240,240,Photo2);     //Photo
 		}
-		else if(i%2 == 0 && temp != i)
-		{
-			temp = i;
-			Mode_Use.LCD.Show_Picture(0,0,240,240,Photo1);     //Photo
-		}
+//		else if(i%2 == 0 && temp != i)
+//		{
+//			temp = i;
+//			Mode_Use.LCD.Show_Picture(0,0,240,240,Photo1);     //Photo
+//		}
         #endif
     }
 }
@@ -135,7 +135,7 @@ void Main_Init(void)
 //    Motor_BYJ_Drive(0,0,360);
 
 #ifdef PICTURE
-	Mode_Use.LCD.Show_Picture(0,0,240,240,Photo1);     //Photo
+//	Mode_Use.LCD.Show_Picture(0,0,240,240,Photo2);     //Photo
 #endif
     printf("system_core_clock: %d \r\n",SystemCoreClock);
     printf("agreement versions: %02d \r\n",standard.Versions);

@@ -1,5 +1,5 @@
 /*
-    at32f403aʹ���ⲿ12Mʱ�ӣ�ϵͳ��Ƶ240Mhz
+    at32f403a使用外部12M时钟，系统主频240Mhz
 */
 #include "Mode.h"
 #include "API.h"
@@ -44,10 +44,10 @@ void Uart3_Init(int Baud,int Set)
     if (Set)
         set = TRUE;
 
-    crm_periph_clock_enable(CRM_USART3_PERIPH_CLOCK, set);                  //��ӳ��ʱ��
+    crm_periph_clock_enable(CRM_USART3_PERIPH_CLOCK, set);                  // 
     crm_periph_clock_enable(CRM_IOMUX_PERIPH_CLOCK, TRUE);      
     crm_periph_clock_enable(CRM_GPIOC_PERIPH_CLOCK, TRUE);
-    gpio_pin_remap_config(USART3_GMUX_0001,TRUE);                           //��ӳ�䴮��
+    gpio_pin_remap_config(USART3_GMUX_0001,TRUE);                           // 
     gpio_init_type gpio_init_struct;
     gpio_default_para_init(&gpio_init_struct);
 
