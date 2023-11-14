@@ -1,3 +1,6 @@
+/*
+    at32f403aʹ���ⲿ12Mʱ�ӣ�ϵͳ��Ƶ240Mhz
+*/
 #include "Mode.h"
 #include "API.h"
 
@@ -19,6 +22,7 @@ int main (void)
 void Main_Init(void)
 {
     system_clock_config();
+    crm_adc_clock_div_set(CRM_ADC_DIV_8);
     Mode_Index();
     API_Index();
 
@@ -62,11 +66,11 @@ void Uart3_Init(int Baud,int Set)
     nvic_priority_group_config(NVIC_PRIORITY_GROUP_0);
     nvic_irq_enable(USART3_IRQn, 0, 3);
 
-    usart_init(Temp, Baud, USART_DATA_8BITS, USART_STOP_1_BIT);   //�����ʡ�λ����ֹͣλ
-    usart_transmitter_enable(Temp, TRUE);         //����ʹ��
-//    usart_receiver_enable(Temp, TRUE);            //����ʹ��
+    usart_init(Temp, Baud, USART_DATA_8BITS, USART_STOP_1_BIT);  
+    usart_transmitter_enable(Temp, TRUE);   
+//    usart_receiver_enable(Temp, TRUE);        
 
-    usart_parity_selection_config(Temp,USART_PARITY_NONE);    //����żУ��
+    usart_parity_selection_config(Temp,USART_PARITY_NONE);
     usart_interrupt_enable(Temp, USART_RDBF_INT, TRUE);
     usart_enable(Temp, TRUE);
 

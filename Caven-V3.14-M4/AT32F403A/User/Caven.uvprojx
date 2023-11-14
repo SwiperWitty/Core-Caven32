@@ -399,11 +399,6 @@
           <GroupName>BASE</GroupName>
           <Files>
             <File>
-              <FileName>ADC.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F403A\ADC.c</FilePath>
-            </File>
-            <File>
               <FileName>Base.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F403A\Base.c</FilePath>
@@ -417,41 +412,6 @@
               <FileName>Base_SPI.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F403A\Base_SPI.c</FilePath>
-            </File>
-            <File>
-              <FileName>DAC.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F403A\DAC.c</FilePath>
-            </File>
-            <File>
-              <FileName>Encoder.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F403A\Encoder.c</FilePath>
-            </File>
-            <File>
-              <FileName>IIC.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F403A\IIC.c</FilePath>
-            </File>
-            <File>
-              <FileName>PWM.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F403A\PWM.c</FilePath>
-            </File>
-            <File>
-              <FileName>stmflash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F403A\stmflash.c</FilePath>
-            </File>
-            <File>
-              <FileName>Sys_Time.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F403A\Sys_Time.c</FilePath>
-            </File>
-            <File>
-              <FileName>uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F403A\uart.c</FilePath>
             </File>
           </Files>
         </Group>
