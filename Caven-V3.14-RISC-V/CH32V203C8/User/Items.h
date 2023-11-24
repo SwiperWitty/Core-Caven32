@@ -1,66 +1,32 @@
 #ifndef _ITEMS__H_
 #define _ITEMS__H_
 
-#include "ch32v20x.h"     //软件配置的 基于内部48Mhz晶振  (48 / 6 / 2) * 36      APB 144M、APB1 72M、APB2 144M、（TIM All 144M）（ADC All 18M）（UART All 18M）
+#include "ch32v20x.h"
+//软件配置的 基于内部48Mhz晶振  (48 / 6 / 2) * 36      APB 144M、APB1 72M、APB2 144M、（TIM All 144M）（ADC All 18M）（UART All 18M）
+#include "system_ch32v20x.h"
 #include "stdio.h"
 
 /*
-                    SDK->Items->BASE->
-                                         \\
-                                          -->[XXX]->MODE
-                                         //
-                    Lib(c)->Caven->API->
-    // V1.1.01      2023.9.8    /
+ *          SDK->Items
+ *                      \\
+ *                      -->Base     -->Mode
+ *                      //          //
+ *  C(Lib)->Caven_Type->        API
 */
-#define TURE   TRUE
-#define DEBUG_OUT   1           //Debug 通道(Caved 3.14是串口3)->MODE
-#define MCU_SYS_Freq SystemCoreClock        //刚启动是xM，经过配置文件之后就是144（system_clock_config()之后）
 
 
-                                             /*  基本外设就能实现的功能    */
-#ifndef Exist_SYS_TIME
-//    #define Exist_SYS_TIME      //一定存在
+/*  MCU指令   */
+
+#define DEBUG_OUT       1   // Debug 通道(Caved 3.14是串口3)->MODE
+#define MCU_SYS_FREQ    SystemCoreClock // 刚启动是xM，经过配置文件之后就是144（system_clock_config()之后）
+
+#ifndef NOP
+#define NOP()    __NOP()
 #endif
-//#define Exist_PWM
-//#define Exist_ENCODE
 
-//#define Exist_KEY
-//#define Exist_LED
-//#define Exist_BZZ
-
-//#define Exist_ADC
-//#define Exist_DAC
-
-//#define Exist_UART
-//#define Exist_IIC
-//#define Exist_SPI
-//#define Exist_USB
-//#define Exist_CAN
-
-//#define Exist_FLASH
-
-                                                    /*  只需要加上逻辑才能的功能    */
-//#define Exist_LCD
-//#define Exist_OLED            //一般这两个是二选一（占用的都是SPI）
-
-//#define Exist_HC138
-//#define Exist_HC595
-//#define Exist_DS18B20
-
-//#define Exist_Ultrasonic          //超声波测距
-//#define Exist_FindLine            //循迹
-
-//#define Exist_Voice               //语音播报(MP3)
-
-//#define Exist_Motor               //电机
-//#define Exist_Steering_Engine     //舵机
-//#define Exist_STEP_Motor
-
-//#define Exist_MLX90614            //红外测温
-//#define Exist_RTC8564               //时钟
-
-/*  mcu 指令  */
-#define NOP()       __nop()
+#ifndef SYS_RESET
+#define SYS_RESET() NVIC_SystemReset()
+#endif
 
 #define GO_TO_APP() do{     \
     __asm("li  a6, 0x6000");\
@@ -68,8 +34,8 @@
     while(1);               \
 }while(0);
 
-#define Reg_IO_H    BSHR
-#define Reg_IO_L    BCR
+// #define REG_IOH    BSHR
+// #define REG_IOL    BCR
 
 #ifdef GPIO_PINS_0
 #define GPIO_Pin_0  GPIO_PINS_0
@@ -90,7 +56,68 @@
 #define GPIO_Pin_15 GPIO_PINS_15
 #endif
 
-/*  进一步的逻辑关系    */
+
+/** 基本外设就能实现的功能     **/
+
+#define OPEN_0001   0x01    //  设备0开启
+#define OPEN_0010   0x02    //  设备1开启
+#define OPEN_0011   0x03    //  设备0、1开启
+#define OPEN_0100   0x04
+#define OPEN_0101   0x05
+#define OPEN_0110   0x06
+#define OPEN_0111   0x07
+#define OPEN_1000   0x08
+#define OPEN_1001   0x09
+#define OPEN_1010   0x0a
+#define OPEN_1011   0x0b
+#define OPEN_1100   0x0c
+#define OPEN_1101   0x0d
+#define OPEN_1110   0x0e
+#define OPEN_1111   0x0f
+
+
+#ifndef Exist_SYS_TIME
+    #define Exist_SYS_TIME      // 一定存在
+#endif
+//#define Exist_PWM
+//#define Exist_ENCODE
+
+//#define Exist_KEY
+//#define Exist_LED      OPEN_0001  // LED0
+//#define Exist_BZZ
+
+//#define Exist_ADC
+//#define Exist_DAC
+
+#define Exist_UART      OPEN_1110   // 串口1、2、3
+//#define Exist_IIC
+//#define Exist_SPI     OPEN_0100   // SPI 2
+//#define Exist_USB
+//#define Exist_CAN
+
+//#define Exist_FLASH
+
+/***    需要加上逻辑才能的功能     ***/
+//#define Exist_OLED
+
+//#define Exist_HC138
+//#define Exist_HC595           OPEN_0001
+//#define Exist_DS18B20
+
+//#define Exist_Ultrasonic                  //超声波测距
+//#define Exist_FindLine                    //循迹
+
+//#define Exist_Voice                       //语音播报(MP3)
+
+//#define Exist_Motor           OPEN_1111   // 电机
+//#define Exist_Steering_Engine OPEN_1111   // 舵机
+//#define Exist_STEP_Motor
+
+//#define Exist_MLX90614                    //红外测温
+//#define Exist_RTC8564                     //时钟
+
+
+/****   进一步的逻辑关系    ****/
 #ifdef Exist_LCD
     #ifndef Exist_SPI
         #define Exist_SPI
@@ -130,7 +157,7 @@
     #endif
 #endif
 
-/*  冲突  */
+/*****  冲突      *****/
 #if DEBUG_OUT == 1
     #ifdef Exist_USB
         #warning (UART1 And USB Clash !!!)

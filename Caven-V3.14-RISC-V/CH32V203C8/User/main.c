@@ -10,41 +10,25 @@
 * microcontroller manufactured by Nanjing Qinheng Microelectronics.
 *******************************************************************************/
 
-/*
- *@Note
- USART Print debugging routine:
- USART1_Tx(PA9).
- This example demonstrates using USART1(PA9) as a print debug port output.
+#include "main.h"
 
-*/
-
-#include "debug.h"
-#include "Items.h"
-
-/* Global typedef */
-
-/* Global define */
-
-/* Global Variable */
-
-/*********************************************************************
- * @fn      main
- *
- * @brief   Main program.
- *
- * @return  none
- */
 int main(void)
 {
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
-    Delay_Init();
-    USART_Printf_Init(115200);
-    printf("SystemClk:%d\r\n", SystemCoreClock);
-
-    printf("This is printf example\r\n");
-
+    Main_Init();
     while(1)
     {
 
     }
+}
+
+void Main_Init(void)
+{
+//    SystemInit() 由系统自启完成
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    LED_GPIO_Init(ENABLE);
+    LED_Clr();
+//    Mode_Init.TIME(ENABLE);
+//    Mode_Init.UART(m_UART_CH1,115200,ENABLE);
+//    printf("SystemClk:%d \r\n", MCU_SYS_FREQ);
+//    Mode_Use.TIME.Delay_Ms(500);
 }
