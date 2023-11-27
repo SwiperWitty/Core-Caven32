@@ -12,6 +12,7 @@
  *                      -->Base     -->Mode
  *                      //          //
  *  C(Lib)->Caven_Type->        API
+ *  2.0     2023.11.16
 */
 
 
@@ -82,9 +83,9 @@
 //#define Exist_PWM
 //#define Exist_ENCODE
 
-//#define Exist_KEY
-//#define Exist_LED      OPEN_0001  // LED0
-//#define Exist_BZZ
+#define Exist_BUTTON
+#define Exist_LED       OPEN_0001  // LED0
+#define Exist_BZZ
 
 //#define Exist_ADC
 //#define Exist_DAC
