@@ -15,50 +15,7 @@
  *  2.0     2023.11.16
 */
 
-
-/*  MCU指令   */
-
-#define DEBUG_OUT       1   // Debug 通道(Caved 3.14是串口3)->MODE
-#define MCU_SYS_FREQ    SystemCoreClock // 刚启动是xM，经过配置文件之后就是144（system_clock_config()之后）
-
-#ifndef NOP
-#define NOP()    __NOP()
-#endif
-
-#ifndef SYS_RESET
-#define SYS_RESET() NVIC_SystemReset()
-#endif
-
-#define GO_TO_APP() do{     \
-    __asm("li  a6, 0x6000");\
-    __asm("jr  a6");        \
-    while(1);               \
-}while(0);
-
-// #define REG_IOH    BSHR
-// #define REG_IOL    BCR
-
-#ifdef GPIO_PINS_0
-#define GPIO_Pin_0  GPIO_PINS_0
-#define GPIO_Pin_1  GPIO_PINS_1
-#define GPIO_Pin_2  GPIO_PINS_2
-#define GPIO_Pin_3  GPIO_PINS_3
-#define GPIO_Pin_4  GPIO_PINS_4
-#define GPIO_Pin_5  GPIO_PINS_5
-#define GPIO_Pin_6  GPIO_PINS_6
-#define GPIO_Pin_7  GPIO_PINS_7
-#define GPIO_Pin_8  GPIO_PINS_8
-#define GPIO_Pin_9  GPIO_PINS_9
-#define GPIO_Pin_10 GPIO_PINS_10
-#define GPIO_Pin_11 GPIO_PINS_11
-#define GPIO_Pin_12 GPIO_PINS_12
-#define GPIO_Pin_13 GPIO_PINS_13
-#define GPIO_Pin_14 GPIO_PINS_14
-#define GPIO_Pin_15 GPIO_PINS_15
-#endif
-
-
-/** 基本外设就能实现的功能     **/
+/*  基本外设就能实现的功能     */
 
 #define OPEN_0001   0x01    //  设备0开启
 #define OPEN_0010   0x02    //  设备1开启
@@ -86,6 +43,7 @@
 #define Exist_BUTTON
 #define Exist_LED       OPEN_0001  // LED0
 #define Exist_BZZ
+#define Exist_CustomIO
 
 //#define Exist_ADC
 //#define Exist_DAC
@@ -178,5 +136,49 @@
         #undef Exist_DAC
     #endif
 #endif
+
+
+/*  MCU指令   */
+
+#define DEBUG_OUT       1   // Debug 通道(Caved 3.14是串口3)->MODE
+#define MCU_SYS_FREQ    SystemCoreClock // 刚启动是xM，经过配置文件之后就是144（system_clock_config()之后）
+
+#ifndef NOP
+#define NOP()    __NOP()
+#endif
+
+#ifndef SYS_RESET
+#define SYS_RESET() NVIC_SystemReset()
+#endif
+
+// boot
+#define GO_TO_APP() do{     \
+    __asm("li  a6, 0x6000");\
+    __asm("jr  a6");        \
+    while(1);               \
+}while(0);
+
+// #define REG_IOH    BSHR
+// #define REG_IOL    BCR
+
+#ifdef GPIO_PINS_0
+#define GPIO_Pin_0  GPIO_PINS_0
+#define GPIO_Pin_1  GPIO_PINS_1
+#define GPIO_Pin_2  GPIO_PINS_2
+#define GPIO_Pin_3  GPIO_PINS_3
+#define GPIO_Pin_4  GPIO_PINS_4
+#define GPIO_Pin_5  GPIO_PINS_5
+#define GPIO_Pin_6  GPIO_PINS_6
+#define GPIO_Pin_7  GPIO_PINS_7
+#define GPIO_Pin_8  GPIO_PINS_8
+#define GPIO_Pin_9  GPIO_PINS_9
+#define GPIO_Pin_10 GPIO_PINS_10
+#define GPIO_Pin_11 GPIO_PINS_11
+#define GPIO_Pin_12 GPIO_PINS_12
+#define GPIO_Pin_13 GPIO_PINS_13
+#define GPIO_Pin_14 GPIO_PINS_14
+#define GPIO_Pin_15 GPIO_PINS_15
+#endif
+
 
 #endif
