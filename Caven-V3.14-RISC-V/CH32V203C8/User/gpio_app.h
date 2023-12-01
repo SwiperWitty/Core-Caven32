@@ -13,26 +13,26 @@
 /*
  * GPIO_CMD_SUB
  */
-enum GPIO_CMD_SUB
+enum APP_GPIO_CMD_SUB
 {
     m_GPIO_TEST_Order = 0x00,
-    m_GPO_SET_Order,
+    m_GPO_SET_Order,        // GPO控制
 
     m_GPI_GET_Order,
 
-    m_LED_Status_Order,
-    m_BZZ_Status_Order,
+    m_LED_Status_Order,     // LED控制
+    m_BZZ_Status_Order,     // BZZ控制
 
 };
 
 typedef struct
 {
-    u8 LED_Status_Set[3];
-    u8 GPO_Status_Set[32];
-    u32 GPO_Time_Set[32];
+    u8 LED_Status_Set[4];
+    u8 GPO_Status_Set[36];
+    u16 GPO_Keep_Time[36];
 
-    u8 GPI_Status_Get[32];
-    u8 GPI_Statls_Last[32];
+    u8 GPI_Status_Get[36];
+    u8 GPI_Statls_Last[36];
 
 }GPIO_cfg_Type;
 

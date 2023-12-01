@@ -15,43 +15,69 @@
  */
 #include "main.h"
 
-u32 temp_num;
+
+u32 run_num = 0;
 int u2_rxd_num = 0;
 
 
+void test_fun (int *num)
+{
+    int p = *num;
+    printf("test %d \n",p);
+    if (p == 0) {
+        p = 1;
+    }
+    else {
+        p = 0;
+    }
 
+    *num = p;
+}
+
+Task_Overtime_Type LED_Task = {
+        .Switch = 1,
+};
+volatile unsigned char *tmpas;
 int main(void)
 {
     Main_Init();
-    temp_num = 0;
+    int temp_num = 0;
     Caven_Watch_Type now_time;
     now_time = Mode_Use.TIME.Get_Watch_pFun();
+    Caven_Watch_Type temp;
 
-    Caven_Watch_Type last_time = {
-            .hour = 8,
-            .minutes = 30,
-            .second = 40,
+    Task_Overtime_Type LED_Task = {
+            .Switch = 1,
+            .Begin_time = now_time,
+            .Set_time.second = 1,
+            .Set_time.time_us = 500000,
+
     };
-    Caven_Watch_Type diff_time;
-    diff_time = Mode_Use.TIME.Get_differ_pFun(last_time,now_time);
-    printf("diff time: %d : %d : %d , %d (us)\n",diff_time.hour,diff_time.minutes,diff_time.second,diff_time.time_us);
+    tmpas = &LED_Task.Begin_time.second;
+
     while(1)
     {
-        Mode_Use.LED.SET_pFun(1,ENABLE);
-        Mode_Use.TIME.Delay_Ms(500);
-
-        Mode_Use.LED.SET_pFun(1,DISABLE);
-        Mode_Use.TIME.Delay_Ms(500);
-
-//        printf("test num : %d \n",temp_num++);
-
         now_time = Mode_Use.TIME.Get_Watch_pFun();
 //        printf("sys time: %d : %d : %d , %d (us)\n",now_time.hour,now_time.minutes,now_time.second,now_time.time_us);
 
-        if(center_State_machine())
+        API_Task_Timer (&LED_Task,now_time);
+        if (LED_Task.Trigger_Flag)
+        {
+            run_num++;
+            if (run_num % 2) {
+                Mode_Use.LED.SET_pFun(1,ENABLE);
+            }
+            else {
+                Mode_Use.LED.SET_pFun(1,DISABLE);
+            }
+        }
+
+
+        if(center_State_machine(now_time))
         {
             break;
         }
+
     }
     SYS_RESET();
 }
@@ -67,7 +93,7 @@ void Main_Init(void)
     system_init();
     center_Init();
 
-    printf("SystemClk:%d \r\n", MCU_SYS_FREQ);
+//    printf("SystemClk:%d \r\n", MCU_SYS_FREQ);
 
 //    Mode_Use.TIME.Delay_Ms(500);
 }

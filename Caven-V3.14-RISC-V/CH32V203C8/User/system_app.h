@@ -26,6 +26,10 @@ enum SYS_CFG_CMD_SUB
     m_SYS_Addr_Order,
     m_SYS_Maketime_Order,
     m_SYS_UART_Order,
+    m_SYS_TRANSPOND_Order,
+    m_SYS_TIME_Order,
+    m_SYS_Heartbeat_Order,
+
 };
 
 typedef struct
@@ -45,6 +49,7 @@ typedef struct
     int SYS_COM_Baud;
     int RS232_Baud;
     int RS485_Baud;
+    u8 Last_Comm;
 
     u8 Wiegand_BIT;
     u8 Wiegand_SET;
@@ -74,4 +79,7 @@ enum BOOT_CMD_SUB
 void system_init(void);
 Caven_info_packet_Type system_handle(Caven_info_packet_Type data);
 Caven_info_packet_Type bootloader_handle(Caven_info_packet_Type data);
+
+void Heartbeat_Check (Caven_Watch_Type time);
+
 #endif /* USER_SYSTEM_APP_H_ */

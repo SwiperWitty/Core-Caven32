@@ -9,6 +9,9 @@
 #include "system_app.h"
 
 system_cfg_Type Sys_cfg;
+static u8 buff_array[BUFF_MAX]; // buff缓冲区
+static int Heartbeat_run = 0;
+static void Heartbeat_Set(void);
 
 static void Flash_verify(system_cfg_Type * system_cfg)
 {
@@ -30,6 +33,7 @@ static void Flash_verify(system_cfg_Type * system_cfg)
         .RS232_SET = 1,
         .RS485_SET = 1,
         .SYS_COM_SET = 1,
+        .Last_Comm = UART_RS232,
         .Run_TIME = 0,
     };
     system_cfg_Type temp_Sys_cfg = {0};
@@ -44,17 +48,89 @@ static void Flash_verify(system_cfg_Type * system_cfg)
     }
 }
 
+Caven_info_packet_Type SYS_Versions_Get(Caven_info_packet_Type data)
+{
+    Caven_info_packet_Type retval = data;
+    int run_num = 0;
+    u8 Open_ID;
+
+    DESTROY_DATA(buff_array,sizeof(buff_array));
+    if (data.dSize > 0)
+    {
+        memcpy(buff_array,retval.p_Data,data.dSize);
+        Open_ID = buff_array[run_num];
+        switch (Open_ID)
+        {
+            case 1:
+                buff_array[(++run_num)] = Sys_cfg.Versions[run_num] + '0';
+                buff_array[(++run_num)] = Sys_cfg.Versions[run_num] + '0';
+                buff_array[(++run_num)] = Sys_cfg.Versions[run_num] + '0';
+                buff_array[(++run_num)] = Sys_cfg.Versions[run_num] + '0';
+                memcpy(retval.p_Data,buff_array,run_num);
+                retval.dSize = run_num;
+                retval.Result = 0;      // 问版本是要回的
+                break;
+            default:
+                retval.dSize = 0;
+                retval.Result = 9;
+                break;
+        }
+    }
+    return retval;
+}
+
+/*
+ * 消息的完全转发
+ */
+Caven_info_packet_Type Data_TRANSPOND_Order(Caven_info_packet_Type data)
+{
+    Caven_info_packet_Type retval = data;
+    u8 Open_ID;
+    DESTROY_DATA(buff_array,sizeof(buff_array));
+    if (data.dSize > 0)
+    {
+        memcpy(buff_array,data.p_Data,data.dSize);
+        Open_ID = buff_array[0];
+        switch (Open_ID)
+        {
+            case 0: // 自动
+                Mode_Use.UART.Send_Data_pFun(Sys_cfg.Last_Comm,&buff_array[1],(data.dSize - 1));
+                retval.Result = RESULT_DEFAULT;
+                break;
+            case 1: // RS232
+                Mode_Use.UART.Send_Data_pFun(UART_RS232,&buff_array[1],(data.dSize - 1));
+                retval.Result = RESULT_DEFAULT;
+                break;
+            case 2: // RS485
+                Mode_Use.UART.Send_Data_pFun(UART_RS485,&buff_array[1],(data.dSize - 1));
+                retval.Result = RESULT_DEFAULT;
+                break;
+            case 3: // weigen
+
+                retval.Result = RESULT_DEFAULT;
+                break;
+            default:
+                retval.dSize = 0;
+                retval.Result = 9;
+                break;
+        }
+
+    }
+    return retval;
+}
+
 Caven_info_packet_Type system_handle(Caven_info_packet_Type data)
 {
-    Caven_info_packet_Type retval;
-    Caven_info_packet_Type temp_data = data;
+    Caven_info_packet_Type retval = data;
 
-    switch (temp_data.Cmd_sub)
+    switch (data.Cmd_sub)
     {
         case m_SYS_TEST_Order:
-            retval = temp_data;
+//            retval = data;
+            retval.Result = 0;
             break;
         case m_SYS_Versions_Order:
+            retval = SYS_Versions_Get(data);
             break;
         case m_SYS_Equipment_Order:
             break;
@@ -64,7 +140,16 @@ Caven_info_packet_Type system_handle(Caven_info_packet_Type data)
             break;
         case m_SYS_UART_Order:
             break;
+        case m_SYS_TRANSPOND_Order:
+            retval = Data_TRANSPOND_Order(data);
+            break;
+        case m_SYS_Heartbeat_Order:
+            Heartbeat_Set();
+            retval.dSize = 0;
+            retval.Result = 10;
+            break;
         default:
+            retval.dSize = 0;
             retval.Result = 5;
             break;
     }
@@ -74,12 +159,13 @@ Caven_info_packet_Type system_handle(Caven_info_packet_Type data)
 
 Caven_info_packet_Type bootloader_handle(Caven_info_packet_Type data)
 {
-    Caven_info_packet_Type retval;
+    Caven_info_packet_Type retval = data;
 
     switch (data.Cmd_sub)
     {
         case m_BOOT_TEST_Order:
-            retval = data;
+//            retval = data;
+            retval.Result = 0;
             break;
         case m_BOOT_Start_Order:
             break;
@@ -90,11 +176,14 @@ Caven_info_packet_Type bootloader_handle(Caven_info_packet_Type data)
         case m_BOOT_Get_Order:
             break;
         case m_BOOT_RST_Order:
+            Mode_Use.LED.SET_pFun(1,DISABLE);
             SYS_RESET();
             break;
         case m_BOOT_Debug_Order:
             break;
         default:
+            retval.dSize = 0;
+            retval.Result = 5;
             break;
     }
 
@@ -111,7 +200,7 @@ void system_init (void)
     if(Sys_cfg.SYS_COM_SET == 1)
     {
         Mode_Init.UART(UART_SYS,Sys_cfg.SYS_COM_Baud,ENABLE);
-        Mode_Use.UART.Send_String_pFun(UART_SYS,"u1:hello world ! \n");
+        Mode_Use.UART.Send_String_pFun(UART_SYS,"UART_SYS:hello world ! \n");
     }
     if(Sys_cfg.RS485_SET == 1)
     {
@@ -124,7 +213,6 @@ void system_init (void)
         Mode_Use.UART.Send_String_pFun(UART_RS232,"RS232:hello world ! \n");
     }
 
-
     // Wiegand
     Custom_GPIO_Init(ENABLE);
     // BZZ
@@ -133,6 +221,7 @@ void system_init (void)
     Mode_Init.LED(ENABLE);
 
 
+    // 载入date & Watch -> time
     Caven_Watch_Type set_time = {
             .hour = 8,
             .minutes = 58,
@@ -145,6 +234,43 @@ void system_init (void)
     Mode_Use.TIME.Set_Date_pFun(set_date);
     Mode_Use.TIME.Set_Watch_pFun(set_time);
 
+}
+
+
+
+void Heartbeat_Set(void)
+{
+    Heartbeat_run = 0;
+    Mode_Use.LED.SET_pFun(1,DISABLE);
+}
+
+void Heartbeat_Check (Caven_Watch_Type time)
+{
+    static Caven_Watch_Type last_time = {0};
+    int diff_Sec,temp_Sec,now_Sec;
+
+    now_Sec = API_Hourly_to_Seconds(time);
+    temp_Sec  = API_Hourly_to_Seconds(last_time);
+    if (temp_Sec > now_Sec)
+    {
+        now_Sec += 86400;
+    }
+    diff_Sec = now_Sec - temp_Sec;
+    if (diff_Sec > 1) {
+        Heartbeat_run++;
+        last_time = time;
+    }
+
+    if ((Heartbeat_run > Sys_cfg.Heartbeat_NUM) && (Sys_cfg.Heartbeat_NUM != 0))
+    {
+        Heartbeat_run = 0;
+        RSTIC_H();
+        printf("RST IC ! \n");
+        Mode_Use.LED.SET_pFun(1,DISABLE);
+        Mode_Use.TIME.Delay_Ms(50);
+        RSTIC_L();
+        Mode_Use.TIME.Delay_Ms(5000);
+    }
 }
 
 
