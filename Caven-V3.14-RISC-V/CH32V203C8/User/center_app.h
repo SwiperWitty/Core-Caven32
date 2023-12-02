@@ -1,7 +1,7 @@
 /*
  * center_app.h
  *
- *  Created on: 2023Äê11ÔÂ29ÈÕ
+ *  Created on: 2023
  */
 
 #ifndef USER_CENTER_APP_H_

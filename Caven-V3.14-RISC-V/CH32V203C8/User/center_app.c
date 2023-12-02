@@ -1,7 +1,7 @@
 /*
  * center_app.c
  *
- *  Created on: 2023Äê11ÔÂ29ÈÕ
+ *  Created on: 2023å¹´11æœˆ29æ—¥
  */
 
 #include "center_app.h"
@@ -9,10 +9,10 @@
 Caven_info_packet_Type data_packet;
 Caven_info_packet_Type standard = {
         .Head = 0xFA8A,
-        .Versions = 0x01,   // °æ±¾1
-        .Type = 0x03,       // »ìºÏIO
-        .Addr = 0x01,       // µØÖ·1£¬ÆäÊµÉèÖÃ00Ò²¿ÉÒÔ
-        .dSize = 300,       // ×î´ó³¤¶È
+        .Versions = 0x01,   // ç‰ˆæœ¬1
+        .Type = 0x03,       // æ··åˆIO
+        .Addr = 0x0A,       // åœ°å€0x0Aï¼Œå…¶å®è®¾ç½®00ä¹Ÿå¯ä»¥
+        .dSize = 300,       // æœ€å¤§é•¿åº¦
 };
 
 CAVEN_Status_Event_Type MCU_Status_Event;
@@ -131,7 +131,7 @@ void UART_RS485_Getrx_Fun (void *data)
     data_packet.comm_way = UART_RS485;
     now_comm_way = data_packet.comm_way;
 
-    Base_UART_Send_Byte_Fast(UART_SYS,temp);    // ÖĞ¶ÏÀïÃæ·¢¶«Î÷»¹ÊÇÓÃ¿ìµÄ°É
+    Base_UART_Send_Byte_Fast(UART_SYS,temp);    // ä¸­æ–­é‡Œé¢å‘ä¸œè¥¿è¿˜æ˜¯ç”¨å¿«çš„å§
 //    Mode_Use.UART.Send_Data_pFun(UART_SYS,&data,1);
 }
 /*
@@ -144,11 +144,11 @@ void UART_RS232_Getrx_Fun (void *data)
     data_packet.comm_way = UART_RS232;
     now_comm_way = data_packet.comm_way;
 
-    Base_UART_Send_Byte_Fast(UART_SYS,temp);    // ÖĞ¶ÏÀïÃæ·¢¶«Î÷»¹ÊÇÓÃ¿ìµÄ°É
+    Base_UART_Send_Byte_Fast(UART_SYS,temp);    // ä¸­æ–­é‡Œé¢å‘ä¸œè¥¿è¿˜æ˜¯ç”¨å¿«çš„å§
 //    Caven_info_Make_packet_Fun(standard,&data_packet,data);
 }
 
-u8 g_Buff_array[BUFF_MAX];    // buff»º³åÇø
+u8 g_Buff_array[BUFF_MAX];    // buffç¼“å†²åŒº
 
 int center_Init(void)
 {

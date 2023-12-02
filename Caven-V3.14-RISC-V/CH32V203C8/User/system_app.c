@@ -10,8 +10,7 @@
 
 system_cfg_Type Sys_cfg;
 static u8 buff_array[BUFF_MAX]; // buff缓冲区
-static int Heartbeat_run = 0;
-static void Heartbeat_Set(void);
+static void Heartbeat_Set (int *run_num);
 
 static void Flash_verify(system_cfg_Type * system_cfg)
 {
@@ -26,6 +25,7 @@ static void Flash_verify(system_cfg_Type * system_cfg)
         .Maketime = "2023.11.29",
 
         .Heartbeat_NUM = 10,
+        .Heartbeat_Run = 0,
         .Modbus = 0,
         .RS232_Baud = 115200,
         .RS485_Baud = 115200,
@@ -34,7 +34,9 @@ static void Flash_verify(system_cfg_Type * system_cfg)
         .RS485_SET = 1,
         .SYS_COM_SET = 1,
         .Last_Comm = UART_RS232,
-        .Run_TIME = 0,
+
+        .Run_TIME = {0},
+
     };
     system_cfg_Type temp_Sys_cfg = {0};
     if ((temp_Sys_cfg.Verify_Head == default_Sys_cfg.Verify_Head) && (temp_Sys_cfg.Verify_End == default_Sys_cfg.Verify_End))
@@ -144,7 +146,7 @@ Caven_info_packet_Type system_handle(Caven_info_packet_Type data)
             retval = Data_TRANSPOND_Order(data);
             break;
         case m_SYS_Heartbeat_Order:
-            Heartbeat_Set();
+            Heartbeat_Set(&Sys_cfg.Heartbeat_Run);
             retval.dSize = 0;
             retval.Result = 10;
             break;
@@ -238,39 +240,37 @@ void system_init (void)
 
 
 
-void Heartbeat_Set(void)
+void Heartbeat_Set (int *run_num)
 {
-    Heartbeat_run = 0;
+    int temp_num = 0;
     Mode_Use.LED.SET_pFun(1,DISABLE);
+    * run_num = temp_num;
 }
 
+static Task_Overtime_Type Heartbeat_Task = {
+        .Switch = 1,
+        .Begin_time = {0},
+        .Set_time.second = 1,
+        .Set_time.time_us = 0,
+};
 void Heartbeat_Check (Caven_Watch_Type time)
 {
-    static Caven_Watch_Type last_time = {0};
-    int diff_Sec,temp_Sec,now_Sec;
-
-    now_Sec = API_Hourly_to_Seconds(time);
-    temp_Sec  = API_Hourly_to_Seconds(last_time);
-    if (temp_Sec > now_Sec)
+    API_Task_Timer (&Heartbeat_Task,time);
+    if (Heartbeat_Task.Trigger_Flag)
     {
-        now_Sec += 86400;
-    }
-    diff_Sec = now_Sec - temp_Sec;
-    if (diff_Sec > 1) {
-        Heartbeat_run++;
-        last_time = time;
+        Sys_cfg.Heartbeat_Run ++;
+        if ((Sys_cfg.Heartbeat_Run > Sys_cfg.Heartbeat_NUM) && (Sys_cfg.Heartbeat_NUM != 0))
+        {
+            Sys_cfg.Heartbeat_Run = 0;
+            RSTIC_H();
+            printf("RST IC ! \n");
+            Mode_Use.LED.SET_pFun(1,DISABLE);
+            Mode_Use.TIME.Delay_Ms(1000);
+            RSTIC_L();
+            Mode_Use.TIME.Delay_Ms(5000);
+        }
     }
 
-    if ((Heartbeat_run > Sys_cfg.Heartbeat_NUM) && (Sys_cfg.Heartbeat_NUM != 0))
-    {
-        Heartbeat_run = 0;
-        RSTIC_H();
-        printf("RST IC ! \n");
-        Mode_Use.LED.SET_pFun(1,DISABLE);
-        Mode_Use.TIME.Delay_Ms(50);
-        RSTIC_L();
-        Mode_Use.TIME.Delay_Ms(5000);
-    }
 }
 
 

@@ -37,23 +37,20 @@ void test_fun (int *num)
 Task_Overtime_Type LED_Task = {
         .Switch = 1,
 };
-volatile unsigned char *tmpas;
+
 int main(void)
 {
     Main_Init();
-    int temp_num = 0;
+
     Caven_Watch_Type now_time;
     now_time = Mode_Use.TIME.Get_Watch_pFun();
-    Caven_Watch_Type temp;
 
     Task_Overtime_Type LED_Task = {
             .Switch = 1,
             .Begin_time = now_time,
             .Set_time.second = 1,
             .Set_time.time_us = 500000,
-
     };
-    tmpas = &LED_Task.Begin_time.second;
 
     while(1)
     {
