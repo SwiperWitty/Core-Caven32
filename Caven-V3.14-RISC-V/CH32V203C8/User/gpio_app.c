@@ -2,7 +2,6 @@
  * gpio_app.c
  *
  *  Created on: 2023年11月29日
- *      Author: gxwl
  */
 
 #include "gpio_app.h"

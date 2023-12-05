@@ -14,29 +14,17 @@
  *
  */
 #include "main.h"
-
+#include "modbus_RFID.h"
 
 u32 run_num = 0;
 int u2_rxd_num = 0;
+u8 array[64];
+u8 send_array[64];
 
-
-void test_fun (int *num)
+void send_modbus (void *data,int length)
 {
-    int p = *num;
-    printf("test %d \n",p);
-    if (p == 0) {
-        p = 1;
-    }
-    else {
-        p = 0;
-    }
-
-    *num = p;
+    Mode_Use.UART.Send_Data_pFun(UART_SYS,(u8 *)data,length);
 }
-
-Task_Overtime_Type LED_Task = {
-        .Switch = 1,
-};
 
 int main(void)
 {
@@ -52,6 +40,17 @@ int main(void)
             .Set_time.time_us = 500000,
     };
 
+    array[0] = 0;
+    array[1] = 6;
+    modbus_Type test_data = {
+            .addr = 0x01,
+            .cmd = 0x03,
+            .p_data = array,
+    };
+
+    run_num = Modbus_rtu_info_Split_packet_Fun (test_data,send_array);
+    Mode_Use.UART.Send_Data_pFun(UART_SYS,send_array,run_num);
+    run_num = 0;
     while(1)
     {
         now_time = Mode_Use.TIME.Get_Watch_pFun();

@@ -33,7 +33,7 @@ static int center_send_packet (Caven_info_packet_Type data)
 
     if (buff_size > 0)
     {
-        switch (data.comm_way)
+        switch (data.Comm_way)
         {
             case UART_SYS:
                 Mode_Use.UART.Send_Data_pFun(UART_SYS,temp_buff,buff_size);
@@ -94,7 +94,7 @@ int center_State_machine (Caven_Watch_Type time)
 //        printf("packet dSize : 0x%x \n",data_packet.dSize);
 //        printf("packet data[0] : 0x%x \n",*(data_packet.p_Data + 0));
 //        printf("packet Result : 0x%x \n",data_packet.Result);
-//        printf("packet comm_way : 0x%x \n",data_packet.comm_way);
+//        printf("packet comm_way : 0x%x \n",data_packet.Comm_way);
 //        printf(" \n");
 
         center_order_handle(data_packet);
@@ -118,7 +118,7 @@ void UART_SYS_Getrx_Fun (void *data)
 {
     u8 temp = *(u8 *)data;
     MCU_Status_Event.Status_flag = m_CAVEN_COMM_Stat;
-    data_packet.comm_way = UART_SYS;
+    data_packet.Comm_way = UART_SYS;
     Caven_info_Make_packet_Fun(standard,&data_packet,temp);
 }
 /*
@@ -128,8 +128,8 @@ void UART_RS485_Getrx_Fun (void *data)
 {
     u8 temp = *(u8 *)data;
     MCU_Status_Event.Status_flag = m_CAVEN_COMM_Stat;
-    data_packet.comm_way = UART_RS485;
-    now_comm_way = data_packet.comm_way;
+    data_packet.Comm_way = UART_RS485;
+    now_comm_way = data_packet.Comm_way;
 
     Base_UART_Send_Byte_Fast(UART_SYS,temp);    // 中断里面发东西还是用快的吧
 //    Mode_Use.UART.Send_Data_pFun(UART_SYS,&data,1);
@@ -141,8 +141,8 @@ void UART_RS232_Getrx_Fun (void *data)
 {
     u8 temp = *(u8 *)data;
     MCU_Status_Event.Status_flag = m_CAVEN_COMM_Stat;
-    data_packet.comm_way = UART_RS232;
-    now_comm_way = data_packet.comm_way;
+    data_packet.Comm_way = UART_RS232;
+    now_comm_way = data_packet.Comm_way;
 
     Base_UART_Send_Byte_Fast(UART_SYS,temp);    // 中断里面发东西还是用快的吧
 //    Caven_info_Make_packet_Fun(standard,&data_packet,data);
@@ -154,8 +154,9 @@ int center_Init(void)
 {
     int retval = 0;
     DESTROY_DATA(&MCU_Status_Event,sizeof(MCU_Status_Event));
-    DESTROY_DATA(&data_packet,sizeof(data_packet));
+
     Caven_info_packet_index_Fun(&data_packet,g_Buff_array);
+    Caven_info_packet_clean_Fun(&data_packet);
 
     Mode_Use.UART.Receive_Bind_pFun(UART_SYS,UART_SYS_Getrx_Fun);
     Mode_Use.UART.Receive_Bind_pFun(UART_RS485,UART_RS485_Getrx_Fun);
