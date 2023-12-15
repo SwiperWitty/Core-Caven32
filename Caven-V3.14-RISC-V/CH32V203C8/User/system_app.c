@@ -24,8 +24,6 @@ static void Flash_verify(system_cfg_Type * system_cfg)
         .Equipment = "WCH-GPIO-000001",
         .Maketime = "2023.11.29",
 
-        .Heartbeat_NUM = 10,
-        .Heartbeat_Run = 0,
         .Modbus = 0,
         .RS232_Baud = 115200,
         .RS485_Baud = 115200,
@@ -36,11 +34,16 @@ static void Flash_verify(system_cfg_Type * system_cfg)
         .Last_Comm = UART_RS232,
 
         .Run_TIME = {0},
+        .Heartbeat_NUM = 20,
+        .Heartbeat_Run = 0,
+        .MCU_Status = 0,
 
     };
     system_cfg_Type temp_Sys_cfg = {0};
     if ((temp_Sys_cfg.Verify_Head == default_Sys_cfg.Verify_Head) && (temp_Sys_cfg.Verify_End == default_Sys_cfg.Verify_End))
     {
+        temp_Sys_cfg.Heartbeat_Run = 0;
+        temp_Sys_cfg.MCU_Status = 0;
         *system_cfg = temp_Sys_cfg;
     }
     else
@@ -270,7 +273,6 @@ void Heartbeat_Check (Caven_Watch_Type time)
             Mode_Use.TIME.Delay_Ms(5000);
         }
     }
-
 }
 
 

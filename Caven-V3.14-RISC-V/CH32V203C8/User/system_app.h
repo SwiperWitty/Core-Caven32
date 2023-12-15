@@ -58,6 +58,8 @@ typedef struct
     Caven_TIME_Type Run_TIME;
     int Heartbeat_NUM;
     int Heartbeat_Run;
+    int MCU_Status;
+
     u16 Verify_End;
 }system_cfg_Type;
 

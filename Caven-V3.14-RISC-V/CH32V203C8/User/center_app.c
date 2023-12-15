@@ -104,8 +104,9 @@ int center_State_machine (Caven_Watch_Type time)
 
     if(MCU_Status_Event.Status_flag == m_CAVEN_IDLE_Stat)
     {
-        Heartbeat_Check(time);
+
     }
+    Heartbeat_Check(time);
     return retval;
 }
 
