@@ -56,7 +56,7 @@ int main(void)
         now_time = Mode_Use.TIME.Get_Watch_pFun();
 //        printf("sys time: %d : %d : %d , %d (us)\n",now_time.hour,now_time.minutes,now_time.second,now_time.time_us);
 
-        API_Task_Timer (&LED_Task,now_time);
+        API_Task_Timer (&LED_Task,now_time);        // LED任务
         if (LED_Task.Trigger_Flag)
         {
             run_num++;
@@ -69,9 +69,9 @@ int main(void)
         }
 
 
-        if(center_State_machine(now_time))
+        if(Center_State_machine(now_time))          // 状态机入口
         {
-            break;
+            break;          // 状态机退出,程序重启
         }
 
     }
@@ -87,10 +87,9 @@ void Main_Init(void)
     Mode_Init.TIME(ENABLE);
 
     system_init();
-    center_Init();
+    Center_Init();
 
 //    printf("SystemClk:%d \r\n", MCU_SYS_FREQ);
-
 //    Mode_Use.TIME.Delay_Ms(500);
 }
 

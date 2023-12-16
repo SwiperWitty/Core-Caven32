@@ -10,6 +10,7 @@
 #include "system_app.h"
 #include "gpio_app.h"
 #include "API.h"
+#include "GX_info_frame.h"
 
 /*
  * CAVEN_CMD
@@ -42,7 +43,7 @@ typedef struct
 
 }CAVEN_Status_Event_Type;
 
-int center_Init(void);
-int center_State_machine (Caven_Watch_Type time);
+int Center_Init(void);
+int Center_State_machine (Caven_Watch_Type time);
 
 #endif /* USER_CENTER_APP_H_ */
