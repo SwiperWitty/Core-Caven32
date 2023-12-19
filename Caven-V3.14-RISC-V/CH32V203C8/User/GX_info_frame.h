@@ -47,6 +47,7 @@ typedef struct
 
 int GX_info_packet_clean_Fun(GX_info_packet_Type *target);
 int GX_info_packet_index_Fun(GX_info_packet_Type *target, unsigned char *data);
+int GX_packet_data_copy_Fun(GX_info_packet_Type *source,GX_info_packet_Type *target);
 
 int GX_info_Make_packet_Fun(GX_info_packet_Type const standard, GX_info_packet_Type *target, unsigned char data);
 int GX_info_Split_packet_Fun(GX_info_packet_Type const source, unsigned char *data);

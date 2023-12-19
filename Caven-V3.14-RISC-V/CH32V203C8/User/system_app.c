@@ -33,7 +33,7 @@ static void Flash_verify(system_cfg_Type *system_cfg)
         .Last_Comm = UART_RS232,
 
         .Run_TIME = {0},
-        .Heartbeat_NUM = 20,
+        .Heartbeat_NUM = 30,
         .Heartbeat_Run = 0,
         .MCU_Status = 0,
 
@@ -249,6 +249,7 @@ static Task_Overtime_Type Heartbeat_Task = {
     .Begin_time = {0},
     .Set_time.second = 1,
     .Set_time.time_us = 0,
+
 };
 void Heartbeat_Check(Caven_Watch_Type time)
 {
@@ -268,3 +269,33 @@ void Heartbeat_Check(Caven_Watch_Type time)
         }
     }
 }
+
+void Heartbeat_Send(int time)
+{
+    int temp_num;
+    unsigned char buff_array[300];
+    unsigned char buff_data[300];
+    Caven_info_packet_Type MCU_Heartbeat_packet = {
+     .Head = 0xFA8A,
+     .Versions = 1,
+     .Type = 3,
+     .Addr = 0,
+     .Cmd = 1,
+     .Cmd_sub = 8,
+     .dSize = 0,
+     .p_Data = buff_data,
+     .Result = 0,
+    };
+    if (time == 0) {
+        MCU_Heartbeat_packet.dSize = 0;
+    }
+    else {
+        MCU_Heartbeat_packet.dSize = 3;
+        buff_data[0] = 1;
+        buff_data[1] = (time >> 8) & 0xff;
+        buff_data[2] = (time) & 0xff;
+    }
+    temp_num = Caven_info_Split_packet_Fun(MCU_Heartbeat_packet, buff_array);
+    Mode_Use.UART.Send_Data_pFun(UART_SYS,buff_array,temp_num);
+}
+

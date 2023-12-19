@@ -256,6 +256,21 @@ int GX_info_packet_index_Fun(GX_info_packet_Type *target, unsigned char *data)
     return retval;
 }
 
+int GX_packet_data_copy_Fun(GX_info_packet_Type *source,GX_info_packet_Type *target)
+{
+    int retval = 0;
+    GX_info_packet_Type temp_packet;
+
+    if ((source != NULL) && (target != NULL))
+    {
+        temp_packet = *target;                  // 抽离数据
+        temp_packet.p_Data = source->p_Data;    // 保留指针
+        memcpy(temp_packet.p_Data,target->p_Data,target->Get_num);    // 复制指针内容,内容的长度依据是[Get_num]
+        *source = temp_packet;                  // copy
+    }
+    return retval;
+}
+
 /*
 Caven_info_packet_clean_Fun
 ** clean function
@@ -270,9 +285,9 @@ int GX_info_packet_clean_Fun(GX_info_packet_Type *target)
     int retval = 0;
     unsigned char *p_data;
     p_data = target->p_Data;
-    if (p_data != NULL && target->dSize > 0)
+    if (p_data != NULL && (target->Get_num > 0 && target->Get_num < 300))
     {
-        memset(p_data, 0, target->dSize);
+        memset(p_data, 0, target->Get_num);    // 清除指针内容,内容的长度依据是[Get_num]
     }
     memset(target, 0, sizeof(GX_info_packet_Type));
     target->p_Data = p_data;
