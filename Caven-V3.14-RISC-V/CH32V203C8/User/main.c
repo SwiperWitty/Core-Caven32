@@ -34,11 +34,12 @@ int main(void)
     now_time = Mode_Use.TIME.Get_Watch_pFun();
 
     Task_Overtime_Type LED_Task = {
-            .Switch = 1,
+            .Switch = 0,
             .Begin_time = now_time,
             .Set_time.second = 1,
             .Set_time.time_us = 500000,
     };
+    Mode_Use.LED.SET_pFun(1,ENABLE);
 
     array[0] = 0;
     array[1] = 6;

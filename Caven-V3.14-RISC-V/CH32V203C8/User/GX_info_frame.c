@@ -338,7 +338,7 @@ int GX_info_packet_clean_Fun(GX_info_packet_Type *target)
     int retval = 0;
     unsigned char *p_data;
     p_data = target->p_Data;
-    if (p_data != NULL && (target->Get_num > 0 && target->Get_num < 300))
+    if (p_data != NULL && (target->Get_num > 0 && target->Get_num < 500))
     {
         memset(p_data, 0, target->Get_num);    // 清除指针内容,内容的长度依据是[Get_num]
     }
