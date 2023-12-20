@@ -14,7 +14,7 @@ return   : retval
 ** 1.(-0x80 < retval < 0) 协议消息解析错误
 ** 2.retval = -0x80 包里存在协议消息没处理
 ** 3.retval = -0x8F 目标包的指针没有索引
-** 4.retval & 0x80 >= 0 获取到协议消息,可以开始解析，同时(Result & 0x80 > 1)
+** 4.retval & 0x50 >= 0 获取到协议消息,可以开始解析，同时(Result & 0x50 > 1)
 ** 5.retval = 其他   获取中(包含没开始retval = 0)
 */
 int GX_info_Make_packet_Fun(GX_info_packet_Type const standard, GX_info_packet_Type *target, unsigned char data)
@@ -30,7 +30,7 @@ int GX_info_Make_packet_Fun(GX_info_packet_Type const standard, GX_info_packet_T
     GX_info_packet_Type temp_packet = *target;
     unsigned char *tepm_pData = temp_packet.p_Data;
 
-    if (temp_packet.Result & 0x80) /* 目标有数据没处理 */
+    if (temp_packet.Result & 0x50) /* 目标有数据没处理 */
     {
         return (-0x80);
     }
@@ -153,7 +153,7 @@ int GX_info_Make_packet_Fun(GX_info_packet_Type const standard, GX_info_packet_T
             temp = CRC16_CCITT_CalculateBuf((tepm_pData + sizeof(temp_packet.Head)), temp);
             if (temp_packet.End_crc == temp)
             {
-                temp_packet.Result |= 0x80; // crc successful
+                temp_packet.Result |= 0x50; // crc successful
                 temp_packet.Run_status = 0xff;
             }
             else
@@ -192,7 +192,7 @@ int GX_info_Make_packet_Fun(GX_info_packet_Type const standard, GX_info_packet_T
         // 原始数据
 #endif
         *target = temp_packet;
-        retval = 0x80;
+        retval = 0xFF;
         //        printf("succ %x \n",retval);
     }
     else // doing
@@ -231,6 +231,59 @@ int GX_info_Split_packet_Fun(GX_info_packet_Type const source, unsigned char *da
     }
     else
     {
+    }
+    return retval;
+}
+
+/*
+ * 这个函数需要快速响应
+ */
+int GX_Circular_queue_input (GX_info_packet_Type *data,GX_info_packet_Type *Buff_data,int Buff_Num)
+{
+    int retval = 0;
+    GX_info_packet_Type temp_packet;
+    for (int i = 0;i < Buff_Num;i++)
+    {
+        temp_packet = Buff_data[i];
+        if (temp_packet.Result & 0x50)
+        {
+            retval = (-1);
+        }
+        else
+        {
+            GX_packet_data_copy_Fun(&Buff_data[i],data);    // 载入数据到队列
+            GX_info_packet_clean_Fun(data);
+            retval = i;
+            break;
+        }
+    }
+    return retval;
+}
+
+/*
+ * retval = (-1):没有要处理的数据
+ * retval = other:有
+ *
+ */
+int GX_Circular_queue_output (GX_info_packet_Type *data,GX_info_packet_Type *Buff_data,int Buff_Num)
+{
+    int retval = 0;
+    GX_info_packet_Type temp_packet;
+    for (int i = 0;i < Buff_Num;i++)
+    {
+        temp_packet = Buff_data[i];
+
+        if (temp_packet.Result & 0x50)
+        {
+            GX_packet_data_copy_Fun(data,&temp_packet);    // 从队列提取数据
+            GX_info_packet_clean_Fun(&Buff_data[i]);
+            retval = i;
+
+            break;
+        }
+        else
+        {
+        }
     }
     return retval;
 }

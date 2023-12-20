@@ -68,7 +68,6 @@ int main(void)
             }
         }
 
-
         if(Center_State_machine(now_time))          // 状态机入口
         {
             break;          // 状态机退出,程序重启

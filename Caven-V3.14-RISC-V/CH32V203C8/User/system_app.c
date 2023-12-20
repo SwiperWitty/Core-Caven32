@@ -245,7 +245,7 @@ void Heartbeat_Set(int *run_num)
 }
 
 static Task_Overtime_Type Heartbeat_Task = {
-    .Switch = 1,
+    .Switch = 1,            // 任务开关
     .Begin_time = {0},
     .Set_time.second = 1,
     .Set_time.time_us = 0,

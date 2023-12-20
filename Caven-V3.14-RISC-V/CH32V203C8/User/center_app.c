@@ -9,10 +9,10 @@
 static int GX_TO_Caven_info_Make(GX_info_packet_Type source, Caven_info_packet_Type *target);
 static int Center_send_packet(Caven_info_packet_Type data);
 
-int GX_Circular_queue_input (GX_info_packet_Type *data,GX_info_packet_Type *Buff_data,int Buff_Num);
-int GX_Circular_queue_output(GX_info_packet_Type *data,GX_info_packet_Type *Buff_data,int Buff_Num);
 
 Caven_info_packet_Type data_packet;
+Caven_info_packet_Type SYS_data_packet_buff[3];
+
 Caven_info_packet_Type standard = {
     .Head = 0xFA8A,
     .Versions = 0x01, // 版本1
@@ -25,7 +25,7 @@ GX_info_packet_Type RS232_gx_data_packet;       // 给接收中断
 GX_info_packet_Type RS232_gx_data_packet_buff[5];
 
 GX_info_packet_Type RS485_gx_data_packet;       // 给接收中断
-GX_info_packet_Type RS485_gx_data_packet_buff[2];
+GX_info_packet_Type RS485_gx_data_packet_buff[3];
 
 GX_info_packet_Type gx_standard = {
     .Head = 0x5A,
@@ -35,7 +35,7 @@ GX_info_packet_Type gx_standard = {
 
 CAVEN_Status_Event_Type MCU_Status_Event;
 
-static int Center_order_handle(Caven_info_packet_Type data)
+static int Center_order_handle(const Caven_info_packet_Type data)
 {
     int retval = 0;
     Caven_info_packet_Type temp_data = data;
@@ -66,6 +66,7 @@ static int Center_order_handle(Caven_info_packet_Type data)
 int Center_State_machine(Caven_Watch_Type time)
 {
     int retval = 0;
+    int temp_data,temp_num;
     u8 temp_Buff[3][300];
     Caven_info_packet_Type temp_packet;         // UART_SYS 处理
     GX_info_packet_Type RS232_gx_temp_packet;   // RS232 处理
@@ -79,30 +80,34 @@ int Center_State_machine(Caven_Watch_Type time)
     GX_info_packet_clean_Fun(&RS232_gx_temp_packet);
     GX_info_packet_clean_Fun(&RS485_gx_temp_packet);
 
-    GX_Circular_queue_output (&RS232_gx_temp_packet,RS232_gx_data_packet_buff,5);   // 从队列中提取
-    GX_Circular_queue_output (&RS485_gx_temp_packet,RS485_gx_data_packet_buff,2);   // 从队列中提取
+    Mode_Use.TIME.Delay_Ms(10);
+    temp_data = Caven_Circular_queue_output (&temp_packet,SYS_data_packet_buff,3);   // 从队列中提取
+    temp_num = GX_Circular_queue_output (&RS232_gx_temp_packet,RS232_gx_data_packet_buff,5);   // 从队列中提取
+    GX_Circular_queue_output (&RS485_gx_temp_packet,RS485_gx_data_packet_buff,3);   // 从队列中提取
 
-    if ((data_packet.Result & 0x80) > 0)
+    if (temp_packet.Result & 0x50)
     {
-//        printf("packet Head : 0x%x \n",data_packet.Head);
-//        printf("packet Versions : 0x%x \n",data_packet.Versions);
-//        printf("packet Type : 0x%x \n",data_packet.Type);
-//        printf("packet Addr : 0x%x \n",data_packet.Addr);
-//        printf("packet Cmd : 0x%x \n",data_packet.Cmd);
-//        printf("packet Cmd_sub : 0x%x \n",data_packet.Cmd_sub);
-//        printf("packet dSize : 0x%x \n",data_packet.dSize);
-//        printf("packet data[0] : 0x%x \n",*(data_packet.p_Data + 0));
-//        printf("packet Result : 0x%x \n",data_packet.Result);
-//        printf("packet comm_way : 0x%x \n",data_packet.Comm_way);
-//        printf("packet Get_num : 0x%x \n",data_packet.Get_num);
+//        printf("Circular_queue num : %d \n",temp_data);
+//        printf("packet Head : 0x%x \n",temp_packet.Head);
+//        printf("packet Versions : 0x%x \n",temp_packet.Versions);
+//        printf("packet Type : 0x%x \n",temp_packet.Type);
+//        printf("packet Addr : 0x%x \n",temp_packet.Addr);
+//        printf("packet Cmd : 0x%x \n",temp_packet.Cmd);
+//        printf("packet Cmd_sub : 0x%x \n",temp_packet.Cmd_sub);
+//        printf("packet dSize : 0x%x \n",temp_packet.dSize);
+//        printf("packet data[0] : 0x%x \n",*(temp_packet.p_Data + 0));
+//        printf("packet Result : 0x%x \n",temp_packet.Result);
+//        printf("packet comm_way : 0x%x \n",temp_packet.Comm_way);
+//        printf("packet Get_num : 0x%x \n",temp_packet.Get_num);
 //        printf(" \n");
 
-        Center_order_handle(data_packet); // 处理pack
-        Caven_info_packet_clean_Fun(&data_packet);
+        Center_order_handle(temp_packet); // 处理pack
+        Caven_info_packet_clean_Fun(&temp_packet);
         MCU_Status_Event.Status_flag = m_CAVEN_IDLE_Stat;
     }
-    if ((RS232_gx_temp_packet.Result & 0x80) > 0)
+    if (RS232_gx_temp_packet.Result & 0x50)
     {
+//        printf("Circular_queue num : %d \n",temp_num);
 //        printf("packet Head : 0x%x \n",RS232_gx_temp_packet.Head);
 //        printf("packet Prot_W_Type : 0x%x \n",RS232_gx_temp_packet.Prot_W_Type);
 //        printf("packet Prot_W_Versions : 0x%x \n",RS232_gx_temp_packet.Prot_W_Versions);
@@ -119,11 +124,13 @@ int Center_State_machine(Caven_Watch_Type time)
 
         GX_TO_Caven_info_Make(RS232_gx_temp_packet, &temp_packet); // 只需要转发，转成Caven
         Center_send_packet(temp_packet);
+        Caven_info_packet_clean_Fun(&temp_packet);
     }
-    if ((RS485_gx_temp_packet.Result & 0x80) > 0)
+    if (RS485_gx_temp_packet.Result & 0x50)
     {
         GX_TO_Caven_info_Make(RS485_gx_temp_packet, &temp_packet); // 只需要转发，转成Caven
         Center_send_packet(temp_packet);
+        Caven_info_packet_clean_Fun(&temp_packet);
     }
 
     if (MCU_Status_Event.Status_flag == m_CAVEN_IDLE_Stat)
@@ -142,6 +149,10 @@ void UART_SYS_Getrx_Fun(void *data)
     MCU_Status_Event.Status_flag = m_CAVEN_COMM_Stat;
     data_packet.Comm_way = 0;
     Caven_info_Make_packet_Fun(standard, &data_packet, temp);
+    if (data_packet.Result & 0x50)     // 加入队列
+    {
+        Caven_Circular_queue_input (&data_packet,SYS_data_packet_buff,3);
+    }
 }
 /*
  * UART2
@@ -152,11 +163,11 @@ void UART_RS485_Getrx_Fun(void *data)
     MCU_Status_Event.Status_flag = m_CAVEN_COMM_Stat;
     RS485_gx_data_packet.Comm_way = 2;
 
-    //    Base_UART_Send_Byte_Fast(UART_SYS,temp);    // 中断里面发东西还是用快的吧
+//    Base_UART_Send_Byte_Fast(UART_SYS,temp);    // 中断里面发东西还是用快的吧
     GX_info_Make_packet_Fun(gx_standard, &RS485_gx_data_packet, temp);
-    if (RS485_gx_data_packet.Result & 0x80)     // 加入队列
+    if (RS485_gx_data_packet.Result & 0x50)     // 加入队列
     {
-        GX_Circular_queue_input (&RS485_gx_data_packet,RS232_gx_data_packet_buff,2);
+        GX_Circular_queue_input (&RS485_gx_data_packet,RS485_gx_data_packet_buff,3);
     }
 }
 /*
@@ -168,17 +179,17 @@ void UART_RS232_Getrx_Fun(void *data)
     MCU_Status_Event.Status_flag = m_CAVEN_COMM_Stat;
     RS232_gx_data_packet.Comm_way = 1;
 
-    //    Base_UART_Send_Byte_Fast(UART_SYS,temp);    // 中断里面发东西还是用快的吧
+//    Base_UART_Send_Byte_Fast(UART_SYS,temp);    // 中断里面发东西还是用快的吧
     GX_info_Make_packet_Fun(gx_standard, &RS232_gx_data_packet, temp);
-    if (RS232_gx_data_packet.Result & 0x80)     // 加入队列
+    if (RS232_gx_data_packet.Result & 0x50)         // 加入队列
     {
         GX_Circular_queue_input (&RS232_gx_data_packet,RS232_gx_data_packet_buff,5);
     }
 }
 
-u8 g_Buff_array[BUFF_MAX];              // buff缓冲区
+u8 g_SYS_Buff_array[4][BUFF_MAX];       // buff缓冲区
 u8 g_RS232_gx_Buff_array[6][BUFF_MAX];  // buff缓冲区
-u8 g_RS485_gx_Buff_array[3][BUFF_MAX];  // buff缓冲区
+u8 g_RS485_gx_Buff_array[4][BUFF_MAX];  // buff缓冲区
 
 int Center_Init(void)
 {
@@ -186,7 +197,10 @@ int Center_Init(void)
     DESTROY_DATA(&MCU_Status_Event, sizeof(MCU_Status_Event));
 
     // UART_SYS
-    Caven_info_packet_index_Fun(&data_packet, g_Buff_array);
+    Caven_info_packet_index_Fun(&SYS_data_packet_buff[0], g_SYS_Buff_array[0]);
+    Caven_info_packet_index_Fun(&SYS_data_packet_buff[1], g_SYS_Buff_array[1]);
+    Caven_info_packet_index_Fun(&SYS_data_packet_buff[2], g_SYS_Buff_array[2]);
+    Caven_info_packet_index_Fun(&data_packet, g_SYS_Buff_array[3]);
     Caven_info_packet_clean_Fun(&data_packet);
     // UART_RS232
     GX_info_packet_index_Fun(&RS232_gx_data_packet_buff[0], g_RS232_gx_Buff_array[0]);
@@ -199,7 +213,8 @@ int Center_Init(void)
     // UART_RS485
     GX_info_packet_index_Fun(&RS485_gx_data_packet_buff[0], g_RS485_gx_Buff_array[0]);
     GX_info_packet_index_Fun(&RS485_gx_data_packet_buff[1], g_RS485_gx_Buff_array[1]);
-    GX_info_packet_index_Fun(&RS485_gx_data_packet, g_RS485_gx_Buff_array[2]);
+    GX_info_packet_index_Fun(&RS485_gx_data_packet_buff[2], g_RS485_gx_Buff_array[2]);
+    GX_info_packet_index_Fun(&RS485_gx_data_packet, g_RS485_gx_Buff_array[3]);
     GX_info_packet_clean_Fun(&RS485_gx_data_packet);
 
     Mode_Use.UART.Receive_Bind_pFun(UART_SYS, UART_SYS_Getrx_Fun);
@@ -240,58 +255,7 @@ int GX_TO_Caven_info_Make(GX_info_packet_Type source, Caven_info_packet_Type *ta
     return retval;
 }
 
-/*
- * 这个函数需要快速响应
- */
-int GX_Circular_queue_input (GX_info_packet_Type *data,GX_info_packet_Type *Buff_data,int Buff_Num)
-{
-    int retval = 0;
-    GX_info_packet_Type temp_packet;
-    for (int i = 0;i < Buff_Num;i++)
-    {
-        temp_packet = Buff_data[i];
-        if (temp_packet.Result & 0x80)
-        {
-            retval = (-1);
-        }
-        else
-        {
-            GX_packet_data_copy_Fun(&Buff_data[i],data);    // 载入数据到队列
-            GX_info_packet_clean_Fun(data);
-            retval = i;
-            break;
-        }
-    }
-    return retval;
-}
 
-/*
- * retval = (-1):没有要处理的数据
- * retval = other:有
- *
- */
-int GX_Circular_queue_output (GX_info_packet_Type *data,GX_info_packet_Type *Buff_data,int Buff_Num)
-{
-    int retval = 0;
-    GX_info_packet_Type temp_packet;
-    for (int i = 0;i < Buff_Num;i++)
-    {
-        temp_packet = Buff_data[i];
-
-        if (temp_packet.Result & 0x80)
-        {
-            GX_packet_data_copy_Fun(data,&temp_packet);    // 从队列提取数据
-            GX_info_packet_clean_Fun(&Buff_data[i]);
-            retval = i;
-
-            break;
-        }
-        else
-        {
-        }
-    }
-    return retval;
-}
 
 int Center_send_packet(Caven_info_packet_Type data)
 {
