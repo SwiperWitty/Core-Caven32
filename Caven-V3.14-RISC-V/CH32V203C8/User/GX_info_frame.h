@@ -44,6 +44,9 @@ typedef struct
     unsigned char Comm_way;
 }GX_info_packet_Type;
 
+#ifndef BUFF_MAX
+    #define BUFF_MAX  500
+#endif // !BUFF_MAX
 
 int GX_info_packet_clean_Fun(GX_info_packet_Type *target);
 int GX_info_packet_index_Fun(GX_info_packet_Type *target, unsigned char *data);

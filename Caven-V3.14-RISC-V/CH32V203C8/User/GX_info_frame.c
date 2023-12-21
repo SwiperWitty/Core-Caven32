@@ -24,7 +24,7 @@ int GX_info_Make_packet_Fun(GX_info_packet_Type const standard, GX_info_packet_T
 #ifdef BUFF_MAX
 //    unsigned char array[BUFF_MAX];
 #else
-//    unsigned char array[300];
+    unsigned char array[300];
 #endif
 
     GX_info_packet_Type temp_packet = *target;
@@ -338,7 +338,7 @@ int GX_info_packet_clean_Fun(GX_info_packet_Type *target)
     int retval = 0;
     unsigned char *p_data;
     p_data = target->p_Data;
-    if (p_data != NULL && (target->Get_num > 0 && target->Get_num < 500))
+    if (p_data != NULL && (target->Get_num > 0 && target->Get_num < BUFF_MAX))
     {
         memset(p_data, 0, target->Get_num);    // 清除指针内容,内容的长度依据是[Get_num]
     }

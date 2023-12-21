@@ -26,7 +26,7 @@ static void Flash_verify(system_cfg_Type *system_cfg)
         .Modbus = 0,
         .RS232_Baud = 115200,
         .RS485_Baud = 115200,
-        .SYS_COM_Baud = 460800,
+        .SYS_COM_Baud = 230400,
         .RS232_SET = 1,
         .RS485_SET = 1,
         .SYS_COM_SET = 1,
@@ -245,7 +245,7 @@ void Heartbeat_Set(int *run_num)
 }
 
 static Task_Overtime_Type Heartbeat_Task = {
-    .Switch = 1,            // 任务开关
+    .Switch = 0,            // 任务开关
     .Begin_time = {0},
     .Set_time.second = 1,
     .Set_time.time_us = 0,
@@ -273,8 +273,8 @@ void Heartbeat_Check(Caven_Watch_Type time)
 void Heartbeat_Send(int time)
 {
     int temp_num;
-    unsigned char buff_array[300];
-    unsigned char buff_data[300];
+    unsigned char buff_array[BUFF_MAX];
+    unsigned char buff_data[BUFF_MAX];
     Caven_info_packet_Type MCU_Heartbeat_packet = {
      .Head = 0xFA8A,
      .Versions = 1,

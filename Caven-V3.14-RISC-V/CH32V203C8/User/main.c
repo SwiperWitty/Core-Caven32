@@ -34,7 +34,7 @@ int main(void)
     now_time = Mode_Use.TIME.Get_Watch_pFun();
 
     Task_Overtime_Type LED_Task = {
-            .Switch = 0,
+            .Switch = 1,
             .Begin_time = now_time,
             .Set_time.second = 1,
             .Set_time.time_us = 500000,
