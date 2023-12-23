@@ -9,7 +9,9 @@
 static int GX_TO_Caven_info_Make(GX_info_packet_Type source, Caven_info_packet_Type *target);
 static int Center_send_packet(Caven_info_packet_Type data);
 
-
+/*
+ * Caven-info
+ */
 Caven_info_packet_Type SYS_input_packet;       // 给接收中断
 Caven_info_packet_Type SYS_output_packet;
 Caven_info_packet_Type SYS_data_packet_buff[5];
@@ -21,7 +23,9 @@ Caven_info_packet_Type standard = {
     .Addr = 0x0A,     // 地址0x0A，其实设置00也可以
     .dSize = BUFF_MAX,     // 最大长度
 };
-
+/*
+ * GX-info
+ */
 GX_info_packet_Type RS232_input_packet;       // 给接收中断
 GX_info_packet_Type RS232_output_packet;
 GX_info_packet_Type RS232_gx_data_packet_buff[5];
@@ -32,9 +36,18 @@ GX_info_packet_Type RS485_gx_data_packet_buff[3];
 
 GX_info_packet_Type gx_standard = {
     .Head = 0x5A,
-    .Prot_W_Versions = 0x01, // 版本
-    .dSize = BUFF_MAX,            // 最大长度
+    .Prot_W_Versions = 0x01,    // 版本
+    .dSize = BUFF_MAX,          // 最大长度
 };
+/*
+ * modbus-info
+ */
+modbus_Type modbus_input_packet;            // 给接收中断
+modbus_Type modbus_output_packet;
+modbus_Type modbus_standard = {
+        .addr = 0x01,
+};
+
 
 CAVEN_Status_Event_Type MCU_Status_Event;
 
@@ -66,10 +79,13 @@ static int Center_order_handle(const Caven_info_packet_Type data)
     return retval;
 }
 
-u8 temp_array[] = {0x5A,0x00,0x01,0x12,0x00,0x00,0x0E,0x00,0x02,0x43,0x21,0x08,0x00,0x01,0x01,0xE4,0x08,0x00,0x0D,0xF7,0x32,0xE9,0xFC};//
+u8 temp_array[100] = {0x5A,0x00,0x01,0x12,0x00,0x00,0x0E,0x00,0x02,0x43,0x21,0x08,0x00,0x01,0x01,0xE4,0x08,0x00,0x0D,0xF7,0x32,0xE9,0xFC};//
 int temp_num = 0;
-int temp_sys_num = 0;
-int temp_232_num = 0;
+int get_sys_num = 0;
+int get_sys_pack_num = 0;
+int out_sys_num = 0;
+int out_sys_pack_num = 0;
+RFID_data_Type RFID_getdata;
 
 int Center_State_machine(Caven_Watch_Type time)
 {
@@ -79,7 +95,7 @@ int Center_State_machine(Caven_Watch_Type time)
 
     Caven_Circular_queue_output (&SYS_output_packet,SYS_data_packet_buff,5);   // 从队列中提取
     GX_Circular_queue_output (&RS232_output_packet,RS232_gx_data_packet_buff,5);   // 从队列中提取
-    GX_Circular_queue_output (&RS485_output_packet,RS485_gx_data_packet_buff,3);   // 从队列中提取
+//    GX_Circular_queue_output (&RS485_output_packet,RS485_gx_data_packet_buff,3);   // 从队列中提取
 
     if (SYS_output_packet.Result & 0x50)
     {
@@ -97,10 +113,10 @@ int Center_State_machine(Caven_Watch_Type time)
 //        printf("packet Get_num : 0x%x \n",temp_packet.Get_num);
 //        printf(" \n");
 
-        temp_sys_num ++;
+        out_sys_pack_num ++;
+        out_sys_num += SYS_output_packet.Get_num;
         if (SYS_output_packet.Cmd == 2)
         {
-            printf("get packet num : %d,sys packets : %d ,232 packets : %d \n",temp_num,temp_sys_num,temp_232_num);
             temp_num = 0;
         }
 
@@ -125,7 +141,6 @@ int Center_State_machine(Caven_Watch_Type time)
 //        printf("packet Get_num : 0x%x \n",RS232_gx_temp_packet.Get_num);
 //        printf(" \n");
 
-        temp_232_num++;
         GX_TO_Caven_info_Make(RS232_output_packet, &SYS_output_packet); // 只需要转发，转成Caven
         GX_info_packet_clean_Fun(&RS232_output_packet);
         Center_send_packet(SYS_output_packet);
@@ -143,20 +158,18 @@ int Center_State_machine(Caven_Watch_Type time)
     return retval;
 }
 
-int sys_get_byte = 0;
-int sys_out_byte = 0;
 /*
  * UART1
  */
 void UART_SYS_Getrx_Fun(void *data)
 {
     u8 temp = *(u8 *)data;
-    sys_get_byte++;
+    temp_num++;
     Caven_info_Make_packet_Fun(standard, &SYS_input_packet, temp);
     if (SYS_input_packet.Result & 0x50)     // 加入队列
     {
-        temp_num++;
-        sys_out_byte += SYS_input_packet.Get_num;
+        get_sys_pack_num ++;
+        get_sys_num += SYS_input_packet.Get_num;
         SYS_input_packet.Comm_way = 0;
         Caven_Circular_queue_input (&SYS_input_packet,SYS_data_packet_buff,5);
     }
@@ -168,6 +181,7 @@ void UART_RS485_Getrx_Fun(void *data)
 {
     u8 temp = *(u8 *)data;
 
+    MCU_Status_Event.Status_flag = m_CAVEN_COMM_Stat;
 //    Base_UART_Send_Byte_Fast(UART_SYS,temp);    // 中断里面发东西还是用快的吧
     GX_info_Make_packet_Fun(gx_standard, &RS485_input_packet, temp);
     if (RS485_input_packet.Result & 0x50)     // 加入队列
@@ -182,15 +196,20 @@ void UART_RS485_Getrx_Fun(void *data)
 void UART_RS232_Getrx_Fun(void *data)
 {
     u8 temp = *(u8 *)data;
-    MCU_Status_Event.Status_flag = m_CAVEN_COMM_Stat;
 
-//    Base_UART_Send_Byte_Fast(UART_SYS,temp);    // 中断里面发东西还是用快的吧
+//    Base_UART_Send_Byte_Fast(UART_SYS,temp);    // 中断里面发东西还是用快的吧   UART_SYS UART_RS232
     GX_info_Make_packet_Fun(gx_standard, &RS232_input_packet, temp);
     if (RS232_input_packet.Result & 0x50)         // 加入队列
     {
         RS232_input_packet.Comm_way = 1;
         GX_Circular_queue_input (&RS232_input_packet,RS232_gx_data_packet_buff,5);
     }
+//    Modbus_rtu_info_Make_packet_Fun(modbus_standard,&modbus_input_packet,temp);
+//    if (modbus_input_packet.Result & 0x50)
+//    {
+//        memcpy(&modbus_output_packet,&modbus_input_packet,sizeof(modbus_input_packet));
+//        Modbus_info_packet_clean_Fun(&modbus_input_packet);
+//    }
 }
 
 u8 g_SYS_Buff_array[8][BUFF_MAX];       // buff缓冲区
@@ -235,6 +254,9 @@ int Center_Init(void)
     Mode_Use.UART.Receive_Bind_pFun(UART_RS485, UART_RS485_Getrx_Fun);
     Mode_Use.UART.Receive_Bind_pFun(UART_RS232, UART_RS232_Getrx_Fun);
     MCU_Status_Event.Status_flag = m_CAVEN_IDLE_Stat;
+
+    RFID_getdata.rfid_Read_mode = 1;
+    RFID_getdata.rfid_Work_mode = 1;
     return retval;
 }
 

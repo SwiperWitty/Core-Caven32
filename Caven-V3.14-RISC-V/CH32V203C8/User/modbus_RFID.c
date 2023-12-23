@@ -1,5 +1,6 @@
 #include "modbus_RFID.h"
-#include <stdio.h>
+
+//#include "driver/uart.h"        // 特色
 
 // x16+x15+x2+1
 static int ModBusCRC16(unsigned char *data, int len)
@@ -23,73 +24,269 @@ static int ModBusCRC16(unsigned char *data, int len)
     return CRC16;
 }
 
+int Front_to_back_2byte (int data)
+{
+    int retval = 0;
+    retval = ((data & 0x00ff) << 8);
+    retval += ((data & 0xff00) >> 8);
+    return retval;
+}
+
+
 int Modbus_rtu_info_Make_packet_Fun(modbus_Type const standard, modbus_Type *target, unsigned char data)
 {
     int retval = 0;
-    modbus_Type temp_data = *target;
-    unsigned char * tepm_pData = temp_data.p_data;
+    int temp_num,temp;
+    modbus_Type temp_packet;
+    memcpy(&temp_packet,target,sizeof(temp_packet));
+    unsigned char * tepm_pData = temp_packet.Data;
 
-    if (temp_data.Result == 0 && temp_data.p_data != NULL)
+    if (temp_packet.Result & 0x50) /* 目标有数据没处理 */
     {
-        if (standard.addr == data && temp_data.Run_status == 0)
-        {
-            temp_data.addr = data;
-            temp_data.Run_status = 1;
-        }
-        else if (temp_data.Run_status == 1)
-        {
-            temp_data.cmd = data;
-            temp_data.Run_status = 2;
-        }
-        else if (temp_data.Run_status == 2)
-        {
-            temp_data.cmd = data;
-            temp_data.Run_status = 2;
-
-            *(tepm_pData+0) = data;
-        }
+        return (-0x80);
+    }
+    if (target == NULL)
+    {
+        return (-0x8F);
     }
 
+    switch (temp_packet.Run_status)
+    {
+        case 0:                             // addr
+            if (standard.addr == data)
+            {
+                temp_packet.addr = data;
+                tepm_pData[temp_packet.Get_num ++] = data;
+                temp_packet.Run_status = 1;
+            }
+            break;
+        case 1:                             // cmd
+            {
+                temp_packet.cmd = data;
+                tepm_pData[temp_packet.Get_num ++] = data;
+                temp_packet.Run_status ++;
+            }
+            break;
+        case 2:                             // Reg
+            {
+                temp_packet.Reg = (temp_packet.Reg << 8) + data;
+                tepm_pData[temp_packet.Get_num ++] = data;
+                temp_num = 2 + 2;
+                if (temp_packet.Get_num >= temp_num)
+                {
+                    temp_packet.Run_status ++;
+                }
+            }
+            break;
+        case 3:                             // dSize
+            {
+                temp_packet.dSize = (temp_packet.dSize << 8) + data;
+                tepm_pData[temp_packet.Get_num ++] = data;
+                temp_num = 2 + 2 + 2;
+                if (temp_packet.Get_num >= temp_num)
+                {
+                    temp_packet.dSize *= 2;         //1个数据16bit
+                    temp_packet.Run_status ++;
+                }
+            }
+            break;
+        case 4:                             // CRC(低位在前)
+            {
+                temp_packet.crc = (temp_packet.crc << 8) + data;
+                tepm_pData[temp_packet.Get_num ++] = data;
+                temp_num = 2 + 2 + 2 + 2;
+                if (temp_packet.Get_num >= temp_num)
+                {
+                    temp = ModBusCRC16(tepm_pData, temp_num - 2);
+                    temp_num = Front_to_back_2byte(temp);
+
+//                    printf("crc  get : %x, %x \n",temp_packet.crc,temp_num);
+                    if (temp_packet.crc == temp_num)
+                    {
+                        temp_packet.Result |= 0x50;
+                        temp_packet.Run_status = 0xff;
+                    }
+                    else
+                    {
+                        temp_packet.Run_status = -temp_packet.Run_status;
+                    }
+                }
+            }
+            break;
+        default:
+            break;
+    }
+    /*  结果    */
+    if (temp_packet.Run_status < 0) // error
+    {
+        retval = temp_packet.Run_status;
+        Modbus_info_packet_clean_Fun(target);
+    }
+    else if (temp_packet.Run_status == 0xff) // Successful
+    {
+        memcpy(target,&temp_packet,sizeof(temp_packet));
+
+        retval = temp_packet.Run_status;
+        //        printf("succ %x \n",retval);
+    }
+    else // doing
+    {
+        memcpy(target,&temp_packet,sizeof(temp_packet));
+        target->Result &= 0x0F;
+        retval = temp_packet.Run_status;
+    }
     return retval;
 }
 
 /*
  * 分解modbus协议为数组
  */
-int Modbus_rtu_info_Split_packet_Fun (modbus_Type const soure,unsigned char *data)
+int Modbus_rtu_info_Split_packet_Fun (modbus_Type const source,unsigned char *data)
 {
     int retval = 0;
-    unsigned char buff_array[300];
-    int tx_size = 0;
-    int temp;
-    memset(buff_array,0,sizeof(buff_array));
-    buff_array[0] = soure.addr;
-    buff_array[1] = soure.cmd;
-    if (soure.p_data != NULL && data != NULL)
+    int temp,num;
+    int getnum;
+    if (data == NULL)
     {
-        buff_array[2] = *(soure.p_data + 0);
-        buff_array[3] = *(soure.p_data + 1);
-        tx_size = buff_array[2];
-        tx_size = tx_size << 8;
-        tx_size += buff_array[3];
-        if (tx_size > 0) {
-            memcpy(&buff_array[4],(soure.p_data + 2),tx_size);
+        retval = (-1);
+    }
+    else
+    {
+        getnum = 0;
+        data[getnum++] = source.addr;
+        data[getnum++] = source.cmd;
+        data[getnum++] = (source.dSize >> 8) & 0xff;
+        data[getnum++] = source.dSize & 0xff;
+        if (source.dSize > 0)
+        {
+            memcpy(&data[getnum], source.Data, source.dSize);
+            getnum += source.dSize;
         }
-        else if (tx_size > 100){
-            retval = -1;
-            return retval;
-        }
-        temp = ModBusCRC16(buff_array, tx_size + 4);
-
-        buff_array[tx_size + 4] = (temp & 0x00ff);
-        buff_array[tx_size + 5] = (temp & 0xff00) >> 8;
-//        printf("crc : %x ,[%x,%x] ; size %d \n",data.crc,buff_array[tx_size + 4],buff_array[tx_size + 5],tx_size);
-
-        retval = tx_size + 4 + 2;
-        memcpy(data,buff_array,retval);
-
+        temp = getnum;
+        num = ModBusCRC16(data, temp);
+        temp = Front_to_back_2byte(num);
+        data[getnum++] = (temp >> 8) & 0xff;
+        data[getnum++] = temp & 0xff;
+        retval = getnum;
     }
     return retval;
 }
 
+int Modbus_info_packet_clean_Fun(modbus_Type *target)
+{
+    int retval = 0;
+    memset(target,0,sizeof(modbus_Type));
+    return retval;
+}
+
+
+int modbus_RFID_order_handle(const modbus_Type data,modbus_Type *target,RFID_data_Type *rfid_data)
+{
+    int retval = 0;
+
+    switch (data.cmd)
+    {
+    case m_Readcard_Receive_Order:
+        if (data.Reg == 0X00)
+        {
+            RFID_make_modbus(data.addr,data.dSize,*rfid_data,target);
+        }
+        break;
+    case m_Readcard_SET_Order:
+
+        break;
+
+    default:
+        break;
+    }
+    return retval;
+}
+
+int RFID_ReadCard_Center (RFID_data_Type *target)
+{
+    int retval = 0;
+    int counter = 0;
+    static int lost_falsg = 0;
+    uint8_t send_stop_rf_order[] = {0x5A, 0x00, 0x01, 0x02, 0xFF, 0x00, 0x00, 0x88, 0x5A};
+    uint8_t send_Read_epc_rf_order[] = {0x5A, 0x00, 0x01, 0x02, 0x10, 0x00, 0x05, 0x00, 0x00, 0x00, 0x01, 0x01, 0xF4, 0x87};
+    uint8_t send_Read_tid_rf_order[] = {0,0};
+    uint8_t send_Read_user_rf_order[] = {0,0};
+    if (lost_falsg == target->rfid_Read_mode)
+    {
+        return retval;
+    }
+    else
+    {
+        lost_falsg = target->rfid_Read_mode;
+    }
+
+    unsigned char temp_array[100];
+    switch (lost_falsg)
+    {
+    case m_Readcard_Empty_Order:
+//        uart_write_bytes(UART_NUM_1, send_stop_rf_order, sizeof(send_stop_rf_order));
+        break;
+    case m_Readcard_EPC_Orde:
+        memcpy(temp_array,send_Read_epc_rf_order,sizeof(send_Read_epc_rf_order));
+        counter = sizeof(send_Read_epc_rf_order);
+        break;
+    case m_Readcard_TID_Order:
+        // counter = sizeof(send_Read_tid_rf_order);
+        break;
+    case m_Readcard_USER_Order:
+        // counter = sizeof(send_Read_user_rf_order);
+        break;
+    default:
+        break;
+    }
+
+    if (counter > 0)
+    {
+//        uart_write_bytes(UART_NUM_1, send_stop_rf_order, sizeof(send_stop_rf_order));
+//        uart_write_bytes(UART_NUM_1, temp_array, counter);
+    }
+
+    retval = lost_falsg;
+    return retval;
+}
+
+int RFID_make_modbus (int addr,int len,RFID_data_Type source,modbus_Type *target)
+{
+    int retval = 0;
+    unsigned char temp_array[100];
+    memset(temp_array,0,sizeof(temp_array));
+    modbus_Type temp_packet = {
+            .addr = addr,
+            .cmd = 03,
+    };
+    if (target == NULL)
+    {
+        retval = (-1);
+    }
+
+    switch (source.rfid_Read_mode)
+    {
+        case 1:         // epc
+            temp_packet.dSize = len;
+            memcpy(temp_array,source.epc_data,source.epc_size);
+            memcpy(temp_packet.Data,temp_array,temp_packet.dSize);
+            break;
+        case 2:         // tid
+            temp_packet.dSize = len;
+            memcpy(temp_array,source.tid_data,source.tid_size);
+            memcpy(temp_packet.Data,temp_array,temp_packet.dSize);
+            break;
+        case 3:         // user
+            temp_packet.dSize = len;
+            memcpy(temp_array,source.user_data,source.user_size);
+            memcpy(temp_packet.Data,temp_array,temp_packet.dSize);
+            break;
+        default:
+            temp_packet.dSize = len;
+            memset(temp_packet.Data,0,temp_packet.dSize);
+            break;
+    }
+    memcpy(target,&temp_packet,sizeof(temp_packet));
+    return retval;
+}
 

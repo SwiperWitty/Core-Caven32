@@ -11,6 +11,7 @@
 #include "gpio_app.h"
 #include "API.h"
 #include "GX_info_frame.h"
+#include "modbus_RFID.h"
 
 /*
  * CAVEN_CMD

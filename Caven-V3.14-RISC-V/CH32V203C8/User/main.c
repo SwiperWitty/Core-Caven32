@@ -14,11 +14,8 @@
  *
  */
 #include "main.h"
-#include "modbus_RFID.h"
 
 u32 run_num = 0;
-int u2_rxd_num = 0;
-u8 array[64];
 u8 send_array[64];
 
 void send_modbus (void *data,int length)
@@ -41,16 +38,8 @@ int main(void)
     };
     Mode_Use.LED.SET_pFun(1,ENABLE);
 
-    array[0] = 0;
-    array[1] = 6;
-    modbus_Type test_data = {
-            .addr = 0x01,
-            .cmd = 0x03,
-            .p_data = array,
-    };
-
-    run_num = Modbus_rtu_info_Split_packet_Fun (test_data,send_array);
-    Mode_Use.UART.Send_Data_pFun(UART_SYS,send_array,run_num);
+//    run_num = Modbus_rtu_info_Split_packet_Fun (test_data,send_array);
+//    Mode_Use.UART.Send_Data_pFun(UART_SYS,send_array,run_num);
     run_num = 0;
     while(1)
     {
