@@ -45,7 +45,7 @@ GX_info_packet_Type gx_standard = {
 modbus_Type modbus_input_packet;            // 给接收中断
 modbus_Type modbus_output_packet;
 modbus_Type modbus_standard = {
-        .addr = 0x01,
+        .id = 0x01,
 };
 
 
@@ -153,7 +153,22 @@ int Center_State_machine(Caven_Watch_Type time)
         Center_send_packet(SYS_output_packet);
         Caven_info_packet_clean_Fun(&SYS_output_packet);
     }
-
+    if (modbus_output_packet.Result & 0x50)
+    {
+        modbus_Type temp_bus_pack;
+        printf("modbus get \n");
+        printf("modbus_output_packet num %x \n",modbus_output_packet.num);
+        printf("modbus_output_packet size %x \n",modbus_output_packet.size);
+        printf("modbus_output_packet id %x \n",modbus_output_packet.id);
+        printf("modbus_output_packet cmd %x \n",modbus_output_packet.cmd);
+        printf("modbus_output_packet addr %x \n",modbus_output_packet.addr);
+        printf("modbus_output_packet dSize %x \n \n",modbus_output_packet.dSize);
+        modbus_RFID_order_handle(modbus_output_packet,&temp_bus_pack,&RFID_getdata);
+        temp_num = Modbus_rtu_info_Split_packet_Fun(temp_bus_pack,temp_array);
+//        temp_num = Modbus_tcp_info_Split_packet_Fun(temp_bus_pack,temp_array);
+        Mode_Use.UART.Send_Data_pFun(UART_RS232,temp_array,temp_num);
+        Modbus_info_packet_clean_Fun(&modbus_output_packet);
+    }
     Heartbeat_Check(time); // 检测心跳
     return retval;
 }
@@ -198,18 +213,19 @@ void UART_RS232_Getrx_Fun(void *data)
     u8 temp = *(u8 *)data;
 
 //    Base_UART_Send_Byte_Fast(UART_SYS,temp);    // 中断里面发东西还是用快的吧   UART_SYS UART_RS232
-    GX_info_Make_packet_Fun(gx_standard, &RS232_input_packet, temp);
-    if (RS232_input_packet.Result & 0x50)         // 加入队列
-    {
-        RS232_input_packet.Comm_way = 1;
-        GX_Circular_queue_input (&RS232_input_packet,RS232_gx_data_packet_buff,5);
-    }
-//    Modbus_rtu_info_Make_packet_Fun(modbus_standard,&modbus_input_packet,temp);
-//    if (modbus_input_packet.Result & 0x50)
+//    GX_info_Make_packet_Fun(gx_standard, &RS232_input_packet, temp);
+//    if (RS232_input_packet.Result & 0x50)         // 加入队列
 //    {
-//        memcpy(&modbus_output_packet,&modbus_input_packet,sizeof(modbus_input_packet));
-//        Modbus_info_packet_clean_Fun(&modbus_input_packet);
+//        RS232_input_packet.Comm_way = 1;
+//        GX_Circular_queue_input (&RS232_input_packet,RS232_gx_data_packet_buff,5);
 //    }
+    Modbus_rtu_info_Make_packet_Fun(modbus_standard,&modbus_input_packet,temp);
+//    Modbus_tcp_info_Make_packet_Fun(modbus_standard,&modbus_input_packet,temp);
+    if (modbus_input_packet.Result & 0x50)
+    {
+        memcpy(&modbus_output_packet,&modbus_input_packet,sizeof(modbus_input_packet));
+        Modbus_info_packet_clean_Fun(&modbus_input_packet);
+    }
 }
 
 u8 g_SYS_Buff_array[8][BUFF_MAX];       // buff缓冲区
