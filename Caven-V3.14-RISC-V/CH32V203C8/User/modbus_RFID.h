@@ -1,4 +1,4 @@
-#ifndef _MODBUS_RFID__H_
+#ifndef _MODBUS_RFID__H_ 
 #define _MODBUS_RFID__H_
 
 #ifdef CAVEN    /* 预编译 */
@@ -68,6 +68,7 @@ typedef struct
     unsigned char other_data[20];
     unsigned char rfid_Read_mode;
     unsigned char rfid_Work_mode;
+    int rfid_time;
 }RFID_data_Type;
 
 
@@ -79,8 +80,7 @@ int Modbus_tcp_info_Split_packet_Fun (modbus_Type const source,unsigned char *da
 
 int Modbus_info_packet_clean_Fun(modbus_Type *target);
 
-int modbus_RFID_order_handle(const modbus_Type data,modbus_Type *target,RFID_data_Type *rfid_data);
-int RFID_ReadCard_Center (RFID_data_Type *target);
-int RFID_make_modbus (int len,RFID_data_Type source,modbus_Type *target);
+int modbus_RFID_order_handle(modbus_Type const data,modbus_Type *target,RFID_data_Type *rfid_data);
+int RFID_make_modbus (int len,RFID_data_Type const source,modbus_Type *target);
 
 #endif // !_MODBUS_RFID__H_
