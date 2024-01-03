@@ -33,7 +33,7 @@ Caven_info_packet_Type GPO_SET_Order(Caven_info_packet_Type data)
             break;
         default:
             retval.dSize = 0;
-            retval.Result = 9;
+            retval.Result = m_Result_Back_Other;
             break;
         }
     }
@@ -64,7 +64,7 @@ Caven_info_packet_Type LED_Status_Order(Caven_info_packet_Type data)
             break;
         default:
             retval.dSize = 0;
-            retval.Result = 9;
+            retval.Result = m_Result_Back_Other;
             break;
         }
     }
@@ -98,7 +98,7 @@ Caven_info_packet_Type BZZ_Status_Order(Caven_info_packet_Type data)
             break;
         default:
             retval.dSize = 0;
-            retval.Result = 9;
+            retval.Result = m_Result_Back_Other;
             break;
         }
     }
@@ -113,7 +113,7 @@ Caven_info_packet_Type gpio_handle(Caven_info_packet_Type data)
     {
     case m_GPIO_TEST_Order:
         //            retval = data;
-        retval.Result = 0;
+        retval.Result = m_Result_Back_Succ;
         break;
     case m_GPO_SET_Order:
         retval = GPO_SET_Order(data);
@@ -129,7 +129,7 @@ Caven_info_packet_Type gpio_handle(Caven_info_packet_Type data)
 
     default:
         retval.dSize = 0;
-        retval.Result = 5;
+        retval.Result = m_Result_Back_CMDS;
         break;
     }
 

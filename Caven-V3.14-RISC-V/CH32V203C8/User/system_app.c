@@ -76,7 +76,7 @@ Caven_info_packet_Type SYS_Versions_Get(Caven_info_packet_Type data)
             break;
         default:
             retval.dSize = 0;
-            retval.Result = 9;
+            retval.Result = m_Result_Back_Other;
             break;
         }
     }
@@ -91,6 +91,7 @@ Caven_info_packet_Type Data_TRANSPOND_Order(Caven_info_packet_Type data)
     Caven_info_packet_Type retval = data;
     u8 Open_ID;
     DESTROY_DATA(buff_array, sizeof(buff_array));
+
     if (data.dSize > 0)
     {
         memcpy(buff_array, data.p_Data, data.dSize);
@@ -102,7 +103,8 @@ Caven_info_packet_Type Data_TRANSPOND_Order(Caven_info_packet_Type data)
             retval.Result = RESULT_DEFAULT;
             break;
         case 1: // RS232
-            Mode_Use.UART.Send_Data_pFun(UART_RS232, &buff_array[1], (data.dSize - 1));
+//            Mode_Use.UART.Send_Data_pFun(UART_RS232, &buff_array[1], (data.dSize - 1));
+            MODE_UART_DMA_Send_Data_Fun(UART_RS232, &buff_array[1], (data.dSize - 1));
             retval.Result = RESULT_DEFAULT;
             break;
         case 2: // RS485
@@ -115,7 +117,7 @@ Caven_info_packet_Type Data_TRANSPOND_Order(Caven_info_packet_Type data)
             break;
         default:
             retval.dSize = 0;
-            retval.Result = 9;
+            retval.Result = m_Result_Back_Other;
             break;
         }
     }
@@ -153,7 +155,7 @@ Caven_info_packet_Type system_handle(Caven_info_packet_Type data)
         break;
     default:
         retval.dSize = 0;
-        retval.Result = 5;
+        retval.Result = m_Result_Back_CMDS;
         break;
     }
 
@@ -186,7 +188,7 @@ Caven_info_packet_Type bootloader_handle(Caven_info_packet_Type data)
         break;
     default:
         retval.dSize = 0;
-        retval.Result = 5;
+        retval.Result = m_Result_Back_CMDS;
         break;
     }
 
@@ -214,6 +216,7 @@ void system_init(void)
     {
         Mode_Init.UART(UART_RS232, Sys_cfg.RS232_Baud, ENABLE);
         Mode_Use.UART.Send_String_pFun(UART_RS232, "RS232:hello world ! \n");
+        Base_UART_DMA_Send_Data(UART_RS232,"this is dma send data \n",sizeof("this is dma send data \n"));
     }
 
     // Wiegand

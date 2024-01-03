@@ -15,7 +15,6 @@ static int Center_send_packet(Caven_info_packet_Type data);
 Caven_info_packet_Type SYS_input_packet;       // 给接收中断
 Caven_info_packet_Type SYS_temp_packet;
 Caven_info_packet_Type SYS_output_packet;
-Caven_info_packet_Type SYS_output_packet2;
 Caven_info_packet_Type SYS_data_packet_buff[10];
 
 Caven_info_packet_Type standard = {
@@ -41,15 +40,6 @@ GX_info_packet_Type gx_standard = {
     .Prot_W_Versions = 0x01,    // 版本
     .dSize = BUFF_MAX,          // 最大长度
 };
-/*
- * modbus-info
- */
-modbus_Type modbus_input_packet;            // 给接收中断
-modbus_Type modbus_output_packet;
-modbus_Type modbus_standard = {
-        .id = 0x01,
-};
-
 
 CAVEN_Status_Event_Type MCU_Status_Event;
 
@@ -71,12 +61,15 @@ static int Center_order_handle(const Caven_info_packet_Type data)
         break;
     case m_CAVEN_FEATURE_Order:
         temp_data = gpio_handle(data);
+
         break;
     default:
+
         temp_data.dSize = 0;
-        temp_data.Result = 4; // CMD
+        temp_data.Result = m_Result_Back_CMD; // CMD
         break;
     }
+
     retval = Center_send_packet(temp_data);
     return retval;
 }
@@ -87,8 +80,11 @@ int get_sys_num = 0;
 int get_sys_pack_num = 0;
 int out_sys_num = 0;
 int out_sys_pack_num = 0;
-RFID_data_Type RFID_getdata;
 
+int get_232_data = 0;
+int get_232_num = 0;
+int get_232_pack_num = 0;
+int out_232_pack_num = 0;
 
 
 int Center_State_machine(Caven_Watch_Type time)
@@ -97,8 +93,7 @@ int Center_State_machine(Caven_Watch_Type time)
 
 //    Mode_Use.TIME.Delay_Us(10);
 
-    Caven_Circular_queue_output (&SYS_output_packet ,SYS_data_packet_buff,5);   // 从队列中提取
-    Caven_Circular_queue_output (&SYS_output_packet2,SYS_data_packet_buff,5);   // 加速
+    Caven_Circular_queue_output (&SYS_output_packet ,SYS_data_packet_buff,9);   // 从队列中提取
     GX_Circular_queue_output (&RS232_output_packet,RS232_gx_data_packet_buff,5);   // 从队列中提取
     GX_Circular_queue_output (&RS485_output_packet,RS485_gx_data_packet_buff,3);   // 从队列中提取
 
@@ -124,19 +119,9 @@ int Center_State_machine(Caven_Watch_Type time)
         {
             temp_num = 0;
         }
+
         Center_order_handle(SYS_output_packet); // 处理pack
         Caven_info_packet_clean_Fun(&SYS_output_packet);
-    }
-    if (SYS_output_packet2.Result & 0x50)
-    {
-        out_sys_pack_num ++;
-        out_sys_num += SYS_output_packet2.Get_num;
-        if (SYS_output_packet2.Cmd == 2)
-        {
-            temp_num = 0;
-        }
-        Center_order_handle(SYS_output_packet2); // 处理pack
-        Caven_info_packet_clean_Fun(&SYS_output_packet2);
     }
 
     if (RS232_output_packet.Result & 0x50)
@@ -156,7 +141,7 @@ int Center_State_machine(Caven_Watch_Type time)
 //        printf("packet comm_way : 0x%x \n",RS232_gx_temp_packet.Comm_way);
 //        printf("packet Get_num : 0x%x \n",RS232_gx_temp_packet.Get_num);
 //        printf(" \n");
-
+        out_232_pack_num++;
         GX_TO_Caven_info_Make(RS232_output_packet, &SYS_temp_packet); // 只需要转发，转成Caven
         GX_info_packet_clean_Fun(&RS232_output_packet);
         Center_send_packet(SYS_temp_packet);
@@ -169,22 +154,7 @@ int Center_State_machine(Caven_Watch_Type time)
         Center_send_packet(SYS_temp_packet);
         Caven_info_packet_clean_Fun(&SYS_temp_packet);
     }
-    if (modbus_output_packet.Result & 0x50)
-    {
-        modbus_Type temp_bus_pack;
-        printf("modbus get \n");
-        printf("modbus_output_packet num %x \n",modbus_output_packet.num);
-        printf("modbus_output_packet size %x \n",modbus_output_packet.size);
-        printf("modbus_output_packet id %x \n",modbus_output_packet.id);
-        printf("modbus_output_packet cmd %x \n",modbus_output_packet.cmd);
-        printf("modbus_output_packet addr %x \n",modbus_output_packet.addr);
-        printf("modbus_output_packet dSize %x \n \n",modbus_output_packet.dSize);
-        modbus_RFID_order_handle(modbus_output_packet,&temp_bus_pack,&RFID_getdata);
-        temp_num = Modbus_rtu_info_Split_packet_Fun(temp_bus_pack,temp_array);
-//        temp_num = Modbus_tcp_info_Split_packet_Fun(temp_bus_pack,temp_array);
-        Mode_Use.UART.Send_Data_pFun(UART_RS232,temp_array,temp_num);
-        Modbus_info_packet_clean_Fun(&modbus_output_packet);
-    }
+
     Heartbeat_Check(time); // 检测心跳
     return retval;
 }
@@ -202,7 +172,7 @@ void UART_SYS_Getrx_Fun(void *data)
         get_sys_pack_num ++;
         get_sys_num += SYS_input_packet.Get_num;
         SYS_input_packet.Comm_way = 0;
-        Caven_Circular_queue_input (&SYS_input_packet,SYS_data_packet_buff,5);
+        Caven_Circular_queue_input (&SYS_input_packet,SYS_data_packet_buff,9);
     }
 }
 /*
@@ -230,23 +200,19 @@ void UART_RS232_Getrx_Fun(void *data)
 
 //    Base_UART_Send_Byte_Fast(UART_SYS,temp);    // 中断里面发东西还是用快的吧   UART_SYS UART_RS232
     GX_info_Make_packet_Fun(gx_standard, &RS232_input_packet, temp);
+    get_232_data ++;
     if (RS232_input_packet.Result & 0x50)         // 加入队列
     {
+        get_232_pack_num ++;
+        get_232_num += RS232_input_packet.Get_num;
         RS232_input_packet.Comm_way = 1;
         GX_Circular_queue_input (&RS232_input_packet,RS232_gx_data_packet_buff,5);
     }
-//    Modbus_rtu_info_Make_packet_Fun(modbus_standard,&modbus_input_packet,temp);
-//    Modbus_tcp_info_Make_packet_Fun(modbus_standard,&modbus_input_packet,temp);
-//    if (modbus_input_packet.Result & 0x50)
-//    {
-//        memcpy(&modbus_output_packet,&modbus_input_packet,sizeof(modbus_input_packet));
-//        Modbus_info_packet_clean_Fun(&modbus_input_packet);
-//    }
 }
 
-u8 g_SYS_Buff_array[10][BUFF_MAX];       // buff缓冲区
-u8 g_RS232_gx_Buff_array[8][BUFF_MAX];  // buff缓冲区
-u8 g_RS485_gx_Buff_array[6][BUFF_MAX];  // buff缓冲区
+u8 g_SYS_Buff_array[12][BUFF_MAX];       // buff缓冲区
+u8 g_RS232_gx_Buff_array[7][BUFF_MAX];  // buff缓冲区
+u8 g_RS485_gx_Buff_array[5][BUFF_MAX];  // buff缓冲区
 
 int Center_Init(void)
 {
@@ -254,19 +220,22 @@ int Center_Init(void)
     DESTROY_DATA(&MCU_Status_Event, sizeof(MCU_Status_Event));
 
     // UART_SYS
-    Caven_info_packet_index_Fun(&SYS_data_packet_buff[0], g_SYS_Buff_array[0]);
-    Caven_info_packet_index_Fun(&SYS_data_packet_buff[1], g_SYS_Buff_array[1]);
-    Caven_info_packet_index_Fun(&SYS_data_packet_buff[2], g_SYS_Buff_array[2]);
-    Caven_info_packet_index_Fun(&SYS_data_packet_buff[3], g_SYS_Buff_array[3]);
-    Caven_info_packet_index_Fun(&SYS_data_packet_buff[4], g_SYS_Buff_array[4]);
-    Caven_info_packet_index_Fun(&SYS_input_packet, g_SYS_Buff_array[5]);
+    Caven_info_packet_index_Fun(&SYS_input_packet, g_SYS_Buff_array[0]);
     Caven_info_packet_clean_Fun(&SYS_input_packet);
-    Caven_info_packet_index_Fun(&SYS_output_packet, g_SYS_Buff_array[6]);
+    Caven_info_packet_index_Fun(&SYS_output_packet, g_SYS_Buff_array[1]);
     Caven_info_packet_clean_Fun(&SYS_output_packet);
-    Caven_info_packet_index_Fun(&SYS_output_packet2, g_SYS_Buff_array[7]);
-    Caven_info_packet_clean_Fun(&SYS_output_packet2);
-    Caven_info_packet_index_Fun(&SYS_temp_packet, g_SYS_Buff_array[8]);
+    Caven_info_packet_index_Fun(&SYS_temp_packet, g_SYS_Buff_array[2]);
     Caven_info_packet_clean_Fun(&SYS_temp_packet);
+
+    Caven_info_packet_index_Fun(&SYS_data_packet_buff[0], g_SYS_Buff_array[3]);
+    Caven_info_packet_index_Fun(&SYS_data_packet_buff[1], g_SYS_Buff_array[4]);
+    Caven_info_packet_index_Fun(&SYS_data_packet_buff[2], g_SYS_Buff_array[5]);
+    Caven_info_packet_index_Fun(&SYS_data_packet_buff[3], g_SYS_Buff_array[6]);
+    Caven_info_packet_index_Fun(&SYS_data_packet_buff[4], g_SYS_Buff_array[7]);
+    Caven_info_packet_index_Fun(&SYS_data_packet_buff[5], g_SYS_Buff_array[8]);
+    Caven_info_packet_index_Fun(&SYS_data_packet_buff[6], g_SYS_Buff_array[9]);
+    Caven_info_packet_index_Fun(&SYS_data_packet_buff[7], g_SYS_Buff_array[10]);
+    Caven_info_packet_index_Fun(&SYS_data_packet_buff[8], g_SYS_Buff_array[11]);
 
     // UART_RS232
     GX_info_packet_index_Fun(&RS232_gx_data_packet_buff[0], g_RS232_gx_Buff_array[0]);
@@ -292,8 +261,6 @@ int Center_Init(void)
     Mode_Use.UART.Receive_Bind_pFun(UART_RS232, UART_RS232_Getrx_Fun);
     MCU_Status_Event.Status_flag = m_CAVEN_IDLE_Stat;
 
-    RFID_getdata.rfid_Read_mode = 1;
-    RFID_getdata.rfid_Work_mode = 1;
     return retval;
 }
 

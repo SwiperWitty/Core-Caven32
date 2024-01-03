@@ -17,6 +17,10 @@ return   : retval
 ** 4.retval & 0x50 >= 0 获取到协议消息,可以开始解析，同时(Result & 0x50 > 1)
 ** 5.retval = 其他   获取中(包含没开始retval = 0)
 */
+
+static int GX_info_packet_fast_clean_Fun(GX_info_packet_Type *target);
+
+
 int GX_info_Make_packet_Fun(GX_info_packet_Type const standard, GX_info_packet_Type *target, unsigned char data)
 {
     int retval = 0;
@@ -170,7 +174,7 @@ int GX_info_Make_packet_Fun(GX_info_packet_Type const standard, GX_info_packet_T
     if (temp_packet.Run_status < 0) // error
     {
         retval = temp_packet.Run_status;
-        GX_info_packet_clean_Fun(target);
+        GX_info_packet_fast_clean_Fun(target);
         //        printf("error %x \n",retval);
     }
     else if (temp_packet.Run_status == 0xff) // Successful
@@ -235,6 +239,7 @@ int GX_info_Split_packet_Fun(GX_info_packet_Type const source, unsigned char *da
     return retval;
 }
 
+
 /*
  * 这个函数需要快速响应
  */
@@ -252,7 +257,7 @@ int GX_Circular_queue_input (GX_info_packet_Type *data,GX_info_packet_Type *Buff
         else
         {
             GX_packet_data_copy_Fun(&Buff_data[i],data);    // 载入数据到队列
-            GX_info_packet_clean_Fun(data);
+            GX_info_packet_fast_clean_Fun(data);
             retval = i;
             break;
         }
@@ -276,7 +281,7 @@ int GX_Circular_queue_output (GX_info_packet_Type *data,GX_info_packet_Type *Buf
         if (temp_packet.Result & 0x50)
         {
             GX_packet_data_copy_Fun(data,&temp_packet);    // 从队列提取数据
-            GX_info_packet_clean_Fun(&Buff_data[i]);
+            GX_info_packet_fast_clean_Fun(&Buff_data[i]);
             retval = i;
 
             break;
@@ -346,3 +351,15 @@ int GX_info_packet_clean_Fun(GX_info_packet_Type *target)
     target->p_Data = p_data;
     return retval;
 }
+
+/*
+ * fast 主要给中断，这样就不会循环套娃
+ */
+int GX_info_packet_fast_clean_Fun(GX_info_packet_Type *target)
+{
+    int retval = 0;
+    target->Result = 0;
+    target->Run_status = 0;
+    return retval;
+}
+
