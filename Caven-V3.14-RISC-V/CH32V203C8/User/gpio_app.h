@@ -38,4 +38,8 @@ typedef struct
 
 Caven_info_packet_Type gpio_handle(Caven_info_packet_Type data);
 
+
+void LED_BULE_event_task_Fun (void * data);
+
+
 #endif /* USER_GPIO_APP_H_ */

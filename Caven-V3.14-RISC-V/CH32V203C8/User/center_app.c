@@ -10,6 +10,13 @@ static int GX_TO_Caven_info_Make(GX_info_packet_Type source, Caven_info_packet_T
 static int Center_send_packet(Caven_info_packet_Type data);
 
 /*
+ * Caven-event
+ */
+Caven_event_Type SYS_events;
+int LED_BULE_Handle = 0;
+
+
+/*
  * Caven-info
  */
 Caven_info_packet_Type SYS_input_packet;       // 给接收中断
@@ -24,6 +31,16 @@ Caven_info_packet_Type standard = {
     .Addr = 0x0A,     // 地址0x0A，其实设置00也可以
     .dSize = BUFF_MAX,     // 最大长度
 };
+
+Caven_info_packet_Type test = {
+    .Head = 0xFA8A,
+    .Versions = 0x01, // 版本1
+    .Type = 0x03,     // 混合IO
+    .Addr = 0x0A,     // 地址0x0A，其实设置00也可以
+    .dSize = 0,     // 最大长度
+    .Result = 0x50,
+};
+
 /*
  * GX-info
  */
@@ -47,35 +64,41 @@ static int Center_order_handle(const Caven_info_packet_Type data)
 {
     int retval = 0;
     Caven_info_packet_Type temp_data = data;
-
-    switch (data.Cmd)
-    {
-    case m_CAVEN_TEST_Order:
-        //            temp_data = data;
-        break;
-    case m_CAVEN_SYS_Order:
-        temp_data = system_handle(data);
-        break;
-    case m_CAVEN_BOOT_Order:
-        temp_data = bootloader_handle(data);
-        break;
-    case m_CAVEN_FEATURE_Order:
-        temp_data = gpio_handle(data);
-
-        break;
-    default:
-
-        temp_data.dSize = 0;
-        temp_data.Result = m_Result_Back_CMD; // CMD
-        break;
+    int crc = Caven_packet_data_crc (temp_data);
+    if (crc != temp_data.End_crc) {
+        temp_data.Result = m_Result_Back_CRC;
     }
+    else
+    {
+        switch (data.Cmd)
+        {
+        case m_CAVEN_TEST_Order:
+            //            temp_data = data;
+            break;
+        case m_CAVEN_SYS_Order:
+            temp_data = system_handle(data);
+            break;
+        case m_CAVEN_BOOT_Order:
+            temp_data = bootloader_handle(data);
+            break;
+        case m_CAVEN_FEATURE_Order:
+            temp_data = gpio_handle(data);
 
+            break;
+        default:
+
+            temp_data.dSize = 0;
+            temp_data.Result = m_Result_Back_CMD; // CMD
+            break;
+        }
+    }
     retval = Center_send_packet(temp_data);
     return retval;
 }
 
 u8 temp_array[100] = {0x5A,0x00,0x01,0x12,0x00,0x00,0x0E,0x00,0x02,0x43,0x21,0x08,0x00,0x01,0x01,0xE4,0x08,0x00,0x0D,0xF7,0x32,0xE9,0xFC};//
 int temp_num = 0;
+int get_sys_data = 0;
 int get_sys_num = 0;
 int get_sys_pack_num = 0;
 int out_sys_num = 0;
@@ -154,7 +177,7 @@ int Center_State_machine(Caven_Watch_Type time)
         Center_send_packet(SYS_temp_packet);
         Caven_info_packet_clean_Fun(&SYS_temp_packet);
     }
-
+    Caven_handle_event_Fun(&SYS_events);
     Heartbeat_Check(time); // 检测心跳
     return retval;
 }
@@ -165,7 +188,8 @@ int Center_State_machine(Caven_Watch_Type time)
 void UART_SYS_Getrx_Fun(void *data)
 {
     u8 temp = *(u8 *)data;
-    temp_num++;
+
+    get_sys_data++;
     Caven_info_Make_packet_Fun(standard, &SYS_input_packet, temp);
     if (SYS_input_packet.Result & 0x50)     // 加入队列
     {
@@ -198,9 +222,8 @@ void UART_RS232_Getrx_Fun(void *data)
 {
     u8 temp = *(u8 *)data;
 
-//    Base_UART_Send_Byte_Fast(UART_SYS,temp);    // 中断里面发东西还是用快的吧   UART_SYS UART_RS232
-    GX_info_Make_packet_Fun(gx_standard, &RS232_input_packet, temp);
     get_232_data ++;
+    GX_info_Make_packet_Fun(gx_standard, &RS232_input_packet, temp);
     if (RS232_input_packet.Result & 0x50)         // 加入队列
     {
         get_232_pack_num ++;
@@ -259,8 +282,11 @@ int Center_Init(void)
     Mode_Use.UART.Receive_Bind_pFun(UART_SYS, UART_SYS_Getrx_Fun);
     Mode_Use.UART.Receive_Bind_pFun(UART_RS485, UART_RS485_Getrx_Fun);
     Mode_Use.UART.Receive_Bind_pFun(UART_RS232, UART_RS232_Getrx_Fun);
-    MCU_Status_Event.Status_flag = m_CAVEN_IDLE_Stat;
 
+    Caven_new_event_Fun(&SYS_events,LED_BULE_event_task_Fun,&LED_BULE_Handle);
+    Caven_trigger_event_Fun(&SYS_events,LED_BULE_Handle,0x01);
+
+    MCU_Status_Event.Status_flag = m_CAVEN_IDLE_Stat;
     return retval;
 }
 
@@ -303,7 +329,10 @@ int Center_send_packet(Caven_info_packet_Type data)
     u8 temp_buff[BUFF_MAX];
     int buff_size = 0;
 
-    if ((data.Result == 0) || (data.Result == 1) || (data.Result == 4) || (data.Result == 5) || (data.Result == 6) || (data.Result == 9))
+    if ((data.Result == m_Result_Back_Succ) || (data.Result == m_Result_Back_Vers) ||       \
+            (data.Result == m_Result_Back_CMD) || (data.Result == m_Result_Back_CMDS) ||    \
+            (data.Result == m_Result_Back_Leng) || (data.Result == m_Result_Back_CRC) ||    \
+            (data.Result == m_Result_Back_Other))
     {
         buff_size = Caven_info_Split_packet_Fun(data, temp_buff);
     }

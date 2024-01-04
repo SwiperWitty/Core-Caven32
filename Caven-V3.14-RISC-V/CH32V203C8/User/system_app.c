@@ -26,7 +26,7 @@ static void Flash_verify(system_cfg_Type *system_cfg)
         .Modbus = 0,
         .RS232_Baud = 115200,
         .RS485_Baud = 115200,
-        .SYS_COM_Baud = 230400,
+        .SYS_COM_Baud = 460800,     //230400
         .RS232_SET = 1,
         .RS485_SET = 1,
         .SYS_COM_SET = 1,
