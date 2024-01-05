@@ -26,7 +26,7 @@ static void Flash_verify(system_cfg_Type *system_cfg)
         .Modbus = 0,
         .RS232_Baud = 115200,
         .RS485_Baud = 115200,
-        .SYS_COM_Baud = 460800,     //230400
+        .SYS_COM_Baud = 460800,     //230400 460800 921600
         .RS232_SET = 1,
         .RS485_SET = 1,
         .SYS_COM_SET = 1,
@@ -61,7 +61,7 @@ Caven_info_packet_Type SYS_Versions_Get(Caven_info_packet_Type data)
     DESTROY_DATA(buff_array, sizeof(buff_array));
     if (data.dSize > 0)
     {
-        memcpy(buff_array, retval.p_Data, data.dSize);
+        memcpy(buff_array, retval.p_Data, retval.dSize);
         Open_ID = buff_array[run_num];
         switch (Open_ID)
         {
@@ -70,7 +70,7 @@ Caven_info_packet_Type SYS_Versions_Get(Caven_info_packet_Type data)
             buff_array[(++run_num)] = Sys_cfg.Versions[run_num] + '0';
             buff_array[(++run_num)] = Sys_cfg.Versions[run_num] + '0';
             buff_array[(++run_num)] = Sys_cfg.Versions[run_num] + '0';
-            memcpy(retval.p_Data, buff_array, run_num);
+            memcpy(retval.p_Data, buff_array, run_num);      // 修改了传参[data]的p_Data。
             retval.dSize = run_num;
             retval.Result = 0; // 问版本是要回的
             break;
@@ -151,7 +151,7 @@ Caven_info_packet_Type system_handle(Caven_info_packet_Type data)
     case m_SYS_Heartbeat_Order:
         Heartbeat_Set(&Sys_cfg.Heartbeat_Run);
         retval.dSize = 0;
-        retval.Result = 10;
+        retval.Result = m_Result_Fail_Empty;
         break;
     default:
         retval.dSize = 0;

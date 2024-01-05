@@ -92,6 +92,9 @@ static int Center_order_handle(const Caven_info_packet_Type data)
             break;
         }
     }
+    if ((data.Result & 0x0f) == m_Result_Back_Empty) {
+        temp_data.Result = m_Result_Fail_Empty;
+    }
     retval = Center_send_packet(temp_data);
     return retval;
 }
@@ -326,13 +329,13 @@ int GX_TO_Caven_info_Make(GX_info_packet_Type source, Caven_info_packet_Type *ta
 int Center_send_packet(Caven_info_packet_Type data)
 {
     int retval = 0;
-    u8 temp_buff[BUFF_MAX];
+    unsigned char temp_buff[BUFF_MAX];
     int buff_size = 0;
 
     if ((data.Result == m_Result_Back_Succ) || (data.Result == m_Result_Back_Vers) ||       \
             (data.Result == m_Result_Back_CMD) || (data.Result == m_Result_Back_CMDS) ||    \
             (data.Result == m_Result_Back_Leng) || (data.Result == m_Result_Back_CRC) ||    \
-            (data.Result == m_Result_Back_Other))
+            (data.Result == m_Result_Back_Other) || (data.Result == m_Result_Back_Empty))
     {
         buff_size = Caven_info_Split_packet_Fun(data, temp_buff);
     }

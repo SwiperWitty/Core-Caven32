@@ -27,12 +27,16 @@ enum APP_GPIO_CMD_SUB
 
 typedef struct
 {
-    u8 LED_Status_Set[4];
+    u8 GPO_num;
+    u8 GPI_num;
+
     u8 GPO_Status_Set[36];
-    u16 GPO_Keep_Time[36];
+    int GPO_Keep_Time;
 
     u8 GPI_Status_Get[36];
     u8 GPI_Statls_Last[36];
+
+    u8 LED_Status_Set[4];
 
 }GPIO_cfg_Type;
 
