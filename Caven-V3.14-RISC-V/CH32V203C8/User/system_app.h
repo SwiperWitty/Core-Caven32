@@ -26,7 +26,6 @@ enum SYS_CFG_CMD_SUB
     m_SYS_Addr_Order,
     m_SYS_Maketime_Order,
     m_SYS_UART_Order,
-    m_SYS_TRANSPOND_Order,
     m_SYS_TIME_Order,
     m_SYS_Heartbeat_Order,
 

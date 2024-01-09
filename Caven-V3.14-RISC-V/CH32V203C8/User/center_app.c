@@ -7,14 +7,15 @@
 #include "center_app.h"
 
 static int GX_TO_Caven_info_Make(GX_info_packet_Type source, Caven_info_packet_Type *target);
-static int Center_send_packet(Caven_info_packet_Type data);
+int Center_send_packet(Caven_info_packet_Type data);
 
 /*
  * Caven-event
  */
 Caven_event_Type SYS_events;
-int LED_BULE_Handle = 0;
-
+int LED_event_Handle = 0;
+int BZZ_event_Handle = 0;
+int GPO_event_Handle = 0;
 
 /*
  * Caven-info
@@ -141,7 +142,7 @@ int Center_State_machine(Caven_Watch_Type time)
 
         out_sys_pack_num ++;
         out_sys_num += SYS_output_packet.Get_num;
-        if (SYS_output_packet.Cmd == 2)
+        if (SYS_output_packet.Cmd == m_CAVEN_BOOT_Order)
         {
             temp_num = 0;
         }
@@ -180,8 +181,9 @@ int Center_State_machine(Caven_Watch_Type time)
         Center_send_packet(SYS_temp_packet);
         Caven_info_packet_clean_Fun(&SYS_temp_packet);
     }
-    Caven_handle_event_Fun(&SYS_events);
-    Heartbeat_Check(time); // 检测心跳
+    Caven_handle_event_Fun(&SYS_events);    // event
+    GPI_Change_Updata_Handle();             // 检测GPI
+    Heartbeat_Check(time);                  // 检测心跳
     return retval;
 }
 
@@ -286,8 +288,13 @@ int Center_Init(void)
     Mode_Use.UART.Receive_Bind_pFun(UART_RS485, UART_RS485_Getrx_Fun);
     Mode_Use.UART.Receive_Bind_pFun(UART_RS232, UART_RS232_Getrx_Fun);
 
-    Caven_new_event_Fun(&SYS_events,LED_BULE_event_task_Fun,&LED_BULE_Handle);
-    Caven_trigger_event_Fun(&SYS_events,LED_BULE_Handle,0x01);
+    Caven_new_event_Fun(&SYS_events,LED_event_task_Fun,&LED_event_Handle);
+    Caven_trigger_event_Fun(&SYS_events,LED_event_Handle,0x01);
+    Caven_new_event_Fun(&SYS_events,BZZ_event_task_Fun,&BZZ_event_Handle);
+//    Caven_trigger_event_Fun(&SYS_events,BZZ_event_Handle,0x01);
+    Caven_new_event_Fun(&SYS_events,GPO_event_task_Fun,&GPO_event_Handle);
+//    Caven_trigger_event_Fun(&SYS_events,GPO_event_Handle,0x01);
+
 
     MCU_Status_Event.Status_flag = m_CAVEN_IDLE_Stat;
     return retval;
@@ -307,8 +314,8 @@ int GX_TO_Caven_info_Make(GX_info_packet_Type source, Caven_info_packet_Type *ta
         temp_packet.Versions = 1;
         temp_packet.Type = 3;
         temp_packet.Addr = 0;
-        temp_packet.Cmd = 1;
-        temp_packet.Cmd_sub = m_SYS_TRANSPOND_Order;
+        temp_packet.Cmd = m_CAVEN_FEATURE_Order;
+        temp_packet.Cmd_sub = m_GPIO_TRANSPOND_Order;
         temp_packet.Comm_way = 0;           // 发给系统串口
 
         temp_packet.Result = 0;
@@ -325,17 +332,19 @@ int GX_TO_Caven_info_Make(GX_info_packet_Type source, Caven_info_packet_Type *ta
 }
 
 
-
+/*
+ * a一个发送Caven_info_packet_Type包的函数（一般）
+ */
 int Center_send_packet(Caven_info_packet_Type data)
 {
     int retval = 0;
     unsigned char temp_buff[BUFF_MAX];
     int buff_size = 0;
-
-    if ((data.Result == m_Result_Back_Succ) || (data.Result == m_Result_Back_Vers) ||       \
-            (data.Result == m_Result_Back_CMD) || (data.Result == m_Result_Back_CMDS) ||    \
-            (data.Result == m_Result_Back_Leng) || (data.Result == m_Result_Back_CRC) ||    \
-            (data.Result == m_Result_Back_Other) || (data.Result == m_Result_Back_Empty))
+    int Result = data.Result & 0x0f;
+    if ((Result == m_Result_Back_Succ) || (Result == m_Result_Back_Vers) ||       \
+            (Result == m_Result_Back_CMD) || (Result == m_Result_Back_CMDS) ||    \
+            (Result == m_Result_Back_Leng) || (Result == m_Result_Back_CRC) ||    \
+            (Result == m_Result_Back_Other) || (Result == m_Result_Back_Empty))
     {
         buff_size = Caven_info_Split_packet_Fun(data, temp_buff);
     }

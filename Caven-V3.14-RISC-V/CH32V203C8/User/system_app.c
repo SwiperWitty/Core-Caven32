@@ -83,47 +83,6 @@ Caven_info_packet_Type SYS_Versions_Get(Caven_info_packet_Type data)
     return retval;
 }
 
-/*
- * 消息的完全转发
- */
-Caven_info_packet_Type Data_TRANSPOND_Order(Caven_info_packet_Type data)
-{
-    Caven_info_packet_Type retval = data;
-    u8 Open_ID;
-    DESTROY_DATA(buff_array, sizeof(buff_array));
-
-    if (data.dSize > 0)
-    {
-        memcpy(buff_array, data.p_Data, data.dSize);
-        Open_ID = buff_array[0];
-        switch (Open_ID)
-        {
-        case 0: // 自动
-            Mode_Use.UART.Send_Data_pFun(Sys_cfg.Last_Comm, &buff_array[1], (data.dSize - 1));
-            retval.Result = RESULT_DEFAULT;
-            break;
-        case 1: // RS232
-//            Mode_Use.UART.Send_Data_pFun(UART_RS232, &buff_array[1], (data.dSize - 1));
-            MODE_UART_DMA_Send_Data_Fun(UART_RS232, &buff_array[1], (data.dSize - 1));
-            retval.Result = RESULT_DEFAULT;
-            break;
-        case 2: // RS485
-            Mode_Use.UART.Send_Data_pFun(UART_RS485, &buff_array[1], (data.dSize - 1));
-            retval.Result = RESULT_DEFAULT;
-            break;
-        case 3: // weigen
-
-            retval.Result = RESULT_DEFAULT;
-            break;
-        default:
-            retval.dSize = 0;
-            retval.Result = m_Result_Back_Other;
-            break;
-        }
-    }
-    return retval;
-}
-
 Caven_info_packet_Type system_handle(Caven_info_packet_Type data)
 {
     Caven_info_packet_Type retval = data;
@@ -144,9 +103,6 @@ Caven_info_packet_Type system_handle(Caven_info_packet_Type data)
     case m_SYS_Maketime_Order:
         break;
     case m_SYS_UART_Order:
-        break;
-    case m_SYS_TRANSPOND_Order:
-        retval = Data_TRANSPOND_Order(data);
         break;
     case m_SYS_Heartbeat_Order:
         Heartbeat_Set(&Sys_cfg.Heartbeat_Run);
@@ -248,7 +204,7 @@ void Heartbeat_Set(int *run_num)
 }
 
 static Task_Overtime_Type Heartbeat_Task = {
-    .Switch = 0,            // 任务开关
+    .Switch = 1,            // 任务开关
     .Begin_time = {0},
     .Set_time.second = 1,
     .Set_time.time_us = 0,
@@ -259,6 +215,7 @@ void Heartbeat_Check(Caven_Watch_Type time)
     API_Task_Timer(&Heartbeat_Task, time);
     if (Heartbeat_Task.Trigger_Flag)
     {
+        Heartbeat_Task.Trigger_Flag = 0;
         Sys_cfg.Heartbeat_Run++;
         if ((Sys_cfg.Heartbeat_Run > Sys_cfg.Heartbeat_NUM) && (Sys_cfg.Heartbeat_NUM != 0))
         {
@@ -283,16 +240,16 @@ void Heartbeat_Send(int time)
      .Versions = 1,
      .Type = 3,
      .Addr = 0,
-     .Cmd = 1,
-     .Cmd_sub = 8,
+     .Cmd = m_CAVEN_SYS_Order,
+     .Cmd_sub = m_SYS_Heartbeat_Order,
      .dSize = 0,
-     .p_Data = buff_data,
-     .Result = 0,
+     .Result = m_Result_Back_Empty,
     };
     if (time == 0) {
         MCU_Heartbeat_packet.dSize = 0;
     }
     else {
+        Caven_info_packet_index_Fun(&MCU_Heartbeat_packet,buff_data);
         MCU_Heartbeat_packet.dSize = 3;
         buff_data[0] = 1;
         buff_data[1] = (time >> 8) & 0xff;
