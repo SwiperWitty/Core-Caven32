@@ -189,6 +189,6 @@ void system_clock_config(void)
 #elif Ext_HSCLK
     system_clock_hext_config();     //Ext_HSCLK
 #else 
-    system_clock_hick_config();     //Ä¬ÈÏÄÚ²¿¸ßËÙÊ±ÖÓ
+    system_clock_hick_config();     // é»˜è®¤å†…éƒ¨é«˜é€Ÿæ—¶é’Ÿ
 #endif
 }
