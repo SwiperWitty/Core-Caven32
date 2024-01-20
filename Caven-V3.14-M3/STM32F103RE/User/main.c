@@ -30,12 +30,7 @@ void Delay(int i)
 int main(void)
 {
 	Main_Init();
-	struct _Over_time LED = {
-	   .Now_Time = &SYS_Time.Watch,
-	   .Now_data = &led,
-	   .Set_Time.second = 1,
-	   .Set_Time.time_us = 0,
-	};
+
 
 	while (1)
 	{

@@ -18,7 +18,6 @@ return   : retval
 ** 5.retval = 其他   获取中(包含没开始retval = 0)
 */
 
-static int GX_info_packet_fast_clean_Fun(GX_info_packet_Type *target);
 
 
 int GX_info_Make_packet_Fun(GX_info_packet_Type const standard, GX_info_packet_Type *target, unsigned char data)
@@ -61,12 +60,15 @@ int GX_info_Make_packet_Fun(GX_info_packet_Type const standard, GX_info_packet_T
         temp_packet.Run_status++;
 
         break;
-    case 2: /* Type */
+    case 2: /* Versions */
         tepm_pData[temp_packet.Get_num++] = data;
         temp_packet.Prot_W_Versions = data;
         if (temp_packet.Prot_W_Versions <= standard.Prot_W_Versions)
         {
             temp_packet.Run_status++;
+        }
+        else {
+            temp_packet.Run_status = -temp_packet.Run_status;
         }
         break;
     case 3: /* 485_flag & data_flag & Class*/
@@ -218,23 +220,41 @@ Caven_info_Split_packet_Fun
 return   : retval
 ** retval = 返回数据目标split出的长度
 */
-int GX_info_Split_packet_Fun(GX_info_packet_Type const source, unsigned char *data)
+int GX_info_rest_data_packet_Fun(GX_info_packet_Type *target, unsigned char *data,int Add_Num)
 {
     int retval;
-//    int temp;
-//    int getnum;
-#ifdef BUFF_MAX
-//    unsigned char array[BUFF_MAX];
-#else
-    unsigned char array[300];
-#endif
-
-    if (data == NULL || ((source.p_Data == NULL) && (source.dSize != 0)))
+    int Offset_num;
+    int temp;
+    if (data == NULL || (target->p_Data == NULL))
     {
         retval = (-1);
     }
     else
     {
+        if (target->Prot_W_485Type) {
+            Offset_num = 8;
+        }
+        else {
+            Offset_num = 7;
+        }
+        memcpy(target->p_Data + Offset_num,data,Add_Num);
+        if (target->Get_num < 9) {
+            target->Get_num = 9;
+        }
+        temp = target->Get_num - target->dSize;
+        target->dSize = Add_Num;
+        target->Get_num = temp + target->dSize;
+
+        temp = target->dSize;
+        target->p_Data[Offset_num - 2] = ((temp >> 8) & 0xff);
+        target->p_Data[Offset_num - 1] = ((temp) & 0xff);
+
+        Offset_num = target->Get_num - 1 - 2;
+        temp = CRC16_CCITT_CalculateBuf(target->p_Data+1, Offset_num);
+        Offset_num = target->Get_num;
+        target->p_Data[Offset_num - 2] = ((temp >> 8) & 0xff);
+        target->p_Data[Offset_num - 1] = ((temp) & 0xff);
+        target->End_crc = temp;
     }
     return retval;
 }

@@ -10,18 +10,13 @@
 * microcontroller manufactured by Nanjing Qinheng Microelectronics.
 *******************************************************************************/
 /*
- * 主频使用96mhz，这样操作flash不需要降频，同时可以使用USB。
- *
+   *    主频使用96mhz，这样操作flash不需要降频，同时可以使用USB。
+ *  2v1
  */
 #include "main.h"
 
-u32 run_num = 0;
 u8 send_array[64];
-
-void send_modbus (void *data,int length)
-{
-    Mode_Use.UART.Send_Data_pFun(UART_SYS,(u8 *)data,length);
-}
+int run_num;
 
 int main(void)
 {
@@ -34,38 +29,27 @@ int main(void)
             .Switch = 1,
             .Begin_time = now_time,
             .Set_time.second = 1,
-            .Set_time.time_us = 500000,
+            .Set_time.time_us = 5000,
+            .Flip_falg = 1,
     };
-    Mode_Use.LED.SET_pFun(1,ENABLE);
 
-//    run_num = Modbus_rtu_info_Split_packet_Fun (test_data,send_array);
-//    Mode_Use.UART.Send_Data_pFun(UART_SYS,send_array,run_num);
-    run_num = 0;
     while(1)
     {
         now_time = Mode_Use.TIME.Get_Watch_pFun();
 //        printf("sys time: %d : %d : %d , %d (us)\n",now_time.hour,now_time.minutes,now_time.second,now_time.time_us);
 
         API_Task_Timer (&LED_Task,now_time);        // LED任务
-        if (LED_Task.Trigger_Flag)
-        {
-            run_num++;
-            if (run_num % 2) {
-                Mode_Use.LED.SET_pFun(1,ENABLE);
-            }
-            else {
-                Mode_Use.LED.SET_pFun(1,DISABLE);
-            }
-        }
+        Mode_Use.LED.SET_pFun(1,LED_Task.Flip_falg);
 
         if(Center_State_machine(now_time))          // 状态机入口
         {
-            break;          // 状态机退出,程序重启
+            break;                                  // 状态机退出,程序重启
         }
-
     }
+
     SYS_RESET();
 }
+
 
 
 void Main_Init(void)
@@ -79,7 +63,6 @@ void Main_Init(void)
     Center_Init();
 
 //    printf("SystemClk:%d \r\n", MCU_SYS_FREQ);
-//    Mode_Use.TIME.Delay_Ms(500);
 }
 
 

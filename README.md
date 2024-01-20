@@ -12,9 +12,27 @@ _____
 
 本设计仅供于学习、参考，不可商用和水毕业论文（参与开发者随意）！
 
+跟新日志：
+
+2020.开始创建
+
+2021.框架稳定
+
+2022.驱动
+
+2024.开始收尾
+
+
+
+_____
+
+首先，要先确认Caven 3.14上面的CH549芯片是否有固件/驱动。
+
+<img src="https://gitee.com/Swiper_witty/caven_img/raw/master/img/202401201508119.png" alt="image-20240120150855037" style="zoom:50%;" />
+
+如果没用，请到这个文件夹下面查看使用说明！
+
 ![image-20230802143110689](https://gitee.com/Swiper_witty/caven_img/raw/master/img/202308021431731.png)
-
-
 
 ______
 
@@ -30,40 +48,44 @@ ______
 
 
 
+**关于有些小白直接下载压缩包**
+
+如果你直接下载，它里面会缺少[Caven-MCU_Lib]文件的内容，因为[Caven-MCU_Lib]文件是子模块。解决办法是git 下载这个子模块手动copy到[Core-Caven32]文件夹，但是这样极其愚蠢，我是不推荐的，而且没法获取代码更新。
+
+![image-20240120151722408](https://gitee.com/Swiper_witty/caven_img/raw/master/img/202401201517453.png)
+
 **关于git 下载此项目**
 
 ​	因为这个工程里面有子模块（就是上面那个子模块链接，以防呆瓜不看，再说一遍），所以**使用之前**要从`\Core-Caven32`文件`cd`到`\Caven-MCU_Lib`
 
 ~~~shell
 git clone --recursive https://github.com/SwiperWitty/Core-Caven32.git
-#推荐使用这个，一步到位。
 cd .\Caven-MCU_Lib\
-git submodule update --init --recursive
-git branch
-git checkout main
+git branch				// 查看分支
+git checkout main		// 切换到主分支
 
 cd ..
+// ok了
 ~~~
 
-
+如果你发现[Caven-MCU_Lib]文件夹是空的，那么你就需要执行下面的命令
 
 ~~~shell
-git clone https://github.com/SwiperWitty/Core-Caven32.git
-
-cd .\Core-Caven32\
-git branch
+//在Core-Caven32文件夹下的命令行
 
 cd .\Caven-MCU_Lib\
 git submodule update --init --recursive
+// 如果没反应
+git pull
+// 如果还是没反应，那就应该去看git子模块使用方法
+// 如果成功了，接下来执行切换到主分支
 git branch
 git checkout main
 
 cd ..
 ~~~
 
-
-
-![image-20230802141749444](https://gitee.com/Swiper_witty/caven_img/raw/master/img/202308021417513.png)
+其他疑问：
 
 如果`port 443 after : Timed out`，你可以试试
 
@@ -78,6 +100,10 @@ git config --global http.proxy http://127.0.0.1:7890
 ~~~~shell
 git config --global --unset http.proxy
 ~~~~
+
+
+
+![image-20230802141749444](https://gitee.com/Swiper_witty/caven_img/raw/master/img/202308021417513.png)
 
 
 

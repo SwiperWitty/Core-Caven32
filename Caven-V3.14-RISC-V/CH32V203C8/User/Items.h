@@ -32,7 +32,9 @@
 #define OPEN_1101   0x0d
 #define OPEN_1110   0x0e
 #define OPEN_1111   0x0f
-
+#define OPEN_10000  0x10
+#define OPEN_11110  0x1E
+#define OPEN_11111  0x1f
 
 #ifndef Exist_SYS_TIME
     #define Exist_SYS_TIME      // 一定存在
@@ -48,7 +50,7 @@
 //#define Exist_ADC
 //#define Exist_DAC
 
-#define Exist_UART      OPEN_1110   // 串口1、2、3
+#define Exist_UART      OPEN_11110  // 串口1、2、3
 //#define Exist_IIC
 //#define Exist_SPI     OPEN_0100   // SPI 2
 //#define Exist_USB

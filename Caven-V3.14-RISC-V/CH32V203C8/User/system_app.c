@@ -1,181 +1,43 @@
-/*
- * system_app.c
- *
- *  Created on: 2023年11月29日
- *
- */
-
 #include "system_app.h"
 
-system_cfg_Type Sys_cfg;
-static u8 buff_array[BUFF_MAX]; // buff缓冲区
-static void Heartbeat_Set(int *run_num);
-
-static void Flash_verify(system_cfg_Type *system_cfg)
-{
-    system_cfg_Type default_Sys_cfg = {
-        .Verify_Head = 0x00A8,
-        .Verify_End = 0x005F,
-
-        .Info_packet_Type = 0xFA8A, // caven
-        .Addr = 0X01,
-        .Versions = {0, 0, 1, 0},
-        .Equipment = "WCH-GPIO-000001",
-        .Maketime = "2023.11.29",
-
-        .Modbus = 0,
+/*
+ * SYS
+ */
+SYS_cfg_Type s_SYS_Config = {
+        .SYS_Baud = 460800,
+        .RFID_Baud = 115200,
         .RS232_Baud = 115200,
         .RS485_Baud = 115200,
-        .SYS_COM_Baud = 460800,     //230400 460800 921600
-        .RS232_SET = 1,
-        .RS485_SET = 1,
-        .SYS_COM_SET = 1,
-        .Last_Comm = UART_RS232,
+        .RS232_Mode = 0,
+        .RS485_Baud = 0,
 
-        .Run_TIME = {0},
-        .Heartbeat_NUM = 30,
-        .Heartbeat_Run = 0,
-        .MCU_Status = 0,
-
-    };
-    system_cfg_Type temp_Sys_cfg = {0};
-    if ((temp_Sys_cfg.Verify_Head == default_Sys_cfg.Verify_Head) && (temp_Sys_cfg.Verify_End == default_Sys_cfg.Verify_End))
-    {
-        temp_Sys_cfg.Heartbeat_Run = 0;
-        temp_Sys_cfg.MCU_Status = 0;
-        *system_cfg = temp_Sys_cfg;
-    }
-    else
-    {
-        *system_cfg = default_Sys_cfg;
-        // save
-    }
-}
-
-Caven_info_packet_Type SYS_Versions_Get(Caven_info_packet_Type data)
-{
-    Caven_info_packet_Type retval = data;
-    int run_num = 0;
-    u8 Open_ID;
-
-    DESTROY_DATA(buff_array, sizeof(buff_array));
-    if (data.dSize > 0)
-    {
-        memcpy(buff_array, retval.p_Data, retval.dSize);
-        Open_ID = buff_array[run_num];
-        switch (Open_ID)
-        {
-        case 1:
-            buff_array[(++run_num)] = Sys_cfg.Versions[run_num] + '0';
-            buff_array[(++run_num)] = Sys_cfg.Versions[run_num] + '0';
-            buff_array[(++run_num)] = Sys_cfg.Versions[run_num] + '0';
-            buff_array[(++run_num)] = Sys_cfg.Versions[run_num] + '0';
-            memcpy(retval.p_Data, buff_array, run_num);      // 修改了传参[data]的p_Data。
-            retval.dSize = run_num;
-            retval.Result = 0; // 问版本是要回的
-            break;
-        default:
-            retval.dSize = 0;
-            retval.Result = m_Result_Back_Other;
-            break;
-        }
-    }
-    return retval;
-}
-
-Caven_info_packet_Type system_handle(Caven_info_packet_Type data)
-{
-    Caven_info_packet_Type retval = data;
-
-    switch (data.Cmd_sub)
-    {
-    case m_SYS_TEST_Order:
-        //            retval = data;
-        retval.Result = 0;
-        break;
-    case m_SYS_Versions_Order:
-        retval = SYS_Versions_Get(data);
-        break;
-    case m_SYS_Equipment_Order:
-        break;
-    case m_SYS_Addr_Order:
-        break;
-    case m_SYS_Maketime_Order:
-        break;
-    case m_SYS_UART_Order:
-        break;
-    case m_SYS_Heartbeat_Order:
-        Heartbeat_Set(&Sys_cfg.Heartbeat_Run);
-        retval.dSize = 0;
-        retval.Result = m_Result_Fail_Empty;
-        break;
-    default:
-        retval.dSize = 0;
-        retval.Result = m_Result_Back_CMDS;
-        break;
-    }
-
-    return retval;
-}
-
-Caven_info_packet_Type bootloader_handle(Caven_info_packet_Type data)
-{
-    Caven_info_packet_Type retval = data;
-
-    switch (data.Cmd_sub)
-    {
-    case m_BOOT_TEST_Order:
-        //            retval = data;
-        retval.Result = 0;
-        break;
-    case m_BOOT_Start_Order:
-        break;
-    case m_BOOT_Data_Order:
-        break;
-    case m_BOOT_End_Order:
-        break;
-    case m_BOOT_Get_Order:
-        break;
-    case m_BOOT_RST_Order:
-        Mode_Use.LED.SET_pFun(1, DISABLE);
-        SYS_RESET();
-        break;
-    case m_BOOT_Debug_Order:
-        break;
-    default:
-        retval.dSize = 0;
-        retval.Result = m_Result_Back_CMDS;
-        break;
-    }
-
-    return retval;
-}
+        .Connect_passage = UART_RS232,
+        .SYS_Run_Status = 0,
+        .Heartbeat_MAX = 30,
+        .SYS_Rst = 0,
+        .RS232_Flag = 0,
+        .combination_version_Flag = 0,
+        .SYS_version_len = 0,
+        .RFID_version_len = 0,
+};
+unsigned char sys_pack_array[BUFF_MAX];
+unsigned char send_buff[BUFF_MAX];
 
 void system_init(void)
 {
-    // Flash
-    Flash_verify(&Sys_cfg);
-    // GPIO
-
     // UART
-    if (Sys_cfg.SYS_COM_SET == 1)
-    {
-        Mode_Init.UART(UART_SYS, Sys_cfg.SYS_COM_Baud, ENABLE);
-        Mode_Use.UART.Send_String_pFun(UART_SYS, "UART_SYS:hello world ! \n");
-    }
-    if (Sys_cfg.RS485_SET == 1)
-    {
-        Mode_Init.UART(UART_RS485, Sys_cfg.RS485_Baud, ENABLE);
-        Mode_Use.UART.Send_String_pFun(UART_RS485, "RS485:hello world ! \n");
-    }
-    if (Sys_cfg.RS232_SET == 1)
-    {
-        Mode_Init.UART(UART_RS232, Sys_cfg.RS232_Baud, ENABLE);
-        Mode_Use.UART.Send_String_pFun(UART_RS232, "RS232:hello world ! \n");
-        Base_UART_DMA_Send_Data(UART_RS232,"this is dma send data \n",sizeof("this is dma send data \n"));
-    }
+    s_SYS_Config.RFID_Baud = s_SYS_Config.RS232_Baud;
+    Mode_Init.UART(UART_SYS, s_SYS_Config.SYS_Baud, ENABLE);
+    Mode_Use.UART.Send_String_pFun(UART_SYS, "UART_SYS:hello world ! \n");
 
-    // Wiegand
+    Mode_Init.UART(UART_RFID, s_SYS_Config.RFID_Baud, ENABLE);
+    Mode_Use.UART.Send_String_pFun(UART_RFID, "RFID:hello world ! \n");
+
+    Mode_Init.UART(UART_RS232, s_SYS_Config.RS232_Baud, ENABLE);
+    Mode_Use.UART.Send_String_pFun(UART_RS232, "RS232:hello world ! \n");
+    Base_UART_DMA_Send_Data(UART_RS232,"this is dma send data \n",sizeof("this is dma send data \n"));
+
+    // gpio
     Custom_GPIO_Init(ENABLE);
     // BZZ
     Mode_Init.BZZ(ENABLE);
@@ -194,32 +56,85 @@ void system_init(void)
     };
     Mode_Use.TIME.Set_Date_pFun(set_date);
     Mode_Use.TIME.Set_Watch_pFun(set_time);
+    Heartbeat_Set();
+
+    s_SYS_Config.SYS_version[0] = 0x01;
+    s_SYS_Config.SYS_version[1] = 0x00;s_SYS_Config.SYS_version[2] = 0x02;s_SYS_Config.SYS_version[3] = 0x00;s_SYS_Config.SYS_version[4] = 0x01;
+    s_SYS_Config.SYS_version[5] = 0x02;
+    s_SYS_Config.SYS_version[6] = 0x00;s_SYS_Config.SYS_version[7] = 0x09;
+    s_SYS_Config.SYS_version_len += 8;
+    memcpy(&s_SYS_Config.SYS_version[8],"E110X_MCU",s_SYS_Config.SYS_version[7]);
+    s_SYS_Config.SYS_version_len += s_SYS_Config.SYS_version[7];
 }
 
-void Heartbeat_Set(int *run_num)
+/*
+ * 0.最耗时的函数
+ */
+int GX_send_packet(GX_info_packet_Type const source)
 {
-    int temp_num = 0;
+    int retval = 0;
+
+    if (source.p_Data != NULL)
+    {
+        memcpy(send_buff,source.p_Data,source.Get_num);
+
+        switch (source.Comm_way) {
+            case UART_SYS:
+                Mode_Use.UART.Send_Data_pFun(source.Comm_way,send_buff,source.Get_num);
+                break;
+            case UART_RFID:
+                Mode_Use.UART.Send_Data_pFun(source.Comm_way,send_buff,source.Get_num);
+                break;
+            case UART_RS232:
+                if (s_SYS_Config.RS232_Mode == 0) {
+                    Mode_Use.UART.Send_Data_pFun(source.Comm_way,send_buff,source.Get_num);
+                }
+                break;
+            case UART_RS485:
+                if (s_SYS_Config.RS485_Mode == 0) {
+                    Mode_Use.UART.Send_Data_pFun(source.Comm_way,send_buff,source.Get_num);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    else {
+        retval = -1;
+    }
+
+    return retval;
+}
+
+/*
+ * 0 sys通道有效
+ * Heartbeat
+ */
+int Heartbeat_Set(void)
+{
+    int retval = 0;
+
     Mode_Use.LED.SET_pFun(1, DISABLE);
-    *run_num = temp_num;
+    s_SYS_Config.Heartbeat_Run = 0;
+    return retval;
 }
 
 static Task_Overtime_Type Heartbeat_Task = {
-    .Switch = 1,            // 任务开关
+    .Switch = 0,            // 任务开关
     .Begin_time = {0},
     .Set_time.second = 1,
     .Set_time.time_us = 0,
-
 };
-void Heartbeat_Check(Caven_Watch_Type time)
+void Heartbeat_Check(Caven_Watch_Type const time)
 {
     API_Task_Timer(&Heartbeat_Task, time);
     if (Heartbeat_Task.Trigger_Flag)
     {
         Heartbeat_Task.Trigger_Flag = 0;
-        Sys_cfg.Heartbeat_Run++;
-        if ((Sys_cfg.Heartbeat_Run > Sys_cfg.Heartbeat_NUM) && (Sys_cfg.Heartbeat_NUM != 0))
+        s_SYS_Config.Heartbeat_Run++;
+        if (s_SYS_Config.Heartbeat_Run > s_SYS_Config.Heartbeat_MAX)
         {
-            Sys_cfg.Heartbeat_Run = 0;
+            s_SYS_Config.Heartbeat_Run = 0;
             RSTIC_H();
             printf("RST IC ! \n");
             Mode_Use.LED.SET_pFun(1, DISABLE);
@@ -230,32 +145,106 @@ void Heartbeat_Check(Caven_Watch_Type time)
     }
 }
 
-void Heartbeat_Send(int time)
+void GX_force_Send_packet (u8 W_Class, u8 W_MID, u8 Comm_way, u8 *data, u16 dSize, u8 DFlag)
+{
+    int run_num = 0;
+    u8 temp_array[350];
+    GX_info_packet_Type temp_packet = {
+        .Head = 0x5A,
+        .Prot_W_Type = 0,
+        .Prot_W_Versions = 1,
+        .Prot_W_485Type = 0,
+        .Prot_W_DFlag = DFlag,
+        .Prot_W_Class = W_Class,
+        .Prot_W_MID = W_MID,
+        .dSize = dSize,
+        .Addr = s_SYS_Config.RS485_Addr,
+        .Comm_way = Comm_way,
+    };
+    if (Comm_way == UART_RS485) {
+        temp_packet.Prot_W_485Type = 1;
+    }
+    temp_array[run_num++] = temp_packet.Head;
+    temp_array[run_num++] = temp_packet.Prot_W_Type;
+    temp_array[run_num++] = temp_packet.Prot_W_Versions;
+    temp_array[run_num++] = (0x20 & temp_packet.Prot_W_485Type << 5) | (0x10 & temp_packet.Prot_W_DFlag << 4) | (0x0f & temp_packet.Prot_W_Class);
+    temp_array[run_num++] = temp_packet.Prot_W_MID;
+    if (temp_packet.Prot_W_485Type) {
+        temp_array[run_num++] = temp_packet.Addr;
+    }
+    temp_array[run_num++] = (temp_packet.dSize >> 8) & 0xff;
+    temp_array[run_num++] = (temp_packet.dSize >> 0) & 0xff;
+    if (dSize > 0) {
+        memcpy(&temp_array[run_num],data,dSize);
+        run_num += dSize;
+    }
+    temp_packet.End_crc = CRC16_CCITT_CalculateBuf(&temp_array[1], run_num - 1);
+    temp_array[run_num++] = (temp_packet.End_crc >> 8) & 0xff;
+    temp_array[run_num++] = (temp_packet.End_crc >> 0) & 0xff;
+    temp_packet.Get_num = run_num;
+
+    GX_info_packet_index_Fun(&temp_packet,temp_array);
+    GX_send_packet(temp_packet);
+}
+
+void RS232_Baud_event_task_Fun (void * data)
+{
+    int temp_data = *(int *)data;
+    u16 run_num = 0;
+
+    if (temp_data)
+    {
+        switch (temp_data) {
+            case 1:             // 返回强制修改
+
+                break;
+            case 2:             // 返回成功
+                sys_pack_array[run_num++] = 0;
+                GX_force_Send_packet (1, config_reader_serial_params_order, s_SYS_Config.Connect_passage, sys_pack_array, run_num, 0);
+                run_num = 0;
+                sys_pack_array[run_num++] = s_SYS_Config.RS232_Baud_Type;
+                GX_force_Send_packet (1, config_reader_serial_params_order, UART_SYS, sys_pack_array, run_num, 1);      // 向ESP32备份
+                break;
+            case 3:             // 返回失败
+                sys_pack_array[run_num++] = 1;
+                GX_force_Send_packet (1, config_reader_serial_params_order, s_SYS_Config.Connect_passage, sys_pack_array, run_num, 0);
+                break;
+            default:
+                break;
+        }
+        if (temp_data != 3) {
+            Mode_Use.TIME.Delay_Ms(10);
+            s_SYS_Config.RFID_Baud = s_SYS_Config.RS232_Baud;
+            Mode_Init.UART(UART_RFID, s_SYS_Config.RFID_Baud, ENABLE);
+            Mode_Init.UART(UART_RS232, s_SYS_Config.RS232_Baud, ENABLE);
+        }
+        s_SYS_Config.RS232_Flag = 0;
+    }
+    *(int *)data = 0;
+}
+
+void MCU_query_SYS_version (void)
+{
+    GX_force_Send_packet (1, query_reader_params_order, UART_SYS, "0", 0, 0);
+}
+
+void MCU_Combination_version_Updata_Handle (void)
 {
     int temp_num;
-    unsigned char buff_array[BUFF_MAX];
-    unsigned char buff_data[BUFF_MAX];
-    Caven_info_packet_Type MCU_Heartbeat_packet = {
-     .Head = 0xFA8A,
-     .Versions = 1,
-     .Type = 3,
-     .Addr = 0,
-     .Cmd = m_CAVEN_SYS_Order,
-     .Cmd_sub = m_SYS_Heartbeat_Order,
-     .dSize = 0,
-     .Result = m_Result_Back_Empty,
-    };
-    if (time == 0) {
-        MCU_Heartbeat_packet.dSize = 0;
+    int run_num = 0;
+
+    if (s_SYS_Config.combination_version_Flag == 2)
+    {
+        temp_num = s_SYS_Config.RFID_version_len;
+        memcpy(&sys_pack_array[run_num],s_SYS_Config.RFID_version,temp_num);
+        run_num += temp_num;
+        temp_num = s_SYS_Config.SYS_version_len;
+        memcpy(&sys_pack_array[run_num],s_SYS_Config.SYS_version,temp_num);
+        run_num += temp_num;
+
+        GX_force_Send_packet (1, query_reader_params_order, s_SYS_Config.Connect_passage, sys_pack_array, run_num, 0);
+        s_SYS_Config.combination_version_Flag = 0;
     }
-    else {
-        Caven_info_packet_index_Fun(&MCU_Heartbeat_packet,buff_data);
-        MCU_Heartbeat_packet.dSize = 3;
-        buff_data[0] = 1;
-        buff_data[1] = (time >> 8) & 0xff;
-        buff_data[2] = (time) & 0xff;
-    }
-    temp_num = Caven_info_Split_packet_Fun(MCU_Heartbeat_packet, buff_array);
-    Mode_Use.UART.Send_Data_pFun(UART_SYS,buff_array,temp_num);
 }
+
 
