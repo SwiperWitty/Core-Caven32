@@ -44,10 +44,10 @@ void Main_Init(void)
 	Mode_Use.Steering_Engine.Set_Angle(1,0);
 	Mode_Use.Steering_Engine.Set_Angle(2,90);
 	
-	TIM3_PWM_Start_Init(20,1440,ENABLE);
-	TIM3_PWMx_SetValue(1,0);
+	TIM3_PWM_Start_Init(1000,12,ENABLE);
+	TIM3_PWMx_SetValue(1,500);
 	User_GPIO_Init(ENABLE);
-	PD_Set_Mode (2);
+	PD_Set_Mode (3);
 	
 #ifdef PICTURE
 	Mode_Use.LCD.Show_Picture_pFun(0,0,240,240,Photo2);     //Photo
