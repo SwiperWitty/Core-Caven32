@@ -4,6 +4,7 @@
         "base.h": "c",
         "time_handle.h": "c",
         "caven.h": "c",
-        "items.h": "c"
+        "items.h": "c",
+        "base_uart.h": "c"
     }
 }
