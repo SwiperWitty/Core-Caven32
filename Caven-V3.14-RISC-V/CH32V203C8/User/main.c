@@ -17,6 +17,7 @@
 
 u8 send_array[64];
 int run_num;
+float float_array[10];
 
 int main(void)
 {
@@ -32,7 +33,8 @@ int main(void)
             .Set_time.time_us = 5000,
             .Flip_falg = 1,
     };
-
+    Vofa_JustFloat_Init_Fun (2,Debug_Out);
+    float_array[1] = 3.3;
     while(1)
     {
         now_time = Mode_Use.TIME.Get_Watch_pFun();
@@ -45,6 +47,12 @@ int main(void)
         {
             break;                                  // 状态机退出,程序重启
         }
+        float_array[0] += 1.133;
+        if (float_array[0] > 10) {
+            float_array[0] = 0;
+        }
+        Vofa_JustFloat_Show_Fun (float_array);
+        Mode_Use.TIME.Delay_Ms(10);
     }
 
     SYS_RESET();
