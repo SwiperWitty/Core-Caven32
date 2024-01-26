@@ -84,7 +84,7 @@
 //#define Exist_LED
 //#define Exist_BZZ
 
-#define Exist_ADC
+// #define Exist_ADC
 //#define Exist_DAC
 
 #define Exist_UART

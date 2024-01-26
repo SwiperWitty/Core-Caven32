@@ -483,6 +483,11 @@
           <GroupName>Mode</GroupName>
           <Files>
             <File>
+              <FileName>Mode.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\Mode.c</FilePath>
+            </File>
+            <File>
               <FileName>MODE_LCD.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_LCD.c</FilePath>
@@ -511,11 +516,6 @@
               <FileName>mlx90614.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\mlx90614.c</FilePath>
-            </File>
-            <File>
-              <FileName>Mode.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\Mode.c</FilePath>
             </File>
             <File>
               <FileName>MODE_Button.c</FileName>
@@ -621,6 +621,11 @@
               <FileName>Time_Handle.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\API\Time_Handle.c</FilePath>
+            </File>
+            <File>
+              <FileName>Vofa_info.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Vofa_info.c</FilePath>
             </File>
           </Files>
         </Group>

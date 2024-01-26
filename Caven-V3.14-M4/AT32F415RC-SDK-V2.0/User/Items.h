@@ -48,7 +48,7 @@
 #define Exist_BZZ
 #define Exist_CustomIO
 
-#define Exist_ADC       OPEN_0001
+// #define Exist_ADC       OPEN_0001
 //#define Exist_DAC
 
 #define Exist_UART      OPEN_11110  // 串口1、2、3

@@ -5,6 +5,7 @@
         "time_handle.h": "c",
         "caven.h": "c",
         "items.h": "c",
-        "base_uart.h": "c"
+        "base_uart.h": "c",
+        "base_adc.h": "c"
     }
 }

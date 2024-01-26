@@ -18,9 +18,9 @@
 
 /*  基本外设就能实现的功能     */
 
-#define OPEN_0001   0x01    // 设备0开启
-#define OPEN_0010   0x02    // 设备1开启
-#define OPEN_0011   0x03    // 设备1、0开启
+#define OPEN_0001   0x01    // 存在设备0
+#define OPEN_0010   0x02    // 存在设备1
+#define OPEN_0011   0x03    // 存在设备1、0
 #define OPEN_0100   0x04	// ...
 #define OPEN_0101   0x05
 #define OPEN_0110   0x06
@@ -48,12 +48,12 @@
 #define Exist_BZZ
 #define Exist_CustomIO
 
-#define Exist_ADC		OPEN_11111
+#define Exist_ADC		OPEN_1101
 //#define Exist_DAC
 
-#define Exist_UART      OPEN_11110  // 串口1、2、3
+#define Exist_UART      OPEN_11110  // 串口
 //#define Exist_IIC
-//#define Exist_SPI     OPEN_0100   // SPI 2
+//#define Exist_SPI     OPEN_0100   // SPI2
 //#define Exist_USB
 //#define Exist_CAN
 
