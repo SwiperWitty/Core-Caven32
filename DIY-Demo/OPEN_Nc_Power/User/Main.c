@@ -13,10 +13,12 @@
 #endif
 
 int temp = 0;
+int show_cycle = 0;
+int yg_lock = 0; 
 
 char array_buff[300];
 u16 ADC_array[10];
-float Val_set = 0,Val_set_temp;
+float Val_set = 0,Val_set_temp = 6.0;
 float Val_MAX = 0;
 float Val_array[10];
 
@@ -28,13 +30,14 @@ float Val_array[10];
 #define Val_ELE     5
 
 #define YG_DEFAULT	50
-#define YG_DIF_MIN	20
+#define YG_DIF_MIN	10
 #define YG_DIF_MAX	45
 #define Divider_RES 8.5     // ((75 + 10) / 10) adc * Divider_RES = vcc
 #define MULTIP_RATIO 50     // INA119A1
 #define Sampling_RES 0.005  // 0.005Ω
 #define Sampling_RES_RATIO 200  // (5/1000)(Ω) -> 200(RATIO)
 
+void Simple_SET_Val_Handle (float set_val);
 void SET_Val_Handle (float set_val,float get_val);
 void ADC_Data_Handle (void * data);
 int PD_Set_Mode (char grade);
@@ -44,7 +47,7 @@ int main (void)
 {
     Main_Init();
     sprintf(array_buff,"OPEN Desk Power ");
-    Mode_Use.LCD.Show_String_pFun(3,1,array_buff,LCD_BLUE,LCD_WHITE,24);
+    Mode_Use.LCD.Show_String_pFun(3,1,array_buff,LCD_BLUE,BACK_COLOR,24);
     while(1)
     {
         Val_array[Val_YG_x]  = (0x0fff - ADC_array[Val_YG_x]) / 40;
@@ -57,38 +60,54 @@ int main (void)
         
         Val_MAX = Val_array[Val_Vin];
 		temp = Val_array[Val_YG_x] - YG_DEFAULT;
-        if (temp > YG_DIF_MIN)
+		
+        if ((temp > YG_DIF_MIN) && (yg_lock > 0))		// 左
 		{
-			Val_set_temp += 1;
+			yg_lock = 0;
+			Val_set_temp += 1.0;
 		}
-		else if (-temp > YG_DIF_MIN)
+		else if ((-temp > YG_DIF_MIN) && (yg_lock > 0))	// 右
 		{
-			Val_set_temp -= 1;
+			yg_lock = 0;
+			Val_set_temp -= 1.0;
 		}
+		else if(abs(temp) < YG_DIF_MIN)					// 空闲　
+		{
+			yg_lock++;
+			yg_lock = MIN(yg_lock,100);
+		}
+		Val_set_temp = MIN(Val_set_temp,Val_MAX);
+		Val_set_temp = MAX(Val_set_temp,1);
 
 		if (YG_KEY_STATE() == 0)
 		{
 			Val_set = Val_set_temp;
+			do{
+				
+			}while(YG_KEY_STATE() == 0);
 		}
-		Val_set = MIN(Val_set,Val_MAX);
-		Val_set = MAX(Val_set,1);
+
 		SET_Val_Handle (Val_set,Val_array[Val_Vout]);
 
         Vofa_JustFloat_Show_Fun (Val_array);
-        temp = 3;
-        sprintf(array_buff,"Vin  -> %6.3f V ",Val_array[Val_Vin]);
-        Mode_Use.LCD.Show_String_pFun(2,temp++,array_buff,LCD_RED,LCD_WHITE,24);
-        sprintf(array_buff,"Vout -> %6.3f V ",Val_array[Val_Vout]);
-        Mode_Use.LCD.Show_String_pFun(2,temp++,array_buff,LCD_RED,LCD_WHITE,24);
-        sprintf(array_buff,"TEMP -> %5.3f C ",Val_array[6]);
-        Mode_Use.LCD.Show_String_pFun(2,temp++,array_buff,LCD_BROWN,LCD_WHITE,24);
-        sprintf(array_buff,"ELE  -> %5.3f A ",Val_array[Val_ELE]);
-        Mode_Use.LCD.Show_String_pFun(2,temp++,array_buff,LCD_GREEN,LCD_WHITE,24);
-		sprintf(array_buff,"VAL set :%2.2f(%2.2f)",Val_set,Val_set_temp);
-        Mode_Use.LCD.Show_String_pFun(1,temp++,array_buff,LCD_BLACK,LCD_WHITE,24);
-        sprintf(array_buff,"x:%3.0f,y:%3.0f ",Val_array[Val_YG_x],Val_array[Val_YG_y]);
-        Mode_Use.LCD.Show_String_pFun(4,temp+1,array_buff,LCD_BLACK,LCD_WHITE,24);
-        
+		show_cycle++;
+		if(show_cycle > 10)
+		{
+			show_cycle = 0;
+			temp = 3;
+			sprintf(array_buff,"Vin  -> %6.3f V ",Val_array[Val_Vin]);
+			Mode_Use.LCD.Show_String_pFun(2,temp++,array_buff,LCD_RED,BACK_COLOR,24);
+			sprintf(array_buff,"Vout -> %6.3f V ",Val_array[Val_Vout]);
+			Mode_Use.LCD.Show_String_pFun(2,temp++,array_buff,LCD_RED,BACK_COLOR,24);
+			sprintf(array_buff,"TEMP -> %5.3f C ",Val_array[6]);
+			Mode_Use.LCD.Show_String_pFun(2,temp++,array_buff,LCD_BROWN,BACK_COLOR,24);
+			sprintf(array_buff,"ELE  -> %5.3f A ",Val_array[Val_ELE]);
+			Mode_Use.LCD.Show_String_pFun(2,temp++,array_buff,LCD_GREEN,BACK_COLOR,24);
+			sprintf(array_buff,"VAL set:%4.1f(%4.1f)",Val_set,Val_set_temp);
+			Mode_Use.LCD.Show_String_pFun(1,temp++,array_buff,LCD_BLACK,BACK_COLOR,24);
+			sprintf(array_buff,"x:%3.0f,y:%3.0f ",Val_array[Val_YG_x],Val_array[Val_YG_y]);
+			Mode_Use.LCD.Show_String_pFun(4,temp+1,array_buff,LCD_BLACK,BACK_COLOR,24);
+        }
 //        Mode_Use.TIME.Delay_Ms(100);
     }
 }
@@ -113,7 +132,7 @@ void Main_Init(void)
 	TIM3_PWM_Start_Init(1000,12,ENABLE);
 	TIM3_PWMx_SetValue(1,1000);              
 	User_GPIO_Init(ENABLE);
-	PD_Set_Mode (2);
+	PD_Set_Mode (3);
     
 	Vofa_JustFloat_Init_Fun (7,Debug_Out);     // Vin,Vout,Temp,YG_x,YG_y,YG_key,in_temp
     DC_OUT_OFF();
@@ -125,28 +144,46 @@ void Main_Init(void)
 
 void SET_Val_Handle (float set_val,float get_val)
 {
-	int set_num;
-    static int set_diff_max = 0;
+	int set_num,temp_num;
 	float f_temp = (set_val / 18.0) * 1000;
-	set_num = f_temp;
-    
+	float f_diff_temp = 0;
+	static int set_diff_max = 0;
+	static float Last_set_val;
+	if(Last_set_val != set_val)
+	{
+		DC_OUT_OFF();
+		Last_set_val = set_val;
+		set_diff_max = 0;
+	}
+		
+	set_num = f_temp;				// pwm 
 	f_temp = get_val - set_val;
-	if (fabsf(f_temp) < 0.2)
+	f_diff_temp = fabsf(f_temp);
+	if (f_diff_temp < 0.04)
 	{
 		DC_OUT_ON();		// 启动
 	}
     else					// 调
-    {
-		if (f_temp > 0)
+    {	
+		if (f_diff_temp > 1.0)
 		{
-			set_diff_max -= 5;
+			temp_num = 30;
+		}
+		else if (f_diff_temp > 0.2)
+		{
+			temp_num = 10;
 		}
 		else
 		{
-			set_diff_max += 5;
+			temp_num = 1;
 		}
-        DC_OUT_OFF();
-        set_num = MIN(set_diff_max,100);
+		if(f_temp > 0)
+		{
+			temp_num = -temp_num;
+		}
+			
+		set_diff_max += temp_num;
+        set_diff_max = MIN(set_diff_max,100);		// set_diff_max 微调值最多100
 		
         set_num += set_diff_max;
 		set_num = 1000 - set_num;
@@ -154,7 +191,18 @@ void SET_Val_Handle (float set_val,float get_val)
         TIM3_PWMx_SetValue(1,set_num);
     }
 }
-	
+
+void Simple_SET_Val_Handle (float set_val)
+{
+	int set_num;
+	float f_temp = (set_val / 18.0) * 1000;
+	set_num = f_temp;
+    
+	set_num = 1000 - set_num;
+	set_num = MIN(set_num,1000);
+	TIM3_PWMx_SetValue(1,set_num);
+	DC_OUT_ON();
+}
 
 void ADC_Data_Handle (void * data)
 {
