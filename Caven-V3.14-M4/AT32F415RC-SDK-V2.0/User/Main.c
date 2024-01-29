@@ -1,5 +1,5 @@
 #include "Mode.h"
-#include "pic.h"
+#include "dog_h.h"
 
 /*
             软件文件夹->AT32文件夹->Keil工程
@@ -7,26 +7,38 @@
             云端库文件夹...
 */
 #ifdef PICTURE
-	#define Photo1 0
-	#define Photo2 gImage_pai
+	#define Photo1 gImage_dog_h
+	#define Photo2 0
 #endif
 
 int temp = 0;
-int i;
 
-u8 array_buff[300];
-u8 array_r_temp[300];
-u8 array_t_temp[300];
+char array_buff[300];
+float Val_array[10];
 
+#define Val_YG_x    0
+#define Val_YG_y    1
+#define Val_Vin     2
+#define Val_Vout    3
+#define Val_Temp    4
+#define Val_ELE     5
 
 void Main_Init(void);
+
 int main (void)
 {
     Main_Init();
-
     while(1)
     {
-
+        Val_array[Val_YG_x]  = 1;
+        Val_array[Val_YG_y] = 2;
+        Val_array[Val_Vin] = 3;
+        Val_array[Val_Vout] = 4;
+        Val_array[Val_Temp] = 5;
+        Val_array[Val_ELE] = 6;
+        
+        Vofa_JustFloat_Show_Fun (Val_array);
+        Mode_Use.TIME.Delay_Ms(100);
     }
 }
 
@@ -39,10 +51,12 @@ void Main_Init(void)
     Mode_Init.TIME(ENABLE);
 	Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
 	Mode_Init.LCD(ENABLE);
-	
+        
 	Mode_Use.UART.Send_String_pFun(DEBUG_OUT,"Hello world ! \n");
-#ifdef PICTURE
-	Mode_Use.LCD.Show_Picture_pFun(0,0,240,240,Photo2);     //Photo
-#endif
+    
+	Vofa_JustFloat_Init_Fun (6,Debug_Out);     // Vin,Vout,Temp,YG_x,YG_y,YG_key,in_temp
 
+#ifdef PICTURE
+	Mode_Use.LCD.Show_Picture_pFun(0,0,240,240,Photo1);     //Photo
+#endif
 }

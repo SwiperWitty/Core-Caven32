@@ -16,7 +16,7 @@
         <TargetCommonOption>
           <Device>-AT32F415RCT7</Device>
           <Vendor>ArteryTek</Vendor>
-          <PackID>ArteryTek.AT32F415_DFP.2.0.6</PackID>
+          <PackID>ArteryTek.AT32F415_DFP.2.0.7</PackID>
           <Cpu>IRAM(0x20000000,0x8000) IROM(0x08000000,0x40000) CPUTYPE("Cortex-M4") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>AT32F415RCT7,USE_STDPERIPH_DRIVER,CAVEN,DEFAULT,Ins_HSCLK</Define>
               <Undefine></Undefine>
-              <IncludePath>..\User;..\CMSIS;..\Config;..\SDK\inc;..\Startup\mdk;..\..\..\Caven-MCU_Lib\Mode;..\..\..\Caven-MCU_Lib\API;..\..\..\Caven-MCU_Lib\Base_AT32F415;..\..\..\Caven-MCU_Lib\Base_AT32F415\usb_drivers\inc;..\..\..\Caven-MCU_Lib\Base_AT32F415\composite_HID</IncludePath>
+              <IncludePath>..\User;..\CMSIS;..\Config;..\SDK\inc;..\Startup\mdk;..\..\..\Caven-MCU_Lib\API;..\..\..\Caven-MCU_Lib\Mode;..\..\..\Caven-MCU_Lib\Base_AT32F415;..\..\..\Caven-MCU_Lib\Base_AT32F415\usb_drivers\inc;..\..\..\Caven-MCU_Lib\Base_AT32F415\composite_HID</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -518,11 +518,6 @@
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\mlx90614.c</FilePath>
             </File>
             <File>
-              <FileName>MODE_Button.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Button.c</FilePath>
-            </File>
-            <File>
               <FileName>MODE_BZZ.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_BZZ.c</FilePath>
@@ -576,6 +571,11 @@
               <FileName>Steering_engine.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\Steering_engine.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_Button.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Button.c</FilePath>
             </File>
           </Files>
         </Group>

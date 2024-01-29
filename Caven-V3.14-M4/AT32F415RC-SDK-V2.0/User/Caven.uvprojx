@@ -336,9 +336,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>AT32F415RCT7,USE_STDPERIPH_DRIVER,CAVEN,DEFAULT,Ins_HSCLK</Define>
+              <Define>AT32F415RCT7,USE_STDPERIPH_DRIVER,CAVEN,DEFAULT,Ins_HSCLK,PICTURE</Define>
               <Undefine></Undefine>
-              <IncludePath>..\User;..\CMSIS;..\Config;..\SDK\inc;..\Startup\mdk;..\..\..\Caven-MCU_Lib\Mode;..\..\..\Caven-MCU_Lib\API;..\..\..\Caven-MCU_Lib\Base_AT32F415;..\..\..\Caven-MCU_Lib\Base_AT32F415\usb_drivers\inc;..\..\..\Caven-MCU_Lib\Base_AT32F415\composite_HID</IncludePath>
+              <IncludePath>..\User;..\CMSIS;..\Config;..\SDK\inc;..\Startup\mdk;..\..\..\Caven-MCU_Lib\API;..\..\..\Caven-MCU_Lib\Mode;..\..\..\Caven-MCU_Lib\Base_AT32F415;..\..\..\Caven-MCU_Lib\Base_AT32F415\usb_drivers\inc;..\..\..\Caven-MCU_Lib\Base_AT32F415\composite_HID</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -483,6 +483,11 @@
           <GroupName>Mode</GroupName>
           <Files>
             <File>
+              <FileName>Mode.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\Mode.c</FilePath>
+            </File>
+            <File>
               <FileName>MODE_LCD.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_LCD.c</FilePath>
@@ -511,16 +516,6 @@
               <FileName>mlx90614.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\mlx90614.c</FilePath>
-            </File>
-            <File>
-              <FileName>Mode.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\Mode.c</FilePath>
-            </File>
-            <File>
-              <FileName>MODE_Button.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Button.c</FilePath>
             </File>
             <File>
               <FileName>MODE_BZZ.c</FileName>
@@ -577,6 +572,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\Steering_engine.c</FilePath>
             </File>
+            <File>
+              <FileName>MODE_Button.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Button.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -621,6 +621,11 @@
               <FileName>Time_Handle.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\API\Time_Handle.c</FilePath>
+            </File>
+            <File>
+              <FileName>Vofa_info.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Vofa_info.c</FilePath>
             </File>
           </Files>
         </Group>
