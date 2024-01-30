@@ -54,7 +54,7 @@ void Main_Init(void)
         
 	Mode_Use.UART.Send_String_pFun(DEBUG_OUT,"Hello world ! \n");
     
-	Vofa_JustFloat_Init_Fun (6,Debug_Out);     // Vin,Vout,Temp,YG_x,YG_y,YG_key,in_temp
+	Vofa_JustFloat_Init_Fun (6,Debug_Out);                  // Vin,Vout,Temp,YG_x,YG_y,YG_key,in_temp
 
 #ifdef PICTURE
 	Mode_Use.LCD.Show_Picture_pFun(0,0,240,240,Photo1);     //Photo

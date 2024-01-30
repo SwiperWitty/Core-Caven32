@@ -15,29 +15,15 @@ float Frame = 0;
 char Free_array[100];
 void Main_Init(void);
 
-void Delay(int i)
-{
-    do
-    {
-        int j = 1000000;
-        do
-        {
-            
-        }while(j--);
-    }while(i--);
-}
 
 int main(void)
 {
 	Main_Init();
 
-
 	while (1)
 	{
-//		LED_L();
-//		Delay(10);
-		
-		Delay(10);
+
+        
 	}
 }
 

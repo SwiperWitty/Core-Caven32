@@ -12,7 +12,7 @@
  *                      -->Base     -->Mode
  *                      //          //
  *  C(Lib)->Caven_Type->        API
- *  2.0     2023.11.16
+ *  
 */
 
 /*  基本外设就能实现的功能     */
@@ -47,12 +47,12 @@
 #define Exist_BZZ
 #define Exist_CustomIO
 
-//#define Exist_ADC
+//#define Exist_ADC		OPEN_1101
 //#define Exist_DAC
 
-#define Exist_UART      OPEN_11110  // 串口1、2、3
+#define Exist_UART      OPEN_11110  // 串口
 //#define Exist_IIC
-//#define Exist_SPI     OPEN_0100   // SPI 2
+//#define Exist_SPI     OPEN_0100   // SPI2
 //#define Exist_USB
 //#define Exist_CAN
 
@@ -119,12 +119,6 @@
 #endif
 
 /*****  冲突      *****/
-#if DEBUG_OUT == 1
-    #ifdef Exist_USB
-        #warning (UART1 And USB Clash !!!)
-    #endif
-#endif
-
 #ifdef Exist_LCD
     #ifdef Exist_OLED
         #warning (LCD And OLED Have A Clash !!!)
@@ -142,44 +136,41 @@
 
 /*  MCU指令   */
 
-#define DEBUG_OUT       3   // Debug 通道(Caved 3.14是串口3)->MODE
 #define MCU_SYS_FREQ    SystemCoreClock // 刚启动是xM，经过配置文件之后就是144（system_clock_config()之后）
 
 #ifndef NOP
-#define NOP()    __NOP()
+    #define NOP()    __NOP()
 #endif
 
 #ifndef SYS_RESET
-#define SYS_RESET() NVIC_SystemReset()
+    #define SYS_RESET() NVIC_SystemReset()
 #endif
 
 // boot
 #define GO_TO_APP() do{     \
-    __asm("li  a6, 0x6000");\
-    __asm("jr  a6");        \
-    while(1);               \
+                            \
 }while(0);
 
-// #define REG_IOH    BSHR
-// #define REG_IOL    BCR
+#define REG_IO_H    BSRR
+#define REG_IO_L    BRR
 
 #ifdef GPIO_PINS_0
-#define GPIO_Pin_0  GPIO_PINS_0
-#define GPIO_Pin_1  GPIO_PINS_1
-#define GPIO_Pin_2  GPIO_PINS_2
-#define GPIO_Pin_3  GPIO_PINS_3
-#define GPIO_Pin_4  GPIO_PINS_4
-#define GPIO_Pin_5  GPIO_PINS_5
-#define GPIO_Pin_6  GPIO_PINS_6
-#define GPIO_Pin_7  GPIO_PINS_7
-#define GPIO_Pin_8  GPIO_PINS_8
-#define GPIO_Pin_9  GPIO_PINS_9
-#define GPIO_Pin_10 GPIO_PINS_10
-#define GPIO_Pin_11 GPIO_PINS_11
-#define GPIO_Pin_12 GPIO_PINS_12
-#define GPIO_Pin_13 GPIO_PINS_13
-#define GPIO_Pin_14 GPIO_PINS_14
-#define GPIO_Pin_15 GPIO_PINS_15
+    #define GPIO_Pin_0  GPIO_PINS_0
+    #define GPIO_Pin_1  GPIO_PINS_1
+    #define GPIO_Pin_2  GPIO_PINS_2
+    #define GPIO_Pin_3  GPIO_PINS_3
+    #define GPIO_Pin_4  GPIO_PINS_4
+    #define GPIO_Pin_5  GPIO_PINS_5
+    #define GPIO_Pin_6  GPIO_PINS_6
+    #define GPIO_Pin_7  GPIO_PINS_7
+    #define GPIO_Pin_8  GPIO_PINS_8
+    #define GPIO_Pin_9  GPIO_PINS_9
+    #define GPIO_Pin_10 GPIO_PINS_10
+    #define GPIO_Pin_11 GPIO_PINS_11
+    #define GPIO_Pin_12 GPIO_PINS_12
+    #define GPIO_Pin_13 GPIO_PINS_13
+    #define GPIO_Pin_14 GPIO_PINS_14
+    #define GPIO_Pin_15 GPIO_PINS_15
 #endif
 
 
