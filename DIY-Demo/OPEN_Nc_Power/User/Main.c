@@ -1,6 +1,5 @@
-#include "Mode.h"
+#include "power_app.h"
 #include "pic.h"
-#include "math.h"
 
 /*
             软件文件夹->AT32文件夹->Keil工程
@@ -18,23 +17,26 @@ int yg_lock = 0;
 
 char array_buff[300];
 u16 ADC_array[10];
-float Val_set = 0,Val_set_temp = 6.0;
-float Val_MAX_f = 0;
+float Val_OUT_set = 0,Val_OUT_temp = 6.0;
+float Val_ELE_set = 2.4,Val_ELE_temp = 2.4;
+
+int Val_YG_x,Val_YG_y;
+float Val_IN_f = 0;
 float Val_OUT_f = 0;
 float Val_ELE_f = 0;
+float Val_TEM_f = 0;
 float Val_array[10];
+
+float Val_temp_f;
+     
 float Val_OUT_array[10];
 float Val_ELE_array[10];
+float Val_TEM_array[10];
 char Val_OUT_num = 0;
 char Val_ELE_num = 0;
+char Val_TEM_num = 0;
 
 #define LCD_DEF		LCD_GRAY
-#define Val_YG_x    0
-#define Val_YG_y    1
-#define Val_Vin     2
-#define Val_Vout    3
-#define Val_Temp    4
-#define Val_ELE_N	5
 
 #define YG_DEFAULT	50
 #define YG_DIF_MIN	10
@@ -58,71 +60,72 @@ int main (void)
 
     while(1)
     {
-        Val_array[Val_YG_x]  = (0x0fff - ADC_array[Val_YG_x]) / 40;
-        Val_array[Val_YG_y] = ADC_array[Val_YG_y] / 40;
-        Val_array[Val_Vin] = Mode_Use.USER_ADC.Conversion_Vol_pFun(ADC_array[Val_Vin]) * Divider_RES;
-        Val_array[Val_Vout] = Mode_Use.USER_ADC.Conversion_Vol_pFun(ADC_array[Val_Vout]) * Divider_RES;
-        Val_array[Val_Temp] = ADC_array[Val_Temp] / 40;
-        Val_array[Val_ELE_N] = Mode_Use.USER_ADC.Conversion_Vol_pFun(ADC_array[Val_ELE_N]) * (float)(Sampling_RES_RATIO / MULTIP_RATIO);
-        Val_array[6] = Mode_Use.USER_ADC.Get_MCU_Temperature_pFun();            // 内温 
-        
-        Val_MAX_f = Val_array[Val_Vin];
-		temp = Val_array[Val_YG_x] - YG_DEFAULT;
-		
+        temp = 0;
+        Val_array[temp]  = (0x0fff - ADC_array[temp++]) / 40;       // 0
+        Val_array[temp] = ADC_array[temp++] / 40;
+        Val_array[temp] = Mode_Use.USER_ADC.Conversion_Vol_pFun(ADC_array[temp++]) * Divider_RES;
+        Val_array[temp] = Mode_Use.USER_ADC.Conversion_Vol_pFun(ADC_array[temp++]) * Divider_RES;
+        Val_array[temp] = ADC_array[temp++] / 40;
+        Val_array[temp] = Mode_Use.USER_ADC.Conversion_Vol_pFun(ADC_array[temp++]) * (float)(Sampling_RES_RATIO / MULTIP_RATIO);
+        Val_array[temp] = Mode_Use.USER_ADC.Get_MCU_Temperature_pFun();            // 内温 
+        //
+        Val_YG_x = Val_array[0];
+        Val_YG_y = Val_array[1];
+		temp = Val_YG_x - YG_DEFAULT;
         if ((temp > YG_DIF_MIN) && (yg_lock > 0))		// 左
 		{
 			yg_lock = 0;
-			Val_set_temp += 1.0;
+			Val_OUT_temp += 1.0;
 		}
 		else if ((-temp > YG_DIF_MIN) && (yg_lock > 0))	// 右
 		{
 			yg_lock = 0;
-			Val_set_temp -= 1.0;
+			Val_OUT_temp -= 1.0;
 		}
 		else if(abs(temp) < YG_DIF_MIN)					// 空闲　
 		{
 			yg_lock++;
 			yg_lock = MIN(yg_lock,100);
 		}
-		Val_set_temp = MIN(Val_set_temp,Val_MAX_f);
-		Val_set_temp = MAX(Val_set_temp,1);
+		Val_OUT_temp = MIN(Val_OUT_temp,Val_IN_f);
+		Val_OUT_temp = MAX(Val_OUT_temp,1);
 		// 
 		if (YG_KEY_STATE() == 0)
 		{
-			Val_set = Val_set_temp;
+			Val_OUT_set = Val_OUT_temp;
 			do{
 				
 			}while(YG_KEY_STATE() == 0);
 		}
 		// 
-		temp = Data_Median_filtering_Handle (Val_array[Val_Vout],Val_OUT_array,&Val_OUT_f,&Val_OUT_num,10);
+		temp = Data_Median_filtering_Handle (Val_array[4],Val_OUT_array,&Val_OUT_f,&Val_OUT_num,10);
 		if(temp)
 		{
-			SET_Val_Handle (Val_set,Val_OUT_f);
+			SET_Val_Handle (Val_OUT_set,Val_OUT_f);
 		}
-
-		//
-		temp = Data_Median_filtering_Handle (Val_array[Val_ELE_N],Val_ELE_array,&Val_ELE_f,&Val_ELE_num,10);
-		
+		temp = Data_Median_filtering_Handle (Val_array[6],Val_ELE_array,&Val_ELE_f,&Val_ELE_num,10);
+		temp = Data_Median_filtering_Handle (Val_array[5],Val_TEM_array,&Val_TEM_f,&Val_TEM_num,10);
+        //
         Vofa_JustFloat_Show_Fun (Val_array);
+        //
 		show_cycle++;
 		if(show_cycle > 100)	// 选中时颜色 LCD_BRRED，默认颜色 LCD_BLUE，LCD_MAGENTA
 		{
 			show_cycle = 0;
 			temp = 2;
-			sprintf(array_buff,"Vin :%6.2fv PD-20",Val_array[Val_Vin]);
+			sprintf(array_buff,"Vin :%6.2fv PD-20",Val_IN_f);
 			Mode_Use.LCD.Show_String_pFun(1,temp++,array_buff,LCD_DEF,BACK_COLOR,24);
 			
-			sprintf(array_buff,"Now Val:%6.2fv ",Val_array[Val_Vout]);
+			sprintf(array_buff,"Now Val:%6.2fv ",Val_OUT_f);
 			Mode_Use.LCD.Show_String_pFun(1,temp++,array_buff,LCD_DEF,BACK_COLOR,24);
-			sprintf(array_buff,"Set Val:%6.2fv  ",Val_set_temp);
+			sprintf(array_buff,"Set Val:%6.2fv  ",Val_OUT_temp);
 			Mode_Use.LCD.Show_String_pFun(1,temp++,array_buff,LCD_DEF,BACK_COLOR,24);
 			sprintf(array_buff,"Now ELE:%5.2fA ",Val_ELE_f);
 			Mode_Use.LCD.Show_String_pFun(1,temp++,array_buff,LCD_MAGENTA,BACK_COLOR,24);
-			sprintf(array_buff,"Set ELE:%5.2fA(Max)",2.4);
+			sprintf(array_buff,"Set ELE:%5.2fA(Max)",Val_ELE_temp);
 			Mode_Use.LCD.Show_String_pFun(1,temp++,array_buff,LCD_MAGENTA,BACK_COLOR,24);
 			
-			sprintf(array_buff,"TEMP:%6.2f C ",Val_array[6]);
+			sprintf(array_buff,"TEMP:%6.2f C ",Val_TEM_f);
 			Mode_Use.LCD.Show_String_pFun(1,temp++,array_buff,LCD_DEF,BACK_COLOR,24);
 			
 			sprintf(array_buff,"<-Beak [user/power]");
@@ -134,6 +137,7 @@ int main (void)
 
 void Main_Init(void)
 {
+    int reverse = 0;
     system_clock_config();
     nvic_priority_group_config(NVIC_PRIORITY_GROUP_4);
     Mode_Index();
@@ -143,7 +147,11 @@ void Main_Init(void)
 	Mode_Init.LCD(ENABLE);
 	Mode_Init.Steering_Engine(ENABLE);
 	Mode_Init.User_ADC(ENABLE);
-        
+    
+    reverse |= Power_app_init (ENABLE);
+    
+    while(reverse);
+    
 	Mode_Use.UART.Send_String_pFun(DEBUG_OUT,"Hello world ! \n");
 	Mode_Use.Steering_Engine.Set_Angle(1,0);
 	Mode_Use.Steering_Engine.Set_Angle(2,90);
@@ -215,7 +223,7 @@ void SET_Val_Handle (float set_val,float get_val)
 void ADC_Data_Handle (void * data)
 {
     memcpy(ADC_array,data,sizeof(ADC_array));
-    if(ADC_array[Val_ELE_N] > 2000)
+    if(ADC_array[6] > 2000)
     {
         DC_5V_OFF();
     }
