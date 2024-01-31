@@ -2,12 +2,6 @@
 #include "API.h"
 #include "pic.h" //图片
 
-#ifdef ST
-    #define MCU 1 // STM32
-#else
-    #define MCU 0 // GD 32
-#endif
-
 
 int led;
 int num = 0;
@@ -29,7 +23,6 @@ int main(void)
 
 void Main_Init(void)
 {
-	API_Index();
 	Mode_Index();
 	
 	LED_GPIO_Init(1);

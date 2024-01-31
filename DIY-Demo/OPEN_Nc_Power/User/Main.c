@@ -44,11 +44,10 @@ char Val_ELE_num = 0;
 #define Sampling_RES 0.005	// 0.005Ω
 #define Sampling_RES_RATIO 200.0	// (5/1000)(Ω) -> 200(RATIO)
 
-int Median_filtering_Handle (float data,float *array,float *reverse,char *run,char num);
-void Simple_SET_Val_Handle (float set_val);
 void SET_Val_Handle (float set_val,float get_val);
 void ADC_Data_Handle (void * data);
 int PD_Set_Mode (char grade);
+
 void Main_Init(void);
 
 int main (void)
@@ -96,14 +95,14 @@ int main (void)
 			}while(YG_KEY_STATE() == 0);
 		}
 		// 
-		temp = Median_filtering_Handle (Val_array[Val_Vout],Val_OUT_array,&Val_OUT_f,&Val_OUT_num,10);
+		temp = Data_Median_filtering_Handle (Val_array[Val_Vout],Val_OUT_array,&Val_OUT_f,&Val_OUT_num,10);
 		if(temp)
 		{
 			SET_Val_Handle (Val_set,Val_OUT_f);
 		}
 
 		//
-		temp = Median_filtering_Handle (Val_array[Val_ELE_N],Val_ELE_array,&Val_ELE_f,&Val_ELE_num,10);
+		temp = Data_Median_filtering_Handle (Val_array[Val_ELE_N],Val_ELE_array,&Val_ELE_f,&Val_ELE_num,10);
 		
         Vofa_JustFloat_Show_Fun (Val_array);
 		show_cycle++;
@@ -163,51 +162,6 @@ void Main_Init(void)
 
 }
 
-int Median_filtering_Handle (float data,float *array,float *reverse,char *run,char num)
-{
-	int retval = 0;
-	int temp_run = *run;
-	char max_sort = 0;
-	char min_sort = 0;
-	float temp_data_f;
-	if(temp_run < num)
-	{
-		array[temp_run++] = data;
-	}
-	else
-	{
-		for(int i = 0;i < num;i++)
-		{
-			temp_data_f = MAX(array[i],array[max_sort]);
-			if(temp_data_f == array[i])
-			{
-				max_sort = i;
-			}
-		}
-		for(int i = 0;i < num;i++)
-		{
-			temp_data_f = MIN(array[i],array[min_sort]);
-			if(temp_data_f == array[i])
-			{
-				min_sort = i;
-			}
-		}
-		array[max_sort] = 0;
-		array[min_sort] = 0;
-		temp_data_f = 0;
-		for(int i = 0;i < num;i++)
-		{
-			temp_data_f += array[i];
-		}
-		temp_data_f /= (num - 2);
-		*reverse = temp_data_f;
-		temp_run = 0;
-		retval = 1;
-	}
-	*run = temp_run;
-	return retval;
-}
-
 void SET_Val_Handle (float set_val,float get_val)
 {
 	int set_num,temp_num;
@@ -256,18 +210,6 @@ void SET_Val_Handle (float set_val,float get_val)
         set_num = MIN(set_num,1000);
         TIM3_PWMx_SetValue(1,set_num);
     }
-}
-
-void Simple_SET_Val_Handle (float set_val)
-{
-	int set_num;
-	float f_temp = (set_val / 18.0) * 1000;
-	set_num = f_temp;
-    
-	set_num = 1000 - set_num;
-	set_num = MIN(set_num,1000);
-	TIM3_PWMx_SetValue(1,set_num);
-	DC_OUT_ON();
 }
 
 void ADC_Data_Handle (void * data)
