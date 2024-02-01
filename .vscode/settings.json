@@ -6,6 +6,8 @@
         "caven.h": "c",
         "items.h": "c",
         "base_uart.h": "c",
-        "base_adc.h": "c"
+        "base_adc.h": "c",
+        "base_exist_gpio.h": "c",
+        "usb_user.h": "c"
     }
 }

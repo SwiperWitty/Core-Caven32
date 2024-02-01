@@ -337,7 +337,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>AT32F403ARET7,DEFAULT</Define>
+              <Define>AT32F403ARET7,USE_STDPERIPH_DRIVER,CAVEN,EXT_HSCLK,DEFAULT,</Define>
               <Undefine></Undefine>
               <IncludePath>..\User;..\CMSIS;..\SDK\inc;..\Startup;..\Config;..\..\..\Caven-MCU_Lib\API;..\..\..\Caven-MCU_Lib\Mode;..\..\..\Caven-MCU_Lib\Base_AT32F403A</IncludePath>
             </VariousControls>
@@ -413,16 +413,21 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F403A\Base_SPI.c</FilePath>
             </File>
+            <File>
+              <FileName>Base_UART.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F403A\Base_UART.c</FilePath>
+            </File>
+            <File>
+              <FileName>Base_Sys_Time.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F403A\Base_Sys_Time.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>MODE</GroupName>
           <Files>
-            <File>
-              <FileName>BZZ.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\BZZ.c</FilePath>
-            </File>
             <File>
               <FileName>Control_Mode.c</FileName>
               <FileType>1</FileType>
@@ -444,21 +449,6 @@
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\HC595.c</FilePath>
             </File>
             <File>
-              <FileName>key.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\key.c</FilePath>
-            </File>
-            <File>
-              <FileName>lcd.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\lcd.c</FilePath>
-            </File>
-            <File>
-              <FileName>LED.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\LED.c</FilePath>
-            </File>
-            <File>
               <FileName>mlx90614.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\mlx90614.c</FilePath>
@@ -469,14 +459,44 @@
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\Mode.c</FilePath>
             </File>
             <File>
+              <FileName>MODE_Button.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Button.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_BZZ.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_BZZ.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_LCD.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_LCD.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_LED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_LED.c</FilePath>
+            </File>
+            <File>
               <FileName>MODE_Motor.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Motor.c</FilePath>
             </File>
             <File>
+              <FileName>MODE_Motor_BYJ.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Motor_BYJ.c</FilePath>
+            </File>
+            <File>
               <FileName>MODE_MP3.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_MP3.c</FilePath>
+            </File>
+            <File>
+              <FileName>Mode_RTC8564.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\Mode_RTC8564.c</FilePath>
             </File>
             <File>
               <FileName>MODE_Time.c</FileName>
@@ -514,6 +534,21 @@
               <FilePath>..\..\..\Caven-MCU_Lib\API\API.c</FilePath>
             </File>
             <File>
+              <FileName>Caven_event_frame.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Caven_event_frame.c</FilePath>
+            </File>
+            <File>
+              <FileName>Caven_info_frame.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Caven_info_frame.c</FilePath>
+            </File>
+            <File>
+              <FileName>Check_CRC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Check_CRC.c</FilePath>
+            </File>
+            <File>
               <FileName>DATA_Handle.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\API\DATA_Handle.c</FilePath>
@@ -534,9 +569,9 @@
               <FilePath>..\..\..\Caven-MCU_Lib\API\Time_Handle.c</FilePath>
             </File>
             <File>
-              <FileName>Check_CRC.c</FileName>
+              <FileName>Vofa_info.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\API\Check_CRC.c</FilePath>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Vofa_info.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -674,11 +709,6 @@
           <GroupName>CMSIS</GroupName>
           <Files>
             <File>
-              <FileName>system_at32f403a_407.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\CMSIS\system_at32f403a_407.c</FilePath>
-            </File>
-            <File>
               <FileName>arm_common_tables.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\CMSIS\arm_common_tables.h</FilePath>
@@ -709,24 +739,9 @@
               <FilePath>..\CMSIS\arm_vec_math.h</FilePath>
             </File>
             <File>
-              <FileName>at32f403a_407.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\CMSIS\at32f403a_407.h</FilePath>
-            </File>
-            <File>
-              <FileName>at32f403a_407_conf_template.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\CMSIS\at32f403a_407_conf_template.h</FilePath>
-            </File>
-            <File>
               <FileName>cmsis_armcc.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\CMSIS\cmsis_armcc.h</FilePath>
-            </File>
-            <File>
-              <FileName>cmsis_armcc_V6.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\CMSIS\cmsis_armcc_V6.h</FilePath>
             </File>
             <File>
               <FileName>cmsis_armclang.h</FileName>
@@ -749,11 +764,6 @@
               <FilePath>..\CMSIS\cmsis_gcc.h</FilePath>
             </File>
             <File>
-              <FileName>cmsis_iar.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\CMSIS\cmsis_iar.h</FilePath>
-            </File>
-            <File>
               <FileName>cmsis_iccarm.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\CMSIS\cmsis_iccarm.h</FilePath>
@@ -769,21 +779,6 @@
               <FilePath>..\CMSIS\core_cm4.h</FilePath>
             </File>
             <File>
-              <FileName>core_cmFunc.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\CMSIS\core_cmFunc.h</FilePath>
-            </File>
-            <File>
-              <FileName>core_cmInstr.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\CMSIS\core_cmInstr.h</FilePath>
-            </File>
-            <File>
-              <FileName>core_cmSimd.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\CMSIS\core_cmSimd.h</FilePath>
-            </File>
-            <File>
               <FileName>mpu_armv7.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\CMSIS\mpu_armv7.h</FilePath>
@@ -797,11 +792,6 @@
               <FileName>pmu_armv8.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\CMSIS\pmu_armv8.h</FilePath>
-            </File>
-            <File>
-              <FileName>system_at32f403a_407.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\CMSIS\system_at32f403a_407.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -827,6 +817,11 @@
               <FileName>at32f403a_407_int.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Config\at32f403a_407_int.c</FilePath>
+            </File>
+            <File>
+              <FileName>system_at32f403a_407.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Config\system_at32f403a_407.c</FilePath>
             </File>
           </Files>
         </Group>

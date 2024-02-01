@@ -46,9 +46,9 @@ void Main_Init(void)
     nvic_priority_group_config(NVIC_PRIORITY_GROUP_4);
     Mode_Index();
     
-    Mode_Init.TIME(ENABLE);
-	Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
-	Mode_Init.LCD(ENABLE);
+    Mode_Init.TIME_Init_State = Mode_Init.TIME(ENABLE);
+	Mode_Init.UART_Init_State = Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
+	Mode_Init.LCD_Init_State = Mode_Init.LCD(ENABLE);
 //    Mode_Init.Steering_Engine(ENABLE);
 	
     reverse |= Power_app_init (ENABLE);

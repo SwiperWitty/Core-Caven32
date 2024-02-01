@@ -1,8 +1,6 @@
 /**
   **************************************************************************
   * @file     system_at32f403a_407.h
-  * @version  v2.1.2
-  * @date     2022-08-16
   * @brief    cmsis cortex-m4 system header file.
   **************************************************************************
   *                       Copyright notice & Disclaimer
@@ -46,6 +44,10 @@ extern "C" {
 #define HEXT_STABLE_DELAY                (5000u)
 #define PLL_STABLE_DELAY                 (500u)
 #define SystemCoreClock                  system_core_clock
+#define DUMMY_NOP()                      {__NOP();__NOP();__NOP();__NOP();__NOP(); \
+                                          __NOP();__NOP();__NOP();__NOP();__NOP(); \
+                                          __NOP();__NOP();__NOP();__NOP();__NOP(); \
+                                          __NOP();__NOP();__NOP();__NOP();__NOP();}
 
 /**
   * @}

@@ -1,8 +1,6 @@
 /**
   **************************************************************************
   * @file     at32f403a_407_rtc.c
-  * @version  v2.1.2
-  * @date     2022-08-16
   * @brief    contains all the functions for the rtc firmware library
   **************************************************************************
   *                       Copyright notice & Disclaimer
@@ -163,6 +161,31 @@ flag_status rtc_flag_get(uint16_t flag)
   flag_status status = RESET;
 
   if ((RTC->ctrll & flag) != (uint16_t)RESET)
+  {
+    status = SET;
+  }
+  else
+  {
+    status = RESET;
+  }
+
+  return status;
+}
+
+/**
+  * @brief  rtc interrupt flag get
+  * @param  flag
+  *         this parameter can be one of the following values:
+  *         - RTC_TS_FLAG: time second flag.
+  *         - RTC_TA_FLAG: time alarm flag.
+  *         - RTC_OVF_FLAG: overflow flag.
+  * @retval state of rtc flag
+  */
+flag_status rtc_interrupt_flag_get(uint16_t flag)
+{
+  flag_status status = RESET;
+
+  if (((RTC->ctrll & flag) != (uint16_t)RESET) && ((RTC->ctrlh & flag) != (uint16_t)RESET))
   {
     status = SET;
   }

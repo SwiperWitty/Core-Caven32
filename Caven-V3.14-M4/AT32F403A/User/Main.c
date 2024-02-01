@@ -1,87 +1,61 @@
-/*
-    at32f403a使用外部12M时钟，系统主频240Mhz
-*/
 #include "Mode.h"
-#include "API.h"
-
 #include "pic.h"
 
-#define Photo gImage_maoL
-void Uart3_Init(int Baud,int Set);
+/*
+            软件文件夹->AT32文件夹->Keil工程
+项目文件->  
+            云端库文件夹...
+*/
+#ifdef PICTURE
+	#define Photo1 0
+	#define Photo2 gImage_pai
+#endif
+
+int temp = 0;
+char array_buff[300];
 
 void Main_Init(void);
+/*
+	Power_app
+	Steering_Engine_app
+	Games_app
+	boot_app
+*/
 int main (void)
 {
+	int retval = 0;
     Main_Init();
+    sprintf(array_buff,"Caven Desk ");
+//    Mode_Use.LCD.Show_String_pFun(5,0,array_buff,LCD_BLUE,LCD_Back_Color,24);
+
     while(1)
     {
         
+		if(retval)
+		{
+			break;
+		}
+//        Mode_Use.TIME.Delay_Ms(100);
     }
 }
 
 void Main_Init(void)
 {
     system_clock_config();
-    crm_adc_clock_div_set(CRM_ADC_DIV_8);
+    nvic_priority_group_config(NVIC_PRIORITY_GROUP_4);
+    crm_adc_clock_div_set(CRM_ADC_DIV_6);
+    //
     Mode_Index();
-    API_Index();
-
-    Mode_Init.LCD(ENABLE);
-    Uart3_Init(115200,ENABLE);
-	int i = 100 * 100 * 100;
-	while(i--);
-//    Mode_Use.LCD.Show_Picture(0,0,240,240,Photo);
-    printf("holle world ! \r\n");
     
-}
+    Mode_Init.TIME_Init_State = Mode_Init.TIME(ENABLE);
+	Mode_Init.UART_Init_State = Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
+	Mode_Init.LCD_Init_State = Mode_Init.LCD(ENABLE);
+    
+	Mode_Use.UART.Send_String_pFun(DEBUG_OUT,"Hello world ! \n");
+    Base_UART_DMA_Send_Data(DEBUG_OUT,"Hello world ! \n",sizeof("Hello world ! \n"));
+    
+#ifdef PICTURE
+	Mode_Use.LCD.Show_Picture_pFun(0,0,240,240,Photo2);     //Photo
+#endif
 
-static usart_type * Temp;
-void Uart3_Init(int Baud,int Set)
-{
-    confirm_state set = FALSE;
-    Temp = USART3;
-    usart_reset(Temp);
-    if (Set)
-        set = TRUE;
-
-    crm_periph_clock_enable(CRM_USART3_PERIPH_CLOCK, set);                  // 
-    crm_periph_clock_enable(CRM_IOMUX_PERIPH_CLOCK, TRUE);      
-    crm_periph_clock_enable(CRM_GPIOC_PERIPH_CLOCK, TRUE);
-    gpio_pin_remap_config(USART3_GMUX_0001,TRUE);                           // 
-    gpio_init_type gpio_init_struct;
-    gpio_default_para_init(&gpio_init_struct);
-
-    gpio_init_struct.gpio_pins = GPIO_PINS_10;                           //Tx
-    gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
-    gpio_init_struct.gpio_out_type  = GPIO_OUTPUT_PUSH_PULL;
-    gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
-    gpio_init_struct.gpio_pull = GPIO_PULL_NONE;
-    gpio_init(GPIOC, &gpio_init_struct);
-
-    gpio_init_struct.gpio_pins = GPIO_PINS_11;                           //Rx
-    gpio_init_struct.gpio_mode = GPIO_MODE_INPUT;
-    gpio_init_struct.gpio_pull = GPIO_PULL_UP;
-    gpio_init(GPIOC, &gpio_init_struct);
-
-    nvic_priority_group_config(NVIC_PRIORITY_GROUP_0);
-    nvic_irq_enable(USART3_IRQn, 0, 3);
-
-    usart_init(Temp, Baud, USART_DATA_8BITS, USART_STOP_1_BIT);  
-    usart_transmitter_enable(Temp, TRUE);   
-//    usart_receiver_enable(Temp, TRUE);        
-
-    usart_parity_selection_config(Temp,USART_PARITY_NONE);
-    usart_interrupt_enable(Temp, USART_RDBF_INT, TRUE);
-    usart_enable(Temp, TRUE);
-
-}
-
-int fputc(int ch, FILE *f)      //printf
-{
-#ifdef DEBUG_OUT
-
-    while (usart_flag_get(Temp, USART_TDC_FLAG) == RESET);  
-    usart_data_transmit(Temp, (uint8_t)ch);
-#endif // DEBUG
-    return (ch);
 }

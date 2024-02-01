@@ -1,8 +1,6 @@
 /**
   **************************************************************************
   * @file     at32f403a_407_usb.h
-  * @version  v2.1.2
-  * @date     2022-08-16
   * @brief    at32f403a_407 usb header file
   **************************************************************************
   *                       Copyright notice & Disclaimer
@@ -201,9 +199,9 @@ typedef enum
 typedef enum
 {
   EPT_CONTROL_TYPE                       = 0x00, /*!< usb transfer type control */
-  EPT_BULK_TYPE                          = 0x01, /*!< usb transfer type bulk */
-  EPT_INT_TYPE                           = 0x02, /*!< usb transfer type interrut */
-  EPT_ISO_TYPE                           = 0x03  /*!< usb transfer type iso */
+  EPT_ISO_TYPE                           = 0x01, /*!< usb transfer type iso */
+  EPT_BULK_TYPE                          = 0x02, /*!< usb transfer type bulk */
+  EPT_INT_TYPE                           = 0x03  /*!< usb transfer type interrupt */
 }ept_trans_type;
 
 /**
@@ -691,6 +689,7 @@ void usb_remote_wkup_clear(usbd_type *usbx);
 uint16_t usb_buffer_malloc(uint16_t maxpacket);
 void usb_buffer_free(void);
 flag_status usb_flag_get(usbd_type *usbx, uint16_t flag);
+flag_status usb_interrupt_flag_get(usbd_type *usbx, uint16_t flag);
 void usb_flag_clear(usbd_type *usbx, uint16_t flag);
 
 
