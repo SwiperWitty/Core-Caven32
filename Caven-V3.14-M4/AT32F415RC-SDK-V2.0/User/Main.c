@@ -1,5 +1,5 @@
 #include "Mode.h"
-#include "dog_h.h"
+#include "pic.h"
 
 /*
             软件文件夹->AT32文件夹->Keil工程
@@ -7,7 +7,7 @@
             云端库文件夹...
 */
 #ifdef PICTURE
-	#define Photo1 gImage_dog_h
+	#define Photo1 gImage_pai
 	#define Photo2 0
 #endif
 
