@@ -13,7 +13,7 @@
 
 int temp = 0;
 char array_buff[300];
-
+u8 spi_buff[10];
 void Main_Init(void);
 /*
 	Power_app
@@ -27,10 +27,19 @@ int main (void)
     Main_Init();
     sprintf(array_buff,"Caven Desk ");
 //    Mode_Use.LCD.Show_String_pFun(5,0,array_buff,LCD_BLUE,LCD_Back_Color,24);
+    for(int i = 0; i < 10;i++)
+    {
+        spi_buff[i] = i;
+    }
 
     while(1)
     {
+        Base_SPI_CS_Set(m_SPI_CH2,1,TRUE);
+        Base_SPI_Send_Data(m_SPI_CH2,0xf5);
+        Mode_Use.TIME.Delay_Ms(3);
         
+        Base_SPI_DMA_Send_Data(m_SPI_CH2,spi_buff,sizeof(spi_buff));
+        Mode_Use.TIME.Delay_Ms(3);
 		if(retval)
 		{
 			break;
@@ -48,12 +57,17 @@ void Main_Init(void)
     Mode_Index();
     
     Mode_Init.TIME_Init_State = Mode_Init.TIME(ENABLE);
-	Mode_Init.UART_Init_State = Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
-	Mode_Init.LCD_Init_State = Mode_Init.LCD(ENABLE);
+//	Mode_Init.UART_Init_State = Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
+//	Mode_Init.LCD_Init_State = Mode_Init.LCD(ENABLE);
     
-	Mode_Use.UART.Send_String_pFun(DEBUG_OUT,"Hello world ! \n");
-    Base_UART_DMA_Send_Data(DEBUG_OUT,"Hello world ! \n",sizeof("Hello world ! \n"));
+//	Mode_Use.UART.Send_String_pFun(DEBUG_OUT,"Hello world ! \n");
+//    Base_UART_DMA_Send_Data(DEBUG_OUT,"Hello world ! \n",sizeof("Hello world ! \n"));
     
+    Base_SPI_Init(m_SPI_CH2,8,ENABLE);
+    Base_SPI_CS_Set(m_SPI_CH2,1,ENABLE);
+    Base_SPI_Send_Data(m_SPI_CH2,0xf5);
+//    Base_SPI_DMA_Send_Data(m_SPI_CH2,"123456",sizeof("123456"));
+        
 #ifdef PICTURE
 	Mode_Use.LCD.Show_Picture_pFun(0,0,240,240,Photo2);     //Photo
 #endif
