@@ -51,7 +51,7 @@ void Main_Init(void)
     Mode_Init.TIME(ENABLE);
 	Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
 	Mode_Init.LCD(ENABLE);
-        
+
 	Mode_Use.UART.Send_String_pFun(DEBUG_OUT,"Hello world ! \n");
     
 	Vofa_JustFloat_Init_Fun (6,Debug_Out);                  // Vin,Vout,Temp,YG_x,YG_y,YG_key,in_temp

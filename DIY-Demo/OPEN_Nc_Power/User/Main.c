@@ -50,9 +50,8 @@ void Main_Init(void)
 	Mode_Init.UART_Init_State = Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
 	Mode_Init.LCD_Init_State = Mode_Init.LCD(ENABLE);
 //    Mode_Init.Steering_Engine(ENABLE);
-	
+
     reverse |= Power_app_init (ENABLE);
-    
     while(reverse);
     
 	Mode_Use.UART.Send_String_pFun(DEBUG_OUT,"Hello world ! \n");

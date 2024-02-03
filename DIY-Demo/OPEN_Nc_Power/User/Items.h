@@ -83,7 +83,7 @@
 /****   进一步的逻辑关系    ****/
 #ifdef Exist_LCD
     #ifndef Exist_SPI
-        #define Exist_SPI
+        #define Exist_SPI	OPEN_0100
     #endif
 #endif
 
@@ -159,8 +159,8 @@
                             \
 }while(0);
 
-#define REG_IO_H    scr
-#define REG_IO_L    clr
+#define IO_H_REG    scr
+#define IO_L_REG    clr
 
 #ifdef GPIO_PINS_0
 	#define GPIO_Pin_0  GPIO_PINS_0
