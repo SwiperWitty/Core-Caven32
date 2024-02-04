@@ -8,7 +8,7 @@
 */
 #ifdef PICTURE
 	#define Photo1 0
-	#define Photo2 gImage_pai
+	#define Photo2 gImage_example
 #endif
 
 int temp = 0;

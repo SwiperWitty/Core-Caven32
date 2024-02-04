@@ -40,7 +40,7 @@
 #ifndef Exist_SYS_TIME
     #define Exist_SYS_TIME      // 一定存在
 #endif
-// #define Exist_PWM
+ #define Exist_PWM
 //#define Exist_ENCODE
 
 // #define Exist_BUTTON

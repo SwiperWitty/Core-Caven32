@@ -1,5 +1,5 @@
 #include "Mode.h"
-#include "pic.h"
+#include "clock_pic.h"
 
 /*
             软件文件夹->AT32文件夹->Keil工程
@@ -7,7 +7,7 @@
             云端库文件夹...
 */
 #ifdef PICTURE
-	#define Photo1 gImage_pai
+	#define Photo1 gImage_example
 	#define Photo2 0
 #endif
 
@@ -37,7 +37,7 @@ int main (void)
         Val_array[Val_Temp] = 5;
         Val_array[Val_ELE] = 6;
         
-        Vofa_JustFloat_Show_Fun (Val_array);
+//        Vofa_JustFloat_Show_Fun (Val_array);
         Mode_Use.TIME.Delay_Ms(100);
     }
 }
@@ -53,10 +53,10 @@ void Main_Init(void)
 	Mode_Init.LCD(ENABLE);
 
 	Mode_Use.UART.Send_String_pFun(DEBUG_OUT,"Hello world ! \n");
-    
-	Vofa_JustFloat_Init_Fun (6,Debug_Out);                  // Vin,Vout,Temp,YG_x,YG_y,YG_key,in_temp
+    MODE_UART_DMA_Send_Data_Fun(3, "dubug dma send\n", strlen("dubug dma send\n"));
+	Vofa_JustFloat_Init_Fun (6,Debug_Out);                  // YG_x,YG_y,Vin,Vout,Temp,in_temp
 
 #ifdef PICTURE
-	Mode_Use.LCD.Show_Picture_pFun(0,0,240,240,Photo1);     //Photo
+	Mode_Use.LCD.Show_Picture_pFun(0,0,240,240,Photo1);     // Photo
 #endif
 }

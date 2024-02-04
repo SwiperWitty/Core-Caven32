@@ -403,9 +403,29 @@
               <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F403A\Base.c</FilePath>
             </File>
             <File>
+              <FileName>Base_ADC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F403A\Base_ADC.c</FilePath>
+            </File>
+            <File>
               <FileName>Base_Exist_GPIO.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F403A\Base_Exist_GPIO.c</FilePath>
+            </File>
+            <File>
+              <FileName>Base_Flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F403A\Base_Flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>Base_IIC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F403A\Base_IIC.c</FilePath>
+            </File>
+            <File>
+              <FileName>Base_PWM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F403A\Base_PWM.c</FilePath>
             </File>
             <File>
               <FileName>Base_SPI.c</FileName>
@@ -413,19 +433,14 @@
               <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F403A\Base_SPI.c</FilePath>
             </File>
             <File>
-              <FileName>Base_UART.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F403A\Base_UART.c</FilePath>
-            </File>
-            <File>
               <FileName>Base_Sys_Time.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F403A\Base_Sys_Time.c</FilePath>
             </File>
             <File>
-              <FileName>Base_ADC.c</FileName>
+              <FileName>Base_UART.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F403A\Base_ADC.c</FilePath>
+              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F403A\Base_UART.c</FilePath>
             </File>
           </Files>
         </Group>

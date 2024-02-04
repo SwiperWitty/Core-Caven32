@@ -48,10 +48,10 @@
 #define Exist_BZZ
 #define Exist_CustomIO
 
-//#define Exist_ADC		OPEN_1101
+#define Exist_ADC		OPEN_1101
 //#define Exist_DAC
 
-#define Exist_UART      OPEN_11110  // 串口
+#define Exist_UART      OPEN_1110  // 串口
 //#define Exist_IIC
 //#define Exist_SPI     OPEN_0100   // SPI2
 //#define Exist_USB
