@@ -147,7 +147,7 @@ void ADC_Data_Handle (void * data)
     }
 }
 
-int Power_app (void)
+int Power_app (Caven_App_Type * message)
 {
     int retval = 0;
 	int temp = 0,num = 0;

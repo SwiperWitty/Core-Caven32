@@ -6,6 +6,6 @@
 
 
 int Power_app_init (int Set);
-int Power_app (void);
+int Power_app (Caven_App_Type * message);
 
 #endif
