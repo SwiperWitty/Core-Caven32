@@ -65,12 +65,12 @@ int main(void)
         temp = Val_YG_x - YG_DEFAULT;
         if ((temp > YG_DIF_MIN) && (yg_lock_x > 0))		// x
         {
-            YG_Control.Control_x = (-1);
+            YG_Control.Control_x = (1);
             yg_lock_x = 0;
         }
         else if ((-temp > YG_DIF_MIN) && (yg_lock_x > 0))
         {
-            YG_Control.Control_x = (1);
+            YG_Control.Control_x = (-1);
             yg_lock_x = 0;
         }
         else if(abs(temp) < YG_DIF_MIN)					// 空闲　
@@ -170,8 +170,7 @@ void Main_Init(void)
     reverse |= Power_app_init(ENABLE);
     reverse |= Games_app_init(ENABLE);
     reverse |= Steer_app_init(ENABLE);
-    while (reverse)
-        ;
+    while (reverse);
 
     Mode_Use.UART.Send_String_pFun(DEBUG_OUT, "Hello world ! \n");
 

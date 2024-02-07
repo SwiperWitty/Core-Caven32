@@ -7,7 +7,7 @@
 #define Sampling_RES_RATIO 200.0	// (5/1000)(Ω) -> 200(RATIO)
 
 int PD_Set_Mode (char grade);
-void SET_Val_Handle (float set_val,float get_val);
+int SET_Val_Handle (float set_val,float get_val);
 
 int Power_app_init (int Set)
 {
@@ -59,12 +59,14 @@ int PD_Set_Mode (char grade)
 	return val;
 }
 
-void SET_Val_Handle (float set_val,float get_val)
+int SET_Val_Handle (float set_val,float get_val)
 {
+	int retval = 0;
 	int set_num,temp_num;
 	float f_temp = (set_val / 18.0) * 1000;
 	float f_diff_temp = 0;
 	static int set_diff_max = 0;
+	static int standard_num = 0;
 	static float Last_set_val;
 	if(Last_set_val != set_val)
 	{
@@ -78,17 +80,23 @@ void SET_Val_Handle (float set_val,float get_val)
 	f_diff_temp = fabsf(f_temp);
 	if (f_temp < 0.03 && f_temp > 0)
 	{
-		DC_OUT_ON();		// 启动
+		standard_num ++;
+		if(standard_num > 10)
+		{
+			standard_num = 0;
+			retval = 1;		// 启动
+		}
 	}
     else					// 调
     {	
+		standard_num = 0;
 		if (f_diff_temp > 1.0)
 		{
 			temp_num = 30;
 		}
 		else if (f_diff_temp > 0.2)
 		{
-			temp_num = 10;
+			temp_num = 12;
 		}
 		else
 		{
@@ -107,18 +115,12 @@ void SET_Val_Handle (float set_val,float get_val)
         set_num = MIN(set_num,1000);
         TIM3_PWMx_SetValue(1,set_num);
     }
+	return retval;
 }
 
 int show_cycle = 0;
-int out_mode = 0;
-int PD_val = 20;
+
 float Val_temp = 0;
-float Val_IN_f = 0;
-float Val_OUT_f = 0;
-float Val_ELE_f = 0;
-float Val_TEM_f = 0;
-float Val_OUT_set = 0,Val_OUT_temp = 6.0;
-float Val_ELE_set = 2.4,Val_ELE_temp = 2.4;
 
 u16 adc_buff[10];
 float Val_OUT_array[10];
@@ -127,6 +129,8 @@ float Val_TEM_array[10];
 char Val_OUT_num = 0;
 char Val_ELE_num = 0;
 char Val_TEM_num = 0;
+
+Power_Control_Type power_config;
 
 int Power_app (Caven_App_Type * message)
 {
@@ -143,30 +147,75 @@ int Power_app (Caven_App_Type * message)
         {
             message->str_switch = 1;
             message->cursor = 4;
-            message->layer = first;
-            Val_OUT_set = 0;
-            Val_ELE_set = 0;
+            message->layer = 1;
+			power_config.set_ele_temp = 3;
+			power_config.set_out_temp = 6;
+			power_config.line_max = 6;
+			power_config.line_end = 9;
+			power_config.out_witch = 0;
             first = 0;
         }
-        if(control.Control_botton == 1)
-        {
-            switch (message->cursor)
-            {
-                case (2):
-                    break;
-                case (4):
-                    Val_OUT_set = Val_OUT_temp;
-                    break;
-                default:
-                    message->app_ID = 1;        // 返回home
-                    first = 1;
-                    break;
-            }
-        }
+		//
+		switch (message->cursor)
+		{
+			case (2):
+				break;
+			case (6):
+				break;
+			case (3):
+				if(control.Control_x > 0)
+				{
+					power_config.out_mode ++;
+				}
+				else if(control.Control_x < 0)
+				{
+					power_config.out_mode --;
+				}
+				power_config.out_mode = MIN(power_config.out_mode,1);
+				power_config.out_mode = MAX(power_config.out_mode,0);
+				break;
+			case (4):
+				if(control.Control_x > 0)
+				{
+					power_config.set_out_temp ++;
+				}
+				else if(control.Control_x < 0)
+				{
+					power_config.set_out_temp --;
+				}
+				power_config.set_out_temp = MIN(power_config.set_out_temp,18);
+				power_config.set_out_temp = MAX(power_config.set_out_temp,0.8);
+				if(control.Control_botton == 1)
+				{
+					power_config.set_out_vol = power_config.set_out_temp;
+					power_config.out_witch = !power_config.out_witch;
+				}
+				break;
+			case (5):
+				if(control.Control_x > 0)
+				{
+					power_config.set_ele_temp ++;
+				}
+				else if(control.Control_x < 0)
+				{
+					power_config.set_ele_temp --;
+				}
+				power_config.set_ele_temp = MIN(power_config.set_ele_temp,10);
+				power_config.set_ele_temp = MAX(power_config.set_ele_temp,0.1);
+				if(control.Control_botton == 1)
+				{
+					power_config.set_ele_val = power_config.set_ele_temp;
+				}
+				break;
+			default:
+				message->app_ID = 1;        // 返回home
+				first = 1;
+				break;
+		}
         //
         if(control.Control_y > 0)
         {
-            if(message->cursor >= (10 - 1))
+            if(message->cursor >= power_config.line_end)
             {
                 message->cursor = 2;
             }
@@ -174,20 +223,20 @@ int Power_app (Caven_App_Type * message)
             {
                 message->cursor ++;
             }
-            if(message->cursor > 6)        //!!!! 
+            if(message->cursor > power_config.line_max)
             {
-                message->cursor = (10 - 1);
+                message->cursor = power_config.line_end;
             }
         }
         else if(control.Control_y < 0)
         {
             if(message->cursor <= 2)
             {
-                message->cursor = (10 - 1);
+                message->cursor = power_config.line_end;
             }
-            else if(message->cursor == (10 - 1))
+            else if(message->cursor == power_config.line_end)
             {
-                message->cursor = 6;        //!!!! 
+                message->cursor = power_config.line_max;
             }
             else
             {
@@ -195,31 +244,62 @@ int Power_app (Caven_App_Type * message)
             }
         }
         message->cursor = MAX(message->cursor,2);       // 第一个可选是2
-        //
+        //doing
         if(control.Control_value != NULL)
         {
             run_num = 2;
             //
             memcpy(adc_buff,control.Control_value,sizeof(adc_buff));
-            Val_IN_f = Mode_Use.USER_ADC.Conversion_Vol_pFun(adc_buff[run_num++]) * Divider_RES;
+            power_config.IN_vol = Mode_Use.USER_ADC.Conversion_Vol_pFun(adc_buff[run_num++]) * Divider_RES;
+			if(power_config.IN_vol < 5.2)
+			{
+				power_config.PD_val = 0;
+			}
+			else if(power_config.IN_vol > 8 && power_config.IN_vol < 9.2)
+			{
+				power_config.PD_val = 9;
+			}
+			else if(power_config.IN_vol > 11.4 && power_config.IN_vol < 12.2)
+			{
+				power_config.PD_val = 12;
+			}
+			else if(power_config.IN_vol > 19 && power_config.IN_vol < 20.2)
+			{
+				power_config.PD_val = 20;
+			}
+			else{
+				power_config.PD_val = 0;
+			}
             //
             Val_temp = Mode_Use.USER_ADC.Conversion_Vol_pFun(adc_buff[run_num++]) * Divider_RES;
-            temp_num = Data_Median_filtering_Handle (Val_temp,Val_OUT_array,&Val_OUT_f,&Val_OUT_num,10);
+            temp_num = Data_Median_filtering_Handle (Val_temp,Val_OUT_array,&power_config.OUT_vol,&Val_OUT_num,10);
             if(temp_num > 0)
             {
-                SET_Val_Handle (Val_OUT_set,Val_OUT_f);
+                temp_num = SET_Val_Handle (power_config.set_out_vol,power_config.OUT_vol);
+				if(temp_num && power_config.out_witch > 0)
+				{
+					DC_OUT_ON();
+				}
+				else
+				{
+					DC_OUT_OFF();
+				}
             }
             //
             Val_temp = Mode_Use.USER_ADC.Conversion_Vol_pFun(adc_buff[run_num++]);
             //
             Val_temp = Mode_Use.USER_ADC.Conversion_Vol_pFun(adc_buff[run_num++]) * (Sampling_RES_RATIO / MULTIP_RATIO);
-            temp_num = Data_Median_filtering_Handle (Val_temp,Val_ELE_array,&Val_ELE_f,&Val_ELE_num,10);
+            temp_num = Data_Median_filtering_Handle (Val_temp,Val_ELE_array,&power_config.ELE_val,&Val_ELE_num,10);
             if(temp_num > 0)
             {
+				if(power_config.ELE_val < power_config.set_ele_val)
+				{
+//					power_config.out_witch = 0;
+				}
             }
             //
             Val_temp = Mode_Use.USER_ADC.Get_MCU_Temperature_pFun();
-            temp_num = Data_Median_filtering_Handle (Val_temp,Val_TEM_array,&Val_TEM_f,&Val_TEM_num,10);
+            temp_num = Data_Median_filtering_Handle (Val_temp,Val_TEM_array,&power_config.TEM_val,&Val_TEM_num,10);
             //
             Mode_Use.TIME.Delay_Us(100);            // 给电路反应的时间，这很重要
         }
@@ -237,33 +317,33 @@ int Power_app (Caven_App_Type * message)
                 sprintf(message->string + run_num," ");                 // 1
                 run_num += sizeof(" ");
                 
-                sprintf(string_temp,"IN:%5.2fv PD-%2d",Val_IN_f,PD_val);
+                sprintf(string_temp,"IN:%5.2fv PD-%2d",power_config.IN_vol,power_config.PD_val);
                 temp_num = strlen(string_temp);
                 memcpy(message->string + run_num,string_temp,temp_num);
                 run_num += (temp_num + 1);
-                if(out_mode == 0)
-                {
-                    sprintf(string_temp,"%s","VOL Mode");
-                    temp_num = strlen(string_temp);
-                    memcpy(message->string + run_num,string_temp,temp_num);
-                    run_num += (temp_num + 1);
-                }
-                else
+                if(power_config.out_mode > 0)
                 {
                     sprintf(string_temp,"%s","ELE Mode");
                     temp_num = strlen(string_temp);
                     memcpy(message->string + run_num,string_temp,temp_num);
                     run_num += (temp_num + 1);
                 }
-                sprintf(string_temp,"OUT:%5.2fv Set:%4.1fv",Val_OUT_f,Val_OUT_temp);
+                else
+                {
+                    sprintf(string_temp,"%s","VOL Mode");
+                    temp_num = strlen(string_temp);
+                    memcpy(message->string + run_num,string_temp,temp_num);
+                    run_num += (temp_num + 1);
+                }
+                sprintf(string_temp,"OUT:%5.2fv Set:%4.1fv",power_config.OUT_vol,power_config.set_out_temp);
                 temp_num = strlen(string_temp);
                 memcpy(message->string + run_num,string_temp,temp_num);
                 run_num += (temp_num + 1);
-                sprintf(string_temp,"ELE:%5.2fA Set:%4.1fA",Val_ELE_f,Val_ELE_temp);
+                sprintf(string_temp,"ELE:%5.2fA Set:%4.1fA",power_config.ELE_val,power_config.set_ele_temp);
                 temp_num = strlen(string_temp);
                 memcpy(message->string + run_num,string_temp,temp_num);
                 run_num += (temp_num + 1);
-                sprintf(string_temp,"Temp:%5.2f C",Val_TEM_f);
+                sprintf(string_temp,"Temp:%5.2f C",power_config.TEM_val);
                 temp_num = strlen(string_temp);
                 memcpy(message->string + run_num,string_temp,temp_num);
                 run_num += (temp_num + 1);
