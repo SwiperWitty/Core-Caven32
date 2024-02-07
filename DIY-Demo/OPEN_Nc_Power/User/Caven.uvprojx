@@ -397,6 +397,16 @@
               <FileType>1</FileType>
               <FilePath>.\power_app.c</FilePath>
             </File>
+            <File>
+              <FileName>games_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\games_app.c</FilePath>
+            </File>
+            <File>
+              <FileName>steer_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\steer_app.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -1,4 +1,7 @@
 #include "power_app.h"
+#include "games_app.h"
+#include "steer_app.h"
+
 #include "pic.h"
 
 /*
@@ -19,30 +22,19 @@
 #define YG_DIF_MIN	10
 #define YG_DIF_MAX	45
 
-int temp = 0;
-
-int yg_lock = 0; 
-
-u16 ADC_array[10];
-
-int Val_YG_x,Val_YG_y;
-
-float Val_array[10];
-
-float Val_temp_f;
-     
-float Val_OUT_array[10];
-float Val_ELE_array[10];
-float Val_TEM_array[10];
-char Val_OUT_num = 0;
-char Val_ELE_num = 0;
-char Val_TEM_num = 0;
-
 int show_max_x = 20;
 int show_max_y = 10;
+
+int temp = 0;
+u16 ADC_array[10];
 char array_buff[300];
+
+int yg_lock_x = 0;
+int yg_lock_y = 0;
+int Val_YG_x,Val_YG_y;
+
 Caven_App_Type Open_power = {
-    .app_ID = 0x01,
+    .app_ID = HOME_APP,
     .p_Data = NULL,
     .string = NULL,
 };
@@ -60,86 +52,103 @@ int Home_app (Caven_App_Type * message);
 int main(void)
 {
     int retval = 0;
+    int line_temp = 0;
+    int last_show;
     Main_Init();
-    
-    Open_power.string = array_buff;
-    Open_power.p_Data = &YG_Control;
+
     while (1) 
     {
-        int temp = 0,num = 0;
-        char array_buff[300];
-        Val_array[temp++]  = (0x0fff - ADC_array[num++]) / 40;       // 0
-        Val_array[temp++] = ADC_array[num++] / 40;
-
+        line_temp = 0;
+        Val_YG_x  = (0x0fff - ADC_array[line_temp++]) / 40;
+        Val_YG_y = ADC_array[line_temp++] / 40;
         //
-        Val_YG_x = Val_array[0];
-        Val_YG_y = Val_array[1];
         temp = Val_YG_x - YG_DEFAULT;
-        if ((temp > YG_DIF_MIN) && (yg_lock > 0))		// 左
+        if ((temp > YG_DIF_MIN) && (yg_lock_x > 0))		// x
         {
             YG_Control.Control_x = (-1);
-            yg_lock = 0;
+            yg_lock_x = 0;
         }
-        else if ((-temp > YG_DIF_MIN) && (yg_lock > 0))	// 右
+        else if ((-temp > YG_DIF_MIN) && (yg_lock_x > 0))
         {
             YG_Control.Control_x = (1);
-            yg_lock = 0;
+            yg_lock_x = 0;
         }
         else if(abs(temp) < YG_DIF_MIN)					// 空闲　
         {
-            yg_lock++;
-            yg_lock = MIN(yg_lock,100);
+            yg_lock_x++;
+            yg_lock_x = MIN(yg_lock_x,100);
+            YG_Control.Control_x = 0;
         }
         temp = Val_YG_y - YG_DEFAULT;
-        if ((temp > YG_DIF_MIN) && (yg_lock > 0))		// 上
+        if ((temp > YG_DIF_MIN) && (yg_lock_y > 0))		// y
         {
             YG_Control.Control_y = (-1);
-            yg_lock = 0;
+            yg_lock_y = 0;
         }
-        else if ((-temp > YG_DIF_MIN) && (yg_lock > 0))	// 下
+        else if ((-temp > YG_DIF_MIN) && (yg_lock_y > 0))
         {
             YG_Control.Control_y = (1);
-            yg_lock = 0;
+            yg_lock_y = 0;
         }
         else if(abs(temp) < YG_DIF_MIN)					// 空闲　
         {
-            yg_lock++;
-            yg_lock = MIN(yg_lock,100);
+            yg_lock_y++;
+            yg_lock_y = MIN(yg_lock_y,100);
+            YG_Control.Control_y = 0;
         }
-        
-        // 
         if (YG_KEY_STATE() == 0)
         {
             YG_Control.Control_botton = 1;
             do{
-                
+                Mode_Use.TIME.Delay_Ms(1);
             }while(YG_KEY_STATE() == 0);
         }
+        //
+        Open_power.string = array_buff;
         switch (Open_power.app_ID) 
         {
             case HOME_APP:
+                Open_power.p_Data = &YG_Control;
                 retval = Home_app(&Open_power);
                 break;
             case POWER_APP:
+                YG_Control.Control_value = ADC_array;
+                Open_power.p_Data = &YG_Control;
                 retval = Power_app(&Open_power);
                 break;
             case STEE_APP:
+                Open_power.p_Data = &YG_Control;
+                retval = Steer_app(&Open_power);
                 retval = 0;
                 break;
             case GAMES_APP:
-                retval = 0;
+                Open_power.p_Data = &YG_Control;
+                retval = Games_app(&Open_power);
                 break;
             default:
                 break;
         }
-        if (Open_power.string != NULL && Open_power.str_switch == 1) {
-            LCD_Show_string(Open_power.string,Open_power.cursor,show_max_x,show_max_y);
+        if(((last_show & 0xff) != Open_power.app_ID) || (((last_show & 0xff00) >> 8) != Open_power.layer))      // 切页了 
+        {
+            last_show = 0;
+            last_show |= Open_power.layer;
+            last_show <<= 8;
+            last_show |= Open_power.app_ID;
+            Mode_Use.LCD.Fill_pFun(0, 0, LCD_W, LCD_H, LCD_Back_Color);
+            Open_power.cursor = 2;      // 默认
         }
-
+        else
+        {
+            if (Open_power.string != NULL && Open_power.str_switch == 1) {
+                LCD_Show_string(Open_power.string,Open_power.cursor,show_max_x,show_max_y);
+            }
+        }
+        memset(&YG_Control,0,sizeof(YG_Control));
+        memset(Open_power.string,0,128);
         if (retval) {
             break;
         }
-        //        Mode_Use.TIME.Delay_Ms(100);
+//        Mode_Use.TIME.Delay_Ms(100);
     }
 }
 
@@ -156,15 +165,16 @@ void Main_Init(void)
     
     Mode_Init.User_ADC(ENABLE);
 	Mode_Use.USER_ADC.Receive_Bind_pFun(ADC_Data_Handle);
-    //    Mode_Init.Steering_Engine(ENABLE);
+
 
     reverse |= Power_app_init(ENABLE);
+    reverse |= Games_app_init(ENABLE);
+    reverse |= Steer_app_init(ENABLE);
     while (reverse)
         ;
 
     Mode_Use.UART.Send_String_pFun(DEBUG_OUT, "Hello world ! \n");
-    //	Mode_Use.Steering_Engine.Set_Angle(1,0);
-    //	Mode_Use.Steering_Engine.Set_Angle(2,90);
+
 
 #ifdef PICTURE
     Mode_Use.LCD.Show_Picture_pFun(0, 0, 240, 240, Photo2); // Photo
@@ -183,7 +193,6 @@ int Home_app (Caven_App_Type * message)
     if (message != NULL)
     {
         memcpy(&control,message->p_Data,sizeof(control));
-        memset(message->string,0,50);
         if(first)
         {
             message->str_switch = 1;
@@ -191,21 +200,63 @@ int Home_app (Caven_App_Type * message)
             message->layer = first;
             first = 0;
         }
+        //
+        if(control.Control_botton == 1)
+        {
+            switch (message->cursor)
+            {
+                case (2):
+                    message->app_ID = POWER_APP;
+                    first = 1;
+                    break;
+                case (3):
+                    message->app_ID = STEE_APP;
+                    first = 1;
+                    break;
+                case (4):
+                    message->app_ID = GAMES_APP;
+                    first = 1;
+                    break;
+                case (5):
+                    break;
+                default:
+                    message->app_ID = HOME_APP;
+                    break;
+            }
+        }
+        //
         if(control.Control_y > 0)
         {
-            message->cursor ++;
+            if(message->cursor >= (show_max_y - 1))
+            {
+                message->cursor = 2;
+            }
+            else
+            {
+                message->cursor ++;
+            }
+            if(message->cursor > 5)        //!!!! 
+            {
+                message->cursor = (show_max_y - 1);
+            }
         }
         else if(control.Control_y < 0)
         {
-            message->cursor --;
+            if(message->cursor <= 2)
+            {
+                message->cursor = (show_max_y - 1);
+            }
+            else if(message->cursor == (show_max_y - 1))
+            {
+                message->cursor = 5;        //!!!! 
+            }
+            else
+            {
+                message->cursor --;
+            }
         }
-        control.Control_y = 0;
         message->cursor = MAX(message->cursor,2);       // 第一个可选是2
-        if(message->cursor > 5)
-        {
-            message->cursor = show_max_y -1;            // 最后一个可选是5，跳转到break 
-        }
-        
+        //
         sprintf(message->string,"Caven Open power");            // 0
         run_num += sizeof("Caven Open power");
         if(message->layer == 1)
@@ -220,7 +271,7 @@ int Home_app (Caven_App_Type * message)
             run_num += sizeof("Games");
             sprintf(message->string + run_num,"About");         // 5
             run_num += sizeof("About");
-            sprintf(message->string + run_num,"\nbreak[user/home]");    // end(6)
+            sprintf(message->string + run_num,"\nBack [user/home]");    // end(6)
 
         }
     }
