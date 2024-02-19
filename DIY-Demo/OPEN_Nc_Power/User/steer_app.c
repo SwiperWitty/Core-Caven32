@@ -1,23 +1,25 @@
 #include "steer_app.h"
 
+float x_Angle = 0,y_Angle = 0,z_Angle;
 
 int Steer_app_init (int Set)
 {
     int retval = 0;
     Mode_Init.Steering_Engine(ENABLE);
-	Mode_Use.Steering_Engine.Set_Angle(1,0);
-	Mode_Use.Steering_Engine.Set_Angle(2,90);
+	Mode_Use.Steering_Engine.Set_Angle(1,x_Angle);
+	Mode_Use.Steering_Engine.Set_Angle(2,y_Angle);
     return retval;
 }
-
 
 int Steer_app (Caven_App_Type * message)
 {
     int retval = 0;
     int run_num = 0;
+    int temp_num;
     static int first = 1;
     Caven_Control_Type control;
-
+    char string_temp[50];
+    
     if (message != NULL)
     {
         memcpy(&control,message->p_Data,sizeof(control));
@@ -25,14 +27,22 @@ int Steer_app (Caven_App_Type * message)
         {
             message->str_switch = 1;
             message->cursor = 0;
-            message->layer = first;
+            message->layer = 2;
             first = 0;
         }
         if(control.Control_botton == 1)
         {
-            switch (message->cursor)
+            switch (message->cursor)            // 光标
             {
                 case (2):
+                    if(message->layer == 1)
+                    {
+                        message->layer ++;
+                    }
+                    else
+                    {
+                        message->layer --;
+                    }
                     break;
 
                 default:
@@ -81,10 +91,32 @@ int Steer_app (Caven_App_Type * message)
         {
             sprintf(message->string + run_num," ");             // 1
             run_num += sizeof(" ");
-            sprintf(message->string + run_num,"this Steer !");  // 2
-            run_num += sizeof("this Steer !");
+            sprintf(message->string + run_num,"Start Steer control !");  // 2
+            run_num += sizeof("Start Steer control !");
             sprintf(message->string + run_num,"\nBack [user/steer]");    // end(x)
             
+        }
+        else if (message->layer == 2)
+        {
+            x_Angle = MAX(x_Angle,-90);
+            y_Angle = MAX(y_Angle,-90);
+            x_Angle = MIN(x_Angle,90);
+            y_Angle = MIN(y_Angle,90);
+            
+            sprintf(message->string + run_num," ");             // 1
+            run_num += sizeof(" ");
+            sprintf(string_temp,"Start x: %4.1f ",x_Angle);     // 2
+            temp_num = strlen(string_temp);
+            memcpy(message->string + run_num,string_temp,temp_num);
+            run_num += strlen(string_temp) + 1;
+            sprintf(string_temp,"Start y: %4.1f ",y_Angle);     // 3
+            temp_num = strlen(string_temp);
+            memcpy(message->string + run_num,string_temp,temp_num);
+            run_num += strlen(string_temp) + 1;
+            sprintf(message->string + run_num,"\nBack [user/steer]");    // end(x)
+
+            Mode_Use.Steering_Engine.Set_Angle(1,x_Angle);
+            Mode_Use.Steering_Engine.Set_Angle(2,y_Angle);
         }
 
     }

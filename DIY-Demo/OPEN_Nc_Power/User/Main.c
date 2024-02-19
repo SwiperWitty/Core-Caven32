@@ -34,7 +34,8 @@ int yg_lock_y = 0;
 int Val_YG_x,Val_YG_y;
 
 Caven_App_Type Open_power = {
-    .app_ID = HOME_APP,
+    .app_ID = STEE_APP,
+
     .p_Data = NULL,
     .string = NULL,
 };
