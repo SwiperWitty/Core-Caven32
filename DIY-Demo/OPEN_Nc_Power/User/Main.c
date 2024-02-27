@@ -66,12 +66,18 @@ int main(void)
         temp = Val_YG_x - YG_DEFAULT;
         if ((temp > YG_DIF_MIN) && (yg_lock_x > 0))		// x
         {
-            YG_Control.Control_x = (1);
+            if (temp > YG_DIF_MAX)
+                YG_Control.Control_x = 2;
+            else
+                YG_Control.Control_x = (1);
             yg_lock_x = 0;
         }
         else if ((-temp > YG_DIF_MIN) && (yg_lock_x > 0))
         {
-            YG_Control.Control_x = (-1);
+            if (-temp > YG_DIF_MAX)
+                YG_Control.Control_x = (-2);
+            else
+                YG_Control.Control_x = (-1);
             yg_lock_x = 0;
         }
         else if(abs(temp) < YG_DIF_MIN)					// 空闲　
@@ -83,12 +89,18 @@ int main(void)
         temp = Val_YG_y - YG_DEFAULT;
         if ((temp > YG_DIF_MIN) && (yg_lock_y > 0))		// y
         {
-            YG_Control.Control_y = (-1);
+            if (temp > YG_DIF_MAX)
+                YG_Control.Control_y = (-2);
+            else
+                YG_Control.Control_y = (-1);
             yg_lock_y = 0;
         }
         else if ((-temp > YG_DIF_MIN) && (yg_lock_y > 0))
         {
-            YG_Control.Control_y = (1);
+            if (temp > YG_DIF_MAX)
+                YG_Control.Control_y = (2);
+            else
+                YG_Control.Control_y = (1);
             yg_lock_y = 0;
         }
         else if(abs(temp) < YG_DIF_MIN)					// 空闲　
@@ -330,7 +342,6 @@ void LCD_Show_string(char *string,char cursor,char width,char length)
         
         if(get_num > 0)
         {
-
             Mode_Use.LCD.Show_String_pFun(show_point_x, show_point_y, p_str, color, LCD_Back_Color, 24);
             show_point_y++;
         }
@@ -344,7 +355,7 @@ void LCD_Show_string(char *string,char cursor,char width,char length)
 void ADC_Data_Handle (void * data)
 {
     memcpy(ADC_array,data,sizeof(ADC_array));
-    if(ADC_array[6] > 2000)
+    if(ADC_array[6] > 2000) // 电流
     {
         DC_5V_OFF();
     }

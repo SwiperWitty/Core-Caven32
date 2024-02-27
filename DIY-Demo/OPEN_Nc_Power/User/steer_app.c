@@ -30,74 +30,106 @@ int Steer_app (Caven_App_Type * message)
             message->layer = 2;
             first = 0;
         }
-        if(control.Control_botton == 1)
-        {
-            switch (message->cursor)            // 光标
-            {
-                case (2):
-                    if(message->layer == 1)
-                    {
-                        message->layer ++;
-                    }
-                    else
-                    {
-                        message->layer --;
-                    }
-                    break;
-
-                default:
-                    message->app_ID = 1;        // 返回home
-                    first = 1;
-                    break;
-            }
-        }
-        //
-        if(control.Control_y > 0)
-        {
-            if(message->cursor >= (10 - 1))
-            {
-                message->cursor = 2;
-            }
-            else
-            {
-                message->cursor ++;
-            }
-            if(message->cursor > 2)        //!!!! 
-            {
-                message->cursor = (10 - 1);
-            }
-        }
-        else if(control.Control_y < 0)
-        {
-            if(message->cursor <= 2)
-            {
-                message->cursor = (10 - 1);
-            }
-            else if(message->cursor == (10 - 1))
-            {
-                message->cursor = 2;
-            }
-            else
-            {
-                message->cursor --;
-            }
-        }
-        message->cursor = MAX(message->cursor,2);       // 第一个可选是2
-
         //
         sprintf(message->string,"Caven Open power");            // 0
         run_num += sizeof("Caven Open power");
-        if(message->layer == 1)
+
+        if (message->layer == 1)
         {
+            if(control.Control_botton == 1)
+            {
+                switch (message->cursor)            // 光标
+                {
+                    case (2):
+                        message->layer ++;
+                        break;
+                    default:
+                        message->app_ID = 1;        // 返回home
+                        first = 1;
+                        break;
+                }
+            }
+            if(control.Control_y > 0)
+            {
+                if(message->cursor >= (10 - 1))
+                {
+                    message->cursor = 2;
+                }
+                else
+                {
+                    message->cursor ++;
+                }
+                if(message->cursor > 2)        //!!!! 
+                {
+                    message->cursor = (10 - 1);
+                }
+            }
+            else if(control.Control_y < 0)
+            {
+                if(message->cursor <= 2)
+                {
+                    message->cursor = (10 - 1);
+                }
+                else if(message->cursor == (10 - 1))
+                {
+                    message->cursor = 2;
+                }
+                else
+                {
+                    message->cursor --;
+                }
+            }
             sprintf(message->string + run_num," ");             // 1
             run_num += sizeof(" ");
             sprintf(message->string + run_num,"Start Steer control !");  // 2
             run_num += sizeof("Start Steer control !");
             sprintf(message->string + run_num,"\nBack [user/steer]");    // end(x)
-            
         }
         else if (message->layer == 2)
         {
+            if(control.Control_botton == 1)
+            {
+                switch (message->cursor)            // 光标
+                {
+                    case (2):
+                        message->layer --;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            if(control.Control_y > 0)
+            {
+                y_Angle += 0.3;
+                if(control.Control_y > 1)
+                {
+                    y_Angle += 1.0;
+                }
+            }
+            else if(control.Control_y < 0)
+            {
+                y_Angle -= 0.3;
+                if(control.Control_y < -1)
+                {
+                    y_Angle -= 1.0;
+                }
+            }
+            if(control.Control_x > 0)
+            {
+                x_Angle += 0.3;
+                if(control.Control_x > 1)
+                {
+                    x_Angle += 1.0;
+                }
+            }
+            else if(control.Control_x < 0)
+            {
+                x_Angle -= 0.3;
+                if(control.Control_x < -1)
+                {
+                    x_Angle -= 1.0;
+                }
+            }
             x_Angle = MAX(x_Angle,-90);
             y_Angle = MAX(y_Angle,-90);
             x_Angle = MIN(x_Angle,90);
@@ -119,6 +151,7 @@ int Steer_app (Caven_App_Type * message)
             Mode_Use.Steering_Engine.Set_Angle(2,y_Angle);
         }
 
+        message->cursor = MAX(message->cursor,2);       // 第一个可选是2
     }
 
     return retval;
