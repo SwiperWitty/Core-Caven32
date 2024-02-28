@@ -34,7 +34,7 @@ int yg_lock_y = 0;
 int Val_YG_x,Val_YG_y;
 
 Caven_App_Type Open_power = {
-    .app_ID = STEE_APP,
+    .app_ID = POWER_APP,
 
     .p_Data = NULL,
     .string = NULL,
@@ -57,7 +57,7 @@ int main(void)
     int last_show;
     Main_Init();
 
-    while (1) 
+    while (1)
     {
         line_temp = 0;
         Val_YG_x  = (0x0fff - ADC_array[line_temp++]) / 40;

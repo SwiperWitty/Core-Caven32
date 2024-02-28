@@ -70,7 +70,7 @@ int SET_Val_Handle (float set_val,float get_val)
 	static float Last_set_val;
 	if(Last_set_val != set_val)
 	{
-		DC_OUT_OFF();
+		// DC_OUT_OFF();
 		Last_set_val = set_val;
 		set_diff_max = 0;
 	}
@@ -156,91 +156,103 @@ int Power_app (Caven_App_Type * message)
             first = 0;
         }
 		//
-		switch (message->cursor)
-		{
-			case (2):
-				break;
-			case (6):
-				break;
-			case (3):
-				if(control.Control_x > 0)
-				{
-					power_config.out_mode ++;
-				}
-				else if(control.Control_x < 0)
-				{
-					power_config.out_mode --;
-				}
-				power_config.out_mode = MIN(power_config.out_mode,1);
-				power_config.out_mode = MAX(power_config.out_mode,0);
-				break;
-			case (4):
-				if(control.Control_x > 0)
-				{
-					power_config.set_out_temp ++;
-				}
-				else if(control.Control_x < 0)
-				{
-					power_config.set_out_temp --;
-				}
-				power_config.set_out_temp = MIN(power_config.set_out_temp,18);
-				power_config.set_out_temp = MAX(power_config.set_out_temp,0.8);
-				if(control.Control_botton == 1)
-				{
-					power_config.set_out_vol = power_config.set_out_temp;
-					power_config.out_witch = !power_config.out_witch;
-				}
-				break;
-			case (5):
-				if(control.Control_x > 0)
-				{
-					power_config.set_ele_temp ++;
-				}
-				else if(control.Control_x < 0)
-				{
-					power_config.set_ele_temp --;
-				}
-				power_config.set_ele_temp = MIN(power_config.set_ele_temp,10);
-				power_config.set_ele_temp = MAX(power_config.set_ele_temp,0.1);
-				if(control.Control_botton == 1)
-				{
-					power_config.set_ele_val = power_config.set_ele_temp;
-				}
-				break;
-			default:
-				message->app_ID = 1;        // 返回home
-				first = 1;
-				break;
-		}
-        //
-        if(control.Control_y > 0)
+        if(message->layer == 1)
         {
-            if(message->cursor >= power_config.line_end)
+            switch (message->cursor)
             {
-                message->cursor = 2;
+                case (2):
+                    break;
+                case (6):
+                    break;
+                case (3):
+                    if(control.Control_x > 0)
+                    {
+                        power_config.out_mode ++;
+                    }
+                    else if(control.Control_x < 0)
+                    {
+                        power_config.out_mode --;
+                    }
+                    power_config.out_mode = MIN(power_config.out_mode,1);
+                    power_config.out_mode = MAX(power_config.out_mode,0);       // 电流模式或者电压模式
+                    break;
+                case (4):
+                    if(control.Control_x == 1)
+                    {
+                        power_config.set_out_temp += 0.1;
+                    }
+                    else if(control.Control_x == -1)
+                    {
+                        power_config.set_out_temp -= 0.1;
+                    }
+                    else if(control.Control_x == 2)
+                    {
+                        power_config.set_out_temp += 1;
+                    }
+                    else if(control.Control_x == -2)
+                    {
+                        power_config.set_out_temp -= 1;
+                    }
+                    power_config.set_out_temp = MIN(power_config.set_out_temp,18);
+                    power_config.set_out_temp = MAX(power_config.set_out_temp,0.8);
+                    if(control.Control_botton == 1)
+                    {
+                        power_config.set_out_vol = power_config.set_out_temp;
+                        power_config.out_witch = !power_config.out_witch;
+                    }
+                    break;
+                case (5):
+                    if(control.Control_x > 0)
+                    {
+                        power_config.set_ele_temp ++;
+                    }
+                    else if(control.Control_x < 0)
+                    {
+                        power_config.set_ele_temp --;
+                    }
+                    power_config.set_ele_temp = MIN(power_config.set_ele_temp,10);
+                    power_config.set_ele_temp = MAX(power_config.set_ele_temp,0.1);
+                    if(control.Control_botton == 1)
+                    {
+                        power_config.set_ele_val = power_config.set_ele_temp;
+                    }
+                    break;
+                default:
+                    message->app_ID = 1;        // 返回home
+                    first = 1;
+                    break;
             }
-            else
+        
+            //
+            if(control.Control_y > 0)
             {
-                message->cursor ++;
+                if(message->cursor >= power_config.line_end)
+                {
+                    message->cursor = 2;
+                }
+                else
+                {
+                    message->cursor ++;
+                }
+                if(message->cursor > power_config.line_max)
+                {
+                    message->cursor = power_config.line_end;
+                }
             }
-            if(message->cursor > power_config.line_max)
+            else if(control.Control_y < 0)
             {
-                message->cursor = power_config.line_end;
-            }
-        }
-        else if(control.Control_y < 0)
-        {
-            if(message->cursor <= 2)
-            {
-                message->cursor = power_config.line_end;
-            }
-            else if(message->cursor == power_config.line_end)
-            {
-                message->cursor = power_config.line_max;
-            }
-            else
-            {
-                message->cursor --;
+                if(message->cursor <= 2)
+                {
+                    message->cursor = power_config.line_end;
+                }
+                else if(message->cursor == power_config.line_end)
+                {
+                    message->cursor = power_config.line_max;
+                }
+                else
+                {
+                    message->cursor --;
+                }
             }
         }
         message->cursor = MAX(message->cursor,2);       // 第一个可选是2
@@ -271,37 +283,53 @@ int Power_app (Caven_App_Type * message)
 				power_config.PD_val = 0;
 			}
             //
-            Val_temp = Mode_Use.USER_ADC.Conversion_Vol_pFun(adc_buff[run_num++]) * Divider_RES;
-            temp_num = Data_Median_filtering_Handle (Val_temp,Val_OUT_array,&power_config.OUT_vol,&Val_OUT_num,10);
-            if(temp_num > 0)
+            if (power_config.out_mode == 0)
             {
-                temp_num = SET_Val_Handle (power_config.set_out_vol,power_config.OUT_vol);
-				if(temp_num && power_config.out_witch > 0)
-				{
-					DC_OUT_ON();
-				}
-				else
-				{
-					DC_OUT_OFF();
-				}
+                //vol
+                Val_temp = Mode_Use.USER_ADC.Conversion_Vol_pFun(adc_buff[run_num++]) * Divider_RES;
+                temp_num = Data_Median_filtering_Handle (Val_temp,Val_OUT_array,&power_config.OUT_vol,&Val_OUT_num,10);
+                if(temp_num > 0)
+                {
+                    temp_num = SET_Val_Handle (power_config.set_out_vol,power_config.OUT_vol);
+                    if(temp_num && power_config.out_witch > 0)
+                    {
+                        power_config.out_witch = 1;
+                    }
+                    else
+                    {
+                    }
+                }
+                //ntc
+                Val_temp = Mode_Use.USER_ADC.Conversion_Vol_pFun(adc_buff[run_num++]);
+                //ele
+                Val_temp = Mode_Use.USER_ADC.Conversion_Vol_pFun(adc_buff[run_num++]) * (Sampling_RES_RATIO / MULTIP_RATIO);
+                temp_num = Data_Median_filtering_Handle (Val_temp,Val_ELE_array,&power_config.ELE_val,&Val_ELE_num,10);
+                if(temp_num > 0)
+                {
+                    if(power_config.ELE_val > power_config.set_ele_val)
+                    {
+    					power_config.out_witch = 0;
+                    }
+                }
             }
-            //
-            Val_temp = Mode_Use.USER_ADC.Conversion_Vol_pFun(adc_buff[run_num++]);
-            //
-            Val_temp = Mode_Use.USER_ADC.Conversion_Vol_pFun(adc_buff[run_num++]) * (Sampling_RES_RATIO / MULTIP_RATIO);
-            temp_num = Data_Median_filtering_Handle (Val_temp,Val_ELE_array,&power_config.ELE_val,&Val_ELE_num,10);
-            if(temp_num > 0)
+            else
             {
-				if(power_config.ELE_val < power_config.set_ele_val)
-				{
-//					power_config.out_witch = 0;
-				}
+
             }
+
             //
             Val_temp = Mode_Use.USER_ADC.Get_MCU_Temperature_pFun();
             temp_num = Data_Median_filtering_Handle (Val_temp,Val_TEM_array,&power_config.TEM_val,&Val_TEM_num,10);
             //
             Mode_Use.TIME.Delay_Us(100);            // 给电路反应的时间，这很重要
+        }
+        if(power_config.out_witch > 0)
+        {
+            DC_OUT_ON();
+        }
+        else
+        {
+            DC_OUT_OFF();
         }
         //
         show_cycle ++;

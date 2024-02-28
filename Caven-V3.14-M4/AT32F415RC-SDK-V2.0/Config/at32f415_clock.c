@@ -184,10 +184,8 @@ void system_clock_hext_config(void)
 
 void system_clock_config(void)
 {
-#ifdef Ins_HSCLK
-    system_clock_hick_config();     //Ins_HSCLK
-#elif Ext_HSCLK
-    system_clock_hext_config();     //Ext_HSCLK
+#ifdef EXT_HSCLK
+    system_clock_hext_config();     // EXT_HSCLK
 #else 
     system_clock_hick_config();     // 默认内部高速时钟
 #endif

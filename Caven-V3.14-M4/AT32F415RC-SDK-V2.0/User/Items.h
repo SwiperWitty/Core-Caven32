@@ -51,7 +51,7 @@
 #define Exist_ADC		OPEN_1101
 //#define Exist_DAC
 
-#define Exist_UART      OPEN_1110  // 串口
+#define Exist_UART      OPEN_11110  // 串口
 //#define Exist_IIC
 //#define Exist_SPI     OPEN_0100   // SPI2
 //#define Exist_USB
@@ -121,6 +121,12 @@
 #endif
 
 /*****  冲突      *****/
+#if DEBUG_OUT == 1
+    #ifdef Exist_USB
+        #warning (UART1 And USB Clash !!!)
+    #endif
+#endif
+
 #ifdef Exist_LCD
     #ifdef Exist_OLED
         #warning (LCD And OLED Have A Clash !!!)
