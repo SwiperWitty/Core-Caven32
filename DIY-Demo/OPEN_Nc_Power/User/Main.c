@@ -132,7 +132,6 @@ int main(void)
             case STEE_APP:
                 Open_power.p_Data = &YG_Control;
                 retval = Steer_app(&Open_power);
-                retval = 0;
                 break;
             case GAMES_APP:
                 Open_power.p_Data = &YG_Control;
