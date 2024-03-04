@@ -4,12 +4,15 @@
  *
  */
 #include "main.h"
+#include "math.h"
+
 
 u8 send_array[64];
 int run_num;
 float float_array[10];
 
-void Draw_Circle(U16 x0, U16 y0, char radius, char wide,U16 color);
+void Draw_Circle(U16 x0, U16 y0, char radius, char wide,char percent,U16 color);
+float test;
 
 int main(void)
 {
@@ -27,11 +30,11 @@ int main(void)
     };
     Vofa_JustFloat_Init_Fun (2,Debug_Out);
     float_array[1] = 3.3;
+
     while(1)
     {
         now_time = Mode_Use.TIME.Get_Watch_pFun();
 //        printf("sys time: %d : %d : %d , %d (us)\n",now_time.hour,now_time.minutes,now_time.second,now_time.time_us);
-
         API_Task_Timer (&LED_Task,now_time);        // LED任务
         Mode_Use.LED.SET_pFun(1,LED_Task.Flip_falg);
 
@@ -42,16 +45,16 @@ int main(void)
         }
 //        Mode_Use.LCD.Draw_Circle_pFun(100,100,50,LCD_BLACK);
         Mode_Use.LCD.Draw_Point_pFun (120,120,LCD_BLACK);
-        Draw_Circle(120, 120, 50, 0,LCD_BLACK);
+        Draw_Circle(120, 120, 50, 0,70,LCD_BLACK);
 
 //        Vofa_JustFloat_Show_Fun (float_array);
-        Mode_Use.TIME.Delay_Ms(10);
+        Mode_Use.TIME.Delay_Ms(1000);
     }
 
     SYS_RESET();
 }
 
-void Draw_Circle(U16 x0, U16 y0, char radius, char wide,U16 color)
+void Draw_Circle(U16 x0, U16 y0, char radius, char wide,char percent,U16 color)
 {
     int a, b;
     a = 0;
@@ -59,9 +62,39 @@ void Draw_Circle(U16 x0, U16 y0, char radius, char wide,U16 color)
     int temp_num = radius * radius;
     int temp_num_b = b * b;
     int temp_run = 0;
-
     char pic_array[400][2];
 
+    char xiang_x = 0; //(x/25 + 1);
+    float f_temp_percent;
+    float f_temp_num;
+    float x_point = 0,y_point = 0;
+    temp_run = percent/25 + 1;
+    switch (temp_run) {
+        case 1:
+            xiang_x = 1;
+            break;
+        case 2:
+            xiang_x = 4;
+            break;
+        case 3:
+            xiang_x = 3;
+            break;
+        case 4:
+            xiang_x = 2;
+            break;
+        default:
+            break;
+    }
+    f_temp_num = percent % 25;
+    f_temp_percent = (f_temp_num / 25) * 90;
+    f_temp_num = 3.1415926 / 180.0;
+    f_temp_num *= f_temp_percent;
+
+    x_point = sinf(f_temp_num) * radius;
+    y_point = cosf(f_temp_num) * radius;
+    printf("x : %d %%,xiang x bb: %d,x: %5.2f -> sin x = %5.3f,cos y = %5.3f \n",percent,xiang_x,f_temp_percent,x_point,y_point);
+
+    temp_run = 0;
     while (a <= b)
     {
         pic_array[temp_run][0] = x0 + b - 120; pic_array[temp_run++][1] = y0 - a - 120;
@@ -80,9 +113,9 @@ void Draw_Circle(U16 x0, U16 y0, char radius, char wide,U16 color)
     for (int i = 0; i < temp_run; i++) {
         Mode_Use.LCD.Draw_Point_pFun (pic_array[i][0]+120,120-pic_array[i][1],color);
     }
-    for (int i = 0; i < temp_run; i++) {
-        Mode_Use.LCD.Draw_Point_pFun (120-pic_array[i][0],pic_array[i][1]+120,color);
-    }
+//    for (int i = 0; i < temp_run; i++) {
+//        Mode_Use.LCD.Draw_Point_pFun (120-pic_array[i][0],pic_array[i][1]+120,color);
+//    }
     for (int i = 0; i < temp_run; i++) {
         Mode_Use.LCD.Draw_Point_pFun (120-pic_array[i][0],120-pic_array[i][1],color);
     }
@@ -98,7 +131,7 @@ void Main_Init(void)
     Mode_Init.UART_Init_State = Mode_Init.UART(m_UART_CH1,115200,ENABLE);
     Mode_Init.LCD(ENABLE);
 
-    Mode_Use.UART.Send_String_pFun(m_UART_CH1,"hello world !\n");
+//    Mode_Use.UART.Send_String_pFun(m_UART_CH1,"hello world !\n");
 
 //    printf("SystemClk:%d \r\n", MCU_SYS_FREQ);
 }

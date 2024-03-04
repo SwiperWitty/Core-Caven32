@@ -10,7 +10,7 @@
 
 #include "debug.h"
 #include "Mode.h"
-
+#include "math.h"
 
 void Main_Init(void);
 

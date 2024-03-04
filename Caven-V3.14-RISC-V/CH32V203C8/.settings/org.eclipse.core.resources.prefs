@@ -40,6 +40,7 @@ encoding//Mode/MODE_BZZ.c=UTF-8
 encoding//Mode/MODE_BZZ.h=UTF-8
 encoding//Mode/MODE_LCD.c=UTF-8
 encoding//Mode/MODE_LCD.h=UTF-8
+encoding//Mode/MODE_LCD_1_28.c=GBK
 encoding//Mode/MODE_LED.c=GBK
 encoding//Mode/MODE_Time.c=UTF-8
 encoding//Mode/MODE_Time.h=UTF-8
