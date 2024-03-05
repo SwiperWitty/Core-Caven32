@@ -8,6 +8,10 @@
         "base_uart.h": "c",
         "base_adc.h": "c",
         "base_exist_gpio.h": "c",
-        "usb_user.h": "c"
+        "usb_user.h": "c",
+        "main.h": "c",
+        "mode.h": "c",
+        "api.h": "c",
+        "data_handle.h": "c"
     }
 }

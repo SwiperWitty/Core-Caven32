@@ -4,12 +4,12 @@
  *
  */
 #include "main.h"
-#include "math.h"
 
 
 u8 send_array[64];
 int run_num;
 float float_array[10];
+float time_temp;
 
 void Draw_Circle(U16 x0,U16 y0,char radius,char wide,char percent,U16 color);
 
@@ -17,7 +17,12 @@ int main(void)
 {
     Main_Init();
 
-    Caven_Watch_Type now_time;
+    Caven_Watch_Type now_time = {
+            .hour = 8,
+            .minutes = 7,
+            .second  = 45,
+    };
+    Mode_Use.TIME.Set_Watch_pFun(now_time);
     now_time = Mode_Use.TIME.Get_Watch_pFun();
 
     Task_Overtime_Type LED_Task = {
@@ -29,7 +34,13 @@ int main(void)
     };
     Vofa_JustFloat_Init_Fun (2,Debug_Out);
     float_array[1] = 3.3;
-    char x_bili = 50;
+    char a_bili = 0,b_bili = 0;
+    char last_s = 1,last_m = 1,last_h = 1;
+
+    Mode_Use.LCD.Show_String_pFun (9,0,"12",LCD_BLACK,LCD_Back_Color,24);
+    Mode_Use.LCD.Show_String_pFun (19,5,"3",LCD_BLACK,LCD_Back_Color,24);
+    Mode_Use.LCD.Show_String_pFun (9,9,"6",LCD_BLACK,LCD_Back_Color,24);
+    Mode_Use.LCD.Show_String_pFun (0,5,"9",LCD_BLACK,LCD_Back_Color,24);
     while(1)
     {
         now_time = Mode_Use.TIME.Get_Watch_pFun();
@@ -41,16 +52,32 @@ int main(void)
         if (float_array[0] > 10) {
             float_array[0] = 0;
         }
-//        Mode_Use.LCD.Draw_Circle_pFun(100,100,50,LCD_BLACK);
-        Mode_Use.LCD.Draw_Point_pFun (120,120,LCD_BLACK);
-        Draw_Circle(120, 120, 80, 16,x_bili,LCD_BLACK);
-        x_bili += 5;
-        if (x_bili > 100) {
-            x_bili = 0;
-            LCD_Fill_Fun (0, 0, LCD_W, LCD_H, LCD_Back_Color);
+
+        time_temp = now_time.second;
+        time_temp = (time_temp / 60) * 100;
+        Draw_Circle(120, 120, 80, 12,Caven_math_approximate ((int)time_temp,5,0,100),LCD_RED);
+        time_temp = now_time.minutes;
+        time_temp = (time_temp / 60) * 100;
+        Draw_Circle(120, 120, 60, 12,Caven_math_approximate ((int)time_temp,5,0,100),LCD_BLUE);
+        time_temp = now_time.hour;
+        time_temp = (time_temp / 12) * 100;
+        Draw_Circle(120, 120, 40, 12,Caven_math_approximate ((int)time_temp,5,0,100),LCD_GREEN);
+        a_bili += 5;
+        b_bili += 1;
+        if (last_s > now_time.second) {
+            last_s = 1;
+            Draw_Circle(120, 120, 80, 12,100,LCD_Back_Color);
+        }
+        if (last_m > now_time.minutes) {
+            last_m = 1;
+            Draw_Circle(120, 120, 60, 12,100,LCD_Back_Color);
+        }
+        if (last_h > now_time.hour) {
+            last_h = 1;
+            Draw_Circle(120, 120, 40, 12,100,LCD_Back_Color);
         }
 //        Vofa_JustFloat_Show_Fun (float_array);
-        Mode_Use.TIME.Delay_Ms(1000);
+        Mode_Use.TIME.Delay_Ms(10);
     }
 
     SYS_RESET();
@@ -65,30 +92,13 @@ void Draw_Circle(U16 x0,U16 y0,char radius,char wide,char percent,U16 color)
     u8 pic_array[256][2];
     u8 show_x,show_y;
 
-    char quadrant = 0;          //
     char subzone;
     float f_temp_percent;
     float f_temp_num;
     float x_point = 0,y_point = 0;
 
     subzone = percent/25 + 1;
-    switch (subzone) {
-        case 1:
-            quadrant = 1;
-            break;
-        case 2:
-            quadrant = 4;
-            break;
-        case 3:
-            quadrant = 3;
-            break;
-        case 4:
-            quadrant = 2;
-            break;
-        default:
-            quadrant = 5;
-            break;
-    }
+
     f_temp_num = percent % 25;
     f_temp_percent = (f_temp_num / 25) * 90;
     f_temp_num = (f_temp_percent / 180) * 3.1415926;
@@ -204,9 +214,9 @@ void Draw_Circle(U16 x0,U16 y0,char radius,char wide,char percent,U16 color)
             }
         }
     }while(wide--);
-    printf("x : %d %%,quadrant: %d,x: %5.2f -> sin x = %5.3f,cos y = %5.3f \n",percent,quadrant,f_temp_percent,x_point,y_point);
-    sprintf(send_array,"%3d%% ",percent);
-    Mode_Use.LCD.Show_String_pFun (8,0,send_array,LCD_BLACK,LCD_Back_Color,24);
+//    printf("x : %d %%,quadrant: %d,x: %5.2f -> sin x = %5.3f,cos y = %5.3f \n",percent,quadrant,f_temp_percent,x_point,y_point);
+//    sprintf(send_array,"%3d%% ",percent);
+//    Mode_Use.LCD.Show_String_pFun (8,0,send_array,LCD_BLACK,LCD_Back_Color,24);
 }
 
 void Main_Init(void)
