@@ -287,7 +287,7 @@ int Power_app (Caven_App_Type * message)
             {
                 //vol
                 Val_temp = Mode_Use.USER_ADC.Conversion_Vol_pFun(adc_buff[run_num++]) * Divider_RES;
-                temp_num = Data_Median_filtering_Handle (Val_temp,Val_OUT_array,&power_config.OUT_vol,&Val_OUT_num,10);
+                temp_num = Caven_Data_Median_filtering_Handle (Val_temp,Val_OUT_array,&power_config.OUT_vol,&Val_OUT_num,10);
                 if(temp_num > 0)
                 {
                     temp_num = SET_Val_Handle (power_config.set_out_vol,power_config.OUT_vol);
@@ -303,7 +303,7 @@ int Power_app (Caven_App_Type * message)
                 Val_temp = Mode_Use.USER_ADC.Conversion_Vol_pFun(adc_buff[run_num++]);
                 //ele
                 Val_temp = Mode_Use.USER_ADC.Conversion_Vol_pFun(adc_buff[run_num++]) * (Sampling_RES_RATIO / MULTIP_RATIO);
-                temp_num = Data_Median_filtering_Handle (Val_temp,Val_ELE_array,&power_config.ELE_val,&Val_ELE_num,10);
+                temp_num = Caven_Data_Median_filtering_Handle (Val_temp,Val_ELE_array,&power_config.ELE_val,&Val_ELE_num,10);
                 if(temp_num > 0)
                 {
                     if(power_config.ELE_val > power_config.set_ele_val)
@@ -319,7 +319,7 @@ int Power_app (Caven_App_Type * message)
 
             //
             Val_temp = Mode_Use.USER_ADC.Get_MCU_Temperature_pFun();
-            temp_num = Data_Median_filtering_Handle (Val_temp,Val_TEM_array,&power_config.TEM_val,&Val_TEM_num,10);
+            temp_num = Caven_Data_Median_filtering_Handle (Val_temp,Val_TEM_array,&power_config.TEM_val,&Val_TEM_num,10);
             //
             Mode_Use.TIME.Delay_Us(100);            // 给电路反应的时间，这很重要
         }
