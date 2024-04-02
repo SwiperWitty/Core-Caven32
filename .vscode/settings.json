@@ -13,6 +13,9 @@
         "mode.h": "c",
         "api.h": "c",
         "data_handle.h": "c",
-        "check_crc.h": "c"
+        "check_crc.h": "c",
+        "base_sys_time.h": "c",
+        "caven_event_frame.h": "c",
+        "mode_time.h": "c"
     }
 }

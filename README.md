@@ -12,7 +12,7 @@ _____
 
 本设计仅供于学习、参考，不可商用和水毕业论文（参与开发者随意）！
 
-**跟新日志**
+**更新日志**
 
 2020.开始创建
 
@@ -20,7 +20,7 @@ _____
 
 2022.驱动
 
-2024.开始收尾
+2024.开始收尾，CavenRTOS
 
 | 更新速度Top | Base底层完成度（独立） | Mode调度层完成度(共享)  |
 | :---------: | :--------------------: | :---------------------: |
@@ -126,6 +126,111 @@ ______
 所有会自动提升的功能都是已经写好的！
 
 ![image-20220913201218059](https://raw.githubusercontent.com/SwiperWitty/img/main/img/image-20220913201218059.png)
+
+
+
+#### CavenRTOS
+
+这个功能是最重要的东西，当然你可能主观上不想用，但是实际上你在启动的时候，他就运行了。
+
+- 系统实时时钟管理
+- 多任务（状态机&触发器）
+
+实时时钟：
+
+由`Base_Sys_time.c`提供最基础的调用，注意此文件提供三点：初始化系统时钟、获取/设置系统实时时钟、delay。
+
+~~~~c
+typedef struct
+{
+    u32 SYS_Time_H; //每Frequency进1
+    u32 SYS_Time_L; // 24bit 的
+}SYS_Time_Type;
+
+typedef struct
+{
+    U32 SYS_Sec;
+    U32 SYS_Us;             // 这里最大 1000 000
+}Caven_BaseTIME_Type;
+
+void SYS_Time_Init(int Set);
+
+void SYS_Time_Set(Caven_BaseTIME_Type * time);
+void SYS_Time_Get(Caven_BaseTIME_Type * time);
+
+void SYS_Base_Delay(int time, int speed);
+~~~~
+
+由`MODE_Time.c`提供用户使用的时钟函数，提供用户层能使用的数据，例如当日时间`Caven_Watch_Type`，日期`Caven_Date_Type`，总时间`Caven_BaseTIME_Type`。
+
+~~~c
+// 日期 8byte
+typedef struct
+{
+    U16 year;
+    U8 month;
+    U8 day;
+    int Days;
+}Caven_Date_Type;
+
+// 时间 8byte
+typedef struct
+{
+    U8 hour;
+    U8 minutes;
+    U8 second;
+    U32 time_us;            // 这里最大 1000 000
+}Caven_Watch_Type;
+
+// 系统运行总时长 8byte
+typedef struct
+{
+    U32 SYS_Sec;
+    U32 SYS_Us;             // 这里最大 1000 000
+}Caven_BaseTIME_Type;
+
+Mode_Init.TIME(ENABLE);
+Mode_Use.TIME.Delay_Ms(10);
+Mode_Use.TIME.Get_Watch_pFun();
+~~~
+
+多任务：
+
+由`Time_Handle.c`提供时钟触发函数。
+
+~~~~c
+typedef struct
+{
+    volatile Caven_Watch_Type Set_time;
+    volatile Caven_Watch_Type Begin_time;
+    volatile char Trigger_Flag;              //[000][1][000]
+    volatile char Flip_falg;                 //[000][111][000]   only Read
+    int Switch;
+}Task_Overtime_Type;
+int API_Task_Timer (Task_Overtime_Type *task,Caven_Watch_Type now_time);
+~~~~
+
+由`Caven_event_frame.c`开始和执行绑定的函数任务。
+
+~~~~
+typedef struct
+{
+    int events_num;
+    unsigned char events[CAVEN_EVENTS_MAX];
+    D_pFun events_pFun[CAVEN_EVENTS_MAX];
+
+}Caven_event_Type;
+
+
+int Caven_new_event_Fun(Caven_event_Type *events,D_pFun event_pFun,int *handle);
+int Caven_delete_event_Fun(Caven_event_Type *events,int *handle);
+
+int Caven_trigger_event_Fun(Caven_event_Type *events,int const handle,char data);
+
+int Caven_handle_event_Fun(Caven_event_Type *events);
+~~~~
+
+
 
 
 

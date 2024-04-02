@@ -613,24 +613,9 @@
               <FilePath>..\..\..\Caven-MCU_Lib\API\Caven_info_frame.c</FilePath>
             </File>
             <File>
-              <FileName>Check_CRC.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\API\Check_CRC.c</FilePath>
-            </File>
-            <File>
               <FileName>DATA_Handle.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\API\DATA_Handle.c</FilePath>
-            </File>
-            <File>
-              <FileName>Keyboard.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\API\Keyboard.c</FilePath>
-            </File>
-            <File>
-              <FileName>libcollections.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\API\libcollections.c</FilePath>
             </File>
             <File>
               <FileName>Time_Handle.c</FileName>
@@ -641,6 +626,11 @@
               <FileName>Vofa_info.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\API\Vofa_info.c</FilePath>
+            </File>
+            <File>
+              <FileName>Examine_crc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Examine_crc.c</FilePath>
             </File>
           </Files>
         </Group>
