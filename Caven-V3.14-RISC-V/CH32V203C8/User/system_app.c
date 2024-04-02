@@ -52,10 +52,11 @@ void system_init(void)
         .time_us = 5000,
     };
     Caven_Date_Type set_date = {
-        .Days = 5,
+        .SYS_Day = 5,
     };
     Mode_Use.TIME.Set_Date_pFun(set_date);
     Mode_Use.TIME.Set_Watch_pFun(set_time);
+
     Heartbeat_Set();
 
     s_SYS_Config.SYS_version[0] = 0x01;
@@ -178,7 +179,7 @@ void GX_force_Send_packet (u8 W_Class, u8 W_MID, u8 Comm_way, u8 *data, u16 dSiz
         memcpy(&temp_array[run_num],data,dSize);
         run_num += dSize;
     }
-    temp_packet.End_crc = CRC16_CCITT_CalculateBuf(&temp_array[1], run_num - 1);
+    temp_packet.End_crc = CRC16_CCITT_fast_Fun(&temp_array[1], run_num - 1);
     temp_array[run_num++] = (temp_packet.End_crc >> 8) & 0xff;
     temp_array[run_num++] = (temp_packet.End_crc >> 0) & 0xff;
     temp_packet.Get_num = run_num;

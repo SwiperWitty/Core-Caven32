@@ -1,6 +1,6 @@
 #include "GX_info_frame.h"
 
-#include "Check_CRC.h"
+#include "Examine_crc.h"
 
 /*
 Caven_info_Make_packet_Fun
@@ -156,7 +156,7 @@ int GX_info_Make_packet_Fun(GX_info_packet_Type const standard, GX_info_packet_T
         if (temp_packet.Get_num >= temp)
         {
             temp = temp_packet.Get_num - sizeof(temp_packet.Head) - sizeof(temp_packet.End_crc); /* 减尾 减头 */
-            temp = CRC16_CCITT_CalculateBuf((tepm_pData + sizeof(temp_packet.Head)), temp);
+            temp = CRC16_CCITT_fast_Fun((tepm_pData + sizeof(temp_packet.Head)), temp);
             if (temp_packet.End_crc == temp)
             {
                 temp_packet.Result |= 0x50; // crc successful
@@ -250,7 +250,7 @@ int GX_info_rest_data_packet_Fun(GX_info_packet_Type *target, unsigned char *dat
         target->p_Data[Offset_num - 1] = ((temp) & 0xff);
 
         Offset_num = target->Get_num - 1 - 2;
-        temp = CRC16_CCITT_CalculateBuf(target->p_Data+1, Offset_num);
+        temp = CRC16_CCITT_fast_Fun(target->p_Data+1, Offset_num);
         Offset_num = target->Get_num;
         target->p_Data[Offset_num - 2] = ((temp >> 8) & 0xff);
         target->p_Data[Offset_num - 1] = ((temp) & 0xff);

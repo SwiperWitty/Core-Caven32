@@ -1,11 +1,11 @@
 eclipse.preferences.version=1
 encoding//API/API.h=UTF-8
 encoding//API/Caven_Type.h=UTF-8
-encoding//API/Caven_event_frame.c=GBK
 encoding//API/Caven_event_frame.h=GBK
 encoding//API/Check_CRC.c=UTF-8
 encoding//API/Check_CRC.h=GBK
 encoding//API/DATA_Handle.c=UTF-8
+encoding//API/Examine_crc.h=GBK
 encoding//API/Keyboard.c=UTF-8
 encoding//API/Time_Handle.c=UTF-8
 encoding//API/Time_Handle.h=UTF-8

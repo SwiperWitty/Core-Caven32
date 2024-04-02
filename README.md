@@ -6,6 +6,10 @@
 
 ​	只需要一根Type-c数据线和一台电脑即可开发 [Caven 3.14](https://github.com/SwiperWitty/Core-Caven32) ！
 
+![image-20240402180524523](https://gitee.com/Swiper_witty/caven_img/raw/master/img/202404021805567.png)
+
+
+
 _____
 
 ​	其实Core-Caven32里面放的是一个32位系统的代码库,包括ARM-M0、ARM-M0+、ARM-M3、ARM-M4(F)、RISC-V（虽然它的初衷是为Cavend 3.14服务）。
@@ -38,11 +42,11 @@ _____
 
 首先，要先确认Caven 3.14上面的CH549芯片是否有固件/驱动。
 
-<img src="https://gitee.com/Swiper_witty/caven_img/raw/master/img/202401201508119.png" alt="image-20240120150855037" style="zoom:50%;" />
+<img src="https://gitee.com/Swiper_witty/caven_img/raw/master/img/202404021731513.png" alt="image-20240402173154416" style="zoom: 80%;" />
 
-如果没用，请到这个文件夹下面查看使用说明！
+如果没用，请到`Core-Caven32\DAP-Link`文件夹下面查看使用说明！如果电脑检测不到驱动，请去WCH官网寻求帮助，谢谢！[嘉立创EDA dap-link硬件资料](https://u.lceda.cn/account/user/projects/index/detail?project=f7e730190b18464dbe3e176b97edfd54&listType=all)
 
-![image-20230802143110689](https://gitee.com/Swiper_witty/caven_img/raw/master/img/202308021431731.png)
+
 
 ______
 
@@ -54,7 +58,7 @@ ______
 
 [子模块链接](https://github.com/SwiperWitty/MCU_LIB-Cloud-) （里面有食用方法）
 
-硬件资料 [嘉立创EDA](https://u.lceda.cn/account/user/projects/index/detail?project=c74409cf0db64e179e8eee7457e84763&folder=all) 或者 [SwiperWitty/PCB-MCU](https://github.com/SwiperWitty/PCB-MCU) ，注意是Caven 3.14哦！
+Cavendish硬件资料 [嘉立创EDA](https://u.lceda.cn/account/user/projects/index/detail?project=c74409cf0db64e179e8eee7457e84763&folder=all) 或者 [SwiperWitty/PCB-MCU](https://github.com/SwiperWitty/PCB-MCU) ，注意是Caven 3.14哦！
 
 
 
@@ -125,7 +129,7 @@ ______
 
 所有会自动提升的功能都是已经写好的！
 
-![image-20220913201218059](https://raw.githubusercontent.com/SwiperWitty/img/main/img/image-20220913201218059.png)
+![image-20240402181002084](https://gitee.com/Swiper_witty/caven_img/raw/master/img/202404021810133.png)
 
 
 
@@ -136,7 +140,7 @@ ______
 - 系统实时时钟管理
 - 多任务（状态机&触发器）
 
-实时时钟：
+##### 实时时钟
 
 由`Base_Sys_time.c`提供最基础的调用，注意此文件提供三点：初始化系统时钟、获取/设置系统实时时钟、delay。
 
@@ -151,52 +155,49 @@ typedef struct
 {
     U32 SYS_Sec;
     U32 SYS_Us;             // 这里最大 1000 000
-}Caven_BaseTIME_Type;
+}SYS_BaseTIME_Type;
 
 void SYS_Time_Init(int Set);
 
-void SYS_Time_Set(Caven_BaseTIME_Type * time);
-void SYS_Time_Get(Caven_BaseTIME_Type * time);
+void SYS_Time_Set(SYS_BaseTIME_Type * time);
+void SYS_Time_Get(SYS_BaseTIME_Type * time);
 
 void SYS_Base_Delay(int time, int speed);
 ~~~~
 
-由`MODE_Time.c`提供用户使用的时钟函数，提供用户层能使用的数据，例如当日时间`Caven_Watch_Type`，日期`Caven_Date_Type`，总时间`Caven_BaseTIME_Type`。
+由`MODE_Time.c`提供用户使用的时钟函数，提供用户层能使用的数据，例如当日时间`Caven_Watch_Type`，日期`Caven_Date_Type`，其中`Caven_Watch_Type`是内带系统总秒数的。
 
 ~~~c
-// 日期 8byte
+// 日期
 typedef struct
 {
     U16 year;
     U8 month;
     U8 day;
-    int Days;
+    U32 SYS_Day;
 }Caven_Date_Type;
 
-// 时间 8byte
+// 时间
 typedef struct
 {
     U8 hour;
     U8 minutes;
     U8 second;
     U32 time_us;            // 这里最大 1000 000
-}Caven_Watch_Type;
-
-// 系统运行总时长 8byte
-typedef struct
-{
     U32 SYS_Sec;
-    U32 SYS_Us;             // 这里最大 1000 000
-}Caven_BaseTIME_Type;
+}Caven_Watch_Type;
 
 Mode_Init.TIME(ENABLE);
 Mode_Use.TIME.Delay_Ms(10);
 Mode_Use.TIME.Get_Watch_pFun();
 ~~~
 
-多任务：
+##### 多任务
 
-由`Time_Handle.c`提供时钟触发函数。
+- 时间触发函数
+- 事件任务函数
+
+由`Time_Handle.c`提供时间触发函数，只由时间触发，但是并不执行任务，是否执行任务请访问`Task_Overtime_Type`结构体。
 
 ~~~~c
 typedef struct
@@ -210,9 +211,9 @@ typedef struct
 int API_Task_Timer (Task_Overtime_Type *task,Caven_Watch_Type now_time);
 ~~~~
 
-由`Caven_event_frame.c`开始和执行绑定的函数任务。
+由`Caven_event_frame.c`提供事件任务函数。
 
-~~~~
+~~~~c
 typedef struct
 {
     int events_num;
@@ -230,27 +231,78 @@ int Caven_trigger_event_Fun(Caven_event_Type *events,int const handle,char data)
 int Caven_handle_event_Fun(Caven_event_Type *events);
 ~~~~
 
+例如
+
+~~~~c
+Caven_Watch_Type now_time;
+Caven_event_Type SYS_events;
+int BZZ_event_Handle = 0;
+
+void BZZ_event_task_Fun (void * data)
+{
+    int temp_data = *(int *)data;
+
+    if (temp_data) {
+		Mode_Use.BZZ.SET_pFun(ENABLE);
+        Mode_Use.BZZ.SET_pFun(DISABLE);
+    }
+    else {
+        Mode_Use.BZZ.SET_pFun(DISABLE);
+    }
+    *(int *)data = 0;		// 退出任务
+}
+
+void Main_Init(void)
+{
+    int reverse = 0;
+    system_clock_config();
+    nvic_priority_group_config(NVIC_PRIORITY_GROUP_4);
+    Mode_Index();
+
+    Mode_Init.TIME_Init_State = Mode_Init.TIME(ENABLE);
+	Mode_Init.LED(ENABLE);
+    Mode_Init.BZZ(ENABLE);
+    
+	now_time = Mode_Use.TIME.Get_Watch_pFun();
+    Caven_new_event_Fun(&SYS_events,BZZ_event_task_Fun,&BZZ_event_Handle); // 创建BZZ事件任务
+}
+
+int main (void)
+{
+    Main_Init();
+    
+    Task_Overtime_Type LED_Task = {
+            .Switch = 1,
+            .Begin_time = now_time,
+            .Set_time.second = 1,
+            .Set_time.time_us = 5000,
+            .Flip_falg = 1,
+    };
+	API_Task_Timer (&LED_Task,now_time);        // 创建LED时间任务
+	
+    while(1)
+    {
+        Mode_Use.LED.SET_pFun(1,LED_Task.Flip_falg);	// 访问任务状态
+        if(LED_Task.Trigger_Flag)
+        {
+            Caven_trigger_event_Fun(&SYS_events,BZZ_event_Handle,1);	// 触发事件
+        }
+        Caven_handle_event_Fun(&SYS_events);			// 事件运行函数
+    }
+}
+~~~~
+
+由例程看出，LED灯被LED_Task结构体控制，每1.5s交换一次状态，每次交换状态，BZZ都会响一次。
 
 
-
-
-_______
-
-### 工程结构
-
-![image-20220916142856598](https://raw.githubusercontent.com/SwiperWitty/img/main/img/image-20220916142856598.png)
-
-其中**Caven-MCU_Lib**文件
-
-​	目的是减少重复造轮子（比如串口收发逻辑等），明明都是可以用同一个函数表达，只是底层不同。
-
-而且放在GitHub，修改一个文件push之后，即可多数文件可以直接pull使用！（子项目）
 
 ___
 
 ### 硬件芯片资源
 
-![image-20220822194832619](https://raw.githubusercontent.com/SwiperWitty/img/main/img/image-20220822194832619.png)
+![image-20240402181020882](https://gitee.com/Swiper_witty/caven_img/raw/master/img/202404021810147.png)
+
+
 
 #### 支持芯片
 
@@ -262,7 +314,9 @@ ___
 
 **RISC-V:**	CH32V203C8T6、CH32V307RET6（这玩意Flash不行）
 
-![image-20220916145800524](https://raw.githubusercontent.com/SwiperWitty/img/main/img/image-20220916145800524.png)
+![image-20240402181034923](https://gitee.com/Swiper_witty/caven_img/raw/master/img/202404021810967.png)
+
+
 
 **通信：**
 
@@ -299,40 +353,6 @@ ___
 
 
 
-_____
-
-### 软件方面
-
-#### 工程框架
-
-![image-20220617103736956](https://raw.githubusercontent.com/SwiperWitty/img/main/img/image-20220617103736956.png)
-
-如果对这个框架表示不是很能理解，那么就需要对【.c】、【.h】的文件关系有一个理解
-
-##### 文件关系
-
-![66](https://raw.githubusercontent.com/SwiperWitty/img/main/img/66.png)
-
-一个**工程**中有很多个**团**，每个**团**由若干个**元素**组成。
-
-**团**：主要是有各个大方向的集合内容，这里以API为例。
-
-**元素**：就是一个小集合【.c+.h】、【.h】这样，一个元素可以没有【.c】但一定要有【.h】。【.h】更像是一本书的目录，他是先行者（给编译器看）。		如果main有调用【.h】的函数，那么他才会去对应【.c】找内容是什么。有一种情况是只看【.h】就够了，那就是【.h】全是宏和定义，这个可以理解为饭店的菜单，只有目录没有内容（例如LCD中保存图片的文件都在【.h】中）。
-
-**共识：**我给**所有的项目**，无论是C51、STM32或者是Linux的工程都添加了一个叫**Caven.h**的文件（共识）。它普遍运用在**元素**内，**标准库**就是一个很经典的共识，共识的本质就是元素。
-
-（不会有人问我标准库是什么吧？拒绝回答这类问题）
-
-____
-
-##### 开始使用Caven框架
-
-![image-20220617104417701](https://raw.githubusercontent.com/SwiperWitty/img/main/img/image-20220617104417701.png)
-
-索引是必须最先运行的，它的作用是将框架搭起来（简单理解就是，将把肉馅塞到馒头里），让User快乐起来！（这个框架并不怎么占内存）
-
-
-
 ---
 
 ### 你可能会遇到的问题...
@@ -349,11 +369,11 @@ Github会clone吧？
 
 **MDK设置**
 
-![image-20220617113014960](https://raw.githubusercontent.com/SwiperWitty/img/main/img/image-20220617113014960.png)
+![image-20240402181043064](https://gitee.com/Swiper_witty/caven_img/raw/master/img/202404021810109.png)
 
 下载方式是CMSIS-DAP，也就是所谓的**WCH-Link**，按照上述步骤你就可以看到这个
 
-![image-20220617113831539](https://raw.githubusercontent.com/SwiperWitty/img/main/img/image-20220617113831539.png)
+![](https://gitee.com/Swiper_witty/caven_img/raw/master/img/202404021810833.png)
 
 如果上述有问题请参考一下内容（如果你认真看完这些，依旧没解决，我可以帮帮你；如果你没有认真看，那我只能请你熟读并背诵了）
 
@@ -371,6 +391,8 @@ _____
 ### 如何找到UP？
 
 卡文迪许怪
+
+qq讨论群:455839434
 
 [GitHub](https://github.com/SwiperWitty) & [Bilibili](https://space.bilibili.com/102898291?spm_id_from=333.1007.0.0) 
 

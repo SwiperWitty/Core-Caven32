@@ -173,5 +173,9 @@
     #define GPIO_Pin_15 GPIO_PINS_15
 #endif
 
+#ifndef MAX
+    #define MAX(a,b)    ((a)>(b))?(a):(b)               // 比较函数返回最大值，防止过小
+    #define MIN(a,b)    ((a)<(b))?(a):(b)               // 比较函数返回最小值，防止过大
+#endif
 
 #endif

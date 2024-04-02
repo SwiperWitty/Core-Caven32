@@ -35,12 +35,6 @@
 #define BOARD_RAM_BASEADDR 0x20000000
 #define BOARD_RAM_SIZE     0x00008000
 
-#if (TARGET == GXRFID2008)
-  #define  TARGET_GX_RFID_2008 GXRFID2008
-  #define  TARGET_STRING "GXRFID2008"
-#else
-  #warning "Platform Target not defined!"
-#endif
 
 #define RF6004 1
 #define RF8004 2
@@ -130,5 +124,9 @@
 #define GPIO_Pins_15 GPIO_PIN_15 
 #define GPIO_Pin_ALL GPIO_PIN_ALL
 
+#ifndef MAX
+    #define MAX(a,b)    ((a)>(b))?(a):(b)               // 比较函数返回最大值，防止过小
+    #define MIN(a,b)    ((a)<(b))?(a):(b)               // 比较函数返回最小值，防止过大
+#endif
 
 #endif
