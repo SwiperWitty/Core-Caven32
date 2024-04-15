@@ -6,7 +6,7 @@
 
 ​	只需要一根Type-c数据线和一台电脑即可开发 [Caven 3.14](https://github.com/SwiperWitty/Core-Caven32) ！
 
-![image-20240403164050760](https://gitee.com/Swiper_witty/caven_img/raw/master/img/202404031640832.png)
+![下载](https://gitee.com/Swiper_witty/caven_img/raw/master/img/202404151059005.jpg)
 
 
 
