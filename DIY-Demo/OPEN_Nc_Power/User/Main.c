@@ -26,7 +26,7 @@ int show_max_x = 20;
 int show_max_y = 10;
 
 int temp = 0;
-u16 ADC_array[10];
+u16 ADC_array[10];			// [0] x,[1] y,[2] vin,[3] vout,[4] temp,[5] ele;
 char array_buff[300];
 
 int yg_lock_x = 0;
@@ -126,6 +126,7 @@ int main(void)
                 break;
             case POWER_APP:
                 YG_Control.Control_value = ADC_array;
+			
                 Open_power.p_Data = &YG_Control;
                 retval = Power_app(&Open_power);
                 break;
@@ -179,7 +180,7 @@ void Main_Init(void)
 	Mode_Use.USER_ADC.Receive_Bind_pFun(ADC_Data_Handle);
 
 
-    reverse |= Power_app_init(ENABLE);
+    reverse |= Power_app_init(ENABLE);	//while (1);
     reverse |= Games_app_init(ENABLE);
     reverse |= Steer_app_init(ENABLE);
     while (reverse);
@@ -354,7 +355,11 @@ void LCD_Show_string(char *string,char cursor,char width,char length)
 void ADC_Data_Handle (void * data)
 {
     memcpy(ADC_array,data,sizeof(ADC_array));
-    if(ADC_array[6] > 2000) // 电流
+    if(ADC_array[5] > 2000) // ELE
+    {
+//        DC_5V_OFF();
+    }
+    if(ADC_array[6] > 2000) // MCU_TEMP
     {
         DC_5V_OFF();
     }

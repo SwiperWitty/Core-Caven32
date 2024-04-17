@@ -11,6 +11,9 @@ typedef struct
 	char PD_val;
 	char line_max;
 	char line_end;
+	
+	int set_out_sync;
+	
 	float set_out_vol;	//voltage
 	float set_out_temp;
 	float set_ele_val;	//value
