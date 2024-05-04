@@ -268,7 +268,7 @@ void SYS_Backups (GX_info_packet_Type data)
     temp_data = temp_array[3];
     temp_array[3] = (temp_data | 0x10) & 0xff;          // 主动上报
 
-    temp_data = CRC16_CCITT_fast_Fun(&temp_array[1], data.Get_num - 3);
+    temp_data = CRC16_XMODEM_Fast_Fun(&temp_array[1], data.Get_num - 3);
     temp_array[data.Get_num - 2] = (temp_data >> 8) & 0xff;
     temp_array[data.Get_num - 1] = (temp_data >> 0) & 0xff;
     Mode_Use.UART.Send_Data_pFun(UART_SYS,temp_array,data.Get_num);     // !!!!

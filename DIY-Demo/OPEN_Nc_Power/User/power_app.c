@@ -6,6 +6,8 @@
 #define Sampling_RES 0.005	// 0.005Ω
 #define Sampling_RES_RATIO 200.0	// (5/1000)(Ω) -> 200(RATIO)
 
+Power_Control_Type power_config;
+
 int PD_Set_Mode (char grade);
 int SET_Val_Handle (float set_val,float get_val);
 
@@ -18,9 +20,22 @@ int Power_app_init (int Set)
 	User_GPIO_Init(ENABLE);
 	PD_Set_Mode (3);
 	DC_OUT_OFF();
-	
+	memset(&power_config,0,sizeof(power_config));
+
 	Vofa_JustFloat_Init_Fun (7,Debug_Out);     // Vin,Vout,Temp,YG_x,YG_y,YG_key,in_temp
-    
+    return retval;
+}
+
+int Power_app_exit (int *falg)
+{
+    int retval = 0;
+	
+	TIM3_PWM_Start_Init(1000,12,DISABLE);
+	PD_Set_Mode (1);
+	DC_OUT_OFF();
+	memset(&power_config,0,sizeof(power_config));
+	*falg = 1;
+
     return retval;
 }
 
@@ -59,81 +74,16 @@ int PD_Set_Mode (char grade)
 	return val;
 }
 
-int SET_Val_Handle (float set_val,float get_val)
-{
-	int retval = 0;
-	int set_num,temp_num;
-	int MAX_adj = 100;
-	float f_temp = (set_val / 18.0) * 1000;
-	float f_diff_temp = 0;
-	static int set_diff_max = 0;
-	static int standard_num = 0;
-	static float Last_set_val;
-	if(Last_set_val != set_val)
-	{
-		// DC_OUT_OFF();
-		Last_set_val = set_val;
-		set_diff_max = 0;
-	}
-    
-	set_num = f_temp;				// pwm 
-	f_temp = get_val - set_val;		// 差距
-	f_diff_temp = fabsf(f_temp);
-	if (f_temp < 0.03 && f_temp > 0)
-	{
-		standard_num ++;
-		if(standard_num > 10)
-		{
-			standard_num = 0;
-			retval = 1;		// 启动
-		}
-	}
-    else					// 调
-    {	
-		standard_num = 0;
-		if (f_diff_temp > 1.0)
-		{
-			temp_num = 30;
-		}
-		else if (f_diff_temp > 0.2)
-		{
-			temp_num = 12;
-		}
-		else
-		{
-			temp_num = 1;
-		}
-		if(f_temp > 0)				// 如果当前测量值>设置值
-		{
-			temp_num = -temp_num;	// 减少占空比 (PWM = 0,DAC = 3.3v,VOUT = 0.7v)
-		}
-			
-		set_diff_max += temp_num;
-        set_diff_max = MIN(set_diff_max,MAX_adj);		// set_diff_max 微调值
-		set_diff_max = MAX(set_diff_max,-MAX_adj);
-		
-        set_num += set_diff_max;
-        set_num = MIN(set_num,1000);
-		set_num = MAX(set_num,0);
-//		set_num = 900;
-        TIM3_PWMx_SetValue(1,set_num);
-    }
-	return retval;
-}
-
 int show_cycle = 0;
 
 float Val_temp = 0;
 
-u16 adc_buff[10];
 float Val_OUT_array[10];
 float Val_ELE_array[10];
 float Val_TEM_array[10];
 char Val_OUT_num = 0;
 char Val_ELE_num = 0;
 char Val_TEM_num = 0;
-
-Power_Control_Type power_config;
 
 int Power_app (Caven_App_Type * message)
 {
@@ -142,10 +92,12 @@ int Power_app (Caven_App_Type * message)
     int temp_num;
     static int first = 1;
     Caven_Control_Type control;
+	u16 adc_buff[10];
     char string_temp[50];
     if (message != NULL)
     {
         memcpy(&control,message->p_Data,sizeof(control));
+		memcpy(adc_buff,control.Control_value,sizeof(adc_buff));
         if(first)
         {
             message->str_switch = 1;
@@ -153,9 +105,7 @@ int Power_app (Caven_App_Type * message)
             message->layer = 1;
 			power_config.set_ele_temp = 6;
 			power_config.set_out_temp = 6.6;
-			power_config.line_max = 6;
-			power_config.line_end = 9;
-			power_config.out_witch = 0;
+
             first = 0;
         }
 		//
@@ -164,8 +114,7 @@ int Power_app (Caven_App_Type * message)
 			run_num = 2;
 			power_config.set_out_temp = MIN(power_config.set_out_temp,18);
 			power_config.set_out_temp = MAX(power_config.set_out_temp,0.8);
-			// 获取ADC值 
-			memcpy(adc_buff,control.Control_value,sizeof(adc_buff));
+
 			// 获取VIN电压
             power_config.IN_vol = Mode_Use.USER_ADC.Conversion_Vol_pFun(adc_buff[run_num++]) * Divider_RES;
 			if(power_config.IN_vol < 5.2)
@@ -280,3 +229,64 @@ int Power_app (Caven_App_Type * message)
     return retval;
 }
 
+int SET_Val_Handle (float set_val,float get_val)
+{
+	int retval = 0;
+	int set_num,temp_num;
+	int MAX_adj = 100;
+	float f_temp = (set_val / 18.0) * 1000;
+	float f_diff_temp = 0;
+	static int set_diff_max = 0;
+	static int standard_num = 0;
+	static float Last_set_val;
+	if(Last_set_val != set_val)
+	{
+		// DC_OUT_OFF();
+		Last_set_val = set_val;
+		set_diff_max = 0;
+	}
+    
+	set_num = f_temp;				// pwm 
+	f_temp = get_val - set_val;		// 差距
+	f_diff_temp = fabsf(f_temp);
+	if (f_temp < 0.03 && f_temp > 0)
+	{
+		standard_num ++;
+		if(standard_num > 10)
+		{
+			standard_num = 0;
+			retval = 1;		// 启动
+		}
+	}
+    else					// 调
+    {	
+		standard_num = 0;
+		if (f_diff_temp > 1.0)
+		{
+			temp_num = 30;
+		}
+		else if (f_diff_temp > 0.2)
+		{
+			temp_num = 12;
+		}
+		else
+		{
+			temp_num = 1;
+		}
+		if(f_temp > 0)				// 如果当前测量值>设置值
+		{
+			temp_num = -temp_num;	// 减少占空比 (PWM = 0,DAC = 3.3v,VOUT = 0.7v)
+		}
+			
+		set_diff_max += temp_num;
+        set_diff_max = MIN(set_diff_max,MAX_adj);		// set_diff_max 微调值
+		set_diff_max = MAX(set_diff_max,-MAX_adj);
+		
+        set_num += set_diff_max;
+        set_num = MIN(set_num,1000);
+		set_num = MAX(set_num,0);
+//		set_num = 900;
+        TIM3_PWMx_SetValue(1,set_num);
+    }
+	return retval;
+}

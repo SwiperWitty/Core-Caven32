@@ -179,7 +179,7 @@ void GX_force_Send_packet (u8 W_Class, u8 W_MID, u8 Comm_way, u8 *data, u16 dSiz
         memcpy(&temp_array[run_num],data,dSize);
         run_num += dSize;
     }
-    temp_packet.End_crc = CRC16_CCITT_fast_Fun(&temp_array[1], run_num - 1);
+    temp_packet.End_crc = CRC16_XMODEM_Fast_Fun(&temp_array[1], run_num - 1);
     temp_array[run_num++] = (temp_packet.End_crc >> 8) & 0xff;
     temp_array[run_num++] = (temp_packet.End_crc >> 0) & 0xff;
     temp_packet.Get_num = run_num;

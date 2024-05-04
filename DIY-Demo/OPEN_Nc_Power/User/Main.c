@@ -29,9 +29,6 @@ int temp = 0;
 u16 ADC_array[10];			// [0] x,[1] y,[2] vin,[3] vout,[4] temp,[5] ele;
 char array_buff[300];
 
-int yg_lock_x = 0;
-int yg_lock_y = 0;
-int Val_YG_x,Val_YG_y;
 
 Caven_App_Type Open_power = {
     .app_ID = POWER_APP,
@@ -44,6 +41,8 @@ void Main_Init(void);
 void LCD_Show_string(char *string,char cursor,char width,char length);
 void ADC_Data_Handle (void * data);
 int Home_app (Caven_App_Type * message);
+void Get_Control_data_Fun (Caven_Control_Type *data);
+
 /*
     Home_app
     Power_app
@@ -59,63 +58,8 @@ int main(void)
 
     while (1)
     {
-        line_temp = 0;
-        Val_YG_x  = (0x0fff - ADC_array[line_temp++]) / 40;
-        Val_YG_y = ADC_array[line_temp++] / 40;
-        //
-        temp = Val_YG_x - YG_DEFAULT;
-        if ((temp > YG_DIF_MIN) && (yg_lock_x > 0))		// x
-        {
-            if (temp > YG_DIF_MAX)
-                YG_Control.Control_x = 2;
-            else
-                YG_Control.Control_x = (1);
-            yg_lock_x = 0;
-        }
-        else if ((-temp > YG_DIF_MIN) && (yg_lock_x > 0))
-        {
-            if (-temp > YG_DIF_MAX)
-                YG_Control.Control_x = (-2);
-            else
-                YG_Control.Control_x = (-1);
-            yg_lock_x = 0;
-        }
-        else if(abs(temp) < YG_DIF_MIN)					// 空闲　
-        {
-            yg_lock_x++;
-            yg_lock_x = MIN(yg_lock_x,100);
-            YG_Control.Control_x = 0;
-        }
-        temp = Val_YG_y - YG_DEFAULT;
-        if ((temp > YG_DIF_MIN) && (yg_lock_y > 0))		// y
-        {
-            if (temp > YG_DIF_MAX)
-                YG_Control.Control_y = (-2);
-            else
-                YG_Control.Control_y = (-1);
-            yg_lock_y = 0;
-        }
-        else if ((-temp > YG_DIF_MIN) && (yg_lock_y > 0))
-        {
-            if (temp > YG_DIF_MAX)
-                YG_Control.Control_y = (2);
-            else
-                YG_Control.Control_y = (1);
-            yg_lock_y = 0;
-        }
-        else if(abs(temp) < YG_DIF_MIN)					// 空闲　
-        {
-            yg_lock_y++;
-            yg_lock_y = MIN(yg_lock_y,100);
-            YG_Control.Control_y = 0;
-        }
-        if (YG_KEY_STATE() == 0)
-        {
-            YG_Control.Control_botton = 1;
-            do{
-                Mode_Use.TIME.Delay_Ms(1);
-            }while(YG_KEY_STATE() == 0);
-        }
+        Get_Control_data_Fun (&YG_Control);
+        YG_Control.Control_value = ADC_array;
         //
         Open_power.string = array_buff;
         switch (Open_power.app_ID) 
@@ -125,8 +69,6 @@ int main(void)
                 retval = Home_app(&Open_power);
                 break;
             case POWER_APP:
-                YG_Control.Control_value = ADC_array;
-			
                 Open_power.p_Data = &YG_Control;
                 retval = Power_app(&Open_power);
                 break;
@@ -350,6 +292,81 @@ void LCD_Show_string(char *string,char cursor,char width,char length)
             break;
         }
     } while (get_num);
+}
+
+
+
+
+void Get_Control_data_Fun (Caven_Control_Type *data)
+{
+    static int yg_lock_x = 0;  //回正锁
+    static int yg_lock_y = 0;  //回正锁
+	int line_temp = 0;
+    int Val_YG_x,Val_YG_y;
+	Caven_Control_Type temp_YG_Control;
+    if (data != NULL)
+    {
+        memset(&temp_YG_Control,0,sizeof(temp_YG_Control));
+        Val_YG_x  = (0x0fff - ADC_array[line_temp++]) / 40;
+        Val_YG_y = ADC_array[line_temp++] / 40;
+        //
+        temp = Val_YG_x - YG_DEFAULT;
+        if ((temp > YG_DIF_MIN) && (yg_lock_x > 0))		// x
+        {
+            if (temp > YG_DIF_MAX)
+                temp_YG_Control.Control_x = 2;
+            else
+                temp_YG_Control.Control_x = (1);
+            yg_lock_x = 0;
+        }
+        else if ((-temp > YG_DIF_MIN) && (yg_lock_x > 0))
+        {
+            if (-temp > YG_DIF_MAX)
+                temp_YG_Control.Control_x = (-2);
+            else
+                temp_YG_Control.Control_x = (-1);
+            yg_lock_x = 0;
+        }
+        else if(abs(temp) < YG_DIF_MIN)					// 空闲　
+        {
+            yg_lock_x++;
+            yg_lock_x = MIN(yg_lock_x,100);
+            temp_YG_Control.Control_x = 0;
+        }
+        //
+        temp = Val_YG_y - YG_DEFAULT;
+        if ((temp > YG_DIF_MIN) && (yg_lock_y > 0))		// y
+        {
+            if (temp > YG_DIF_MAX)
+                temp_YG_Control.Control_y = (-2);
+            else
+                temp_YG_Control.Control_y = (-1);
+            yg_lock_y = 0;
+        }
+        else if ((-temp > YG_DIF_MIN) && (yg_lock_y > 0))
+        {
+            if (temp > YG_DIF_MAX)
+                temp_YG_Control.Control_y = (2);
+            else
+                temp_YG_Control.Control_y = (1);
+            yg_lock_y = 0;
+        }
+        else if(abs(temp) < YG_DIF_MIN)					// 空闲　
+        {
+            yg_lock_y++;
+            yg_lock_y = MIN(yg_lock_y,100);
+            temp_YG_Control.Control_y = 0;
+        }
+        if (YG_KEY_STATE() == 0)
+        {
+            temp_YG_Control.Control_botton = 1;
+            do{
+                Mode_Use.TIME.Delay_Ms(1);
+            }while(YG_KEY_STATE() == 0);
+        }
+        memcpy(data,&temp_YG_Control,sizeof(temp_YG_Control));
+    }
+
 }
 
 void ADC_Data_Handle (void * data)
