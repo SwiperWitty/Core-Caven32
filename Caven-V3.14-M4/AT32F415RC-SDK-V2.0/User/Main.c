@@ -20,7 +20,7 @@ int main(void)
     Caven_Watch_Type now_time = {
             .hour = 8,
             .minutes = 7,
-            .second  = 45,
+            .second  = 50,
     };
     Mode_Use.TIME.Set_Watch_pFun(now_time);
     now_time = Mode_Use.TIME.Get_Watch_pFun();
@@ -57,13 +57,17 @@ int main(void)
 
         time_temp = now_time.second;
         time_temp = (time_temp / 60) * 100;
+			
         run_num = Caven_math_approximate ((int)time_temp,5,0,100);
         if (last_s != run_num) {
             last_s = run_num;
             Draw_Circle(((sec_point_drop >> 8) & 0xff),(sec_point_drop & 0xff),1, 5,100,LCD_Back_Color);
-            run_num = Draw_Circle(120, 120, 80, 11,last_s,LCD_RED);
-            sec_point_drop = run_num;
-            Draw_Circle(((sec_point_drop >> 8) & 0xff),(sec_point_drop & 0xff),1, 5,100,LCD_RED);
+			run_num = Draw_Circle(120, 120, 80, 11,last_s,LCD_RED);
+			sec_point_drop = run_num;
+			if(run_num > 0)
+			{
+				Draw_Circle(((sec_point_drop >> 8) & 0xff),(sec_point_drop & 0xff),1, 5,100,LCD_RED);
+			}
         }
         time_temp = now_time.minutes;
         time_temp = (time_temp / 60) * 100;
@@ -71,9 +75,12 @@ int main(void)
         if (last_m != run_num) {
             last_m = run_num;
             Draw_Circle(((min_point_drop >> 8) & 0xff),(min_point_drop & 0xff),1, 5,100,LCD_Back_Color);
-            run_num = Draw_Circle(120, 120, 60, 11,last_m,LCD_BLUE);
-            min_point_drop = run_num;
-            Draw_Circle(((min_point_drop >> 8) & 0xff),(min_point_drop & 0xff),1, 5,100,LCD_BLUE);
+			run_num = Draw_Circle(120, 120, 60, 11,last_m,LCD_BLUE);
+			min_point_drop = run_num;
+			if(run_num > 0)
+			{
+				Draw_Circle(((min_point_drop >> 8) & 0xff),(min_point_drop & 0xff),1, 5,100,LCD_BLUE);
+			}
         }
         time_temp = now_time.hour;
         time_temp = (time_temp / 12) * 100;
@@ -81,9 +88,12 @@ int main(void)
         if (last_h != run_num) {
             last_h = run_num;
             Draw_Circle(((hour_point_drop >> 8) & 0xff),(hour_point_drop & 0xff),1, 5,100,LCD_Back_Color);
-            run_num = Draw_Circle(120, 120, 40, 11,last_h,LCD_GREEN);
-            hour_point_drop = run_num;
-            Draw_Circle(((hour_point_drop >> 8) & 0xff),(hour_point_drop & 0xff),1, 5,100,LCD_GREEN);
+			run_num = Draw_Circle(120, 120, 40, 11,last_h,LCD_GREEN);
+			hour_point_drop = run_num;
+			if(run_num > 0)
+			{
+				Draw_Circle(((hour_point_drop >> 8) & 0xff),(hour_point_drop & 0xff),1, 5,100,LCD_GREEN);
+			}
         }
 
         if (overstep_s > now_time.second) {
