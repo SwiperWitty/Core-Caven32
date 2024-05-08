@@ -392,6 +392,11 @@
               <FileType>5</FileType>
               <FilePath>.\Items.h</FilePath>
             </File>
+            <File>
+              <FileName>guilite.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\guilite.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
