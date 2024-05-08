@@ -1,4 +1,3 @@
-#include "Base_Sys_time.h"
 
 #define GUILITE_ON  //Do not define this macro once more!!!
 #include "GuiLite.h"
@@ -80,7 +79,7 @@ void create_ui(void* phy_fb, int screen_width, int screen_height, int color_byte
 		for (int i = 0; i < sizeof(stars)/sizeof(c_star); i++) {
 			stars[i].move();
 		}
-		SYS_Delay_ms(50);
+		delay_ms(50);
 	}
 }
 

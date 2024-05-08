@@ -343,5 +343,5 @@ int start_ui(void)
 }
 void delay_ms(int milli_seconds)
 {
- SYS_Delay_ms(milli_seconds);
+	SYS_Delay_ms(milli_seconds);
 }
