@@ -73,6 +73,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bird/Mode}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bird/Base_CH32V203/USBLIB/CONFIG}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bird/Base_CH32V203/USBLIB/USB-Driver/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/bird/GUI}&quot;"/>
 								</option>
 								<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.std.2020844713" name="Language standard" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.std" useByScannerDiscovery="true" value="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.std.gnu99" valueType="enumerated"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.defs.177116515" name="Defined symbols (-D)" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.defs" useByScannerDiscovery="true" valueType="definedSymbols">
@@ -131,11 +132,13 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="ilg.gnumcueclipse.managedbuild.cross.riscv.config.elf.release.1008047074.1913390331" name="caven_gui.h" rcbsApplicability="disable" resourcePath="GUI/caven_gui.h" toolsToInvoke=""/>
 					<sourceEntries>
-						<entry excluding="API|Mode|Base_CH32V203|Startup/startup_ch32v20x_D8W.S|Startup/startup_ch32v20x_D8.S" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="GUI|API|Mode|Base_CH32V203|Startup/startup_ch32v20x_D8W.S|Startup/startup_ch32v20x_D8.S" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry excluding="Game_snake.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="API"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Base_CH32V203"/>
 						<entry excluding="MODE_LCD.h|MODE_LCD.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Mode"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="GUI"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

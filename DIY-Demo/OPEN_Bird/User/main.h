@@ -11,6 +11,7 @@
 #include "debug.h"
 #include "Mode.h"
 #include "math.h"
+#include "caven_gui.h"
 
 void Main_Init(void);
 
