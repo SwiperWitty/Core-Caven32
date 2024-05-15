@@ -11,7 +11,7 @@ int run_num;
 float float_array[10];
 float time_temp;
 
-// int start_ui(void);
+int start_ui(void);
 int main(void)
 {
     Main_Init();
@@ -37,6 +37,7 @@ int main(void)
     char last_s = 0, last_m = 0, last_h = 0;
     char overstep_s = 1, overstep_m = 1, overstep_h = 1;
     int sec_point_drop, min_point_drop, hour_point_drop;
+    u8 temp_num,temp_run;
 
     Mode_Use.LCD.Show_String_pFun(9, 0, "12", LCD_BLACK, LCD_Back_Color, 24);
     Mode_Use.LCD.Show_String_pFun(19, 5, "3", LCD_BLACK, LCD_Back_Color, 24);
@@ -65,9 +66,11 @@ int main(void)
             Caven_GUI_Draw_Circle(((sec_point_drop >> 8) & 0xff), (sec_point_drop & 0xff), 1, 5, 100, LCD_Back_Color);
             run_num = Caven_GUI_Draw_Circle(120, 120, 80, 11, last_s, LCD_RED);
             sec_point_drop = run_num;
-            if (run_num > 0)
+            temp_num = run_num & 0xff;
+            temp_run = (run_num >> 8) & 0xff;
+            if (temp_num > 0 && temp_run > 0)
             {
-                Caven_GUI_Draw_Circle(((sec_point_drop >> 8) & 0xff), (sec_point_drop & 0xff), 1, 5, 100, LCD_RED);
+                Caven_GUI_Draw_Circle(temp_run, temp_num, 1, 5, 100, LCD_RED);
             }
         }
         time_temp = now_time.minutes;
@@ -79,9 +82,11 @@ int main(void)
             Caven_GUI_Draw_Circle(((min_point_drop >> 8) & 0xff), (min_point_drop & 0xff), 1, 5, 100, LCD_Back_Color);
             run_num = Caven_GUI_Draw_Circle(120, 120, 60, 11, last_m, LCD_BLUE);
             min_point_drop = run_num;
-            if (run_num > 0)
+            temp_num = run_num & 0xff;
+            temp_run = (run_num >> 8) & 0xff;
+            if (temp_num > 0 && temp_run > 0)
             {
-                Caven_GUI_Draw_Circle(((min_point_drop >> 8) & 0xff), (min_point_drop & 0xff), 1, 5, 100, LCD_BLUE);
+                Caven_GUI_Draw_Circle(temp_run, temp_num, 1, 5, 100, LCD_BLUE);
             }
         }
         time_temp = now_time.hour;
@@ -93,9 +98,11 @@ int main(void)
             Caven_GUI_Draw_Circle(((hour_point_drop >> 8) & 0xff), (hour_point_drop & 0xff), 1, 5, 100, LCD_Back_Color);
             run_num = Caven_GUI_Draw_Circle(120, 120, 40, 11, last_h, LCD_GREEN);
             hour_point_drop = run_num;
-            if (run_num > 0)
+            temp_num = run_num & 0xff;
+            temp_run = (run_num >> 8) & 0xff;
+            if (temp_num > 0 && temp_run > 0)
             {
-                Caven_GUI_Draw_Circle(((hour_point_drop >> 8) & 0xff), (hour_point_drop & 0xff), 1, 5, 100, LCD_GREEN);
+                Caven_GUI_Draw_Circle(temp_run, temp_num, 1, 5, 100, LCD_GREEN);
             }
         }
 
@@ -121,8 +128,9 @@ int main(void)
 
 void Main_Init(void)
 {
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
-
+    // system_clock_config();
+    // nvic_priority_group_config(NVIC_PRIORITY_GROUP_4);
+   NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
     Mode_Index();
     Mode_Init.TIME(ENABLE);
     Mode_Init.LED(ENABLE);
@@ -158,8 +166,8 @@ void gfx_draw_pixel(int x, int y, unsigned int rgb)
      //Link your LCD driver & start UI:
      my_driver.draw_pixel = gfx_draw_pixel;
      my_driver.fill_rect = NULL;//gfx_fill_rect;
-//     startHelloStar(NULL, 240, 240, 2, &my_driver);
-//     while(1);
+    //  startHelloStar(NULL, 240, 240, 2, &my_driver);
+    //  while(1);
  }
  void delay_ms(int milli_seconds)
 {

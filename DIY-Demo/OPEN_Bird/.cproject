@@ -137,8 +137,8 @@
 						<entry excluding="GUI|API|Mode|Base_CH32V203|Startup/startup_ch32v20x_D8W.S|Startup/startup_ch32v20x_D8.S" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry excluding="Game_snake.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="API"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Base_CH32V203"/>
-						<entry excluding="MODE_LCD.h|MODE_LCD.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Mode"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="GUI"/>
+						<entry excluding="MODE_LCD.c|MODE_LCD.h" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Mode"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
