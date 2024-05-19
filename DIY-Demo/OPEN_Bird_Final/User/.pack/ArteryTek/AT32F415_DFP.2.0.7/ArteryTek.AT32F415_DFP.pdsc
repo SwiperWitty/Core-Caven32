@@ -1,0 +1,583 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package schemaVersion="1.2" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="PACK.xsd">
+  <vendor>ArteryTek</vendor>
+  <url></url>
+  <name>AT32F415_DFP</name>
+  <description>ArteryTek AT32F415 Series Device Support,Drivers</description>
+  <releases>
+    <release version="2.0.7" date="2022-08-23">
+      Update firmware library.
+    </release>
+    <release version="2.0.6" date="2022-06-29">
+      Update firmware library.
+    </release>
+    <release version="2.0.5" date="2022-05-20">
+      Update firmware library.
+    </release>
+    <release version="2.0.4" date="2022-04-02">
+      Update firmware library.
+    </release>
+    <release version="2.0.3" date="2022-02-11">
+      Update firmware library.
+    </release>
+    <release version="2.0.2" date="2021-12-31">
+      Update firmware library.
+    </release>
+    <release version="2.0.1" date="2021-12-17">
+      Update firmware library.
+    </release>
+    <release version="2.0.0" date="2021-11-26">
+      First Release version of AT32F415 Device Family Pack.
+    </release>
+  </releases>
+  <keywords>
+    <!-- keywords for indexing -->
+    <keyword>ArteryTek</keyword>
+    <keyword>AT32F415</keyword>
+    <keyword>AT32F4</keyword>
+  </keywords>
+
+  <devices>
+    <!-- ******************************  Cortex-M4  ********************** -->
+    <family Dfamily="AT32F41x Series" Dvendor="ArteryTek:143">
+      <!--book name="Device/ARM/Documents/??_dgug.pdf"       title="?? Device Generic Users Guide"/-->
+    <processor Dcore="Cortex-M4" DcoreVersion="r0p1" Dfpu="1" Dmpu="1" Dtz="NO_TZ" Dendian="Little-endian" />
+    <compile header="Device/Include/at32f415.h"/>
+
+      <description>
+AT32F4 is a new 32-bit high performance, low power consumption universal microcontroller family powered by the ARM Cortex-M4 RISC core,which targeted at various MCU application areas.
+AT32F4 family integrates features to simplify system design and provide customers wide range of comprehensive and superior cost effective MCU portfolios with proven technology and great innovation.
+      </description>    
+
+      <!-- ************************  Subfamily 'AT32F415'  **************************** -->
+      <subFamily DsubFamily="AT32F415">
+      <processor  Dfpu="0" Dclock="150000000"/>
+      <debug svd="SVD/AT32F415xx_v2.svd"/>
+      <description>
+AT32F415 - ARM Cortex-M4 Core
+  Frequency up to 150 MHz
+  Single-cycle multiplier and hardware divider
+  NVIC support 16 internal, 55 external interrupts, each has 16 priority levels
+
+Memories
+  Flash size from 64KB up to 256KB
+  SRAM size up to 32KB
+
+Low power management
+  Power saving mode: sleep,deep-sleep and standby mode
+
+Advanced analog peripherals
+  Up to 1 x 12bit ADC
+
+Integrated peripherals interface
+  Up to 5 x USART/UART/Irda/LIN/ISO7816
+  Up to 4 x SPI
+  Up to 2 x I2C
+
+On-chip resources
+  Up to 1 x 16 bit Advanced Timer, 1 x SysTick Timer, 5 x 16 bit GPTM, 2 x 32 bit GPTM, 2 x WDT, 1 x ERTC
+  5-chs DMA support: Timers, ADC, SPIs, I2Cs, USARTs
+  System supervisor and reset: POR,PDR,LVD
+  80% GPIO available
+  32-bit CRC, 96-bit unique ID
+  On-chip clock: HICK (8MHz), LICK (40KHz)
+      </description>
+
+      <feature type="WDT"           n="2"/>
+      <feature type="RTC"           n="32768"/>
+      <feature type="ADC"           n="1"       m="12"/>
+      <feature type="Temp"          n="-40"     m="85"/>
+      <feature type="VCC"           n="2.60"    m="3.60"/>
+
+        <!-- *************************  Device 'AT32F415K8U7-4'  ***************************** -->
+        <device Dname="-AT32F415K8U7-4">
+          <compile header="Device/Include/at32f415.h"  define="AT32F415K8U7_4"/>
+          <memory id="IROM1"  access="rx"       start="0x08000000"  size="0x10000"     startup="1"        default="1"/>
+          <memory id="IRAM1"  access="rw"       start="0x20000000"  size="0x8000"      init   ="0"        default="1"/>
+          <algorithm name="Flash/AT32F415_64.FLM"                     start="0x08000000" size="0x10000"   default="1"/>
+          <algorithm name="Flash/AT32F415_BOOTMEM_AP.FLM"             start="0x1FFFAC00" size="0x04800"   default="0"/>
+          <algorithm name="Flash/AT32F415_USD.FLM"                    start="0x1FFFF800" size="0x00040"   default="0"/>
+        </device>
+
+        <!-- *************************  Device 'AT32F415KBU7-4'  ***************************** -->
+        <device Dname="-AT32F415KBU7-4">
+          <compile header="Device/Include/at32f415.h"  define="AT32F415KBU7_4"/>
+          <memory id="IROM1"  access="rx"       start="0x08000000"  size="0x20000"     startup="1"        default="1"/>
+          <memory id="IRAM1"  access="rw"       start="0x20000000"  size="0x8000"      init   ="0"        default="1"/>
+          <algorithm name="Flash/AT32F415_128.FLM"                    start="0x08000000" size="0x20000"   default="1"/>
+          <algorithm name="Flash/AT32F415_BOOTMEM_AP.FLM"             start="0x1FFFAC00" size="0x04800"   default="0"/>
+          <algorithm name="Flash/AT32F415_USD.FLM"                    start="0x1FFFF800" size="0x00040"   default="0"/>
+        </device>
+
+        <!-- *************************  Device 'AT32F415KCU7-4'  ***************************** -->
+        <device Dname="-AT32F415KCU7-4">
+          <compile header="Device/Include/at32f415.h"  define="AT32F415KCU7_4"/>
+          <memory id="IROM1"  access="rx"       start="0x08000000"  size="0x40000"     startup="1"        default="1"/>
+          <memory id="IRAM1"  access="rw"       start="0x20000000"  size="0x8000"      init   ="0"        default="1"/>
+          <algorithm name="Flash/AT32F415_256.FLM"                    start="0x08000000" size="0x40000"   default="1"/>
+          <algorithm name="Flash/AT32F415_BOOTMEM_AP.FLM"             start="0x1FFFAC00" size="0x04800"   default="0"/>
+          <algorithm name="Flash/AT32F415_USD.FLM"                    start="0x1FFFF800" size="0x00040"   default="0"/>
+        </device>
+
+        <!-- *************************  Device 'AT32F415C8T7'  ***************************** -->
+        <device Dname="-AT32F415C8T7">
+          <compile header="Device/Include/at32f415.h"  define="AT32F415C8T7"/>
+          <memory id="IROM1"  access="rx"       start="0x08000000"  size="0x10000"     startup="1"        default="1"/>
+          <memory id="IRAM1"  access="rw"       start="0x20000000"  size="0x8000"      init   ="0"        default="1"/>
+          <algorithm name="Flash/AT32F415_64.FLM"                     start="0x08000000" size="0x10000"   default="1"/>
+          <algorithm name="Flash/AT32F415_BOOTMEM_AP.FLM"             start="0x1FFFAC00" size="0x04800"   default="0"/>
+          <algorithm name="Flash/AT32F415_USD.FLM"                    start="0x1FFFF800" size="0x00040"   default="0"/>
+        </device>
+
+        <!-- *************************  Device 'AT32F415CBT7'  ***************************** -->
+        <device Dname="-AT32F415CBT7">
+          <compile header="Device/Include/at32f415.h"  define="AT32F415CBT7"/>
+          <memory id="IROM1"  access="rx"       start="0x08000000"  size="0x20000"     startup="1"        default="1"/>
+          <memory id="IRAM1"  access="rw"       start="0x20000000"  size="0x8000"      init   ="0"        default="1"/>
+          <algorithm name="Flash/AT32F415_128.FLM"                    start="0x08000000" size="0x20000"   default="1"/>
+          <algorithm name="Flash/AT32F415_BOOTMEM_AP.FLM"             start="0x1FFFAC00" size="0x04800"   default="0"/>
+          <algorithm name="Flash/AT32F415_USD.FLM"                    start="0x1FFFF800" size="0x00040"   default="0"/>
+        </device>
+
+        <!-- *************************  Device 'AT32F415CCT7'  ***************************** -->
+        <device Dname="-AT32F415CCT7">
+          <compile header="Device/Include/at32f415.h"  define="AT32F415CCT7"/>
+          <memory id="IROM1"  access="rx"       start="0x08000000"  size="0x40000"     startup="1"        default="1"/>
+          <memory id="IRAM1"  access="rw"       start="0x20000000"  size="0x8000"      init   ="0"        default="1"/>
+          <algorithm name="Flash/AT32F415_256.FLM"                    start="0x08000000" size="0x40000"   default="1"/>
+          <algorithm name="Flash/AT32F415_BOOTMEM_AP.FLM"             start="0x1FFFAC00" size="0x04800"   default="0"/>
+          <algorithm name="Flash/AT32F415_USD.FLM"                    start="0x1FFFF800" size="0x00040"   default="0"/>
+        </device>
+        <!-- *************************  Device 'AT32F415CBU7'  ***************************** -->
+        <device Dname="AT32F415CBU7">
+          <compile header="Device/Include/at32f415.h"  define="AT32F415CBU7"/>
+          <memory id="IROM1"  access="rx"       start="0x08000000"  size="0x20000"     startup="1"   default="1"/>
+          <memory id="IRAM1"  access="rw"       start="0x20000000"  size="0x8000"      init   ="0"   default="1"/>
+          <algorithm name="Flash/AT32F415_128.FLM"                    start="0x08000000" size="0x20000"   default="1"/>
+          <algorithm name="Flash/AT32F415_BOOTMEM_AP.FLM"             start="0x1FFFAC00" size="0x04800"   default="0"/>
+          <algorithm name="Flash/AT32F415_USD.FLM"                    start="0x1FFFF800" size="0x00040"   default="0"/>
+        </device>
+
+        <!-- *************************  Device 'AT32F415CCU7'  ***************************** -->
+        <device Dname="-AT32F415CCU7">
+          <compile header="Device/Include/at32f415.h"  define="AT32F415CCU7"/>
+          <memory id="IROM1"  access="rx"       start="0x08000000"  size="0x40000"     startup="1"   default="1"/>
+          <memory id="IRAM1"  access="rw"       start="0x20000000"  size="0x8000"      init   ="0"   default="1"/>
+          <algorithm name="Flash/AT32F415_256.FLM"                    start="0x08000000" size="0x40000"   default="1"/>
+          <algorithm name="Flash/AT32F415_BOOTMEM_AP.FLM"             start="0x1FFFAC00" size="0x04800"   default="0"/>
+          <algorithm name="Flash/AT32F415_USD.FLM"                    start="0x1FFFF800" size="0x00040"   default="0"/>
+        </device>
+
+        <!-- *************************  Device 'AT32F415R8T7'  ***************************** -->
+        <device Dname="-AT32F415R8T7">
+          <compile header="Device/Include/at32f415.h"  define="AT32F415R8T7"/>
+          <memory id="IROM1"  access="rx"       start="0x08000000"  size="0x10000"     startup="1"        default="1"/>
+          <memory id="IRAM1"  access="rw"       start="0x20000000"  size="0x8000"      init   ="0"        default="1"/>
+          <algorithm name="Flash/AT32F415_64.FLM"                     start="0x08000000" size="0x10000"   default="1"/>
+          <algorithm name="Flash/AT32F415_BOOTMEM_AP.FLM"             start="0x1FFFAC00" size="0x04800"   default="0"/>
+          <algorithm name="Flash/AT32F415_USD.FLM"                    start="0x1FFFF800" size="0x00040"   default="0"/>
+        </device>
+
+        <!-- *************************  Device 'AT32F415RBT7'  ***************************** -->
+        <device Dname="-AT32F415RBT7">
+          <compile header="Device/Include/at32f415.h"  define="AT32F415RBT7"/>
+          <memory id="IROM1"  access="rx"       start="0x08000000"  size="0x20000"     startup="1"        default="1"/>
+          <memory id="IRAM1"  access="rw"       start="0x20000000"  size="0x8000"      init   ="0"        default="1"/>
+          <algorithm name="Flash/AT32F415_128.FLM"                    start="0x08000000" size="0x20000"   default="1"/>
+          <algorithm name="Flash/AT32F415_BOOTMEM_AP.FLM"             start="0x1FFFAC00" size="0x04800"   default="0"/>
+          <algorithm name="Flash/AT32F415_USD.FLM"                    start="0x1FFFF800" size="0x00040"   default="0"/>
+        </device>
+
+        <!-- *************************  Device 'AT32F415RCT7'  ***************************** -->
+        <device Dname="-AT32F415RCT7">
+          <compile header="Device/Include/at32f415.h"  define="AT32F415RCT7"/>
+          <memory id="IROM1"  access="rx"       start="0x08000000"  size="0x40000"     startup="1"        default="1"/>
+          <memory id="IRAM1"  access="rw"       start="0x20000000"  size="0x8000"      init   ="0"        default="1"/>
+          <algorithm name="Flash/AT32F415_256.FLM"                    start="0x08000000" size="0x40000"   default="1"/>
+          <algorithm name="Flash/AT32F415_BOOTMEM_AP.FLM"             start="0x1FFFAC00" size="0x04800"   default="0"/>
+          <algorithm name="Flash/AT32F415_USD.FLM"                    start="0x1FFFF800" size="0x00040"   default="0"/>
+        </device>
+
+        <!-- *************************  Device 'AT32F415R8T7-7'  ***************************** -->
+        <device Dname="-AT32F415R8T7-7">
+          <compile header="Device/Include/at32f415.h"  define="AT32F415R8T7_7"/>
+          <memory id="IROM1"  access="rx"       start="0x08000000"  size="0x10000"     startup="1"        default="1"/>
+          <memory id="IRAM1"  access="rw"       start="0x20000000"  size="0x8000"      init   ="0"        default="1"/>
+          <algorithm name="Flash/AT32F415_64.FLM"                     start="0x08000000" size="0x10000"   default="1"/>
+          <algorithm name="Flash/AT32F415_BOOTMEM_AP.FLM"             start="0x1FFFAC00" size="0x04800"   default="0"/>
+          <algorithm name="Flash/AT32F415_USD.FLM"                    start="0x1FFFF800" size="0x00040"   default="0"/>
+        </device>
+
+        <!-- *************************  Device 'AT32F415RBT7-7'  ***************************** -->
+        <device Dname="-AT32F415RBT7-7">
+          <compile header="Device/Include/at32f415.h"  define="AT32F415RBT7_7"/>
+          <memory id="IROM1"  access="rx"       start="0x08000000"  size="0x20000"     startup="1"        default="1"/>
+          <memory id="IRAM1"  access="rw"       start="0x20000000"  size="0x8000"      init   ="0"        default="1"/>
+          <algorithm name="Flash/AT32F415_128.FLM"                    start="0x08000000" size="0x20000"   default="1"/>
+          <algorithm name="Flash/AT32F415_BOOTMEM_AP.FLM"             start="0x1FFFAC00" size="0x04800"   default="0"/>
+          <algorithm name="Flash/AT32F415_USD.FLM"                    start="0x1FFFF800" size="0x00040"   default="0"/>
+        </device>
+
+        <!-- *************************  Device 'AT32F415RCT7-7'  ***************************** -->
+        <device Dname="-AT32F415RCT7-7">
+          <compile header="Device/Include/at32f415.h"  define="AT32F415RCT7_7"/>
+          <memory id="IROM1"  access="rx"       start="0x08000000"  size="0x40000"     startup="1"        default="1"/>
+          <memory id="IRAM1"  access="rw"       start="0x20000000"  size="0x8000"      init   ="0"        default="1"/>
+          <algorithm name="Flash/AT32F415_256.FLM"                    start="0x08000000" size="0x40000"   default="1"/>
+          <algorithm name="Flash/AT32F415_BOOTMEM_AP.FLM"             start="0x1FFFAC00" size="0x04800"   default="0"/>
+          <algorithm name="Flash/AT32F415_USD.FLM"                    start="0x1FFFF800" size="0x00040"   default="0"/>
+        </device>
+
+     </subFamily>
+
+    </family>
+  </devices>
+
+  <conditions>
+    <!-- Compiler Conditions -->
+    <condition id="Compiler ARMCC">
+      <require Tcompiler="ARMCC"/>
+    </condition>
+
+    <!-- Device Conditions -->
+    <condition id="AT32F415xx">
+      <description>ArteryTek AT32F415 Devices</description>
+      <require Dvendor="ArteryTek:143" Dname="-AT32F415[CKR]*"/>
+      <require Cclass="Device" Cgroup="Startup" />
+    </condition>
+
+    <condition id="AT32F415">
+      <description>ArteryTek AT32F415 Devices</description>
+      <accept condition="AT32F415xx"/>
+    </condition>
+
+    <!-- Series id Conditions -->
+    <condition id="AT32F415xx ARMCC">
+      <description>ArteryTek AT32F415xx Series devices</description>
+      <require Dvendor="ArteryTek:143" Dname="-AT32F415[CKR]*"/>
+      <require condition="Compiler ARMCC"/>
+    </condition>
+
+    <!-- Device + CMSIS Conditions -->
+    <condition id="AT32F415 CMSIS">
+      <description>ArteryTek AT32F415 Devices and CMSIS-CORE</description>
+      <require condition="AT32F415"/>
+      <require Cclass="CMSIS" Cgroup="CORE"/>
+      <require Cclass="Device" Cgroup="at32f415_conf"/>    
+      <require Cclass="Device" Cgroup="at32f415_firmware_library" Csub="crm"/>           
+    </condition>
+
+    <!-- AT32F415 STDPERIPHERALS CRM Conditions -->
+    <condition id="AT32F415 STDPERIPHERALS CRM">
+      <description>ArteryTek AT32F415 Standard Peripherals Drivers with CRM</description>
+      <require condition="AT32F415 CMSIS"/>
+      <require Cclass="Device" Cgroup="at32f415_firmware_library" Csub="crm"/>
+    </condition>
+
+     <!-- AT32F415 STDPERIPHERALS MISC Conditions -->
+    <condition id="AT32F415 STDPERIPHERALS MISC">
+      <description>ArteryTek  AT32F415 Standard Peripherals Drivers with MISC</description>
+      <require condition="AT32F415 CMSIS"/>
+      <require Cclass="Device" Cgroup="at32f415_firmware_library" Csub="misc"/>
+    </condition>
+
+     <!-- AT32F415 STDPERIPHERALS EVAL Conditions -->
+    <condition id="AT32F415 STDPERIPHERALS EVB">
+      <description>ArteryTek AT32F415 Standard Peripherals Drivers with EVB</description>
+      <require condition="AT32F415 CMSIS"/>
+      <require Cclass="Device" Cgroup="at32f415_firmware_library" Csub="gpio"/>
+      <require Cclass="Device" Cgroup="at32f415_firmware_library" Csub="exint"/>
+      <require Cclass="Device" Cgroup="at32f415_firmware_library" Csub="usart"/>
+    </condition>
+  </conditions>
+
+  <components>
+  <!-- at32f415_firmware_library -->
+
+    <component Cclass="Device" Cgroup="at32f415_firmware_library" Csub="adc" Cversion="2.0.0" condition="AT32F415 STDPERIPHERALS CRM">
+      <description>Analog-to-digital converter (ADC) driver for AT32F415 Devices</description>
+        <RTE_Components_h>
+        #define RTE_DEVICE_STDPERIPHERALS_ADC
+        </RTE_Components_h>
+        <files>
+          <!-- ADC file -->
+          <file category="header" name="Device/Firmware/Peripherals/inc/at32f415_adc.h"/>
+          <file category="source" name="Device/Firmware/Peripherals/src/at32f415_adc.c" attr="config" version="2.0.0" />
+        </files>
+    </component>
+
+    <component Cclass="Device" Cgroup="at32f415_firmware_library" Csub="can" Cversion="2.0.0" condition="AT32F415 STDPERIPHERALS CRM">
+      <description>CAN (CAN) driver for AT32F415 Devices</description>
+        <RTE_Components_h>
+        #define RTE_DEVICE_STDPERIPHERALS_CAN
+        </RTE_Components_h>
+        <files>
+          <!-- CAN file -->
+          <file category="header" name="Device/Firmware/Peripherals/inc/at32f415_can.h" />
+          <file category="source" name="Device/Firmware/Peripherals/src/at32f415_can.c" attr="config" version="2.0.0" />
+        </files>
+    </component>
+
+    <component Cclass="Device" Cgroup="at32f415_firmware_library" Csub="cmp" Cversion="2.0.0" condition="AT32F415 STDPERIPHERALS CRM">
+      <description>Comparator (CMP) driver for AT32F415 Devices</description>
+        <RTE_Components_h>
+        #define RTE_DEVICE_STDPERIPHERALS_CMP
+        </RTE_Components_h>
+        <files>
+          <!-- CMP file -->
+          <file category="header" name="Device/Firmware/Peripherals/inc/at32f415_cmp.h" />
+          <file category="source" name="Device/Firmware/Peripherals/src/at32f415_cmp.c" attr="config" version="2.0.0" />
+        </files>
+    </component>
+
+    <component Cclass="Device" Cgroup="at32f415_firmware_library" Csub="crc" Cversion="2.0.0" condition="AT32F415 STDPERIPHERALS CRM">
+      <description>Cyclic Redundancy Check (CRC) driver for AT32F415 Devices</description>
+        <RTE_Components_h>
+        #define RTE_DEVICE_STDPERIPHERALS_CRC
+        </RTE_Components_h>
+        <files>
+          <!-- CRC file -->
+          <file category="header" name="Device/Firmware/Peripherals/inc/at32f415_crc.h" />
+          <file category="source" name="Device/Firmware/Peripherals/src/at32f415_crc.c" attr="config" version="2.0.0" />
+        </files>
+    </component>
+
+    <component Cclass="Device" Cgroup="at32f415_firmware_library" Csub="crm" Cversion="2.0.0" condition="AT32F415 STDPERIPHERALS MISC">
+      <description>Clock and Reset Management (CRM) driver for AT32F415 Devices</description>
+        <RTE_Components_h>
+        #define RTE_DEVICE_STDPERIPHERALS_CRM
+        </RTE_Components_h>
+        <files>
+          <!-- CRM file -->
+          <file category="header" name="Device/Firmware/Peripherals/inc/at32f415_crm.h" />
+          <file category="source" name="Device/Firmware/Peripherals/src/at32f415_crm.c" attr="config" version="2.0.0" />
+        </files>
+    </component>
+
+    <component Cclass="Device" Cgroup="at32f415_firmware_library" Csub="debug" Cversion="2.0.0" condition="AT32F415 STDPERIPHERALS CRM">
+      <description>Debug (DEBUG) driver for AT32F415 Devices</description>
+        <RTE_Components_h>
+        #define RTE_DEVICE_STDPERIPHERALS_DEBUG
+        </RTE_Components_h>
+        <files>
+          <!-- DEBUG file -->
+          <file category="header" name="Device/Firmware/Peripherals/inc/at32f415_debug.h" />
+          <file category="source" name="Device/Firmware/Peripherals/src/at32f415_debug.c" attr="config" version="2.0.0" />
+        </files>
+    </component>
+
+    <component Cclass="Device" Cgroup="at32f415_firmware_library" Csub="dma" Cversion="2.0.0" condition="AT32F415 STDPERIPHERALS CRM">
+      <description>Direct Memory Access (DMA) driver for AT32F415 Devices</description>
+        <RTE_Components_h>
+        #define RTE_DEVICE_STDPERIPHERALS_DMA
+        </RTE_Components_h>
+        <files>
+          <!-- DMA file -->
+          <file category="header" name="Device/Firmware/Peripherals/inc/at32f415_dma.h" />
+          <file category="source" name="Device/Firmware/Peripherals/src/at32f415_dma.c" attr="config" version="2.0.0" />
+        </files>
+    </component>
+
+    <component Cclass="Device" Cgroup="at32f415_firmware_library" Csub="ertc" Cversion="2.0.0" condition="AT32F415 STDPERIPHERALS CRM">
+      <description>Enhance Real-time Clock (ERTC) driver for AT32F415 Devices</description>
+        <RTE_Components_h>
+        #define RTE_DEVICE_STDPERIPHERALS_ERTC
+        </RTE_Components_h>
+        <files>
+          <!-- ERTC file -->
+          <file category="header" name="Device/Firmware/Peripherals/inc/at32f415_ertc.h" />
+          <file category="source" name="Device/Firmware/Peripherals/src/at32f415_ertc.c" attr="config" version="2.0.0" />
+        </files>
+    </component>
+
+    <component Cclass="Device" Cgroup="at32f415_firmware_library" Csub="exint" Cversion="2.0.0" condition="AT32F415 STDPERIPHERALS CRM">
+      <description>External Interrupt/Event (EXINT) driver for AT32F415 Devices</description>
+        <RTE_Components_h>
+        #define RTE_DEVICE_STDPERIPHERALS_EXINT
+        </RTE_Components_h>
+        <files>
+          <!-- EXINT file -->
+          <file category="header" name="Device/Firmware/Peripherals/inc/at32f415_exint.h" />
+          <file category="source" name="Device/Firmware/Peripherals/src/at32f415_exint.c" attr="config" version="2.0.0" />
+        </files>
+    </component>
+
+    <component Cclass="Device" Cgroup="at32f415_firmware_library" Csub="flash" Cversion="2.0.0" condition="AT32F415 STDPERIPHERALS CRM">
+      <description>Flash Memory Controller (FLASH) driver for AT32F415 Devices</description>
+        <RTE_Components_h>
+        #define RTE_DEVICE_STDPERIPHERALS_FLASH
+        </RTE_Components_h>
+        <files>
+          <!-- FLASH file -->
+          <file category="header" name="Device/Firmware/Peripherals/inc/at32f415_flash.h" />
+          <file category="source" name="Device/Firmware/Peripherals/src/at32f415_flash.c" attr="config" version="2.0.0" />
+        </files>
+    </component>
+
+    <component Cclass="Device" Cgroup="at32f415_firmware_library" Csub="gpio" Cversion="2.0.0" condition="AT32F415 STDPERIPHERALS CRM">
+      <description>General-purpose and Alternate-function I/Os (GPIO) driver for AT32F415 Devices</description>
+        <RTE_Components_h>
+        #define RTE_DEVICE_STDPERIPHERALS_GPIO
+        </RTE_Components_h>
+        <files>
+          <!-- GPIO file -->
+          <file category="header" name="Device/Firmware/Peripherals/inc/at32f415_gpio.h" />
+          <file category="source" name="Device/Firmware/Peripherals/src/at32f415_gpio.c" attr="config" version="2.0.0" />
+        </files>
+    </component>
+
+    <component Cclass="Device" Cgroup="at32f415_firmware_library" Csub="i2c" Cversion="2.0.0" condition="AT32F415 STDPERIPHERALS CRM">
+      <description>Inter-integrated Circuit (I2C) driver for AT32F415 Devices</description>
+        <RTE_Components_h>
+        #define RTE_DEVICE_STDPERIPHERALS_I2C
+        </RTE_Components_h>
+        <files>
+          <!-- I2C file -->
+          <file category="header" name="Device/Firmware/Peripherals/inc/at32f415_i2c.h" />
+          <file category="source" name="Device/Firmware/Peripherals/src/at32f415_i2c.c" attr="config" version="2.0.0" />
+        </files>
+    </component>
+
+    <component Cclass="Device" Cgroup="at32f415_firmware_library" Csub="misc" Cversion="2.0.0" condition="AT32F415 CMSIS">
+      <description>MISC driver for AT32F415 Devices</description>
+        <RTE_Components_h>
+        #define RTE_DEVICE_STDPERIPHERALS_MISC
+        </RTE_Components_h>
+        <files>
+          <!-- MISC file -->
+          <file category="header" name="Device/Firmware/Peripherals/inc/at32f415_misc.h" />
+          <file category="source" name="Device/Firmware/Peripherals/src/at32f415_misc.c" attr="config" version="2.0.0" />
+        </files>
+    </component>
+
+    <component Cclass="Device" Cgroup="at32f415_firmware_library" Csub="pwc" Cversion="2.0.0" condition="AT32F415 STDPERIPHERALS CRM">
+      <description>Power Control Unit(PWC) driver for AT32F415 Devices</description>
+        <RTE_Components_h>
+        #define RTE_DEVICE_STDPERIPHERALS_PWC
+        </RTE_Components_h>
+        <files>
+          <!-- PWC file -->
+          <file category="header" name="Device/Firmware/Peripherals/inc/at32f415_pwc.h" />
+          <file category="source" name="Device/Firmware/Peripherals/src/at32f415_pwc.c" attr="config" version="2.0.0" />
+        </files>
+    </component>
+
+    <component Cclass="Device" Cgroup="at32f415_firmware_library" Csub="sdio" Cversion="2.0.0" condition="AT32F415 STDPERIPHERALS CRM">
+      <description>SD/SDIO MMC card host interface (SDIO) driver for AT32F415 Devices</description>
+        <RTE_Components_h>
+        #define RTE_DEVICE_STDPERIPHERALS_SDIO
+        </RTE_Components_h>
+        <files>
+          <!-- SDIO file -->
+          <file category="header" name="Device/Firmware/Peripherals/inc/at32f415_sdio.h" />
+          <file category="source" name="Device/Firmware/Peripherals/src/at32f415_sdio.c" attr="config" version="2.0.0" />
+        </files>
+    </component>
+
+    <component Cclass="Device" Cgroup="at32f415_firmware_library" Csub="spi" Cversion="2.0.0" condition="AT32F415 STDPERIPHERALS CRM">
+      <description>Serial Peripheral Interface / Inter-IC Sound (SPI) driver for AT32F415 Devices</description>
+        <RTE_Components_h>
+        #define RTE_DEVICE_STDPERIPHERALS_SPI
+        </RTE_Components_h>
+        <files>
+          <!-- SPI file -->
+          <file category="header" name="Device/Firmware/Peripherals/inc/at32f415_spi.h" />
+          <file category="source" name="Device/Firmware/Peripherals/src/at32f415_spi.c" attr="config" version="2.0.0" />
+        </files>
+    </component>
+
+    <component Cclass="Device" Cgroup="at32f415_firmware_library" Csub="tmr" Cversion="2.0.0" condition="AT32F415 STDPERIPHERALS CRM">
+      <description>TIMER driver for AT32F415 Devices</description>
+        <RTE_Components_h>
+        #define RTE_DEVICE_STDPERIPHERALS_TMR
+        </RTE_Components_h>
+        <files>
+          <!-- TIMER file -->
+          <file category="header" name="Device/Firmware/Peripherals/inc/at32f415_tmr.h" />
+          <file category="source" name="Device/Firmware/Peripherals/src/at32f415_tmr.c" attr="config" version="2.0.0" />
+        </files>
+    </component>
+
+    <component Cclass="Device" Cgroup="at32f415_firmware_library" Csub="usart" Cversion="2.0.0" condition="AT32F415 STDPERIPHERALS CRM">
+      <description>Universal Synchronous Asynchronous Receiver Transmitter (USART) driver for AT32F415 Devices</description>
+        <RTE_Components_h>
+        #define RTE_DEVICE_STDPERIPHERALS_USART
+        </RTE_Components_h>
+        <files>
+          <!-- USART file -->
+          <file category="header" name="Device/Firmware/Peripherals/inc/at32f415_usart.h" />
+          <file category="source" name="Device/Firmware/Peripherals/src/at32f415_usart.c" attr="config" version="2.0.0" />
+        </files>
+    </component>
+
+    <component Cclass="Device" Cgroup="at32f415_firmware_library" Csub="usb" Cversion="2.0.0" condition="AT32F415 STDPERIPHERALS CRM">
+      <description>Universal Serial Bus driver for AT32F415 Devices</description>
+        <RTE_Components_h>
+        #define RTE_DEVICE_STDPERIPHERALS_USB
+        </RTE_Components_h>
+        <files>
+          <!-- USB file -->
+          <file category="header" name="Device/Firmware/Peripherals/inc/at32f415_usb.h" />
+          <file category="source" name="Device/Firmware/Peripherals/src/at32f415_usb.c" attr="config" version="2.0.0" />
+        </files>
+    </component>
+
+    <component Cclass="Device" Cgroup="at32f415_firmware_library" Csub="wdt" Cversion="2.0.0" condition="AT32F415 STDPERIPHERALS CRM">
+      <description>watchdog timer(WDT) driver for AT32F415 Devices</description>
+        <RTE_Components_h>
+        #define RTE_DEVICE_STDPERIPHERALS_WDT
+        </RTE_Components_h>
+        <files>
+          <!-- WDT file -->
+          <file category="header" name="Device/Firmware/Peripherals/inc/at32f415_wdt.h" />
+          <file category="source" name="Device/Firmware/Peripherals/src/at32f415_wdt.c" attr="config" version="2.0.0" />
+        </files>
+    </component>
+
+    <component Cclass="Device" Cgroup="at32f415_firmware_library" Csub="wwdt" Cversion="2.0.0" condition="AT32F415 STDPERIPHERALS CRM">
+      <description>Window Watchdog Timer (WWDT) driver for AT32F415 Devices</description>
+        <RTE_Components_h>
+        #define RTE_DEVICE_STDPERIPHERALS_WWDT
+        </RTE_Components_h>
+        <files>
+          <!-- WWDT file -->
+          <file category="header" name="Device/Firmware/Peripherals/inc/at32f415_wwdt.h" />
+          <file category="source" name="Device/Firmware/Peripherals/src/at32f415_wwdt.c" attr="config" version="2.0.0" />
+        </files>
+    </component>
+
+    <!-- Utilities AT32F415 -->
+    <component Cclass="Device" Cgroup="evb" Csub="at-start-f415" Cversion="2.0.0" condition="AT32F415 STDPERIPHERALS EVB">
+      <description>Firmware functions to manage Leds, Keys, COM ports</description>
+      <files>
+        <!-- include folder -->
+        <file category="header" name="Device/Utilities/at32f415_board.h" />
+        <!-- evb file -->
+        <file category="source" name="Device/Utilities/at32f415_board.c" attr="config" version="2.0.0"/>
+      </files>
+    </component>
+
+    <!-- Config AT32F415 -->
+    <component Cclass="Device" Cgroup="at32f415_conf" Cversion="2.0.0" condition="AT32F415 CMSIS">
+      <description>Configuration file</description>
+      <files>
+        <!-- include folder -->
+        <file category="header" name="Device/Include/at32f415_conf.h" attr="config" version="2.0.0"/>
+      </files>
+    </component>
+
+   <!-- Startup AT32F415  -->
+    <component Cclass="Device" Cgroup="Startup"   Cversion="2.0.0" condition="AT32F415">
+      <description>System Startup for ArteryTek AT32F415  Devices</description>
+      <files>
+        <!-- include folder -->
+        <file category="include" name="Device/Include/"/>
+        <file category="header" name="Device/Include/at32f415.h"/>
+        <!-- startup file -->
+        <file category="source" name="Device/Source/ARM/startup_at32f415.s" attr="config" version="2.0.0" condition="AT32F415xx ARMCC"/>
+        <!-- system file -->
+        <file category="source" name="Device/Source/system_at32f415.c"      attr="config" version="2.0.0"/>
+      </files>
+    </component>
+  </components>
+</package>
