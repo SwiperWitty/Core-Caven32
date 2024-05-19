@@ -35,7 +35,7 @@ void ADC_Data_Handle (void * data);
 int main(void)
 {
     Main_Init();
-		
+
     Caven_Watch_Type now_time = {
         .hour = 8,
         .minutes = 7,
@@ -176,6 +176,7 @@ int main(void)
 		}
 		if(temp_pic != temp_key)
 		{
+			temp_pic = temp_key;
 			User_GPIO_set(2,4,temp_pic%2);
 		}
         Mode_Use.TIME.Delay_Ms(100);
@@ -203,6 +204,7 @@ void Main_Init(void)
 	User_GPIO_config(2,5,1);
 	User_GPIO_set(2,4,DISABLE);
 	User_GPIO_set(2,5,DISABLE);	//kill 
+	IIC_Start_Init(ENABLE);
 	// 
 	Caven_GUI_draw_pixel_bind (Mode_Use.LCD.Draw_Point_pFun);
     while (reverse);

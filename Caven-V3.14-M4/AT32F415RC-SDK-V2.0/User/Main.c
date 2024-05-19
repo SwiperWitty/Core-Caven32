@@ -136,6 +136,13 @@ void Main_Init(void)
     Mode_Init.LED(ENABLE);
     Mode_Init.UART_Init_State = Mode_Init.UART(m_UART_CH1, 115200, ENABLE);
     Mode_Init.LCD(ENABLE);
+	
+	User_GPIO_config(3,13,0);	//
+	User_GPIO_config(2,4,1);
+	User_GPIO_config(2,5,1);
+	User_GPIO_set(2,4,DISABLE);
+	User_GPIO_set(2,5,DISABLE);	//kill 
+	
     Caven_GUI_draw_pixel_bind (Mode_Use.LCD.Draw_Point_pFun);
     //    Mode_Use.UART.Send_String_pFun(m_UART_CH1,"hello world !\n");
 
