@@ -39,7 +39,7 @@ int main(void)
     Caven_Watch_Type now_time = {
         .hour = 8,
         .minutes = 7,
-        .second = 50,
+        .second = 55,
     };
     Mode_Use.TIME.Set_Watch_pFun(now_time);
     now_time = Mode_Use.TIME.Get_Watch_pFun();
