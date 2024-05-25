@@ -9,7 +9,7 @@
             云端库文件夹...
 */
 #ifdef PICTURE
-#define Photo1 0
+#define Photo1 gImage_4_caven
 #define Photo2 gImage_example
 #endif
 
@@ -78,11 +78,11 @@ int main(void)
 		vcc_vol = ADC_array[0];	// VCC
 		vcc_vol = (vcc_vol / 4096) * 3.3 * 8.5;	// 还原
 		sprintf(array_buff,"Vcc:%5.2f",vcc_vol);
-		Mode_Use.LCD.Show_String_pFun(10, 6, array_buff, LCD_BLACK, LCD_Back_Color, 16);
+//		Mode_Use.LCD.Show_String_pFun(10, 6, array_buff, LCD_BLACK, LCD_Back_Color, 16);
 		ele_vol = ADC_array[1];	// ELE
 		ele_vol = ((ele_vol / 4096) * 3.3) * (200/50);	// (x/50)/0.005 = x * 4
 		sprintf(array_buff,"Ele:%5.2f",ele_vol);
-		Mode_Use.LCD.Show_String_pFun(10, 7, array_buff, LCD_BLACK, LCD_Back_Color, 16);
+//		Mode_Use.LCD.Show_String_pFun(10, 7, array_buff, LCD_BLACK, LCD_Back_Color, 16);
 		tem_vol = ADC_array[2];	// TEMP
 		
 		time_temp = (vcc_vol / 25) * 100;
@@ -153,7 +153,7 @@ int main(void)
 				if (temp_times > 30)	// 3 sec
 				{
 					temp_times = 30;
-					Mode_Use.LCD.Show_String_pFun(12, 5, "OFF", LCD_BLACK, LCD_Back_Color, 16);
+					LCD_Fill_Fun (0, 0, LCD_W, LCD_H, LCD_WHITE);
 				}
 			}while(temp == 0);
 			//松手了 
@@ -199,13 +199,14 @@ void Main_Init(void)
 	User_GPIO_set(2,5,DISABLE);	//kill 
 	IIC_Start_Init(ENABLE);
 	// 
-	Caven_GUI_draw_pixel_bind (Mode_Use.LCD.Draw_Point_pFun);
+//	Caven_GUI_draw_pixel_bind (Mode_Use.LCD.Draw_Point_pFun);
     while (reverse);
 
     Mode_Use.UART.Send_String_pFun(DEBUG_OUT, "Hello world ! \n");
 //	Mode_Use.LCD.Show_String_pFun(5, 5, "Bird Final", LCD_Word_Color, LCD_Back_Color, 24);
 #ifdef PICTURE
-    Mode_Use.LCD.Show_Picture_pFun(0, 0, 240, 240, Photo2); // Photo
+    Mode_Use.LCD.Show_Picture_pFun(0, 0, 240, 240, Photo1); // Photo
+//    Mode_Use.LCD.Show_Picture_pFun(0, 0, 240, 240, Photo2); // Photo
 #endif
 }
 
