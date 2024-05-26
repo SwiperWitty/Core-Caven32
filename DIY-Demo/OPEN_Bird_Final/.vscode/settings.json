@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "lv_hal_disp.h": "c",
+        "lv_draw_label.h": "c"
+    }
+}
