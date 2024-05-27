@@ -63,51 +63,35 @@ uint32_t custom_millis(void)
  */
 static void hal_init(void)
 {
-  /* Use the 'monitor' driver which creates window on PC's monitor to simulate a display*/
-//  sdl_init();
 
-  /*Create a display buffer*/
-//  static lv_color_t buf[SDL_HOR_RES * SDL_VER_RES];
-//  static lv_disp_draw_buf_t disp_draw_buf;
-//  lv_disp_draw_buf_init(&disp_draw_buf, buf, NULL, SDL_HOR_RES * SDL_VER_RES);
-
-//  /*Create a display*/
-//  static lv_disp_drv_t disp_drv;
-//  lv_disp_drv_init(&disp_drv); /*Basic initialization*/
-//  disp_drv.draw_buf = &disp_draw_buf;
-//  disp_drv.flush_cb = sdl_display_flush;
-//  disp_drv.hor_res = SDL_HOR_RES;
-//  disp_drv.ver_res = SDL_VER_RES;
-//  lv_disp_drv_register(&disp_drv);
-
-//  /* Add a mouse as input device */
-//  static lv_indev_drv_t indev_drv;
-//  lv_indev_drv_init(&indev_drv); /*Basic initialization*/
-//  indev_drv.type = LV_INDEV_TYPE_POINTER;
-//  indev_drv.read_cb = sdl_mouse_read;
-//  lv_indev_drv_register(&indev_drv);
-  
-//  Mode_Use.LCD.Show_Picture_pFun(0, 0, 240, 240, Photo2); // Photo
 }
 
 int main(void)
 {
+	Main_Init();
+	
+	/*Initialize LVGL*/
+	lv_init();
+	/*Initialize the HAL (display, input devices, tick) for LVGL*/
+	hal_init();
+	
+	lv_disp_draw_buf_init(&draw_buf_dsc_1, buf_1, NULL, MY_DISP_HOR_RES * BUFF_LEN);
+	lv_disp_drv_init(&disp_drv);
+	disp_drv.hor_res = MY_DISP_HOR_RES;
+	disp_drv.ver_res = MY_DISP_VER_RES;
+	disp_drv.flush_cb = disp_flush;
+	disp_drv.draw_buf = &draw_buf_dsc_1;
+	lv_disp_drv_register(&disp_drv);
+	
+	ui_init();
 
-  /*Initialize LVGL*/
-  lv_init();
-
-  /*Initialize the HAL (display, input devices, tick) for LVGL*/
-  hal_init();
-
-  ui_init();
-
-  while(1) {
-      /* Periodically call the lv_task handler.
-       * It could be done in a timer interrupt or an OS task too.*/
-      lv_timer_handler();
-//      usleep(5 * 1000);
+	while(1) {
+	  /* Periodically call the lv_task handler.
+	   * It could be done in a timer interrupt or an OS task too.*/
+	  lv_timer_handler();
+	//      usleep(5 * 1000);
 	  Mode_Use.TIME.Delay_Ms(5);
-  }
+	}
 
   return 0;
 }

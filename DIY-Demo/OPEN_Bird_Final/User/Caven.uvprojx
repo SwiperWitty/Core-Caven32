@@ -312,7 +312,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>1</Optim>
+            <Optim>3</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -336,9 +336,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>AT32F415RCT7,USE_STDPERIPH_DRIVER,CAVEN,DEFAULT,INS_HSCLK,PICTURE</Define>
+              <Define>AT32F415RCT7,USE_STDPERIPH_DRIVER,CAVEN,DEFAULT,INS_HSCLK</Define>
               <Undefine></Undefine>
-              <IncludePath>..\User;..\CMSIS;..\Config;..\SDK\inc;..\Startup\mdk;..\..\..\Caven-MCU_Lib\API;..\..\..\Caven-MCU_Lib\Mode;..\..\..\Caven-MCU_Lib\Base_AT32F415;..\..\..\Caven-MCU_Lib\Base_AT32F415\usb_drivers\inc;..\..\..\Caven-MCU_Lib\Base_AT32F415\composite_HID;..\..\..\Caven-MCU_Lib\GUI;..\bird_gui\lvgl\src\core;..\bird_gui\lvgl\src\draw;..\bird_gui\lvgl\src\extra;..\bird_gui\lvgl\src\font;..\bird_gui\lvgl\src\hal;..\bird_gui\lvgl\src\misc;..\bird_gui\lvgl\src\widgets;..\bird_gui\lvgl;..\bird_gui\ui</IncludePath>
+              <IncludePath>..\User;..\CMSIS;..\Config;..\SDK\inc;..\Startup\mdk;..\..\..\Caven-MCU_Lib\API;..\..\..\Caven-MCU_Lib\Mode;..\..\..\Caven-MCU_Lib\Base_AT32F415;..\..\..\Caven-MCU_Lib\Base_AT32F415\usb_drivers\inc;..\..\..\Caven-MCU_Lib\Base_AT32F415\composite_HID;..\..\..\Caven-MCU_Lib\GUI;..\bird_gui\lvgl;..\bird_gui\ui;..\bird_gui</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1408,21 +1408,6 @@
               <FilePath>..\bird_gui\lvgl\src\draw\sw\lv_draw_sw_transform.c</FilePath>
             </File>
             <File>
-              <FileName>lv_theme_default.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\bird_gui\lvgl\src\extra\themes\default\lv_theme_default.c</FilePath>
-            </File>
-            <File>
-              <FileName>lv_theme_basic.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\bird_gui\lvgl\src\extra\themes\basic\lv_theme_basic.c</FilePath>
-            </File>
-            <File>
-              <FileName>lv_theme_mono.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\bird_gui\lvgl\src\extra\themes\mono\lv_theme_mono.c</FilePath>
-            </File>
-            <File>
               <FileName>lv_calendar.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\bird_gui\lvgl\src\extra\widgets\calendar\lv_calendar.c</FilePath>
@@ -1556,6 +1541,11 @@
               <FileName>lv_fragment_manager.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\bird_gui\lvgl\src\extra\others\fragment\lv_fragment_manager.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_theme_basic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bird_gui\lvgl\src\extra\themes\basic\lv_theme_basic.c</FilePath>
             </File>
           </Files>
         </Group>
