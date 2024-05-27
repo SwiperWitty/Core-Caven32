@@ -18,7 +18,7 @@ extern "C" {
 // SCREEN: ui_cone
 void ui_cone_screen_init(void);
 extern lv_obj_t * ui_cone;
-extern lv_obj_t * ui_Label1;
+extern lv_obj_t * ui_top;
 extern lv_obj_t * ui_valc;
 extern lv_obj_t * ui_elsc;
 extern lv_obj_t * ui_tempc;

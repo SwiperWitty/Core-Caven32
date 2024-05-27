@@ -12,7 +12,7 @@
 // SCREEN: ui_cone
 void ui_cone_screen_init(void);
 lv_obj_t * ui_cone;
-lv_obj_t * ui_Label1;
+lv_obj_t * ui_top;
 lv_obj_t * ui_valc;
 lv_obj_t * ui_elsc;
 lv_obj_t * ui_tempc;

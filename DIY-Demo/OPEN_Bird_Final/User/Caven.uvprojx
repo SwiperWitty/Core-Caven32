@@ -188,7 +188,7 @@
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
-            <useUlib>1</useUlib>
+            <useUlib>0</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
             <nSecure>0</nSecure>
@@ -312,7 +312,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>3</Optim>
+            <Optim>1</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -336,9 +336,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>AT32F415RCT7,USE_STDPERIPH_DRIVER,CAVEN,DEFAULT,INS_HSCLK</Define>
+              <Define>AT32F415RCT7,USE_STDPERIPH_DRIVER,CAVEN,DEFAULT,INS_HSCLK,PICTURE</Define>
               <Undefine></Undefine>
-              <IncludePath>..\User;..\CMSIS;..\Config;..\SDK\inc;..\Startup\mdk;..\..\..\Caven-MCU_Lib\API;..\..\..\Caven-MCU_Lib\Mode;..\..\..\Caven-MCU_Lib\Base_AT32F415;..\..\..\Caven-MCU_Lib\Base_AT32F415\usb_drivers\inc;..\..\..\Caven-MCU_Lib\Base_AT32F415\composite_HID;..\..\..\Caven-MCU_Lib\GUI;..\bird_gui\ui;..\bird_gui\lvgl;..\bird_gui</IncludePath>
+              <IncludePath>..\User;..\CMSIS;..\Config;..\SDK\inc;..\Startup\mdk;..\..\..\Caven-MCU_Lib\API;..\..\..\Caven-MCU_Lib\Mode;..\..\..\Caven-MCU_Lib\Base_AT32F415;..\..\..\Caven-MCU_Lib\Base_AT32F415\usb_drivers\inc;..\..\..\Caven-MCU_Lib\Base_AT32F415\composite_HID;..\..\..\Caven-MCU_Lib\GUI;..\bird_gui\lvgl\src\core;..\bird_gui\lvgl\src\draw;..\bird_gui\lvgl\src\extra;..\bird_gui\lvgl\src\font;..\bird_gui\lvgl\src\hal;..\bird_gui\lvgl\src\misc;..\bird_gui\lvgl\src\widgets;..\bird_gui\lvgl;..\bird_gui\ui</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -835,7 +835,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>lvgl</GroupName>
+          <GroupName>lvgl_src</GroupName>
           <Files>
             <File>
               <FileName>lv_disp.c</FileName>
@@ -978,6 +978,11 @@
               <FilePath>..\bird_gui\lvgl\src\draw\lv_img_decoder.c</FilePath>
             </File>
             <File>
+              <FileName>lv_extra.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bird_gui\lvgl\src\extra\lv_extra.c</FilePath>
+            </File>
+            <File>
               <FileName>lv_font.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\bird_gui\lvgl\src\font\lv_font.c</FilePath>
@@ -996,6 +1001,11 @@
               <FileName>lv_font_loader.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\bird_gui\lvgl\src\font\lv_font_loader.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_montserrat_8.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bird_gui\lvgl\src\font\lv_font_montserrat_8.c</FilePath>
             </File>
             <File>
               <FileName>lv_font_montserrat_10.c</FileName>
@@ -1108,24 +1118,19 @@
               <FilePath>..\bird_gui\lvgl\src\font\lv_font_montserrat_48.c</FilePath>
             </File>
             <File>
-              <FileName>lv_font_montserrat_8.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\bird_gui\lvgl\src\font\lv_font_montserrat_8.c</FilePath>
-            </File>
-            <File>
               <FileName>lv_font_simsun_16_cjk.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\bird_gui\lvgl\src\font\lv_font_simsun_16_cjk.c</FilePath>
             </File>
             <File>
-              <FileName>lv_font_unscii_16.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\bird_gui\lvgl\src\font\lv_font_unscii_16.c</FilePath>
-            </File>
-            <File>
               <FileName>lv_font_unscii_8.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\bird_gui\lvgl\src\font\lv_font_unscii_8.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_unscii_16.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bird_gui\lvgl\src\font\lv_font_unscii_16.c</FilePath>
             </File>
             <File>
               <FileName>lv_hal_disp.c</FileName>
@@ -1333,9 +1338,14 @@
               <FilePath>..\bird_gui\lvgl\src\widgets\lv_textarea.c</FilePath>
             </File>
             <File>
-              <FileName>lv_extra.c</FileName>
+              <FileName>lv_flex.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\bird_gui\lvgl\src\extra\lv_extra.c</FilePath>
+              <FilePath>..\bird_gui\lvgl\src\extra\layouts\flex\lv_flex.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_grid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bird_gui\lvgl\src\extra\layouts\grid\lv_grid.c</FilePath>
             </File>
             <File>
               <FileName>lv_draw_sw.c</FileName>
@@ -1403,14 +1413,14 @@
               <FilePath>..\bird_gui\lvgl\src\extra\themes\default\lv_theme_default.c</FilePath>
             </File>
             <File>
-              <FileName>lv_flex.c</FileName>
+              <FileName>lv_theme_basic.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\bird_gui\lvgl\src\extra\layouts\flex\lv_flex.c</FilePath>
+              <FilePath>..\bird_gui\lvgl\src\extra\themes\basic\lv_theme_basic.c</FilePath>
             </File>
             <File>
-              <FileName>lv_animimg.c</FileName>
+              <FileName>lv_theme_mono.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\bird_gui\lvgl\src\extra\widgets\animimg\lv_animimg.c</FilePath>
+              <FilePath>..\bird_gui\lvgl\src\extra\themes\mono\lv_theme_mono.c</FilePath>
             </File>
             <File>
               <FileName>lv_calendar.c</FileName>
@@ -1428,54 +1438,9 @@
               <FilePath>..\bird_gui\lvgl\src\extra\widgets\calendar\lv_calendar_header_dropdown.c</FilePath>
             </File>
             <File>
-              <FileName>lv_chart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\bird_gui\lvgl\src\extra\widgets\chart\lv_chart.c</FilePath>
-            </File>
-            <File>
-              <FileName>lv_colorwheel.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\bird_gui\lvgl\src\extra\widgets\colorwheel\lv_colorwheel.c</FilePath>
-            </File>
-            <File>
-              <FileName>lv_imgbtn.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\bird_gui\lvgl\src\extra\widgets\imgbtn\lv_imgbtn.c</FilePath>
-            </File>
-            <File>
               <FileName>lv_keyboard.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\bird_gui\lvgl\src\extra\widgets\keyboard\lv_keyboard.c</FilePath>
-            </File>
-            <File>
-              <FileName>lv_led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\bird_gui\lvgl\src\extra\widgets\led\lv_led.c</FilePath>
-            </File>
-            <File>
-              <FileName>lv_list.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\bird_gui\lvgl\src\extra\widgets\list\lv_list.c</FilePath>
-            </File>
-            <File>
-              <FileName>lv_menu.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\bird_gui\lvgl\src\extra\widgets\menu\lv_menu.c</FilePath>
-            </File>
-            <File>
-              <FileName>lv_meter.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\bird_gui\lvgl\src\extra\widgets\meter\lv_meter.c</FilePath>
-            </File>
-            <File>
-              <FileName>lv_msgbox.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\bird_gui\lvgl\src\extra\widgets\msgbox\lv_msgbox.c</FilePath>
-            </File>
-            <File>
-              <FileName>lv_span.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\bird_gui\lvgl\src\extra\widgets\span\lv_span.c</FilePath>
             </File>
             <File>
               <FileName>lv_spinbox.c</FileName>
@@ -1503,14 +1468,99 @@
               <FilePath>..\bird_gui\lvgl\src\extra\widgets\win\lv_win.c</FilePath>
             </File>
             <File>
-              <FileName>lv_grid.c</FileName>
+              <FileName>lv_span.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\bird_gui\lvgl\src\extra\layouts\grid\lv_grid.c</FilePath>
+              <FilePath>..\bird_gui\lvgl\src\extra\widgets\span\lv_span.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_msgbox.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bird_gui\lvgl\src\extra\widgets\msgbox\lv_msgbox.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_meter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bird_gui\lvgl\src\extra\widgets\meter\lv_meter.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_menu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bird_gui\lvgl\src\extra\widgets\menu\lv_menu.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_list.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bird_gui\lvgl\src\extra\widgets\list\lv_list.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bird_gui\lvgl\src\extra\widgets\led\lv_led.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_imgbtn.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bird_gui\lvgl\src\extra\widgets\imgbtn\lv_imgbtn.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_colorwheel.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bird_gui\lvgl\src\extra\widgets\colorwheel\lv_colorwheel.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_chart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bird_gui\lvgl\src\extra\widgets\chart\lv_chart.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_animimg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bird_gui\lvgl\src\extra\widgets\animimg\lv_animimg.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_snapshot.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bird_gui\lvgl\src\extra\others\snapshot\lv_snapshot.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_msg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bird_gui\lvgl\src\extra\others\msg\lv_msg.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_monkey.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bird_gui\lvgl\src\extra\others\monkey\lv_monkey.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_imgfont.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bird_gui\lvgl\src\extra\others\imgfont\lv_imgfont.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_ime_pinyin.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bird_gui\lvgl\src\extra\others\ime\lv_ime_pinyin.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_gridnav.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bird_gui\lvgl\src\extra\others\gridnav\lv_gridnav.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_fragment.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bird_gui\lvgl\src\extra\others\fragment\lv_fragment.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_fragment_manager.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bird_gui\lvgl\src\extra\others\fragment\lv_fragment_manager.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>ui</GroupName>
+          <GroupName>lvlg_gui</GroupName>
           <Files>
             <File>
               <FileName>ui.c</FileName>
@@ -1523,14 +1573,14 @@
               <FilePath>..\bird_gui\ui\ui_helpers.c</FilePath>
             </File>
             <File>
-              <FileName>ui_cone.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\bird_gui\ui\screens\ui_cone.c</FilePath>
-            </File>
-            <File>
               <FileName>ui_comp_hook.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\bird_gui\ui\components\ui_comp_hook.c</FilePath>
+            </File>
+            <File>
+              <FileName>ui_cone.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bird_gui\ui\screens\ui_cone.c</FilePath>
             </File>
           </Files>
         </Group>

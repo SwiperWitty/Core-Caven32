@@ -58,7 +58,6 @@ obj
 
 # KEIL
 **/Listings/*
-**/list/*
 **/output/*
 **/build/*
 **/.cmsis/*

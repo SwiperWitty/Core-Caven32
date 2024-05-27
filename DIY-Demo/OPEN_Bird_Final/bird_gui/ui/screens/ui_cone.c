@@ -12,16 +12,16 @@ void ui_cone_screen_init(void)
     lv_obj_set_style_bg_color(ui_cone, lv_color_hex(0xD3DBDF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_cone, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Label1 = lv_label_create(ui_cone);
-    lv_obj_set_width(ui_Label1, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_Label1, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_Label1, 0);
-    lv_obj_set_y(ui_Label1, -105);
-    lv_obj_set_align(ui_Label1, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_Label1, "Bird-Fanl");
-    lv_obj_set_style_text_color(ui_Label1, lv_color_hex(0xEA0606), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui_Label1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_Label1, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_top = lv_label_create(ui_cone);
+    lv_obj_set_width(ui_top, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_top, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_top, 0);
+    lv_obj_set_y(ui_top, -105);
+    lv_obj_set_align(ui_top, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_top, "Bird-Fanl");
+    lv_obj_set_style_text_color(ui_top, lv_color_hex(0xDE0B4F), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_top, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_top, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_valc = lv_arc_create(ui_cone);
     lv_obj_set_width(ui_valc, 180);
@@ -29,11 +29,11 @@ void ui_cone_screen_init(void)
     lv_obj_set_align(ui_valc, LV_ALIGN_CENTER);
     lv_arc_set_value(ui_valc, 80);
 
-    lv_obj_set_style_arc_color(ui_valc, lv_color_hex(0xBE2F4B), LV_PART_INDICATOR | LV_STATE_DEFAULT);
+    lv_obj_set_style_arc_color(ui_valc, lv_color_hex(0xF30A37), LV_PART_INDICATOR | LV_STATE_DEFAULT);
     lv_obj_set_style_arc_opa(ui_valc, 255, LV_PART_INDICATOR | LV_STATE_DEFAULT);
     lv_obj_set_style_arc_width(ui_valc, 10, LV_PART_INDICATOR | LV_STATE_DEFAULT);
 
-    lv_obj_set_style_bg_color(ui_valc, lv_color_hex(0xBE2F4B), LV_PART_KNOB | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_valc, lv_color_hex(0xF30A37), LV_PART_KNOB | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_valc, 255, LV_PART_KNOB | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_left(ui_valc, 3, LV_PART_KNOB | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(ui_valc, 3, LV_PART_KNOB | LV_STATE_DEFAULT);
@@ -46,11 +46,11 @@ void ui_cone_screen_init(void)
     lv_obj_set_align(ui_elsc, LV_ALIGN_CENTER);
     lv_arc_set_value(ui_elsc, 50);
 
-    lv_obj_set_style_arc_color(ui_elsc, lv_color_hex(0x8D11C2), LV_PART_INDICATOR | LV_STATE_DEFAULT);
+    lv_obj_set_style_arc_color(ui_elsc, lv_color_hex(0x1C66EC), LV_PART_INDICATOR | LV_STATE_DEFAULT);
     lv_obj_set_style_arc_opa(ui_elsc, 255, LV_PART_INDICATOR | LV_STATE_DEFAULT);
     lv_obj_set_style_arc_width(ui_elsc, 10, LV_PART_INDICATOR | LV_STATE_DEFAULT);
 
-    lv_obj_set_style_bg_color(ui_elsc, lv_color_hex(0x8D11C2), LV_PART_KNOB | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_elsc, lv_color_hex(0x1C66EC), LV_PART_KNOB | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_elsc, 255, LV_PART_KNOB | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_left(ui_elsc, 3, LV_PART_KNOB | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(ui_elsc, 3, LV_PART_KNOB | LV_STATE_DEFAULT);
@@ -63,11 +63,11 @@ void ui_cone_screen_init(void)
     lv_obj_set_align(ui_tempc, LV_ALIGN_CENTER);
     lv_arc_set_value(ui_tempc, 30);
 
-    lv_obj_set_style_arc_color(ui_tempc, lv_color_hex(0x0CA874), LV_PART_INDICATOR | LV_STATE_DEFAULT);
+    lv_obj_set_style_arc_color(ui_tempc, lv_color_hex(0x0DA420), LV_PART_INDICATOR | LV_STATE_DEFAULT);
     lv_obj_set_style_arc_opa(ui_tempc, 255, LV_PART_INDICATOR | LV_STATE_DEFAULT);
     lv_obj_set_style_arc_width(ui_tempc, 10, LV_PART_INDICATOR | LV_STATE_DEFAULT);
 
-    lv_obj_set_style_bg_color(ui_tempc, lv_color_hex(0x0CA874), LV_PART_KNOB | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_tempc, lv_color_hex(0x0DA420), LV_PART_KNOB | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_tempc, 255, LV_PART_KNOB | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_left(ui_tempc, 3, LV_PART_KNOB | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(ui_tempc, 3, LV_PART_KNOB | LV_STATE_DEFAULT);
@@ -81,7 +81,7 @@ void ui_cone_screen_init(void)
     lv_obj_set_y(ui_temp, 40);
     lv_obj_set_align(ui_temp, LV_ALIGN_CENTER);
     lv_label_set_text(ui_temp, "60.0C");
-    lv_obj_set_style_text_color(ui_temp, lv_color_hex(0x0CA874), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui_temp, lv_color_hex(0x0DA420), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_temp, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_val = lv_label_create(ui_cone);
@@ -91,7 +91,7 @@ void ui_cone_screen_init(void)
     lv_obj_set_y(ui_val, 80);
     lv_obj_set_align(ui_val, LV_ALIGN_CENTER);
     lv_label_set_text(ui_val, "12.00V");
-    lv_obj_set_style_text_color(ui_val, lv_color_hex(0xBE2F4B), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui_val, lv_color_hex(0xF30A37), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_val, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_ele = lv_label_create(ui_cone);
@@ -101,7 +101,7 @@ void ui_cone_screen_init(void)
     lv_obj_set_y(ui_ele, 60);
     lv_obj_set_align(ui_ele, LV_ALIGN_CENTER);
     lv_label_set_text(ui_ele, "12.00A");
-    lv_obj_set_style_text_color(ui_ele, lv_color_hex(0x8D11C2), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui_ele, lv_color_hex(0x1C66EC), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_ele, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_start = lv_label_create(ui_cone);
@@ -109,8 +109,9 @@ void ui_cone_screen_init(void)
     lv_obj_set_height(ui_start, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_start, LV_ALIGN_CENTER);
     lv_label_set_text(ui_start, "RUN");
-    lv_obj_set_style_text_color(ui_start, lv_color_hex(0xEA0606), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui_start, lv_color_hex(0xFB0303), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_start, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_start, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_bat = lv_label_create(ui_cone);
     lv_obj_set_width(ui_bat, LV_SIZE_CONTENT);   /// 1
