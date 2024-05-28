@@ -16,21 +16,10 @@
 #define Photo2 gImage_example
 #endif
 
-int temp = 0;
 u16 ADC_array[10];			// [0] x,[1] y,[2] vin,[3] vout,[4] temp,[5] ele;
-char array_buff[300];
-int run_num;
 
-float float_array[10];
-float time_temp;
-float vcc_vol,ele_vol,tem_vol;
-
-int temp_times = 0;
-int temp_key = 0;
-int temp_pic = 0;
 void Main_Init(void);
 void ADC_Data_Handle (void * data);
-
 
 #define BUFF_LEN 5
 
@@ -65,15 +54,13 @@ static void hal_init(void)
 
 }
 
-int main(void)
+
+void gui_init (void)
 {
-	Main_Init();
-	
 	/*Initialize LVGL*/
 	lv_init();
 	/*Initialize the HAL (display, input devices, tick) for LVGL*/
 	hal_init();
-	
 	lv_disp_draw_buf_init(&draw_buf_dsc_1, buf_1, NULL, MY_DISP_HOR_RES * BUFF_LEN);
 	lv_disp_drv_init(&disp_drv);
 	disp_drv.hor_res = MY_DISP_HOR_RES;
@@ -81,45 +68,27 @@ int main(void)
 	disp_drv.flush_cb = disp_flush;
 	disp_drv.draw_buf = &draw_buf_dsc_1;
 	lv_disp_drv_register(&disp_drv);
-	
 	ui_init();
-    int temp_num = 0,temp_run = 0;
-	while(1) 
-    {
-        /* Periodically call the lv_task handler.
-        * It could be done in a timer interrupt or an OS task too.*/
-        lv_timer_handler();
-        //      usleep(5 * 1000);
-        Mode_Use.TIME.Delay_Ms(5);
-        temp_run++;
-        if(temp_run > 200)
-        {
-            temp_run = 0;
-            time_temp = ((vcc_vol / 24) * 100) + 0.5;
-            temp_num = time_temp;
-            sprintf(array_buff,"%5.2fV",vcc_vol);
-            lv_label_set_text(ui_val, array_buff);
-            lv_arc_set_value(ui_valc, temp_num);
-            vcc_vol += 1;
-            if(vcc_vol > 24)
-            {
-                vcc_vol = 0;
-            }
-        }
-
-    }
-
-  return 0;
 }
-
-
-
-/*
 
 int main(void)
 {
-    Main_Init();
+	Main_Init();
+    gui_init ();
 
+    char array_buff[300];
+    float float_array[10];
+	float float_vol_array[10];
+	float float_ele_array[10];
+	float float_temp_array[10];
+	char run_val = 0,run_ele = 0,run_temp = 0;
+    int temp_num,temp_run;
+    float f_temp_num,f_temp_val;
+    float vcc_vol,ele_vol,tem_vol;
+
+    int temp_times;
+    int temp_key = 0;
+    int temp_pic = 0;
     Caven_Watch_Type now_time = {
         .hour = 8,
         .minutes = 7,
@@ -136,17 +105,7 @@ int main(void)
         .Flip_falg = 1,
     };
     Vofa_JustFloat_Init_Fun(2, Debug_Out);
-    float_array[1] = 3.3;
 
-    char last_s, last_m, last_h;
-    char overstep_s, overstep_m, overstep_h;
-    int sec_point_drop, min_point_drop, hour_point_drop;
-    u8 temp_num,temp_run;
-
-//    Mode_Use.LCD.Show_String_pFun(9, 0, "12", LCD_BLACK, LCD_Back_Color, 24);
-//    Mode_Use.LCD.Show_String_pFun(19, 5, "3", LCD_BLACK, LCD_Back_Color, 24);
-//    Mode_Use.LCD.Show_String_pFun(9, 9, "6", LCD_BLACK, LCD_Back_Color, 24);
-//    Mode_Use.LCD.Show_String_pFun(0, 5, "9", LCD_BLACK, LCD_Back_Color, 24);
     while (1)
     {
         now_time = Mode_Use.TIME.Get_Watch_pFun();
@@ -154,93 +113,75 @@ int main(void)
         API_Task_Timer(&LED_Task, now_time); // LED任务
         Mode_Use.LED.SET_pFun(1, LED_Task.Flip_falg);
 
-        float_array[0] += 1.133;
-        if (float_array[0] > 10)
-        {
-            float_array[0] = 0;
-        }
-		vcc_vol = ADC_array[0];	// VCC
-		vcc_vol = (vcc_vol / 4096) * 3.3 * 8.5;	// 还原
-		sprintf(array_buff,"Vcc:%5.2f",vcc_vol);
-//		Mode_Use.LCD.Show_String_pFun(10, 6, array_buff, LCD_BLACK, LCD_Back_Color, 16);
-		ele_vol = ADC_array[1];	// ELE
-		ele_vol = ((ele_vol / 4096) * 3.3) * (200/50);	// (x/50)/0.005 = x * 4
-		sprintf(array_buff,"Ele:%5.2f",ele_vol);
-//		Mode_Use.LCD.Show_String_pFun(10, 7, array_buff, LCD_BLACK, LCD_Back_Color, 16);
-		tem_vol = ADC_array[2];	// TEMP
-		
-		time_temp = (vcc_vol / 25) * 100;
-        run_num = Caven_math_approximate((int)time_temp, 5, 1, 100);
-        if (run_num != last_s)
-        {
-            last_s = run_num;
-			Caven_GUI_Draw_Circle(120, 120, 80, 12, 100, LCD_Back_Color);
-            Caven_GUI_Draw_Circle(((sec_point_drop >> 8) & 0xff), (sec_point_drop & 0xff), 1, 5, 100, LCD_Back_Color);
-            run_num = Caven_GUI_Draw_Circle(120, 120, 80, 11, last_s, LCD_RED);
-            sec_point_drop = run_num;
-            temp_num = run_num & 0xff;
-            temp_run = (run_num >> 8) & 0xff;
-            if (temp_num > 0 && temp_run > 0)
-            {
-                Caven_GUI_Draw_Circle(temp_run, temp_num, 1, 5, 100, LCD_RED);
-            }
-        }
-		
-		time_temp = (ele_vol / 10) * 100;
-        run_num = Caven_math_approximate((int)time_temp, 5, 1, 100);
-        if (run_num != last_m)
-        {
-            last_m = run_num;
-			Caven_GUI_Draw_Circle(120, 120, 60, 12, 100, LCD_Back_Color);
-            Caven_GUI_Draw_Circle(((min_point_drop >> 8) & 0xff), (min_point_drop & 0xff), 1, 5, 100, LCD_Back_Color);
-            run_num = Caven_GUI_Draw_Circle(120, 120, 60, 11, last_m, LCD_BLUE);
-            min_point_drop = run_num;
-            temp_num = run_num & 0xff;
-            temp_run = (run_num >> 8) & 0xff;
-            if (temp_num > 0 && temp_run > 0)
-            {
-                Caven_GUI_Draw_Circle(temp_run, temp_num, 1, 5, 100, LCD_BLUE);
-            }
-        }
-//        time_temp = now_time.hour;
-//        time_temp = (time_temp / 12) * 100;
-//        run_num = Caven_math_approximate((int)time_temp, 5, 0, 100);
-//        if (last_h != run_num)
-//        {
-//            last_h = run_num;
-//				Caven_GUI_Draw_Circle(120, 120, 40, 12, 100, LCD_Back_Color);
-//            Caven_GUI_Draw_Circle(((hour_point_drop >> 8) & 0xff), (hour_point_drop & 0xff), 1, 5, 100, LCD_Back_Color);
-//            run_num = Caven_GUI_Draw_Circle(120, 120, 40, 11, last_h, LCD_GREEN);
-//            hour_point_drop = run_num;
-//            temp_num = run_num & 0xff;
-//            temp_run = (run_num >> 8) & 0xff;
-//            if (temp_num > 0 && temp_run > 0)
-//            {
-//                Caven_GUI_Draw_Circle(temp_run, temp_num, 1, 5, 100, LCD_GREEN);
-//            }
-//        }
+		f_temp_num = ADC_array[0];	// VCC
+		vcc_vol = (f_temp_num / 4096) * 3.3 * 8.5;	// 还原
+		f_temp_num = ADC_array[1];	// ELE
+		ele_vol = ((f_temp_num / 4096) * 3.3) * (200/50);	// (x/50)/0.005 = x * 4
+		f_temp_num = 4096 - ADC_array[2];	// TEMP
+		tem_vol = ((f_temp_num / 4096) * 3.3) * 14;
 
-        if (overstep_s != now_time.second)
-        {
-            overstep_s = now_time.second;
-        }
+		temp_num = Caven_Data_Median_filtering_Handle (vcc_vol,float_vol_array,&f_temp_val,&run_val,10);
+		if (temp_num)
+		{
+			f_temp_val = MIN(f_temp_val,25);
+			f_temp_num = (f_temp_val / 25) * 100;      // 25v max
+			temp_num = Caven_math_approximate_float(f_temp_num);
+			sprintf(array_buff,"%5.2fV",f_temp_val+0.005);
+			lv_label_set_text(ui_val, array_buff);
+			lv_arc_set_value(ui_valc, temp_num);
+			sprintf(array_buff,"%dS-Bat",(int)(f_temp_val/3.7));
+			lv_label_set_text(ui_bat, array_buff);
+		}
+		temp_num = Caven_Data_Median_filtering_Handle (ele_vol,float_ele_array,&f_temp_val,&run_ele,10);
+		if (temp_num)
+		{
+			f_temp_val = MIN(f_temp_val,10);
+			f_temp_num = (f_temp_val / 10) * 100;      // 10A max
+			temp_num = Caven_math_approximate_float(f_temp_num);
+			sprintf(array_buff,"%5.2fA",f_temp_val+0.005);
+			lv_label_set_text(ui_ele, array_buff);
+			lv_arc_set_value(ui_elsc, temp_num);
+			f_temp_val = ele_vol * vcc_vol;
+			if (f_temp_val > 3)
+			{
+				lv_obj_set_style_text_color(ui_start, lv_color_hex(0xFB0303), LV_PART_MAIN | LV_STATE_DEFAULT);
+			}
+			else
+			{
+				lv_obj_set_style_text_color(ui_start, lv_color_hex(0x0DA420), LV_PART_MAIN | LV_STATE_DEFAULT);
+			}
+		}
+		temp_num = Caven_Data_Median_filtering_Handle (tem_vol,float_temp_array,&f_temp_val,&run_temp,10);
+		if (temp_num)
+		{
+			f_temp_val = MIN(f_temp_val,80);
+			f_temp_num = (f_temp_val / 80) * 100;                   // 60C max
+			temp_num = Caven_math_approximate_float(f_temp_num);
+			sprintf(array_buff,"%4.1fC",f_temp_val+0.05);
+			lv_label_set_text(ui_temp, array_buff);
+			lv_arc_set_value(ui_tempc, temp_num);
+		}
 
+			
 //        Vofa_JustFloat_Show_Fun (float_array);
+        lv_timer_handler();
 
 		if(User_GPIO_get(3,13) == 0)
 		{
 			temp_times = 0;
 			do{
 				Mode_Use.TIME.Delay_Ms(100);
-				temp = User_GPIO_get(3,13);
+				temp_num = User_GPIO_get(3,13);
 				temp_times++;
 				if (temp_times > 30)	// 3 sec
 				{
 					temp_times = 30;
-					LCD_Fill_Fun (0, 0, LCD_W, LCD_H, LCD_WHITE);
+//					LCD_Fill_Fun (0, 0, LCD_W, LCD_H, LCD_WHITE);
+					lv_obj_set_style_text_color(ui_start, lv_color_hex(0xFB0303), LV_PART_MAIN | LV_STATE_DEFAULT);
+                    lv_label_set_text(ui_start, "OFF");
+					lv_timer_handler();
 				}
-			}while(temp == 0);
-			//松手了 
+			}while(temp_num == 0);          // 松手了 
 			if (temp_times >= 20)		// 3 sec 激活kill power
 			{
 				User_GPIO_set(2,5,ENABLE);
@@ -256,10 +197,10 @@ int main(void)
 			temp_pic = temp_key;
 			User_GPIO_set(2,4,temp_pic%2);
 		}
-        Mode_Use.TIME.Delay_Ms(100);
+        Mode_Use.TIME.Delay_Ms(5);
     }
 }
-*/
+
 
 
 
@@ -289,8 +230,7 @@ void Main_Init(void)
 //	Caven_GUI_draw_pixel_bind (Mode_Use.LCD.Draw_Point_pFun);
     while (reverse);
 
-    Mode_Use.UART.Send_String_pFun(DEBUG_OUT, "Hello world ! \n");
-	Mode_Use.LCD.Show_String_pFun(5, 5, "Bird Final", LCD_Word_Color, LCD_Back_Color, 24);
+	// Mode_Use.LCD.Show_String_pFun(5, 5, "Bird Final", LCD_Word_Color, LCD_Back_Color, 24);
 #ifdef PICTURE
     Mode_Use.LCD.Show_Picture_pFun(0, 0, 240, 240, Photo1); // Photo
 //    Mode_Use.LCD.Show_Picture_pFun(0, 0, 240, 240, Photo2); // Photo
@@ -310,4 +250,3 @@ void ADC_Data_Handle (void * data)
 //        DC_5V_OFF();
     }
 }
-
