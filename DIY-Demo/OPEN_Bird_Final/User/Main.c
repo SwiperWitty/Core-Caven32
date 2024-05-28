@@ -16,7 +16,6 @@
 #define Photo2 gImage_example
 #endif
 
-
 int temp = 0;
 u16 ADC_array[10];			// [0] x,[1] y,[2] vin,[3] vout,[4] temp,[5] ele;
 char array_buff[300];
@@ -84,14 +83,31 @@ int main(void)
 	lv_disp_drv_register(&disp_drv);
 	
 	ui_init();
+    int temp_num = 0,temp_run = 0;
+	while(1) 
+    {
+        /* Periodically call the lv_task handler.
+        * It could be done in a timer interrupt or an OS task too.*/
+        lv_timer_handler();
+        //      usleep(5 * 1000);
+        Mode_Use.TIME.Delay_Ms(5);
+        temp_run++;
+        if(temp_run > 200)
+        {
+            temp_run = 0;
+            time_temp = ((vcc_vol / 24) * 100) + 0.5;
+            temp_num = time_temp;
+            sprintf(array_buff,"%5.2fV",vcc_vol);
+            lv_label_set_text(ui_val, array_buff);
+            lv_arc_set_value(ui_valc, temp_num);
+            vcc_vol += 1;
+            if(vcc_vol > 24)
+            {
+                vcc_vol = 0;
+            }
+        }
 
-	while(1) {
-	  /* Periodically call the lv_task handler.
-	   * It could be done in a timer interrupt or an OS task too.*/
-	  lv_timer_handler();
-	//      usleep(5 * 1000);
-	  Mode_Use.TIME.Delay_Ms(5);
-	}
+    }
 
   return 0;
 }

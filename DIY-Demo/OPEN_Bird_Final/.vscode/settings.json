@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "lvgl.h": "c",
-        "lv_conf.h": "c"
+        "lv_conf.h": "c",
+        "ui.h": "c"
     }
 }
