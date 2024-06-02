@@ -71,21 +71,26 @@ void gui_init (void)
 	ui_init();
 }
 
+float ele_max = 8,tem_max = 40;
+
 int main(void)
 {
 	Main_Init();
     gui_init ();
-
+	int retval = 0;
     char array_buff[300];
     float float_array[10];
+	
+	char run_val = 0,run_ele = 0,run_temp = 0;
 	float float_vol_array[10];
 	float float_ele_array[10];
 	float float_temp_array[10];
-	char run_val = 0,run_ele = 0,run_temp = 0;
+	
     int temp_num,temp_run;
     float f_temp_num,f_temp_val;
     float vcc_vol,ele_vol,tem_vol;
 
+	int Bat_xs = 0;
     int temp_times;
     int temp_key = 0;
     int temp_pic = 0;
@@ -128,21 +133,38 @@ int main(void)
 			temp_num = Caven_math_approximate_float(f_temp_num);
 			sprintf(array_buff,"%5.2fV",f_temp_val+0.005);
 			lv_label_set_text(ui_val, array_buff);
-			lv_arc_set_value(ui_valc, temp_num);
-			sprintf(array_buff,"%dS-Bat",(int)(f_temp_val/3.7));
+//			lv_arc_set_value(ui_valc, temp_num);	// vcc
+			f_temp_num = f_temp_val / 3.7;
+			if (Bat_xs == 0)
+			{
+				Bat_xs = f_temp_num;
+			}
+			else if (Bat_xs > f_temp_num)		// 保护电池放电
+			{
+				retval = 1;
+			}
+			f_temp_num = Bat_xs;
+			f_temp_num  *= 3.7;
+			f_temp_num = f_temp_val - f_temp_num;		// 当前可用电压
+			f_temp_val = Bat_xs;
+			f_temp_val *= 0.5;		// 4.2-3.7
+			f_temp_num = (f_temp_num / f_temp_val) * 100;
+			temp_num = Caven_math_approximate_float(f_temp_num);
+			lv_arc_set_value(ui_valc, temp_num);	// bat
+			sprintf(array_buff,"%dS-Bat",Bat_xs);
 			lv_label_set_text(ui_bat, array_buff);
 		}
 		temp_num = Caven_Data_Median_filtering_Handle (ele_vol,float_ele_array,&f_temp_val,&run_ele,10);
 		if (temp_num)
 		{
 			f_temp_val = MIN(f_temp_val,10);
-			f_temp_num = (f_temp_val / 10) * 100;      // 10A max
+			f_temp_num = (f_temp_val / ele_max) * 100;      // ele max
 			temp_num = Caven_math_approximate_float(f_temp_num);
 			sprintf(array_buff,"%5.2fA",f_temp_val+0.005);
 			lv_label_set_text(ui_ele, array_buff);
 			lv_arc_set_value(ui_elsc, temp_num);
-			f_temp_val = ele_vol * vcc_vol;
-			if (f_temp_val > 3)
+			f_temp_num = f_temp_val * vcc_vol;
+			if (f_temp_num > 0.5)		// 功率，静态12*0.02 = 0.24w
 			{
 				lv_obj_set_style_text_color(ui_start, lv_color_hex(0xFB0303), LV_PART_MAIN | LV_STATE_DEFAULT);
 			}
@@ -150,19 +172,26 @@ int main(void)
 			{
 				lv_obj_set_style_text_color(ui_start, lv_color_hex(0x0DA420), LV_PART_MAIN | LV_STATE_DEFAULT);
 			}
+			if (f_temp_val >= ele_max)		// 超过软件设定的电流最大值 
+			{
+				retval = 1;
+			}
 		}
 		temp_num = Caven_Data_Median_filtering_Handle (tem_vol,float_temp_array,&f_temp_val,&run_temp,10);
 		if (temp_num)
 		{
 			f_temp_val = MIN(f_temp_val,80);
-			f_temp_num = (f_temp_val / 80) * 100;                   // 60C max
+			f_temp_num = (f_temp_val / tem_max) * 100;                   // temp max
 			temp_num = Caven_math_approximate_float(f_temp_num);
 			sprintf(array_buff,"%4.1fC",f_temp_val+0.05);
 			lv_label_set_text(ui_temp, array_buff);
 			lv_arc_set_value(ui_tempc, temp_num);
+			if (f_temp_val > tem_max)		// 超过软件设定的温度最大值 
+			{
+				retval = 1;
+			}
 		}
 
-			
 //        Vofa_JustFloat_Show_Fun (float_array);
         lv_timer_handler();
 
@@ -173,7 +202,7 @@ int main(void)
 				Mode_Use.TIME.Delay_Ms(100);
 				temp_num = User_GPIO_get(3,13);
 				temp_times++;
-				if (temp_times > 30)	// 3 sec
+				if (temp_times > 20)	// 3 sec
 				{
 					temp_times = 30;
 //					LCD_Fill_Fun (0, 0, LCD_W, LCD_H, LCD_WHITE);
@@ -181,11 +210,10 @@ int main(void)
                     lv_label_set_text(ui_start, "OFF");
 					lv_timer_handler();
 				}
-			}while(temp_num == 0);          // 松手了 
-			if (temp_times >= 20)		// 3 sec 激活kill power
+			}while(temp_num == 0);		// 松手了 
+			if (temp_times > 20)		// 2sec 激活kill power
 			{
-				User_GPIO_set(2,5,ENABLE);
-				Mode_Use.TIME.Delay_Ms(100);
+				retval = 1;
 			}
 			else
 			{
@@ -197,7 +225,15 @@ int main(void)
 			temp_pic = temp_key;
 			User_GPIO_set(2,4,temp_pic%2);
 		}
-        Mode_Use.TIME.Delay_Ms(5);
+		if (retval)		// 激活退出
+		{
+			User_GPIO_set(2,5,ENABLE);
+			Mode_Use.TIME.Delay_Ms(100);
+		}
+		else
+		{
+        	Mode_Use.TIME.Delay_Ms(5);
+		}
     }
 }
 
