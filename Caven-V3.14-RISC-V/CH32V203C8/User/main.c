@@ -17,12 +17,11 @@
 
 u8 send_array[64];
 int run_num;
-float float_array[10];
 
 int main(void)
 {
     Main_Init();
-
+    int Switch_BUTTON,Last_BUTTON;
     Caven_Watch_Type now_time;
     now_time = Mode_Use.TIME.Get_Watch_pFun();
 
@@ -33,8 +32,7 @@ int main(void)
             .Set_time.time_us = 5000,
             .Flip_falg = 1,
     };
-    Vofa_JustFloat_Init_Fun (2,Debug_Out);
-    float_array[1] = 3.3;
+    Last_BUTTON = BUTTON4_STATE();
     while(1)
     {
         now_time = Mode_Use.TIME.Get_Watch_pFun();
@@ -42,17 +40,36 @@ int main(void)
 
         API_Task_Timer (&LED_Task,now_time);        // LED任务
         Mode_Use.LED.SET_pFun(1,LED_Task.Flip_falg);
+        if (LED_Task.Trigger_Flag) {
+            RFID_LED_L();
+        }
 
         if(Center_State_machine(now_time))          // 状态机入口
         {
             break;                                  // 状态机退出,程序重启
         }
-        float_array[0] += 1.133;
-        if (float_array[0] > 10) {
-            float_array[0] = 0;
+        Switch_BUTTON = BUTTON4_STATE();
+        if (Switch_BUTTON != Last_BUTTON)
+        {
+            Last_BUTTON = Switch_BUTTON;
+            run_num = 0;
+            Mode_Use.LED.SET_pFun(1,DISABLE);
+            do {
+                Mode_Use.TIME.Delay_Ms(10);
+                run_num ++;
+                if (run_num >= 300) {
+                    run_num = 300;
+                    Mode_Use.LED.SET_pFun(1,ENABLE);
+                }
+            } while (BUTTON4_STATE() == 0);
+            Mode_Use.LED.SET_pFun(1,DISABLE);
+            if (run_num >= 300) {
+                Mode_Use.TIME.Delay_Ms(500);
+                GPO2_L();       // 关
+                Mode_Use.TIME.Delay_Ms(100);
+                SYS_RESET();
+            }
         }
-        Vofa_JustFloat_Show_Fun (float_array);
-        Mode_Use.TIME.Delay_Ms(10);
     }
 
     SYS_RESET();
@@ -66,9 +83,11 @@ void Main_Init(void)
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
     Mode_Index();
     Mode_Init.TIME(ENABLE);
+    Mode_Use.TIME.Delay_Ms(10);
 
-    system_init();
     Center_Init();
+    system_init();
+
 
 //    printf("SystemClk:%d \r\n", MCU_SYS_FREQ);
 }

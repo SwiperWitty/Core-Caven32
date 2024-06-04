@@ -16,6 +16,10 @@
     可能需要依赖外部的crc校验函数
 */
 
+#define PROTOCOL_UHF_READER 0
+#define PROTOCOL_ICIO_CMD 1
+#define PROTOCOL_HUB_ANT 15
+
 enum reader_order_MID
 {
   query_reader_params_order = 0x00,
@@ -139,11 +143,15 @@ int GX_info_packet_fast_clean_Fun(GX_info_packet_Type *target);
 int GX_info_packet_index_Fun(GX_info_packet_Type *target, unsigned char *data);
 int GX_packet_data_copy_Fun(GX_info_packet_Type *source,GX_info_packet_Type *target);
 
-int GX_Circular_queue_input (GX_info_packet_Type *data,GX_info_packet_Type *Buff_data,int Buff_Num);
-int GX_Circular_queue_output(GX_info_packet_Type *data,GX_info_packet_Type *Buff_data,int Buff_Num);
+int GX_Circular_queue_input (GX_info_packet_Type *data,GX_info_packet_Type *Buff_data,char Start_Num,char Buff_Num);
+int GX_Circular_queue_output(GX_info_packet_Type *data,GX_info_packet_Type *Buff_data,char Buff_Num);
 
 int GX_info_Make_packet_Fun(GX_info_packet_Type const standard, GX_info_packet_Type *target, unsigned char data);
 int GX_info_rest_data_packet_Fun(GX_info_packet_Type *target, unsigned char *data,int Add_Num);
 
+int GX_info_return_Fun (u8 cmd,u8 MID,u8 addr,u8 *data,u16 len,u8 *array);
+
+void GX_info_remove_addr (GX_info_packet_Type *target);
+void GX_info_add_addr (GX_info_packet_Type *target);
 
 #endif

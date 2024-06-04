@@ -17,8 +17,8 @@ typedef struct
     u8 GPO_num;
     u8 GPI_num;
 
-    u8 GPO_Status_Set[36];
-    u8 GPO_Status_Last[36];
+    u8 GPO_Status_Set[50];      // 8[GPO],8[HC595 LED],32[HC595],5¸öhc595
+    u8 GPO_Status_Last[50];
     int GPO_Keep_Time;
 
     u8 GPI_Status_Get[36];

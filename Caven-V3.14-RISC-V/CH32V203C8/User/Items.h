@@ -50,10 +50,10 @@
 //#define Exist_ADC
 //#define Exist_DAC
 
-#define Exist_UART      OPEN_11110  // 串口1、2、3
+#define Exist_UART      OPEN_11110  // 串口1、2、3、4
 //#define Exist_IIC
 //#define Exist_SPI     OPEN_0100   // SPI 2
-//#define Exist_USB
+#define Exist_USB
 //#define Exist_CAN
 
 //#define Exist_FLASH
@@ -62,7 +62,7 @@
 //#define Exist_OLED
 
 //#define Exist_HC138
-//#define Exist_HC595           OPEN_0001
+#define Exist_HC595
 //#define Exist_DS18B20
 
 //#define Exist_Ultrasonic                  //超声波测距
@@ -182,9 +182,5 @@
 #define GPIO_Pin_15 GPIO_PINS_15
 #endif
 
-#ifndef MAX
-    #define MAX(a,b)    ((a)>(b))?(a):(b)               // 比较函数返回最大值，防止过小
-    #define MIN(a,b)    ((a)<(b))?(a):(b)               // 比较函数返回最小值，防止过大
-#endif
 
 #endif

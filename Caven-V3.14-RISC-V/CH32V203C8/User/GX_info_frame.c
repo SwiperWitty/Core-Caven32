@@ -18,7 +18,44 @@ return   : retval
 ** 5.retval = 其他   获取中(包含没开始retval = 0)
 */
 
+int GX_info_return_Fun (u8 cmd,u8 MID,u8 addr,u8 *data,u16 len,u8 *array)
+{
+    int retval = 0;
+    int temp_run = 0;
+    int temp_data = 0;
+    if (array == NULL || data == NULL) {
+        retval = 1;
+    }
+    else {
+        array[temp_run++] = 0X5A;
 
+        array[temp_run++] = 0X00;
+        array[temp_run++] = 0X01;
+        if (addr != 0) {
+            array[temp_run++] = cmd | 0x20;
+        }
+        else {
+            array[temp_run++] = cmd;
+        }
+        array[temp_run++] = MID;
+
+        if (addr != 0) {
+            array[temp_run++] = addr;
+        }
+
+        array[temp_run++] = (len >> 8) & 0xff;
+        array[temp_run++] = len & 0xff;
+        memcpy(&array[temp_run],data,len);
+        temp_run += len;
+
+        temp_data = CRC16_XMODEM_Fast_Fun(&array[1], temp_run-1);
+        array[temp_run++] = (temp_data >> 8) & 0xff;
+        array[temp_run++] = temp_data & 0xff;
+
+        retval = temp_run;
+    }
+    return retval;
+}
 
 int GX_info_Make_packet_Fun(GX_info_packet_Type const standard, GX_info_packet_Type *target, unsigned char data)
 {
@@ -88,6 +125,7 @@ int GX_info_Make_packet_Fun(GX_info_packet_Type const standard, GX_info_packet_T
 
         if (temp_packet.Prot_W_485Type == 0)
         {
+            temp_packet.Addr = 0;
             temp_packet.Run_status++;
         }
         break;
@@ -263,11 +301,12 @@ int GX_info_rest_data_packet_Fun(GX_info_packet_Type *target, unsigned char *dat
 /*
  * 这个函数需要快速响应
  */
-int GX_Circular_queue_input (GX_info_packet_Type *data,GX_info_packet_Type *Buff_data,int Buff_Num)
+int GX_Circular_queue_input (GX_info_packet_Type *data,GX_info_packet_Type *Buff_data,char Start_Num,char Buff_Num)
 {
     int retval = 0;
+
     GX_info_packet_Type temp_packet;
-    for (int i = 0;i < Buff_Num;i++)
+    for (int i = Start_Num;i < Buff_Num;i++)
     {
         temp_packet = Buff_data[i];
         if (temp_packet.Result & 0x50)
@@ -277,11 +316,12 @@ int GX_Circular_queue_input (GX_info_packet_Type *data,GX_info_packet_Type *Buff
         else
         {
             GX_packet_data_copy_Fun(&Buff_data[i],data);    // 载入数据到队列
-            GX_info_packet_fast_clean_Fun(data);
+//            GX_info_packet_fast_clean_Fun(data);
             retval = i;
             break;
         }
     }
+    GX_info_packet_fast_clean_Fun(data);      // 无论是否能载入，都要清，否则影响下一帧接收
     return retval;
 }
 
@@ -290,24 +330,21 @@ int GX_Circular_queue_input (GX_info_packet_Type *data,GX_info_packet_Type *Buff
  * retval = other:有
  *
  */
-int GX_Circular_queue_output (GX_info_packet_Type *data,GX_info_packet_Type *Buff_data,int Buff_Num)
+int GX_Circular_queue_output (GX_info_packet_Type *data,GX_info_packet_Type *Buff_data,char Buff_Num)
 {
     int retval = 0;
-    GX_info_packet_Type temp_packet;
+    GX_info_packet_Type *temp_packet;
     for (int i = 0;i < Buff_Num;i++)
     {
-        temp_packet = Buff_data[i];
+        temp_packet = &Buff_data[i];
 
-        if (temp_packet.Result & 0x50)
+        if (temp_packet->Result & 0x50)
         {
-            GX_packet_data_copy_Fun(data,&temp_packet);    // 从队列提取数据
+            GX_packet_data_copy_Fun(data,temp_packet);    // 从队列提取数据
             GX_info_packet_fast_clean_Fun(&Buff_data[i]);
             retval = i;
 
             break;
-        }
-        else
-        {
         }
     }
     return retval;
@@ -370,6 +407,56 @@ int GX_info_packet_clean_Fun(GX_info_packet_Type *target)
     memset(target, 0, sizeof(GX_info_packet_Type));
     target->p_Data = p_data;
     return retval;
+}
+/*
+ * 1此函数
+ */
+void GX_info_remove_addr (GX_info_packet_Type *target)
+{
+    u8 temp_data[500];
+    int temp_dat;
+    int temp_run;
+    if (target->Addr != 0) {
+
+        temp_run = 0;
+        memcpy(temp_data,target->p_Data,5);
+        temp_run += 5;
+        temp_data[3] &= ~0x20;      // 去标志位
+        target->Prot_W_485Type = 0;
+        memcpy(&temp_data[temp_run],target->p_Data + 6,target->dSize + 2);     // 跳过地址
+        temp_run += target->dSize + 2;
+
+        temp_dat = CRC16_XMODEM_Fast_Fun(&temp_data[1], temp_run - 1);
+        temp_data[temp_run++] = (temp_dat >> 8) & 0xff;
+        temp_data[temp_run++] = temp_dat & 0xff;
+        memcpy(target->p_Data,temp_data,temp_run);
+        target->Get_num = temp_run;
+    }
+}
+
+void GX_info_add_addr (GX_info_packet_Type *target)
+{
+    u8 temp_data[500];
+    int temp_dat;
+    int temp_run;
+    if (target->Addr != 0 && target->Prot_W_485Type == 0) {
+
+        temp_run = 0;
+        memcpy(temp_data,target->p_Data,5);
+        temp_run += 5;
+        temp_data[3] |= 0x20;      // 标志位
+        temp_data[temp_run++] = target->Addr;
+
+        memcpy(&temp_data[temp_run],target->p_Data + 5,target->dSize + 2);     // 跳过地址
+        temp_run += target->dSize + 2;
+
+        temp_dat = CRC16_XMODEM_Fast_Fun(&temp_data[1], temp_run - 1);
+        temp_data[temp_run++] = (temp_dat >> 8) & 0xff;
+        temp_data[temp_run++] = temp_dat & 0xff;
+        memcpy(target->p_Data,temp_data,temp_run);
+
+        target->Get_num = temp_run;
+    }
 }
 
 /*
