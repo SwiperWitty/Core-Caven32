@@ -10,7 +10,7 @@
 * microcontroller manufactured by Nanjing Qinheng Microelectronics.
 *******************************************************************************/
 /*
-   *    主频使用96mhz，这样操作flash不需要降频，同时可以使用USB。
+ *    主频使用96mhz，这样操作flash不需要降频，同时可以使用USB。
  *  2v1
  */
 #include "main.h"

@@ -473,9 +473,9 @@
               <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F415\composite_HID\cdc_keyboard_desc.c</FilePath>
             </File>
             <File>
-              <FileName>usb_user.c</FileName>
+              <FileName>Base_USB.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F415\composite_HID\usb_user.c</FilePath>
+              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F415\Base_USB.c</FilePath>
             </File>
           </Files>
         </Group>
