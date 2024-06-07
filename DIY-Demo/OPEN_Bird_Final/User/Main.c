@@ -251,6 +251,7 @@ void Main_Init(void)
 	//
     Mode_Init.TIME_Init_State = Mode_Init.TIME(ENABLE);
     Mode_Init.UART_Init_State = Mode_Init.UART(DEBUG_OUT, 115200, ENABLE);
+    Mode_Use.LCD.Set_TargetModel_pFun(m_LCD_TYPE_1_28);
     Mode_Init.LCD_Init_State = Mode_Init.LCD(ENABLE);
     
     Mode_Init.User_ADC(ENABLE);
@@ -262,7 +263,8 @@ void Main_Init(void)
 	User_GPIO_set(2,4,DISABLE);
 	User_GPIO_set(2,5,DISABLE);	//kill 
 	IIC_Start_Init(ENABLE);
-	// 
+    
+
 //	Caven_GUI_draw_pixel_bind (Mode_Use.LCD.Draw_Point_pFun);
     while (reverse);
 
