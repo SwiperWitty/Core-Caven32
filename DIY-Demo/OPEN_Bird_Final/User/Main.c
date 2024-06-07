@@ -251,24 +251,24 @@ void Main_Init(void)
 	//
     Mode_Init.TIME_Init_State = Mode_Init.TIME(ENABLE);
     Mode_Init.UART_Init_State = Mode_Init.UART(DEBUG_OUT, 115200, ENABLE);
-    Mode_Use.LCD.Set_TargetModel_pFun(m_LCD_TYPE_1_28);
-    Mode_Init.LCD_Init_State = Mode_Init.LCD(ENABLE);
-    
+
     Mode_Init.User_ADC(ENABLE);
 	Mode_Use.USER_ADC.Receive_Bind_pFun(ADC_Data_Handle);
-
+	
+    Mode_Use.LCD.Set_TargetModel_pFun(m_LCD_TYPE_1_28);
+    Mode_Init.LCD_Init_State = Mode_Init.LCD(ENABLE);
+	
 	User_GPIO_config(3,13,0);	//
 	User_GPIO_config(2,4,1);
 	User_GPIO_config(2,5,1);
 	User_GPIO_set(2,4,DISABLE);
 	User_GPIO_set(2,5,DISABLE);	//kill 
-	IIC_Start_Init(ENABLE);
+//	IIC_Start_Init(ENABLE);
     
-
 //	Caven_GUI_draw_pixel_bind (Mode_Use.LCD.Draw_Point_pFun);
-    while (reverse);
+	while (reverse);
+//	Mode_Use.LCD.Show_String_pFun(5, 5, "Bird Final", LCD_Word_Color, LCD_Back_Color, 24);
 
-	// Mode_Use.LCD.Show_String_pFun(5, 5, "Bird Final", LCD_Word_Color, LCD_Back_Color, 24);
 #ifdef PICTURE
     Mode_Use.LCD.Show_Picture_pFun(0, 0, 240, 240, Photo1); // Photo
 //    Mode_Use.LCD.Show_Picture_pFun(0, 0, 240, 240, Photo2); // Photo
