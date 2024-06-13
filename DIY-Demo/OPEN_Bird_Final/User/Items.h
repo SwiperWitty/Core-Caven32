@@ -77,7 +77,7 @@
 //#define Exist_STEP_Motor
 
 //#define Exist_MLX90614                    //红外测温
-//#define Exist_RTC8564                     //时钟
+#define Exist_RTC8564                     //时钟
 
 
 /****   进一步的逻辑关系    ****/
