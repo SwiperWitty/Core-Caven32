@@ -63,8 +63,8 @@
 #define Exist_LCD	OPEN_0001
 //#define Exist_OLED
 
-//#define Exist_HC138
-//#define Exist_HC595           OPEN_0001
+#define Exist_HC138
+#define Exist_HC595           OPEN_0001
 //#define Exist_DS18B20
 
 //#define Exist_Ultrasonic                  //超声波测距

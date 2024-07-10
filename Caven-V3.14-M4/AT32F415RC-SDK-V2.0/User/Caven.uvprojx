@@ -16,7 +16,7 @@
         <TargetCommonOption>
           <Device>-AT32F415RCT7</Device>
           <Vendor>ArteryTek</Vendor>
-          <PackID>ArteryTek.AT32F415_DFP.2.0.6</PackID>
+          <PackID>ArteryTek.AT32F415_DFP.2.0.7</PackID>
           <Cpu>IRAM(0x20000000,0x8000) IROM(0x08000000,0x40000) CPUTYPE("Cortex-M4") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
@@ -188,7 +188,7 @@
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
-            <useUlib>1</useUlib>
+            <useUlib>0</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
             <nSecure>0</nSecure>
@@ -576,6 +576,11 @@
               <FileName>MODE_Button.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Button.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_st7789_dever.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_st7789_dever.c</FilePath>
             </File>
           </Files>
         </Group>
