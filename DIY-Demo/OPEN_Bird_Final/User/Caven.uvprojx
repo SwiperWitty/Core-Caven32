@@ -622,6 +622,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\API\Examine_crc.c</FilePath>
             </File>
+            <File>
+              <FileName>Encrypt_crc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Encrypt_crc.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
