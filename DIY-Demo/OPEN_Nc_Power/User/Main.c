@@ -89,7 +89,7 @@ int main(void)
             last_show |= Open_power.layer;
             last_show <<= 8;
             last_show |= Open_power.app_ID;
-            Mode_Use.LCD.Fill_pFun(0, 0, LCD_W, LCD_H, LCD_Back_Color);
+            Mode_Use.LCD.Fill_pFun(0, 0, LCD_W_Max, LCD_H_Max, LCD_Back_Color);
             Open_power.cursor = 2;      // 默认
         }
         else
@@ -113,7 +113,8 @@ void Main_Init(void)
     system_clock_config();
     nvic_priority_group_config(NVIC_PRIORITY_GROUP_4);
     Mode_Index();
-
+	
+//	LCD_Set_TargetModel(m_LCD_TYPE_1_30);
     Mode_Init.TIME_Init_State = Mode_Init.TIME(ENABLE);
     Mode_Init.UART_Init_State = Mode_Init.UART(DEBUG_OUT, 115200, ENABLE);
     Mode_Init.LCD_Init_State = Mode_Init.LCD(ENABLE);
@@ -357,12 +358,12 @@ void Get_Control_data_Fun (Caven_Control_Type *data)
             yg_lock_y = MIN(yg_lock_y,100);
             temp_YG_Control.Control_y = 0;
         }
-        if (YG_KEY_STATE() == 0)
+        if (User_GPIO_get(3,3) == 0)
         {
             temp_YG_Control.Control_botton = 1;
             do{
                 Mode_Use.TIME.Delay_Ms(1);
-            }while(YG_KEY_STATE() == 0);
+            }while(User_GPIO_get(3,3) == 0);
         }
         memcpy(data,&temp_YG_Control,sizeof(temp_YG_Control));
     }
@@ -378,7 +379,7 @@ void ADC_Data_Handle (void * data)
     }
     if(ADC_array[6] > 2000) // MCU_TEMP
     {
-        DC_5V_OFF();
+        User_GPIO_config(3,0,0);	// 5v
     }
 }
 

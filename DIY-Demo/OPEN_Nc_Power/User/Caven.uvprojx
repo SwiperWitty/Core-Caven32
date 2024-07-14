@@ -592,6 +592,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Button.c</FilePath>
             </File>
+            <File>
+              <FileName>MODE_st7789_dever.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_st7789_dever.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

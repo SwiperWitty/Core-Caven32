@@ -2,13 +2,14 @@
 
 
 #define Divider_RES 8.5     // ((75 + 10) / 10) adc * Divider_RES = vcc
-#define MULTIP_RATIO 51	// INA119A1
+#define MULTIP_RATIO 51		// INA119A1
 #define Sampling_RES 0.005	// 0.005Ω
 #define Sampling_RES_RATIO 200.0	// (5/1000)(Ω) -> 200(RATIO)
 
 Power_Control_Type power_config;
 
 int PD_Set_Mode (char grade);
+int Power_OUT_Set (char num,char set);
 int SET_Val_Handle (float set_val,float get_val);
 
 int Power_app_init (int Set)
@@ -17,9 +18,16 @@ int Power_app_init (int Set)
 	
 	TIM3_PWM_Start_Init(1000,12,ENABLE);
 	TIM3_PWMx_SetValue(1,100);
-	User_GPIO_Init(ENABLE);
+//	User_GPIO_Init(ENABLE);
+	User_GPIO_config(3,0,1);	// 5v
+	User_GPIO_config(3,1,1);	// out
+	User_GPIO_config(3,12,1);	// a
+	User_GPIO_config(4,2,1);
+	Power_OUT_Set (1,1);
+	Power_OUT_Set (2,0);
+	
 	PD_Set_Mode (3);
-	DC_OUT_OFF();
+
 	memset(&power_config,0,sizeof(power_config));
 
 	Vofa_JustFloat_Init_Fun (7,Debug_Out);     // Vin,Vout,Temp,YG_x,YG_y,YG_key,in_temp
@@ -32,7 +40,9 @@ int Power_app_exit (int *falg)
 	
 	TIM3_PWM_Start_Init(1000,12,DISABLE);
 	PD_Set_Mode (1);
-	DC_OUT_OFF();
+	Power_OUT_Set (1,1);
+	Power_OUT_Set (2,0);
+//	DC_OUT_OFF();
 	memset(&power_config,0,sizeof(power_config));
 	*falg = 1;
 
@@ -46,32 +56,62 @@ int PD_Set_Mode (char grade)
 	{
 		case 1:
 		{
-			PD_CGF_A_L();
-			PD_CGF_B_L();
+			User_GPIO_set(3,12,0);	// a
+			User_GPIO_set(4,2,0);
 			val = 9;
 		}
 			break;
 		case 2:
 		{
-			PD_CGF_A_L();
-			PD_CGF_B_H();
+			User_GPIO_set(3,12,0);	// a
+			User_GPIO_set(4,2,1);
 			val = 12;
 		}
 			break;
 		case 3:
 		{
-			PD_CGF_A_H();
-			PD_CGF_B_L();
+			User_GPIO_set(3,12,1);	// a
+			User_GPIO_set(4,2,0);
 			val = 20;
 		}
 			break;
 		default :
-			PD_CGF_A_L();
-			PD_CGF_B_L();
+			User_GPIO_set(3,12,0);	// a
+			User_GPIO_set(4,2,0);
 			val = 9;
 			break;
 	}
 	return val;
+}
+
+/*
+	1:5v的开关
+	2:out的开关
+*/
+int Power_OUT_Set (char num,char set)
+{
+	if (num == 1)
+	{
+		if(set)
+		{
+			User_GPIO_config(3,0,1);	// 5v
+		}
+		else
+		{
+			User_GPIO_config(3,0,0);	// 5v
+		}
+	}
+	else if (num == 2)
+	{
+		if(set)
+		{
+			User_GPIO_config(3,1,1);	// out
+		}
+		else
+		{
+			User_GPIO_config(3,1,0);	// out
+		}
+	}
 }
 
 int show_cycle = 0;
@@ -163,15 +203,15 @@ int Power_app (Caven_App_Type * message)
 		power_config.out_witch = 1;
         if(power_config.out_witch)
         {
-            DC_OUT_ON();
+			Power_OUT_Set (2,1);
         }
         else
         {
-            DC_OUT_OFF();
+            Power_OUT_Set (2,0);
         }
         //
 
-			show_cycle ++;
+		show_cycle ++;
 
         if(show_cycle > 1000)
         {
