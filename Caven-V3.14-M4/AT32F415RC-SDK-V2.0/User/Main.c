@@ -15,7 +15,7 @@ int start_ui(void);
 int main(void)
 {
     Main_Init();
-    start_ui();
+//    start_ui();
     Caven_Watch_Type now_time = {
         .hour = 8,
         .minutes = 7,
@@ -31,7 +31,7 @@ int main(void)
         .Set_time.time_us = 5000,
         .Flip_falg = 1,
     };
-    Vofa_JustFloat_Init_Fun(2, Debug_Out);
+    Vofa_JustFloat_Init_Fun(Debug_Out);
     float_array[1] = 3.3;
 
     char last_s = 0, last_m = 0, last_h = 0;
@@ -50,12 +50,17 @@ int main(void)
         API_Task_Timer(&LED_Task, now_time); // LED任务
         Mode_Use.LED.SET_pFun(1, LED_Task.Flip_falg);
 
-        float_array[0] += 1.133;
-        if (float_array[0] > 10)
+        float_array[0] += 0.001;
+        if (float_array[0] > 2)
         {
             float_array[0] = 0;
         }
-
+//        float_array[1] += 0.002;
+        if (float_array[1] > 3)
+        {
+            float_array[1] = 0;
+        }
+        
         time_temp = now_time.second;
         time_temp = (time_temp / 60) * 100;
 
@@ -121,7 +126,7 @@ int main(void)
             overstep_h = 1;
             Caven_GUI_Draw_Circle(120, 120, 40, 12, 100, LCD_Back_Color);
         }
-//        Vofa_JustFloat_Show_Fun (float_array);
+        Vofa_JustFloat_Show_Fun (3,float_array);
 //        Mode_Use.TIME.Delay_Ms(10);
     }
 }
@@ -135,6 +140,7 @@ void Main_Init(void)
     Mode_Init.TIME(ENABLE);
     Mode_Init.LED(ENABLE);
     Mode_Init.UART_Init_State = Mode_Init.UART(m_UART_CH1, 115200, ENABLE);
+    Mode_Init.UART(DEBUG_OUT, 115200, ENABLE);
     Mode_Init.LCD(ENABLE);
 	
 	User_GPIO_config(3,13,0);	//
@@ -144,7 +150,7 @@ void Main_Init(void)
 	User_GPIO_set(2,5,DISABLE);	//kill 
 	
     Caven_GUI_draw_pixel_bind (Mode_Use.LCD.Draw_Point_pFun);
-    //    Mode_Use.UART.Send_String_pFun(m_UART_CH1,"hello world !\n");
+    Mode_Use.UART.Send_String_pFun(m_UART_CH1,"hello world !\n");
 
     //    printf("SystemClk:%d \r\n", MCU_SYS_FREQ);
 }
@@ -179,4 +185,4 @@ void gfx_draw_pixel(int x, int y, unsigned int rgb)
  void delay_ms(int milli_seconds)
 {
      SYS_Delay_ms(milli_seconds);
- }
+}
