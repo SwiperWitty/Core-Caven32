@@ -30,7 +30,7 @@ int Power_app_init (int Set)
 
 	memset(&power_config,0,sizeof(power_config));
 
-	Vofa_JustFloat_Init_Fun (7,Debug_Out);     // Vin,Vout,Temp,YG_x,YG_y,YG_key,in_temp
+	Vofa_JustFloat_Init_Fun (Debug_Out);     // Vin,Vout,Temp,YG_x,YG_y,YG_key,in_temp
     return retval;
 }
 
@@ -264,7 +264,7 @@ int Power_app (Caven_App_Type * message)
             message->str_switch = 0;
         }
     }
-//    Vofa_JustFloat_Show_Fun (Val_array);
+//    Vofa_JustFloat_Show_Fun (7,Val_array);
 
     return retval;
 }

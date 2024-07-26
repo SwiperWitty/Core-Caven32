@@ -130,7 +130,6 @@ void Main_Init(void)
 
     Mode_Use.UART.Send_String_pFun(DEBUG_OUT, "Hello world ! \n");
 
-
 #ifdef PICTURE
     Mode_Use.LCD.Show_Picture_pFun(0, 0, 240, 240, Photo2); // Photo
 #endif

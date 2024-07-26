@@ -109,7 +109,7 @@ int main(void)
         .Set_time.time_us = 5000,
         .Flip_falg = 1,
     };
-    Vofa_JustFloat_Init_Fun(2, Debug_Out);
+    Vofa_JustFloat_Init_Fun(Debug_Out);
 
     while (1)
     {
