@@ -3,10 +3,8 @@
 #include "pic.h" //图片
 
 
-int led;
-int num = 0;
-float Frame = 0;
-char Free_array[100];
+
+char temp_array[100];
 void Main_Init(void);
 
 
@@ -16,16 +14,18 @@ int main(void)
 
 	while (1)
 	{
-
+    
         
 	}
 }
 
 void Main_Init(void)
 {
+    int reverse = 0;
+	// 直接使用外部时钟
 	Mode_Index();
-	
-	LED_GPIO_Init(1);
-    LED_H();
-	LEDR_H();
+    reverse |= Mode_Init.TIME(ENABLE);
+    
+	//
+    
 }

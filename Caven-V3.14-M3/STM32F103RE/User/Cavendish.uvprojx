@@ -337,7 +337,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>STM32F10X_HD,USE_STDPERIPH_DRIVER,DEFAULT</Define>
+              <Define>STM32F10X_HD,USE_STDPERIPH_DRIVER,CAVEN,DEFAULT</Define>
               <Undefine></Undefine>
               <IncludePath>..\User;..\CMSIS;..\Startup;..\SDK\inc;..\Config;..\..\..\Caven-MCU_Lib\API;..\..\..\Caven-MCU_Lib\Mode;..\..\..\Caven-MCU_Lib\Base_STM32F103</IncludePath>
             </VariousControls>
@@ -519,6 +519,11 @@
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\Mode_RTC8564.c</FilePath>
             </File>
             <File>
+              <FileName>MODE_st7789_dever.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_st7789_dever.c</FilePath>
+            </File>
+            <File>
               <FileName>MODE_Time.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Time.c</FilePath>
@@ -554,19 +559,24 @@
               <FilePath>..\..\..\Caven-MCU_Lib\API\API.c</FilePath>
             </File>
             <File>
+              <FileName>Caven_event_frame.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Caven_event_frame.c</FilePath>
+            </File>
+            <File>
+              <FileName>Caven_info_frame.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Caven_info_frame.c</FilePath>
+            </File>
+            <File>
               <FileName>DATA_Handle.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\API\DATA_Handle.c</FilePath>
             </File>
             <File>
-              <FileName>Keyboard.c</FileName>
+              <FileName>Encrypt_crc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\API\Keyboard.c</FilePath>
-            </File>
-            <File>
-              <FileName>libcollections.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\API\libcollections.c</FilePath>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Encrypt_crc.c</FilePath>
             </File>
             <File>
               <FileName>Time_Handle.c</FileName>
@@ -574,9 +584,9 @@
               <FilePath>..\..\..\Caven-MCU_Lib\API\Time_Handle.c</FilePath>
             </File>
             <File>
-              <FileName>Check_CRC.c</FileName>
+              <FileName>Vofa_info.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\API\Check_CRC.c</FilePath>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Vofa_info.c</FilePath>
             </File>
           </Files>
         </Group>
