@@ -9,7 +9,7 @@
 Power_Control_Type power_config;
 
 int PD_Set_Mode (char grade);
-int Power_OUT_Set (char num,char set);
+void Power_OUT_Set (char num,char set);
 int SET_Val_Handle (float set_val,float get_val);
 
 int Power_app_init (int Set)
@@ -88,7 +88,7 @@ int PD_Set_Mode (char grade)
 	1:5v的开关
 	2:out的开关
 */
-int Power_OUT_Set (char num,char set)
+void Power_OUT_Set (char num,char set)
 {
 	if (num == 1)
 	{

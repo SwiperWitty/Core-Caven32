@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../Caven-MCU_Lib"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"lvgl.h": "c",
+			"lv_conf.h": "c",
+			"ui.h": "c"
+		}
+	}
+}
