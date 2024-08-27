@@ -45,7 +45,6 @@
 #define Exist_BUTTON
 #define Exist_LED       OPEN_0001  // LED0
 #define Exist_BZZ
-#define Exist_CustomIO
 
 //#define Exist_ADC
 //#define Exist_DAC
