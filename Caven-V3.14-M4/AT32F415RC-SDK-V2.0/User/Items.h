@@ -77,7 +77,7 @@
 //#define Exist_STEP_Motor
 
 //#define Exist_MLX90614                    //红外测温
-//#define Exist_RTC8564                     //时钟
+#define Exist_RTC_Clock                     //时钟
 
 
 /****   进一步的逻辑关系    ****/
@@ -115,6 +115,12 @@
 #endif
 
 #ifdef Exist_MLX90614
+    #ifndef Exist_IIC
+        #define Exist_IIC
+    #endif
+#endif
+
+#ifdef Exist_RTC_Clock
     #ifndef Exist_IIC
         #define Exist_IIC
     #endif
