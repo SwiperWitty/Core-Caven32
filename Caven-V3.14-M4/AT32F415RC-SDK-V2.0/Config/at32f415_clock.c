@@ -26,12 +26,11 @@
 #include "at32f415_clock.h"
 
 
-
-/** Null
+/**
   * @brief  system clock config program
   * @note   the system clock is configured as follow:
-  *         - system clock        = hick / 12 * pll_mult
-  *         - system clock source = pll (hick)
+  *         system clock (sclk)   = hick / 12 * pll_mult
+  *         system clock source   = HICK_VALUE
   *         - sclk                = 144000000
   *         - ahbdiv              = 1
   *         - ahbclk              = 144000000
@@ -44,20 +43,26 @@
   * @param  none
   * @retval none
   */
-  
 void system_clock_hick_config(void)
 {
+  /* reset crm */
+  crm_reset();
+
   /* config flash psr register */
   flash_psr_set(FLASH_WAIT_CYCLE_4);
 
- 
-  /* reset crm */
-  crm_reset();
+  /* enable lick */
+  crm_clock_source_enable(CRM_CLOCK_SOURCE_LICK, TRUE);
+
+  /* wait till lick is ready */
+  while(crm_flag_get(CRM_LICK_STABLE_FLAG) != SET)
+  {
+  }
 
   /* enable hick */
   crm_clock_source_enable(CRM_CLOCK_SOURCE_HICK, TRUE);
 
-   /* wait till hick is ready */
+  /* wait till hick is ready */
   while(crm_flag_get(CRM_HICK_STABLE_FLAG) != SET)
   {
   }
@@ -76,10 +81,10 @@ void system_clock_hick_config(void)
   /* config ahbclk */
   crm_ahb_div_set(CRM_AHB_DIV_1);
 
-  /* config apb2clk */
+  /* config apb2clk, the maximum frequency of APB2 clock is 75 MHz  */
   crm_apb2_div_set(CRM_APB2_DIV_2);
 
-  /* config apb1clk */
+  /* config apb1clk, the maximum frequency of APB1 clock is 75 MHz  */
   crm_apb1_div_set(CRM_APB1_DIV_2);
 
   /* enable auto step mode */
@@ -96,12 +101,13 @@ void system_clock_hick_config(void)
   /* disable auto step mode */
   crm_auto_step_mode_enable(FALSE);
 
-  /* config usbclk from pll */
-  crm_usb_clock_div_set(CRM_USB_DIV_3);
-  crm_usb_clock_source_select(CRM_USB_CLOCK_SOURCE_PLL);
-
   /* update system_core_clock global variable */
   system_core_clock_update();
+
+  /* config usbclk from pll */
+  crm_usb_clock_source_select(CRM_USB_CLOCK_SOURCE_PLL);
+  crm_usb_clock_div_set(CRM_USB_DIV_3);
+
 }
 
 /** 12Mhz

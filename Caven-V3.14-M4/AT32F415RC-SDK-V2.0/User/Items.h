@@ -2,7 +2,7 @@
 #define _ITEMS__H_
 
 #include "at32f415.h"
-// 软件配置的 基于内部48Mhz晶振  (48 / 6 / 2) * 36      APB 144M、APB1 72M、APB2 144M、（TIM All 144M）（ADC All 18M）（UART All 18M）
+// 软件配置的 基于内部48Mhz晶振  (48 / 6 / 2) * 36      APB 144M、APB1 72M、APB2 72M、（TIM All 144M）（ADC All 18M）（UART All 18M）
 #include "at32f415_clock.h"
 // print的库文件 
 #include "stdio.h"
