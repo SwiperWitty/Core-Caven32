@@ -19,6 +19,7 @@
         "mode_time.h": "c",
         "mode_st7789_dever.h": "c",
         "mode_lcd.h": "c",
-        "user_items.h": "c"
+        "user_items.h": "c",
+        "mode_rtc8564.h": "c"
     }
 }
