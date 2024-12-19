@@ -34,17 +34,64 @@ unsigned char send_buff[BUFF_MAX];
 
 void TIME_roll_Init (int arr,int psc);
 
+void User_HC595_Set_DATA_Fun (const uint8_t *Dat,char num)
+{
+    int temp_num = num;
+    unsigned char temp_dat;
+    uint8_t n;
+    for(char i = 0; i < temp_num;i++)
+    {
+        temp_dat = Dat[i];
+        User_GPIO_set(2,12,0);   // RCK
+        User_GPIO_set(2,13,0);   // SCK
+        User_GPIO_set(2,14,0);   // Data
+        for(n = 0;n < 8;n++)
+        {
+            if((temp_dat << n) & 0x80)   {User_GPIO_set(2,14,1);}
+            else    {User_GPIO_set(2,14,0);}
+            User_GPIO_set(2,13,1);   // SCK
+//            HC595_Delay (10);
+            NOP();
+            User_GPIO_set(2,13,0);
+//            HC595_Delay (10);
+            NOP();
+        }
+    }
+    User_GPIO_set(2,12,0);   // RCK
+//    HC595_Delay (10);
+    NOP();
+    User_GPIO_set(2,12,1);
+//    HC595_Delay (10);
+    NOP();
+    User_GPIO_set(2,12,0);
+}
+
+void User_HC595_GPIO_Init(int SET)
+{
+#ifdef Exist_HC595
+    unsigned char temp_array[8];
+    memset(temp_array,0,sizeof(temp_array));
+    User_GPIO_config(2,12,1);   // RCK
+    User_GPIO_config(2,13,1);   // SCK
+    User_GPIO_config(2,14,1);   // Data
+    User_HC595_Set_DATA_Fun (temp_array,5);
+#endif
+}
+
 void system_init(void)
 {
     // gpio
     Custom_GPIO_Init(ENABLE);
-    MODE_HC595_Init (ENABLE);
+    User_HC595_GPIO_Init (ENABLE);
+
     // GPI
     Button_GPIO_Init(ENABLE);
     // BZZ
-    Mode_Init.BZZ(ENABLE);
+//    Mode_Init.BZZ(ENABLE);
+    User_GPIO_config(2,7,1);
     // LED
-    Mode_Init.LED(ENABLE);
+//    Mode_Init.LED(ENABLE);
+    User_GPIO_config(2,4,1);
     // time
     TIME_roll_Init (1,47);      // 理论是48，但是补偿到47
     //
@@ -62,10 +109,15 @@ void system_init(void)
     Mode_Init.UART(UART_RS232, s_SYS_Config.RS232_Baud, ENABLE);
     Mode_Use.UART.Send_String_pFun(UART_RS232, "RS232:hello world ! \n");
     Base_UART_DMA_Send_Data(UART_RS232,"this is dma send data \n",sizeof("this is dma send data \n"));
-
+#if RS485_RFID == 0
     Mode_Init.UART(UART_RS485, s_SYS_Config.RS485_Baud, ENABLE);
     Mode_Use.UART.Send_String_pFun(UART_RS485, "RS485:hello world ! \n");
     Base_UART_DMA_Send_Data(UART_RS485,"this is dma send data \n",sizeof("this is dma send data \n"));
+#else
+    Mode_Init.UART(UART_RS485, s_SYS_Config.RS232_Baud, ENABLE);
+
+#endif
+
 
     // 载入date & Watch -> time
     Caven_Watch_Type set_time = {
@@ -81,6 +133,7 @@ void system_init(void)
     Mode_Use.TIME.Set_Watch_pFun(set_time);
     Heartbeat_Set();
 
+    memset(s_SYS_Config.SYS_version,0,sizeof(s_SYS_Config.SYS_version));
     s_SYS_Config.SYS_version[0] = 0x01;
     s_SYS_Config.SYS_version[1] = 0x00;s_SYS_Config.SYS_version[2] = 0x02;s_SYS_Config.SYS_version[3] = 0x00;s_SYS_Config.SYS_version[4] = 0x01;
     s_SYS_Config.SYS_version[5] = 0x02;
@@ -89,7 +142,6 @@ void system_init(void)
     memcpy(&s_SYS_Config.SYS_version[8],"E110X_MCU",s_SYS_Config.SYS_version[7]);
     s_SYS_Config.SYS_version_len += s_SYS_Config.SYS_version[7];
 
-    Mode_Init.USB(ENABLE);
 }
 
 /*
@@ -149,7 +201,7 @@ int Heartbeat_Set(void)
 {
     int retval = 0;
 
-    Mode_Use.LED.SET_pFun(1, DISABLE);
+    User_GPIO_set(2,4,1);
     s_SYS_Config.Heartbeat_Run = 0;
     return retval;
 }
@@ -172,7 +224,7 @@ void Heartbeat_Check(Caven_Watch_Type const time)
             s_SYS_Config.Heartbeat_Run = 0;
             RSTIC_H();
             printf("RST IC ! \n");
-            Mode_Use.LED.SET_pFun(1, DISABLE);
+            User_GPIO_set(2,4,1);
             Mode_Use.TIME.Delay_Ms(1000);
             RSTIC_L();
             Mode_Use.TIME.Delay_Ms(5000);
@@ -213,7 +265,7 @@ void GX_force_Send_packet (u8 W_Class, u8 W_MID, u8 Comm_way, u8 *data, u16 dSiz
         memcpy(&temp_array[run_num],data,dSize);
         run_num += dSize;
     }
-    temp_packet.End_crc = CRC16_XMODEM_Fast_Fun(&temp_array[1], run_num - 1);
+    temp_packet.End_crc = Encrypt_XMODEM_CRC16_Fun(&temp_array[1], run_num - 1);
     temp_array[run_num++] = (temp_packet.End_crc >> 8) & 0xff;
     temp_array[run_num++] = (temp_packet.End_crc >> 0) & 0xff;
     temp_packet.Get_num = run_num;
@@ -256,11 +308,15 @@ void RS232_Baud_event_task_Fun (void * data)
                 break;
         }
         if (temp_data != 3) {
-            Mode_Use.TIME.Delay_Ms(100);
+            Mode_Use.TIME.Delay_Ms(200);
             s_SYS_Config.RS232_Baud = s_SYS_Config.temp_Baud;
             s_SYS_Config.RFID_Baud = s_SYS_Config.RS232_Baud;
             Mode_Init.UART(UART_RFID, s_SYS_Config.RFID_Baud, ENABLE);
             Mode_Init.UART(UART_RS232, s_SYS_Config.RS232_Baud, ENABLE);
+#if RS485_RFID == 1
+            s_SYS_Config.RS485_Baud = s_SYS_Config.RS232_Baud;
+            Mode_Init.UART(UART_RS485, s_SYS_Config.RS485_Baud, ENABLE);
+#endif
         }
         s_SYS_Config.RS232_Flag = 0;
     }

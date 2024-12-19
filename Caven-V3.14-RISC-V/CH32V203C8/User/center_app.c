@@ -32,7 +32,7 @@ static int Center_SYS_order_handle(GX_info_packet_Type data);
 static int Center_order_handle(GX_info_packet_Type data);
 
 static Caven_Watch_Type center_time;
-static SYS_BaseTIME_Type center_BaseTIME;
+static Caven_Watch_Type center_BaseTIME;
 static GPIO_cfg_Type s_GPIO_Config = {
         .GPO_num = 50,
         .GPI_num = 2,
@@ -76,8 +76,14 @@ GX_info_packet_Type gx_standard = {
     .dSize = BUFF_MAX,          // 最大长度
 };
 
-unsigned char pack_array[BUFF_MAX];
 unsigned char temp_array[BUFF_MAX];
+
+unsigned char RS485_up_array[BUFF_MAX];
+unsigned char RFID_up_array[BUFF_MAX];
+uint16_t RS485_up_now_num = 0,RS485_up_last_num;
+uint16_t RFID_up_now_num = 0,RFID_up_last_num;
+int RS485_up_time = 0;
+int RFID_up_time = 0;
 
 int get_temp_num = 0;
 
@@ -101,6 +107,7 @@ int out_RFID_pack_num = 0;
 int Center_State_machine(Caven_Watch_Type time)
 {
     int retval = 0;
+    int temp_num;
 
     center_time = time;
     GX_Circular_queue_output (&RFID_output_packet,RFID_data_packet_buff,5);     // 从队列中提取
@@ -147,8 +154,74 @@ int Center_State_machine(Caven_Watch_Type time)
     GPI_Change_Updata_Handle();                 // 检测GPI
     MCU_Combination_version_Updata_Handle ();   // 收集版本消息
 
-    Heartbeat_Check(time);                      // 检测心跳
-    SYS_Time_Get(&center_BaseTIME);
+    Heartbeat_Check(center_time);               // 检测心跳
+    center_BaseTIME = MODE_TIME_Get_Watch_Fun();
+
+    if (RFID_up_now_num)       // rfid给rs485
+    {
+        temp_num = 0;
+        if (RFID_up_last_num != RFID_up_now_num) {
+            RFID_up_last_num = RFID_up_now_num;
+            RFID_up_time = 0;
+        }
+        else if (RFID_up_time == 0){
+            RFID_up_time = center_time.time_us;
+        }
+        else {
+            if (center_time.time_us < RFID_up_time) {
+                temp_num = center_time.time_us + 1000000;
+                temp_num -= RFID_up_time;
+            }
+            else {
+                temp_num = center_time.time_us - RFID_up_time;
+            }
+        }
+
+        if (temp_num > 10000 || RFID_up_now_num > 100)
+        {
+            temp_num = RFID_up_now_num;
+            memcpy(temp_array,RFID_up_array,temp_num);
+            RFID_up_last_num = 0;
+            RFID_up_now_num = 0;
+            RFID_up_time = 0;
+
+            Base_UART_DMA_Send_Data(UART_RS485, temp_array, temp_num);
+        }
+    }
+    if (RS485_up_now_num)       // rs485给rfid
+    {
+        temp_num = 0;
+        if (RS485_up_last_num != RS485_up_now_num) {
+            RS485_up_last_num = RS485_up_now_num;
+            RS485_up_time = 0;
+        }
+        else if (RS485_up_time == 0){
+            RS485_up_time = center_time.time_us;
+        }
+        else {
+            if (center_time.time_us < RS485_up_time) {
+                temp_num = center_time.time_us + 1000000;
+                temp_num -= RS485_up_time;
+            }
+            else {
+                temp_num = center_time.time_us - RS485_up_time;
+            }
+        }
+
+        if (temp_num > 10000 || RS485_up_now_num > 100)
+        {
+            temp_num = RS485_up_now_num;
+            memcpy(temp_array,RS485_up_array,temp_num);
+            RS485_up_last_num = 0;
+            RS485_up_now_num = 0;
+            RS485_up_time = 0;
+        #if RS485_RFID == 0
+            Base_UART_DMA_Send_Data(UART_SYS, temp_array, temp_num);
+        #else
+            Mode_Use.UART.Send_Data_pFun(UART_RFID, temp_array, temp_num);
+        #endif
+        }
+    }
 
     if (BUTTON_STATE() == 0) {
         GPO_Open_lock_ALL ();
@@ -156,6 +229,9 @@ int Center_State_machine(Caven_Watch_Type time)
     if (s_SYS_Config.SYS_Rst) {
         Mode_Use.TIME.Delay_Ms(10);
         retval = 1;
+    }
+    else {
+        retval = 0;
     }
     return retval;
 }
@@ -203,7 +279,7 @@ int Center_RFID_order_handle(GX_info_packet_Type data)
                 }
                 break;
             case config_reader_rs485_address_order:
-                retval = 1;
+                retval = 0;
                 break;
             default:
                 retval = 1;
@@ -212,35 +288,33 @@ int Center_RFID_order_handle(GX_info_packet_Type data)
     }
     else if (data.Prot_W_Class == 2 && data.Prot_W_DFlag == 1)
     {
+        retval = 0;
         switch (data.Prot_W_MID)
         {
-            case 0:
-            {
-                data.Comm_way = UART_SYS;
-                GX_send_packet(data);               // 主动上报的需要给一份到SYS
-
-                if(s_SYS_Config.Connect_passage != UART_RS485)
-                {
-                    data.Comm_way = UART_RS232;
-                    GX_send_packet(data);           //
-                }
-                else
-                {
-                    data.Comm_way = UART_RS485;
-                    GX_send_packet(data);           //
-                }
-                RFID_LED_H();
-                retval = 0;
-            }
+            case 0x00:
                 break;
-            case 1:
-            {
-                if (s_SYS_Config.ESP32_board_ID == 0) {
-                    memset(&s_GPIO_Config.GPO_Status_Set[9],0,8);
-                    GPO_Sync_Status (s_GPIO_Config.GPO_Status_Set,s_GPIO_Config.GPO_num);
-                }
-                retval = 1;
-            }
+            case 0x20:
+                break;
+            case 0x30:
+                break;
+            case 0x40:
+                break;
+            case 0x50:
+                break;
+            case 0x01:
+                retval = 2;
+                break;
+            case 0x21:
+                retval = 2;
+                break;
+            case 0x31:
+                retval = 2;
+                break;
+            case 0x41:
+                retval = 2;
+                break;
+            case 0x51:
+                retval = 2;
                 break;
             case 2:
             {
@@ -262,8 +336,33 @@ int Center_RFID_order_handle(GX_info_packet_Type data)
             }
                 break;
             default:
-                retval = 1;
+                retval = 1; // !!!!
                 break;
+        }
+        if (retval == 0)
+        {
+            data.Comm_way = UART_SYS;
+            GX_send_packet(data);               // 主动上报的需要给一份到SYS
+
+            if(s_SYS_Config.Connect_passage != UART_RS485)
+            {
+                data.Comm_way = UART_RS232;
+                GX_send_packet(data);           //
+            }
+            else
+            {
+                data.Comm_way = UART_RS485;
+                GX_send_packet(data);           //
+            }
+            RFID_LED_H();
+        }
+        else if (retval == 2)
+        {
+            if (s_SYS_Config.ESP32_board_ID == 0) {
+                memset(&s_GPIO_Config.GPO_Status_Set[9],0,8);
+                GPO_Sync_Status (s_GPIO_Config.GPO_Status_Set,s_GPIO_Config.GPO_num);
+            }
+            retval = 1;
         }
     }
     else if (data.Prot_W_Class == 2)
@@ -363,6 +462,9 @@ int Center_SYS_order_handle(GX_info_packet_Type data)
     {
         switch (data.Prot_W_MID)
         {
+            case config_reader_serial_params_order:
+                retval = RS232_SET_Order(data);     // 给MCU
+                break;
             case config_reader_rs485_address_order:
                 retval = RS485_SET_Order(data);     //!!!! 给MCU
                 break;
@@ -395,7 +497,6 @@ int Center_SYS_order_handle(GX_info_packet_Type data)
                 {
                     s_SYS_Config.ESP32_board_ID = 0;
                     s_SYS_Config.ESP32_board_ID = data.p_Data[7];
-
                 }
                 break;
             case 1:
@@ -436,7 +537,7 @@ int Center_SYS_order_handle(GX_info_packet_Type data)
         }
         retval = 0;
     }
-    else if(data.Prot_W_Type == PROTOCOL_UHF_READER && data.Prot_W_Class == 2)
+    else if (data.Prot_W_Type == PROTOCOL_UHF_READER && data.Prot_W_Class == 2)
     {
         s_SYS_Config.Connect_passage = UART_SYS;
     }
@@ -633,9 +734,10 @@ int GPO_Sync_Status (unsigned char *data,int len)
 {
     int retval = 0;
     int GPO_state;
-    int temp_num;
+    int temp_num,temp_open = 0;
     unsigned char temp_data[50];
     unsigned char hc595[10];
+    unsigned char temp_buff[10];
     if (data == NULL) {
         return retval;
     }
@@ -652,9 +754,27 @@ int GPO_Sync_Status (unsigned char *data,int len)
             {
                 GPO_state = temp_data[temp_num++];
                 hc595[hc595_num] |= GPO_state << j;
+                if (GPO_state)
+                {
+                    if (hc595_num == 2 || hc595_num == 3)
+                    {
+                        temp_open++;
+                        memset(temp_buff,0,sizeof(temp_buff));
+                        temp_buff[hc595_num] = GPO_state << j;
+                        User_HC595_Set_DATA_Fun (temp_buff,5);
+                        if (s_GPIO_Config.GPO_Keep_Time == 0)   // 直接跳
+                        {
+                            Mode_Use.TIME.Delay_Ms(500);
+                            memset(temp_buff,0,sizeof(temp_buff));
+                            User_HC595_Set_DATA_Fun (temp_buff,5);
+                        }
+                    }
+                }
             }
         }
-        HC595_Set_DATA_Fun (hc595,5);
+        if (temp_open == 0) {
+            User_HC595_Set_DATA_Fun (hc595,5); //
+        }
         retval = 1;
         return retval;
     }
@@ -701,7 +821,7 @@ int GPO_Sync_Status (unsigned char *data,int len)
                         hc595[hc595_num] |= GPO_state << j;
                     }
                 }
-                HC595_Set_DATA_Fun (hc595,5);
+                User_HC595_Set_DATA_Fun (hc595,5);
                 retval = 1;
                 return retval;
             }
@@ -829,16 +949,18 @@ int GPO_SET_Order(GX_info_packet_Type const data)
             }
             else
             {
+                s_GPIO_Config.GPO_Keep_Time = 0;
                 switch (GPO_data)
                 {
                 case (0xFF):
                     GPO_Time = temp_array[run_num + 1];
                     GPO_Time <<= 8;
                     GPO_Time += temp_array[run_num + 2];
-                    s_once_GPO = 0;                                         // 更新GPO的event
-
                     s_GPIO_Config.GPO_Keep_Time = GPO_Time;
-                    Caven_trigger_event_Fun(&SYS_events,GPO_event_Handle,0x01);     // 触发一次事件
+                    if (s_GPIO_Config.GPO_Keep_Time) {
+                        s_once_GPO = 0;                                                 // 更新GPO的event
+                        Caven_trigger_event_Fun(&SYS_events,GPO_event_Handle,0x01);     // 触发一次事件
+                    }
                     run_num ++;
                     temp_array[0] = 0;
                     GX_info_rest_data_packet_Fun(&temp_packet,temp_array,1);
@@ -857,11 +979,20 @@ int GPO_SET_Order(GX_info_packet_Type const data)
                 }
             }
         }
-        GPO_Sync_Status (s_GPIO_Config.GPO_Status_Set,s_GPIO_Config.GPO_num);
         temp_array[0] = 0;
         GX_info_rest_data_packet_Fun(&temp_packet,temp_array,1);
-
         GX_send_packet(temp_packet);
+
+        if (s_SYS_Config.ESP32_board_ID == 13) {
+
+            GPO_Sync_Status (s_GPIO_Config.GPO_Status_Set,s_GPIO_Config.GPO_num);
+            memset(s_GPIO_Config.GPO_Status_Set,0,sizeof(s_GPIO_Config.GPO_Status_Set));
+            memset(s_GPIO_Config.GPO_Status_Last,0,sizeof(s_GPIO_Config.GPO_Status_Last));
+        }
+        else {
+            GPO_Sync_Status (s_GPIO_Config.GPO_Status_Set,s_GPIO_Config.GPO_num);
+        }
+
     }
     return retval;
 }
@@ -1070,7 +1201,7 @@ int RST_SYS_Order(GX_info_packet_Type const data)
 {
     int retval = 1;
 
-    Mode_Use.LED.SET_pFun(1, DISABLE);
+    User_GPIO_set(2,LED_IO,1);
     s_SYS_Config.SYS_Rst = 1;
     return retval;
 }
@@ -1229,7 +1360,6 @@ int RS232_SET_Order(GX_info_packet_Type const data)
     int retval = 1;
     char Set_Status;
     int Uart_Baud;
-
     if (data.dSize > 0 && data.dSize < sizeof(temp_array))
     {
         if (data.Prot_W_485Type) {
@@ -1257,10 +1387,11 @@ int RS232_SET_Order(GX_info_packet_Type const data)
                 Uart_Baud = 460800;
                 break;
             default:            // 失败
-                pack_array[0] = 1;
+                temp_array[0] = 1;
+                s_SYS_Config.temp_Baud = 115200;
                 if (data.Comm_way != UART_SYS)
                 {
-                    GX_force_Send_packet (data.Prot_W_Class, data.Prot_W_MID, s_SYS_Config.Connect_passage, pack_array, 1, 0);
+                    GX_force_Send_packet (data.Prot_W_Class, data.Prot_W_MID, s_SYS_Config.Connect_passage, temp_array, 1, 0);
                 }
                 retval = 0;
                 return retval;
@@ -1270,7 +1401,7 @@ int RS232_SET_Order(GX_info_packet_Type const data)
         s_SYS_Config.RS232_Baud_Type = Set_Status;
         s_SYS_Config.temp_Baud = Uart_Baud;
 
-        if (data.Comm_way == UART_SYS) {
+        if (data.Comm_way == UART_SYS || data.Prot_W_Type == PROTOCOL_ICIO_CMD) {
             Caven_trigger_event_Fun(&SYS_events,RS232_event_Handle,0x01);   // root
         }
         else {
@@ -1301,11 +1432,11 @@ int RS485_SET_Order(GX_info_packet_Type const data)
             memcpy(temp_array, data.p_Data + 7, data.dSize);
         }
         Set_ID = temp_array[0];
-        pack_array[run_num++] = 0;      // 成功
 
-        if (temp_array[1] == 1) {
+        if (temp_array[1] == 1)
+        {
             Set_Status = temp_array[2];
-
+            temp_array[run_num++] = 0;      // 成功
             switch (Set_Status)
             {
                 case 0:             // 9600
@@ -1325,13 +1456,15 @@ int RS485_SET_Order(GX_info_packet_Type const data)
                     break;
                 default:            // 失败
                     Uart_Baud = 0;
-                    pack_array[0] = 1;
+                    temp_array[0] = 1;
                     break;
             }
         }
+
+#if RS485_RFID == 0
         if (data.Comm_way != UART_SYS)      // 返回消息
         {
-            GX_force_Send_packet (data.Prot_W_Class, data.Prot_W_MID, s_SYS_Config.Connect_passage, pack_array, run_num, 0);
+            GX_force_Send_packet (data.Prot_W_Class, data.Prot_W_MID, s_SYS_Config.Connect_passage, temp_array, run_num, 0);
             Mode_Use.TIME.Delay_Ms(100);
         }
         if (Uart_Baud)
@@ -1342,8 +1475,17 @@ int RS485_SET_Order(GX_info_packet_Type const data)
         }
         gx_standard.Addr = Set_ID & 0xff;
         s_SYS_Config.RS485_Addr = gx_standard.Addr;
-
         retval = 0;                     // 485不透传给RFID
+#else
+        if (Uart_Baud)
+        {
+            s_SYS_Config.RS485_Baud_Type = Set_Status;
+            s_SYS_Config.RS485_Baud = Uart_Baud;
+            Mode_Init.UART(UART_RS485, s_SYS_Config.RS485_Baud, ENABLE);   //
+        }
+        retval = 1;
+#endif
+
     }
     return retval;
 }
@@ -1352,7 +1494,7 @@ int RS485_SET_Order(GX_info_packet_Type const data)
 /*
  * UART1
  */
-SYS_BaseTIME_Type SYS_Get_last_time;
+Caven_Watch_Type SYS_Get_last_time;
 void UART_SYS_Getrx_Fun(void *data)
 {
     u8 temp = *(u8 *)data;
@@ -1367,16 +1509,17 @@ void UART_SYS_Getrx_Fun(void *data)
     GX_info_Make_packet_Fun(gx_standard, &SYS_input_packet, temp);
     if (SYS_input_packet.Result & 0x50)     // 加入队列
     {
+        SYS_Get_last_time = center_BaseTIME;
         if (SYS_input_packet.Prot_W_485Type) {      // rs485自动读卡,算rs485命令
             SYS_input_packet.Comm_way = UART_RS485;
             s_SYS_Config.Connect_passage = UART_RS485;
-            GX_Circular_queue_input (&SYS_input_packet,RS485_data_packet_buff,0,3);
+            temp_num = GX_Circular_queue_input (&SYS_input_packet,RS485_data_packet_buff,0,3);
         }
         else {
             SYS_input_packet.Comm_way = UART_SYS;
             temp_num = GX_Circular_queue_input (&SYS_input_packet,SYS_data_packet_buff,0,5);
         }
-        if (temp_num == 0) {
+        if (temp_num >= 0) {
             get_PC_pack_num ++;
             get_PC_num += SYS_input_packet.Get_num;
         }
@@ -1386,7 +1529,7 @@ void UART_SYS_Getrx_Fun(void *data)
  * UART4
  */
 char input_num = 0;
-SYS_BaseTIME_Type RFID_Get_last_time;
+Caven_Watch_Type RFID_Get_last_time;
 void UART_RFID_Getrx_Fun(void *data)
 {
     u8 temp = *(u8 *)data;
@@ -1404,17 +1547,22 @@ void UART_RFID_Getrx_Fun(void *data)
 
         if (RFID_input_packet.Result & 0x50)     // 加入队列
         {
+            RFID_Get_last_time = center_BaseTIME;
             RFID_input_packet.Comm_way = UART_RFID;
-            temp_num = GX_Circular_queue_input (&RFID_input_packet,RFID_data_packet_buff,input_num,5);
-            input_num++;
-            if (input_num >= 5) {
-                input_num = 0;
-            }
-            if (temp_num == 0) {
+            temp_num = GX_Circular_queue_input (&RFID_input_packet,RFID_data_packet_buff,0,5);
+
+            if (temp_num >= 0) {
                 get_RFID_pack_num ++;
                 get_RFID_num += RFID_input_packet.Get_num;
             }
         }
+#if RS485_RFID == 0
+
+#else
+        if (RFID_up_now_num < sizeof(RFID_up_array)) {
+            RFID_up_array[RFID_up_now_num++] = temp;
+        }
+#endif
     }
     else {
         Mode_Use.UART.Send_Data_pFun(UART_SYS,&temp,1);
@@ -1423,7 +1571,7 @@ void UART_RFID_Getrx_Fun(void *data)
 /*
  * UART3
  */
-SYS_BaseTIME_Type RS232_Get_last_time;
+Caven_Watch_Type RS232_Get_last_time;
 void UART_RS232_Getrx_Fun(void *data)
 {
     u8 temp = *(u8 *)data;
@@ -1440,10 +1588,11 @@ void UART_RS232_Getrx_Fun(void *data)
         GX_info_Make_packet_Fun(gx_standard, &RS232_input_packet, temp);
         if (RS232_input_packet.Result & 0x50)         // 加入队列
         {
+            RS232_Get_last_time = center_BaseTIME;
             if (RS232_input_packet.Prot_W_485Type == 0) {
                 RS232_input_packet.Comm_way = UART_RS232;
                 temp_num = GX_Circular_queue_input (&RS232_input_packet,RS232_data_packet_buff,0,3);
-                if (temp_num == 0) {
+                if (temp_num >= 0) {
                     get_PC_pack_num ++;
                     get_PC_num += RS232_input_packet.Get_num;
                 }
@@ -1460,12 +1609,13 @@ void UART_RS232_Getrx_Fun(void *data)
 /*
  * UART2
  */
-SYS_BaseTIME_Type RS485_Get_last_time;
+Caven_Watch_Type RS485_Get_last_time;
 void UART_RS485_Getrx_Fun(void *data)
 {
     u8 temp = *(u8 *)data;
-    int temp_num;
 
+#if RS485_RFID == 0
+    int temp_num;
     if(s_SYS_Config.RS485_Mode == 0)
     {
         get_PC_data ++;
@@ -1478,7 +1628,8 @@ void UART_RS485_Getrx_Fun(void *data)
         GX_info_Make_packet_Fun(gx_standard, &RS485_input_packet, temp);
         if (RS485_input_packet.Result & 0x50)     // 加入队列
         {
-            if (RS485_input_packet.Prot_W_485Type) {
+            RS485_Get_last_time = center_BaseTIME;
+            if (RS485_input_packet.Prot_W_485Type && RS485_input_packet.Addr == s_SYS_Config.RS485_Addr) {
                 get_PC_pack_num ++;
                 RS485_input_packet.Comm_way = UART_RS485;
                 GX_Circular_queue_input (&RS485_input_packet,RS485_data_packet_buff,0,3);
@@ -1489,8 +1640,17 @@ void UART_RS485_Getrx_Fun(void *data)
         }
     }
     else {
-        Mode_Use.UART.Send_Data_pFun(UART_SYS,&temp,1);
+//        Mode_Use.UART.Send_Data_pFun(UART_SYS,&temp,1);
+        if (RS485_up_now_num < sizeof(RS485_up_array)) {
+            RS485_up_array[RS485_up_now_num++] = temp;
+        }
     }
+#else
+    if (RS485_up_now_num < sizeof(RS485_up_array)) {
+        RS485_up_array[RS485_up_now_num++] = temp;
+    }
+#endif
+
 }
 
 u8 g_SYS_Buff_array[8][BUFF_MAX];       // buff缓冲区

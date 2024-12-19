@@ -101,7 +101,6 @@ int Modbus_rtu_info_Make_packet_Fun(modbus_Type const standard, modbus_Type *tar
                     temp = ModBusCRC16(tepm_pData, temp_num - 2);
                     temp_num = Front_to_back_2byte(temp);
 
-//                    printf("crc  get : %x, %x \n",temp_packet.crc,temp_num);
                     if (temp_packet.crc == temp_num)
                     {
                         temp_packet.Result |= 0x50;
@@ -128,7 +127,6 @@ int Modbus_rtu_info_Make_packet_Fun(modbus_Type const standard, modbus_Type *tar
         memcpy(target,&temp_packet,sizeof(temp_packet));
 
         retval = temp_packet.Run_status;
-        //        printf("succ %x \n",retval);
     }
     else // doing
     {
@@ -280,7 +278,6 @@ int Modbus_tcp_info_Make_packet_Fun(modbus_Type const standard, modbus_Type *tar
         memcpy(target,&temp_packet,sizeof(temp_packet));
 
         retval = temp_packet.Run_status;
-        //        printf("succ %x \n",retval);
     }
     else // doing
     {

@@ -21,7 +21,7 @@ int run_num;
 int main(void)
 {
     Main_Init();
-    int Switch_BUTTON,Last_BUTTON;
+
     Caven_Watch_Type now_time;
     now_time = Mode_Use.TIME.Get_Watch_pFun();
 
@@ -32,14 +32,14 @@ int main(void)
             .Set_time.time_us = 5000,
             .Flip_falg = 1,
     };
-    Last_BUTTON = BUTTON4_STATE();
+
     while(1)
     {
         now_time = Mode_Use.TIME.Get_Watch_pFun();
 //        printf("sys time: %d : %d : %d , %d (us)\n",now_time.hour,now_time.minutes,now_time.second,now_time.time_us);
 
         API_Task_Timer (&LED_Task,now_time);        // LED任务
-        Mode_Use.LED.SET_pFun(1,LED_Task.Flip_falg);
+        User_GPIO_set(2,4,!LED_Task.Flip_falg);
         if (LED_Task.Trigger_Flag) {
             RFID_LED_L();
         }
@@ -48,28 +48,7 @@ int main(void)
         {
             break;                                  // 状态机退出,程序重启
         }
-        Switch_BUTTON = BUTTON4_STATE();
-        if (Switch_BUTTON != Last_BUTTON)
-        {
-            Last_BUTTON = Switch_BUTTON;
-            run_num = 0;
-            Mode_Use.LED.SET_pFun(1,DISABLE);
-            do {
-                Mode_Use.TIME.Delay_Ms(10);
-                run_num ++;
-                if (run_num >= 300) {
-                    run_num = 300;
-                    Mode_Use.LED.SET_pFun(1,ENABLE);
-                }
-            } while (BUTTON4_STATE() == 0);
-            Mode_Use.LED.SET_pFun(1,DISABLE);
-            if (run_num >= 300) {
-                Mode_Use.TIME.Delay_Ms(500);
-                GPO2_L();       // 关
-                Mode_Use.TIME.Delay_Ms(100);
-                SYS_RESET();
-            }
-        }
+
     }
 
     SYS_RESET();

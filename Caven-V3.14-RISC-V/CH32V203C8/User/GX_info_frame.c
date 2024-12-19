@@ -1,6 +1,6 @@
 #include "GX_info_frame.h"
 
-#include "Examine_crc.h"
+#include "Encrypt_crc.h"
 
 /*
 Caven_info_Make_packet_Fun
@@ -18,7 +18,7 @@ return   : retval
 ** 5.retval = 其他   获取中(包含没开始retval = 0)
 */
 
-int GX_info_return_Fun (u8 cmd,u8 MID,u8 addr,u8 *data,u16 len,u8 *array)
+int GX_info_return_Fun (uint8_t cmd,uint8_t MID,uint8_t addr,uint8_t *data,uint16_t len,uint8_t *array)
 {
     int retval = 0;
     int temp_run = 0;
@@ -48,7 +48,7 @@ int GX_info_return_Fun (u8 cmd,u8 MID,u8 addr,u8 *data,u16 len,u8 *array)
         memcpy(&array[temp_run],data,len);
         temp_run += len;
 
-        temp_data = CRC16_XMODEM_Fast_Fun(&array[1], temp_run-1);
+        temp_data = Encrypt_XMODEM_CRC16_Fun(&array[1], temp_run-1);
         array[temp_run++] = (temp_data >> 8) & 0xff;
         array[temp_run++] = temp_data & 0xff;
 
@@ -78,11 +78,16 @@ int GX_info_Make_packet_Fun(GX_info_packet_Type const standard, GX_info_packet_T
     {
         return (-0x8F);
     }
-
+    if (temp_packet.Run_status > 0 && temp_packet.Run_status < 8)   // 跳过头帧和crc校验帧
+    {
+        temp_packet.End_crc = CRC16_XMODEM_Table_Byte(data, temp_packet.End_crc);
+    }
     switch (temp_packet.Run_status)
     {
     case 0: /* Head */
         temp_packet.Head = data;
+        temp_packet.get_crc = 0;
+        temp_packet.End_crc = 0;
         if (temp_packet.Head == standard.Head)
         {
             temp_packet.Get_num = 0;
@@ -181,7 +186,7 @@ int GX_info_Make_packet_Fun(GX_info_packet_Type const standard, GX_info_packet_T
         break;
     case 8: /* End_crc */
         tepm_pData[temp_packet.Get_num++] = data;
-        temp_packet.End_crc = (temp_packet.End_crc << 8) + data;
+        temp_packet.get_crc = (temp_packet.get_crc << 8) + data;
         if (temp_packet.Prot_W_485Type == 0)
         {
             temp = 1 + 4 + 2 + temp_packet.dSize + 2;
@@ -193,16 +198,13 @@ int GX_info_Make_packet_Fun(GX_info_packet_Type const standard, GX_info_packet_T
 
         if (temp_packet.Get_num >= temp)
         {
-            temp = temp_packet.Get_num - sizeof(temp_packet.Head) - sizeof(temp_packet.End_crc); /* 减尾 减头 */
-            temp = CRC16_XMODEM_Fast_Fun((tepm_pData + sizeof(temp_packet.Head)), temp);
-            if (temp_packet.End_crc == temp)
+            if (temp_packet.End_crc == temp_packet.get_crc)
             {
                 temp_packet.Result |= 0x50; // crc successful
                 temp_packet.Run_status = 0xff;
             }
             else
             {
-                //                 printf("crc is %04x \n",temp);
                 temp_packet.Run_status = -temp_packet.Run_status;
             }
         }
@@ -215,7 +217,6 @@ int GX_info_Make_packet_Fun(GX_info_packet_Type const standard, GX_info_packet_T
     {
         retval = temp_packet.Run_status;
         GX_info_packet_fast_clean_Fun(target);
-        //        printf("error %x \n",retval);
     }
     else if (temp_packet.Run_status == 0xff) // Successful
     {
@@ -237,7 +238,6 @@ int GX_info_Make_packet_Fun(GX_info_packet_Type const standard, GX_info_packet_T
 #endif
         *target = temp_packet;
         retval = 0xFF;
-        //        printf("succ %x \n",retval);
     }
     else // doing
     {
@@ -288,7 +288,7 @@ int GX_info_rest_data_packet_Fun(GX_info_packet_Type *target, unsigned char *dat
         target->p_Data[Offset_num - 1] = ((temp) & 0xff);
 
         Offset_num = target->Get_num - 1 - 2;
-        temp = CRC16_XMODEM_Fast_Fun(target->p_Data+1, Offset_num);
+        temp = Encrypt_XMODEM_CRC16_Fun(target->p_Data+1, Offset_num);
         Offset_num = target->Get_num;
         target->p_Data[Offset_num - 2] = ((temp >> 8) & 0xff);
         target->p_Data[Offset_num - 1] = ((temp) & 0xff);
@@ -404,8 +404,9 @@ int GX_info_packet_clean_Fun(GX_info_packet_Type *target)
     {
         memset(p_data, 0, target->Get_num);    // 清除指针内容,内容的长度依据是[Get_num]
     }
-    memset(target, 0, sizeof(GX_info_packet_Type));
-    target->p_Data = p_data;
+    GX_info_packet_fast_clean_Fun(target);
+    // memset(target, 0, sizeof(GX_info_packet_Type));
+    // target->p_Data = p_data;
     return retval;
 }
 /*
@@ -413,7 +414,7 @@ int GX_info_packet_clean_Fun(GX_info_packet_Type *target)
  */
 void GX_info_remove_addr (GX_info_packet_Type *target)
 {
-    u8 temp_data[500];
+    uint8_t temp_data[500];
     int temp_dat;
     int temp_run;
     if (target->Addr != 0) {
@@ -426,7 +427,7 @@ void GX_info_remove_addr (GX_info_packet_Type *target)
         memcpy(&temp_data[temp_run],target->p_Data + 6,target->dSize + 2);     // 跳过地址
         temp_run += target->dSize + 2;
 
-        temp_dat = CRC16_XMODEM_Fast_Fun(&temp_data[1], temp_run - 1);
+        temp_dat = Encrypt_XMODEM_CRC16_Fun(&temp_data[1], temp_run - 1);
         temp_data[temp_run++] = (temp_dat >> 8) & 0xff;
         temp_data[temp_run++] = temp_dat & 0xff;
         memcpy(target->p_Data,temp_data,temp_run);
@@ -436,7 +437,7 @@ void GX_info_remove_addr (GX_info_packet_Type *target)
 
 void GX_info_add_addr (GX_info_packet_Type *target)
 {
-    u8 temp_data[500];
+    U8 temp_data[500];
     int temp_dat;
     int temp_run;
     if (target->Addr != 0 && target->Prot_W_485Type == 0) {
@@ -450,7 +451,7 @@ void GX_info_add_addr (GX_info_packet_Type *target)
         memcpy(&temp_data[temp_run],target->p_Data + 5,target->dSize + 2);     // 跳过地址
         temp_run += target->dSize + 2;
 
-        temp_dat = CRC16_XMODEM_Fast_Fun(&temp_data[1], temp_run - 1);
+        temp_dat = Encrypt_XMODEM_CRC16_Fun(&temp_data[1], temp_run - 1);
         temp_data[temp_run++] = (temp_dat >> 8) & 0xff;
         temp_data[temp_run++] = temp_dat & 0xff;
         memcpy(target->p_Data,temp_data,temp_run);

@@ -9,9 +9,6 @@
 
 #include "system_app.h"
 
-
-#include "modbus_RFID.h"
-
 typedef struct
 {
     u8 GPO_num;

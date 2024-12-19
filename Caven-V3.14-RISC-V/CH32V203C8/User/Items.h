@@ -45,6 +45,7 @@
 #define Exist_BUTTON
 #define Exist_LED       OPEN_0001  // LED0
 #define Exist_BZZ
+#define Exist_CustomIO
 
 //#define Exist_ADC
 //#define Exist_DAC
@@ -52,7 +53,7 @@
 #define Exist_UART      OPEN_11110  // 串口1、2、3、4
 //#define Exist_IIC
 //#define Exist_SPI     OPEN_0100   // SPI 2
-#define Exist_USB
+//#define Exist_USB
 //#define Exist_CAN
 
 //#define Exist_FLASH

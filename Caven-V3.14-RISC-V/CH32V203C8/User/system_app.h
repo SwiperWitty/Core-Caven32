@@ -11,9 +11,11 @@
 #define UART_RS485  m_UART_CH2
 #define UART_RS232  m_UART_CH3
 #define UART_RFID   m_UART_CH4
+#define USB_RFID    5
+
+#define RS485_RFID  0       // 将RS485接口完全转发至rfid
 
 void TIM2_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
-//#define UART1_HANDLERIT() TIM2_IRQHandler()
 
 typedef struct
 {
@@ -68,6 +70,7 @@ void MCU_Combination_version_Updata_Handle (void);
 
 void RS232_Baud_event_task_Fun (void * data);
 
+void User_HC595_Set_DATA_Fun (const uint8_t *Dat,char num);
 void MCU_query_SYS_version (void);
 int Heartbeat_Set(void);
 void Heartbeat_Check(Caven_Watch_Type const time);
