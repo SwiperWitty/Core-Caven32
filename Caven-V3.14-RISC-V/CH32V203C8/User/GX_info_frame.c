@@ -3,7 +3,7 @@
 #include "Encrypt_crc.h"
 
 /*
-Caven_info_Make_packet_Fun
+
 ** make packet
 ** 将[data]数据转化成[packet]
 传参
