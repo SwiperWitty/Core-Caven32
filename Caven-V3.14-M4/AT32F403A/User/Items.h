@@ -59,7 +59,7 @@
 //#define Exist_FLASH
 
 /***    需要加上逻辑才能的功能     ***/
- #define Exist_LCD
+// #define Exist_LCD
 //#define Exist_OLED
 
 //#define Exist_HC138
