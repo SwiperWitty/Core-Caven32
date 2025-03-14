@@ -139,7 +139,7 @@ void Main_Init(void)
     Mode_Index();
     Mode_Init.TIME(ENABLE);
     Mode_Init.LED(ENABLE);
-    Mode_Init.UART_Init_State = Mode_Init.UART(m_UART_CH1, 115200, ENABLE);
+    Mode_Init.UART(m_UART_CH1, 115200, ENABLE);
     Mode_Init.UART(DEBUG_OUT, 115200, ENABLE);
     Mode_Init.LCD(ENABLE);
 	

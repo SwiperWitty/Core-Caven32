@@ -134,7 +134,7 @@ void Main_Init(void)
     Mode_Index();
     Mode_Init.TIME(ENABLE);
     Mode_Init.LED(ENABLE);
-    Mode_Init.UART_Init_State = Mode_Init.UART(m_UART_CH1, 115200, ENABLE);
+    Mode_Init.UART(m_UART_CH1, 115200, ENABLE);
     Mode_Init.LCD(ENABLE);
     Caven_GUI_draw_pixel_bind (Mode_Use.LCD.Draw_Point_pFun);
     //    Mode_Use.UART.Send_String_pFun(m_UART_CH1,"hello world !\n");
