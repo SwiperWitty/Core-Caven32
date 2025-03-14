@@ -404,11 +404,6 @@
               <FilePath>.\driver\Base_ADC.c</FilePath>
             </File>
             <File>
-              <FileName>Base_Exist_GPIO.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\driver\Base_Exist_GPIO.c</FilePath>
-            </File>
-            <File>
               <FileName>Base_UART.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\driver\Base_UART.c</FilePath>
@@ -417,6 +412,11 @@
               <FileName>Base_Sys_Time.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\driver\Base_Sys_Time.c</FilePath>
+            </File>
+            <File>
+              <FileName>Base_GPIO.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\driver\Base_GPIO.c</FilePath>
             </File>
           </Files>
         </Group>
