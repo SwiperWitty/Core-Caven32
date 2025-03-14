@@ -43,13 +43,17 @@ int main(void)
     Mode_Use.LCD.Show_String_pFun(19, 5, "3", LCD_BLACK, LCD_Back_Color, 24);
     Mode_Use.LCD.Show_String_pFun(9, 9, "6", LCD_BLACK, LCD_Back_Color, 24);
     Mode_Use.LCD.Show_String_pFun(0, 5, "9", LCD_BLACK, LCD_Back_Color, 24);
+    User_GPIO_config(1,0,1);
+    
     while (1)
     {
         now_time = Mode_Use.TIME.Get_Watch_pFun();
         //        printf("sys time: %d : %d : %d , %d (us)\n",now_time.hour,now_time.minutes,now_time.second,now_time.time_us);
         API_Task_Timer(&LED_Task, now_time); // LED任务
         Mode_Use.LED.SET_pFun(1, LED_Task.Flip_falg);
-
+        
+        User_GPIO_set(1,0,LED_Task.Flip_falg);
+        
         float_array[0] += 0.001;
         if (float_array[0] > 2)
         {
