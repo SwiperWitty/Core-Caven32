@@ -483,14 +483,49 @@
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\Mode.c</FilePath>
             </File>
             <File>
+              <FileName>MODE_Button.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Button.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_BZZ.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_BZZ.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_LCD.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_LCD.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_LED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_LED.c</FilePath>
+            </File>
+            <File>
               <FileName>MODE_Motor.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Motor.c</FilePath>
             </File>
             <File>
+              <FileName>MODE_Motor_BYJ.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Motor_BYJ.c</FilePath>
+            </File>
+            <File>
               <FileName>MODE_MP3.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_MP3.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_RTC8564.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_RTC8564.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_st7789_dever.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_st7789_dever.c</FilePath>
             </File>
             <File>
               <FileName>MODE_Time.c</FileName>

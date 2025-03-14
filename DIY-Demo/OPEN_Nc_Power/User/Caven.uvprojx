@@ -423,11 +423,6 @@
               <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F415\Base_ADC.c</FilePath>
             </File>
             <File>
-              <FileName>Base_Exist_GPIO.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F415\Base_Exist_GPIO.c</FilePath>
-            </File>
-            <File>
               <FileName>Base_Flash.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F415\Base_Flash.c</FilePath>
@@ -491,6 +486,11 @@
               <FileName>usb_user.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F415\composite_HID\usb_user.c</FilePath>
+            </File>
+            <File>
+              <FileName>Base_GPIO.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F415\Base_GPIO.c</FilePath>
             </File>
           </Files>
         </Group>

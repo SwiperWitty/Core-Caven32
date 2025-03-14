@@ -408,14 +408,14 @@
               <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F415\Base_ADC.c</FilePath>
             </File>
             <File>
-              <FileName>Base_Exist_GPIO.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F415\Base_Exist_GPIO.c</FilePath>
-            </File>
-            <File>
               <FileName>Base_Flash.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F415\Base_Flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>Base_GPIO.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F415\Base_GPIO.c</FilePath>
             </File>
             <File>
               <FileName>Base_IIC.c</FileName>
@@ -441,36 +441,6 @@
               <FileName>Base_UART.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F415\Base_UART.c</FilePath>
-            </File>
-            <File>
-              <FileName>usb_core.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F415\usb_drivers\src\usb_core.c</FilePath>
-            </File>
-            <File>
-              <FileName>usbd_core.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F415\usb_drivers\src\usbd_core.c</FilePath>
-            </File>
-            <File>
-              <FileName>usbd_int.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F415\usb_drivers\src\usbd_int.c</FilePath>
-            </File>
-            <File>
-              <FileName>usbd_sdr.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F415\usb_drivers\src\usbd_sdr.c</FilePath>
-            </File>
-            <File>
-              <FileName>cdc_keyboard_class.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F415\composite_HID\cdc_keyboard_class.c</FilePath>
-            </File>
-            <File>
-              <FileName>cdc_keyboard_desc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F415\composite_HID\cdc_keyboard_desc.c</FilePath>
             </File>
             <File>
               <FileName>Base_USB.c</FileName>

@@ -50,7 +50,7 @@
 //#define Exist_ADC		OPEN_1101
 //#define Exist_DAC
 
-#define Exist_UART      OPEN_11110  // 串口
+#define Exist_UART      OPEN_1110  // 串口
 //#define Exist_IIC
 //#define Exist_SPI     OPEN_0100   // SPI2
 //#define Exist_USB
@@ -59,7 +59,7 @@
 //#define Exist_FLASH
 
 /***    需要加上逻辑才能的功能     ***/
-#define Exist_LCD	OPEN_0001
+//#define Exist_LCD	OPEN_0001
 //#define Exist_OLED
 
 //#define Exist_HC138
@@ -76,7 +76,7 @@
 //#define Exist_STEP_Motor
 
 //#define Exist_MLX90614                    //红外测温
-#define Exist_RTC_Clock                     //时钟
+//#define Exist_RTC_Clock                     //时钟
 
 
 /****   进一步的逻辑关系    ****/

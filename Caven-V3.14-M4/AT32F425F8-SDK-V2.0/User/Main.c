@@ -29,7 +29,7 @@ void Main_Init (void)
     gpio_default_para_init(&gpio_init_struct);
 	
 	Mode_Index();
-	Mode_Init.UART(1,115200,NULL,ENABLE);
+	Mode_Init.UART(1,115200,ENABLE);
 	Mode_Use.UART.Send_String_pFun(1,"hello world ! \r\n");
 	
     /* configure the led gpio */
