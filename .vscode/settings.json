@@ -22,6 +22,8 @@
         "user_items.h": "c",
         "mode_rtc8564.h": "c",
         "encrypt_crc.h": "c",
-        "caven_at_info_frame.h": "c"
+        "caven_at_info_frame.h": "c",
+        "base_gpio.h": "c",
+        "exist_gpio.h": "c"
     }
 }

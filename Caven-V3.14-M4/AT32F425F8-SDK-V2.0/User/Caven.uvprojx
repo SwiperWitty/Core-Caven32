@@ -336,7 +336,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>AT32F425F8T7,USE_STDPERIPH_DRIVER,DEFAULT</Define>
+              <Define>AT32F425F8T7,USE_STDPERIPH_DRIVER,DEFAULT,CAVEN</Define>
               <Undefine></Undefine>
               <IncludePath>..\User;..\CMSIS;..\Config;..\SDK\inc;..\Startup;..\..\..\Caven-MCU_Lib\Mode;..\..\..\Caven-MCU_Lib\API;..\..\..\Caven-MCU_Lib\Base_AT32F425</IncludePath>
             </VariousControls>
@@ -413,11 +413,6 @@
               <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F425\Base_ADC.c</FilePath>
             </File>
             <File>
-              <FileName>Base_Exist_GPIO.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F425\Base_Exist_GPIO.c</FilePath>
-            </File>
-            <File>
               <FileName>Base_Flash.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F425\Base_Flash.c</FilePath>
@@ -447,16 +442,16 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F425\Base_UART.c</FilePath>
             </File>
+            <File>
+              <FileName>Base_GPIO.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F425\Base_GPIO.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>Mode</GroupName>
           <Files>
-            <File>
-              <FileName>BZZ.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\BZZ.c</FilePath>
-            </File>
             <File>
               <FileName>Control_Mode.c</FileName>
               <FileType>1</FileType>
@@ -476,21 +471,6 @@
               <FileName>HC595.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\HC595.c</FilePath>
-            </File>
-            <File>
-              <FileName>key.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\key.c</FilePath>
-            </File>
-            <File>
-              <FileName>lcd.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\lcd.c</FilePath>
-            </File>
-            <File>
-              <FileName>LED.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\LED.c</FilePath>
             </File>
             <File>
               <FileName>mlx90614.c</FileName>
@@ -548,19 +528,29 @@
               <FilePath>..\..\..\Caven-MCU_Lib\API\API.c</FilePath>
             </File>
             <File>
+              <FileName>caven_at_info_frame.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\caven_at_info_frame.c</FilePath>
+            </File>
+            <File>
+              <FileName>Caven_event_frame.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Caven_event_frame.c</FilePath>
+            </File>
+            <File>
+              <FileName>Caven_info_frame.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Caven_info_frame.c</FilePath>
+            </File>
+            <File>
               <FileName>DATA_Handle.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\API\DATA_Handle.c</FilePath>
             </File>
             <File>
-              <FileName>Keyboard.c</FileName>
+              <FileName>Encrypt_crc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\API\Keyboard.c</FilePath>
-            </File>
-            <File>
-              <FileName>libcollections.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\API\libcollections.c</FilePath>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Encrypt_crc.c</FilePath>
             </File>
             <File>
               <FileName>Time_Handle.c</FileName>
@@ -568,9 +558,9 @@
               <FilePath>..\..\..\Caven-MCU_Lib\API\Time_Handle.c</FilePath>
             </File>
             <File>
-              <FileName>Check_CRC.c</FileName>
+              <FileName>Vofa_info.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\API\Check_CRC.c</FilePath>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Vofa_info.c</FilePath>
             </File>
           </Files>
         </Group>
