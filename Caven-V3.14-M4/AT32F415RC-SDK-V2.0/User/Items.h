@@ -33,6 +33,22 @@
 #define OPEN_1101   0x0d
 #define OPEN_1110   0x0e
 #define OPEN_1111   0x0f
+
+#define OPEN_00001  0x01    // 存在设备0
+#define OPEN_00010  0x02    // 存在设备1
+#define OPEN_00011  0x03    // 存在设备1、0
+#define OPEN_00100  0x04	// ...
+#define OPEN_00101  0x05
+#define OPEN_00110  0x06
+#define OPEN_00111  0x07
+#define OPEN_01000  0x08
+#define OPEN_01001  0x09
+#define OPEN_01010  0x0a
+#define OPEN_01011  0x0b
+#define OPEN_01100  0x0c
+#define OPEN_01101  0x0d
+#define OPEN_01110  0x0e
+#define OPEN_01111  0x0f
 #define OPEN_10000  0x10
 #define OPEN_11110  0x1E
 #define OPEN_11111  0x1f
