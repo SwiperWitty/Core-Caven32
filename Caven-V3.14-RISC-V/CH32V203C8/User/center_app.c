@@ -31,8 +31,8 @@ static int Center_RFID_order_handle(GX_info_packet_Type data);
 static int Center_SYS_order_handle(GX_info_packet_Type data);
 static int Center_order_handle(GX_info_packet_Type data);
 
-static Caven_Watch_Type center_time;
-static Caven_Watch_Type center_BaseTIME;
+static Caven_BaseTIME_Type center_time;
+static Caven_BaseTIME_Type center_BaseTIME;
 static GPIO_cfg_Type s_GPIO_Config = {
         .GPO_num = 50,
         .GPI_num = 2,
@@ -104,7 +104,7 @@ int out_RFID_pack_num = 0;
  *  1.如果一条消息要发给RFID和ESP32，那么就要考虑是否会有消息返回，如果同时有消息返回就会有中断被占用。
  *
  */
-int Center_State_machine(Caven_Watch_Type time)
+int Center_State_machine(Caven_BaseTIME_Type time)
 {
     int retval = 0;
     int temp_num;
@@ -154,8 +154,8 @@ int Center_State_machine(Caven_Watch_Type time)
     GPI_Change_Updata_Handle();                 // 检测GPI
     MCU_Combination_version_Updata_Handle ();   // 收集版本消息
 
-    Heartbeat_Check(center_time);               // 检测心跳
-    center_BaseTIME = MODE_TIME_Get_Watch_Fun();
+//    Heartbeat_Check(center_time);               // 检测心跳
+    center_BaseTIME = Mode_Use.TIME.Get_BaseTIME_pFun();
 
     if (RFID_up_now_num)       // rfid给rs485
     {
@@ -165,15 +165,15 @@ int Center_State_machine(Caven_Watch_Type time)
             RFID_up_time = 0;
         }
         else if (RFID_up_time == 0){
-            RFID_up_time = center_time.time_us;
+            RFID_up_time = center_time.SYS_Us;
         }
         else {
-            if (center_time.time_us < RFID_up_time) {
-                temp_num = center_time.time_us + 1000000;
+            if (center_time.SYS_Us < RFID_up_time) {
+                temp_num = center_time.SYS_Us + 1000000;
                 temp_num -= RFID_up_time;
             }
             else {
-                temp_num = center_time.time_us - RFID_up_time;
+                temp_num = center_time.SYS_Us - RFID_up_time;
             }
         }
 
@@ -196,15 +196,15 @@ int Center_State_machine(Caven_Watch_Type time)
             RS485_up_time = 0;
         }
         else if (RS485_up_time == 0){
-            RS485_up_time = center_time.time_us;
+            RS485_up_time = center_time.SYS_Us;
         }
         else {
-            if (center_time.time_us < RS485_up_time) {
-                temp_num = center_time.time_us + 1000000;
+            if (center_time.SYS_Us < RS485_up_time) {
+                temp_num = center_time.SYS_Us + 1000000;
                 temp_num -= RS485_up_time;
             }
             else {
-                temp_num = center_time.time_us - RS485_up_time;
+                temp_num = center_time.SYS_Us - RS485_up_time;
             }
         }
 
@@ -863,7 +863,7 @@ void GPO_event_task_Fun (void * data)
     static Task_Overtime_Type GPO_once_Task = {
         .Switch = 1,            // 任务开关
         .Begin_time = {0},
-        .Set_time.second = 0,
+        .Set_time.SYS_Sec = 0,
     };
     if (temp_data && s_GPIO_Config.GPO_Keep_Time > 0)
     {
@@ -871,10 +871,8 @@ void GPO_event_task_Fun (void * data)
             s_once_GPO = 1;
             GPO_once_Task.Begin_time = center_time;
             set_time = s_GPIO_Config.GPO_Keep_Time;    // ms
-            GPO_once_Task.Set_time.minutes = ((set_time / 1000) / 60) % 60;
-            GPO_once_Task.Set_time.second = (set_time / 1000) % 60;
-            GPO_once_Task.Set_time.time_us = (set_time % 1000) * 1000;  // ms * 1000 = us
-            GPO_once_Task.Set_time.hour = 0;
+            GPO_once_Task.Set_time.SYS_Sec = (set_time / 1000);
+            GPO_once_Task.Set_time.SYS_Us = (set_time % 1000) * 1000;  // ms * 1000 = us
             GPO_Sync_Status (s_GPIO_Config.GPO_Status_Set,s_GPIO_Config.GPO_num);
         }
         else {
@@ -1010,15 +1008,15 @@ void BZZ_event_task_Fun (void * data)
             BZZ_once_Task.Begin_time = center_time;
             BZZ_once_Task.Switch = 1;       // 开任务
             if (s_SYS_Config.BZZ_times == 0) {
-                BZZ_once_Task.Set_time.time_us = 200 * 1000;
+                BZZ_once_Task.Set_time.SYS_Us = 200 * 1000;
             }
             else {
                 if (s_SYS_Config.BZZ_ON_time == 0) {
-                    BZZ_once_Task.Set_time.time_us = 5 * 1000;
+                    BZZ_once_Task.Set_time.SYS_Us = 5 * 1000;
                 }
                 else {
-                    BZZ_once_Task.Set_time.time_us = (s_SYS_Config.BZZ_ON_time * 10000) % 1000000;
-                    BZZ_once_Task.Set_time.second = (s_SYS_Config.BZZ_ON_time * 10000) / 1000000;
+                    BZZ_once_Task.Set_time.SYS_Us = (s_SYS_Config.BZZ_ON_time * 10000) % 1000000;
+                    BZZ_once_Task.Set_time.SYS_Sec = (s_SYS_Config.BZZ_ON_time * 10000) / 1000000;
                 }
             }
             temp_run = 0;
@@ -1039,11 +1037,11 @@ void BZZ_event_task_Fun (void * data)
                     BZZ_once_Task.Begin_time = center_time;
 
                     if (s_SYS_Config.BZZ_ON_time == 0) {
-                        BZZ_once_Task.Set_time.time_us = 5 * 1000;
+                        BZZ_once_Task.Set_time.SYS_Us = 5 * 1000;
                     }
                     else {
-                        BZZ_once_Task.Set_time.time_us = (s_SYS_Config.BZZ_OFF_time * 10000) % 1000000;
-                        BZZ_once_Task.Set_time.second = (s_SYS_Config.BZZ_OFF_time * 10000) / 1000000;      // 设置不响的时间
+                        BZZ_once_Task.Set_time.SYS_Us = (s_SYS_Config.BZZ_OFF_time * 10000) % 1000000;
+                        BZZ_once_Task.Set_time.SYS_Sec = (s_SYS_Config.BZZ_OFF_time * 10000) / 1000000;      // 设置不响的时间
                     }
                     BZZ_L();
                 }
@@ -1051,11 +1049,11 @@ void BZZ_event_task_Fun (void * data)
                 {
                     BZZ_once_Task.Begin_time = center_time;
                     if (s_SYS_Config.BZZ_ON_time == 0) {
-                        BZZ_once_Task.Set_time.time_us = 5 * 1000;
+                        BZZ_once_Task.Set_time.SYS_Us = 5 * 1000;
                     }
                     else {
-                        BZZ_once_Task.Set_time.time_us = (s_SYS_Config.BZZ_ON_time * 10000) % 1000000;
-                        BZZ_once_Task.Set_time.second = (s_SYS_Config.BZZ_ON_time * 10000) / 1000000;      // 设置响的时间
+                        BZZ_once_Task.Set_time.SYS_Us = (s_SYS_Config.BZZ_ON_time * 10000) % 1000000;
+                        BZZ_once_Task.Set_time.SYS_Sec = (s_SYS_Config.BZZ_ON_time * 10000) / 1000000;      // 设置响的时间
                     }
                     BZZ_H();
                 }
@@ -1494,7 +1492,7 @@ int RS485_SET_Order(GX_info_packet_Type const data)
 /*
  * UART1
  */
-Caven_Watch_Type SYS_Get_last_time;
+Caven_BaseTIME_Type SYS_Get_last_time;
 void UART_SYS_Getrx_Fun(void *data)
 {
     u8 temp = *(u8 *)data;
@@ -1529,7 +1527,7 @@ void UART_SYS_Getrx_Fun(void *data)
  * UART4
  */
 char input_num = 0;
-Caven_Watch_Type RFID_Get_last_time;
+Caven_BaseTIME_Type RFID_Get_last_time;
 void UART_RFID_Getrx_Fun(void *data)
 {
     u8 temp = *(u8 *)data;
@@ -1571,7 +1569,7 @@ void UART_RFID_Getrx_Fun(void *data)
 /*
  * UART3
  */
-Caven_Watch_Type RS232_Get_last_time;
+Caven_BaseTIME_Type RS232_Get_last_time;
 void UART_RS232_Getrx_Fun(void *data)
 {
     u8 temp = *(u8 *)data;
@@ -1609,7 +1607,7 @@ void UART_RS232_Getrx_Fun(void *data)
 /*
  * UART2
  */
-Caven_Watch_Type RS485_Get_last_time;
+Caven_BaseTIME_Type RS485_Get_last_time;
 void UART_RS485_Getrx_Fun(void *data)
 {
     u8 temp = *(u8 *)data;

@@ -15,14 +15,14 @@ uint8_t RS232_pack_buff[512];
 GX_info_packet_Type rs232_get_pack;
 uint8_t UHF_pack_buff[512];
 GX_info_packet_Type UHF_get_pack;
-Caven_Watch_Type Now_time; 
+Caven_BaseTIME_Type Now_time; 
 int main(void)
 {
 	Main_Init();
     
 	while (1)
 	{
-        Now_time = Mode_Use.TIME.Get_Watch_pFun();
+        Now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
         if(rs232_get_pack.Result & 0x50)        // RS232 TO RFID
         {
             Mode_Use.UART.Send_Data_pFun(3,rs232_get_pack.p_AllData,rs232_get_pack.Get_num);
@@ -36,7 +36,7 @@ int main(void)
 	}
 }
 
-Caven_Watch_Type RS232_Get_last_time;
+Caven_BaseTIME_Type RS232_Get_last_time;
 void RS232_handle_Fun (void *data)
 {
     int temp_retval = 0;
@@ -58,7 +58,7 @@ void RS232_handle_Fun (void *data)
     }
 }
 
-Caven_Watch_Type RFID_Get_last_time;
+Caven_BaseTIME_Type RFID_Get_last_time;
 void RFID_handle_Fun (void *data)
 {
     int temp_retval = 0;

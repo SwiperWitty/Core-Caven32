@@ -22,20 +22,20 @@ int main(void)
 {
     Main_Init();
 
-    Caven_Watch_Type now_time;
-    now_time = Mode_Use.TIME.Get_Watch_pFun();
+    Caven_BaseTIME_Type now_time;
+    now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
 
     Task_Overtime_Type LED_Task = {
             .Switch = 1,
             .Begin_time = now_time,
-            .Set_time.second = 1,
-            .Set_time.time_us = 5000,
+            .Set_time.SYS_Sec = 1,
+            .Set_time.SYS_Us = 5000,
             .Flip_falg = 1,
     };
 
     while(1)
     {
-        now_time = Mode_Use.TIME.Get_Watch_pFun();
+        now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
 //        printf("sys time: %d : %d : %d , %d (us)\n",now_time.hour,now_time.minutes,now_time.second,now_time.time_us);
 
         API_Task_Timer (&LED_Task,now_time);        // LED任务

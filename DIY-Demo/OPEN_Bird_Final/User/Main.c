@@ -39,9 +39,9 @@ static void disp_flush(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_
 uint32_t custom_millis(void)
 {
 	uint32_t retval;
-    Caven_Watch_Type now_time;
-    now_time = Mode_Use.TIME.Get_Watch_pFun();
-	retval = now_time.time_us / 1000;
+    Caven_BaseTIME_Type now_time;
+    now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
+	retval = now_time.SYS_Us / 1000;
 	retval += now_time.SYS_Sec * 1000;
 	return retval;
 }
@@ -94,26 +94,22 @@ int main(void)
     int temp_times;
     int temp_key = 0;
     int temp_pic = 0;
-    Caven_Watch_Type now_time = {
-        .hour = 8,
-        .minutes = 7,
-        .second = 55,
-    };
-    Mode_Use.TIME.Set_Watch_pFun(now_time);
-    now_time = Mode_Use.TIME.Get_Watch_pFun();
+    Caven_BaseTIME_Type now_time;
+    Mode_Use.TIME.Set_BaseTIME_pFun(now_time);
+    now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
 
     Task_Overtime_Type LED_Task = {
         .Switch = 1,
         .Begin_time = now_time,
-        .Set_time.second = 1,
-        .Set_time.time_us = 5000,
+        .Set_time.SYS_Sec = 1,
+        .Set_time.SYS_Us = 5000,
         .Flip_falg = 1,
     };
     Vofa_JustFloat_Init_Fun(Debug_Out);
 
     while (1)
     {
-        now_time = Mode_Use.TIME.Get_Watch_pFun();
+        now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
         //        printf("sys time: %d : %d : %d , %d (us)\n",now_time.hour,now_time.minutes,now_time.second,now_time.time_us);
         API_Task_Timer(&LED_Task, now_time); // LED任务
         Mode_Use.LED.SET_pFun(1, LED_Task.Flip_falg);

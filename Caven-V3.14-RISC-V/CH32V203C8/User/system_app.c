@@ -119,18 +119,6 @@ void system_init(void)
 #endif
 
 
-    // 载入date & Watch -> time
-    Caven_Watch_Type set_time = {
-        .hour = 0,
-        .minutes = 0,
-        .second = 10,
-        .time_us = 100,
-    };
-    Caven_Date_Type set_date = {
-        .SYS_Day = 5,
-    };
-    Mode_Use.TIME.Set_Date_pFun(set_date);
-    Mode_Use.TIME.Set_Watch_pFun(set_time);
     Heartbeat_Set();
 
     memset(s_SYS_Config.SYS_version,0,sizeof(s_SYS_Config.SYS_version));
@@ -209,10 +197,10 @@ int Heartbeat_Set(void)
 static Task_Overtime_Type Heartbeat_Task = {
     .Switch = 0,            // 任务开关
     .Begin_time = {0},
-    .Set_time.second = 1,
-    .Set_time.time_us = 0,
+    .Set_time.SYS_Sec = 1,
+    .Set_time.SYS_Us = 0,
 };
-void Heartbeat_Check(Caven_Watch_Type const time)
+void Heartbeat_Check(Caven_BaseTIME_Type const time)
 {
     API_Task_Timer(&Heartbeat_Task, time);
     if (Heartbeat_Task.Trigger_Flag)

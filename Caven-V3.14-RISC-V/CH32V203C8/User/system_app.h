@@ -73,7 +73,7 @@ void RS232_Baud_event_task_Fun (void * data);
 void User_HC595_Set_DATA_Fun (const uint8_t *Dat,char num);
 void MCU_query_SYS_version (void);
 int Heartbeat_Set(void);
-void Heartbeat_Check(Caven_Watch_Type const time);
+void Heartbeat_Check(Caven_BaseTIME_Type const time);
 int GX_send_packet(GX_info_packet_Type source);
 void GX_force_Send_packet (u8 W_Class, u8 W_MID, u8 Comm_way, u8 *data, u16 dSize, u8 DFlag);
 #endif
