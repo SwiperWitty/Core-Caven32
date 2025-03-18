@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "debug.h": "c",
+        "gx_info_frame.h": "c"
+    }
+}

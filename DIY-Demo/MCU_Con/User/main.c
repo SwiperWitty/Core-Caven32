@@ -10,7 +10,8 @@
 * microcontroller manufactured by Nanjing Qinheng Microelectronics.
 *******************************************************************************/
 /*
-   *    主频使用96mhz，这样操作flash不需要降频，同时可以使用USB。
+ *    主频使用96mhz，这样操作flash不需要降频，同时可以使用USB。
+ *  2v1
  */
 #include "main.h"
 
@@ -53,6 +54,8 @@ int main(void)
     SYS_RESET();
 }
 
+
+
 void Main_Init(void)
 {
 //    SystemInit() 由系统自启完成
@@ -61,5 +64,14 @@ void Main_Init(void)
     Mode_Init.TIME(ENABLE);
     Mode_Use.TIME.Delay_Ms(10);
 
+    Center_Init();
+    system_init();
+
+
 //    printf("SystemClk:%d \r\n", MCU_SYS_FREQ);
 }
+
+
+
+
+
