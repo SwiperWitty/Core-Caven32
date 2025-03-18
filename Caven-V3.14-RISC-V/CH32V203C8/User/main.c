@@ -19,37 +19,39 @@ int run_num;
 
 int main(void)
 {
-    Main_Init();
-
     Caven_BaseTIME_Type now_time;
+    Main_Init();
+    now_time.SYS_Sec = 1742299486;
+    Mode_Use.TIME.Set_BaseTIME_pFun(now_time);
+    struct tm date = Mode_Use.TIME.Get_Date_pFun();
     now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
 
     Task_Overtime_Type LED_Task = {
             .Switch = 1,
             .Begin_time = now_time,
             .Set_time.SYS_Sec = 1,
-            .Set_time.SYS_Us = 5000,
-            .Flip_falg = 1,
+            .Set_time.SYS_Us = 500000,
+            .Flip_falg = 0,
     };
-
+    User_GPIO_config(2,4,1);
     while(1)
     {
         now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
-//        printf("sys time: %d : %d : %d , %d (us)\n",now_time.hour,now_time.minutes,now_time.second,now_time.time_us);
-
+        date = Mode_Use.TIME.Get_Date_pFun();
+        date.tm_hour += 8;          // 加上 8 小时
+        mktime(&date);              // 规范化时间（处理溢出，例如跨天）
         API_Task_Timer (&LED_Task,now_time);        // LED任务
-        User_GPIO_set(2,4,!LED_Task.Flip_falg);
+        User_GPIO_set(2,4,LED_Task.Flip_falg);
         if (LED_Task.Trigger_Flag) {
-            RFID_LED_L();
+            printf("utc [%d] date %d/%d/%d %02d:%02d:%02d  \n",now_time.SYS_Sec,date.tm_year,date.tm_mon,date.tm_mday,
+                    date.tm_hour,date.tm_min,date.tm_sec);
         }
 
         if(Center_State_machine(now_time))          // 状态机入口
         {
             break;                                  // 状态机退出,程序重启
         }
-
     }
-
     SYS_RESET();
 }
 
@@ -61,5 +63,6 @@ void Main_Init(void)
     Mode_Init.TIME(ENABLE);
     Mode_Use.TIME.Delay_Ms(10);
 
-//    printf("SystemClk:%d \r\n", MCU_SYS_FREQ);
+    Mode_Init.UART(1,115200,ENABLE);
+    printf("SystemClk:%d \r\n", MCU_SYS_FREQ);
 }
