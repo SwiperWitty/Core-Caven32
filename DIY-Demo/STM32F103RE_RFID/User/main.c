@@ -8,7 +8,7 @@ void Main_Init(void);
 const GX_info_packet_Type gx_standard = {
     .Head = 0x5A,
     .Prot_W_Versions = 0x01,    // 版本
-    .dSize = 300,          // 最大长度
+    .dSize = 300,               // 最大长度
 };
 
 uint8_t RS232_pack_buff[512];

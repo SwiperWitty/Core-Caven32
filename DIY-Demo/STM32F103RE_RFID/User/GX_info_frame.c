@@ -3,7 +3,7 @@
 #include "Encrypt_crc.h"
 
 /*
-
+Caven_info_Make_packet_Fun
 ** make packet
 ** 将[data]数据转化成[packet]
 传参
@@ -168,7 +168,7 @@ int GX_info_Make_packet_Fun(GX_info_packet_Type const standard, GX_info_packet_T
             }
         }
         break;
-    case 7: /* p_AllData */
+    case 7: /* p_Data */
         tepm_pData[temp_packet.Get_num++] = data;
         if (temp_packet.Prot_W_485Type == 0)
         {
@@ -234,7 +234,6 @@ int GX_info_Make_packet_Fun(GX_info_packet_Type const standard, GX_info_packet_T
     else // doing
     {
         *target = temp_packet;
-        target->Result = 0;
         retval = temp_packet.Run_status;
     }
     return retval;

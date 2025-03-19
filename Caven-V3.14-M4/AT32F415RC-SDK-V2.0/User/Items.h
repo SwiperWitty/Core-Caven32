@@ -34,10 +34,10 @@
 #define OPEN_1110   0x0e
 #define OPEN_1111   0x0f
 
-#define OPEN_00001  0x01    // 存在设备0
-#define OPEN_00010  0x02    // 存在设备1
-#define OPEN_00011  0x03    // 存在设备1、0
-#define OPEN_00100  0x04	// ...
+#define OPEN_00001  0x01
+#define OPEN_00010  0x02
+#define OPEN_00011  0x03
+#define OPEN_00100  0x04
 #define OPEN_00101  0x05
 #define OPEN_00110  0x06
 #define OPEN_00111  0x07
@@ -92,8 +92,9 @@
 //#define Exist_STEP_Motor
 
 //#define Exist_MLX90614                    //红外测温
-#define Exist_RTC_Clock                     //时钟
+//#define Exist_RTC_Clock                     //时钟
 
+#define GUI_LVGL    1
 
 /****   进一步的逻辑关系    ****/
 #ifdef Exist_LCD

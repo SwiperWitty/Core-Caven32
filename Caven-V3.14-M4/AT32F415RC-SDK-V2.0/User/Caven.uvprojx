@@ -383,6 +383,11 @@
           <GroupName>User</GroupName>
           <Files>
             <File>
+              <FileName>center_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\center_app.c</FilePath>
+            </File>
+            <File>
               <FileName>Main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Main.c</FilePath>
@@ -593,6 +598,11 @@
               <FilePath>..\..\..\Caven-MCU_Lib\API\API.c</FilePath>
             </File>
             <File>
+              <FileName>caven_at_info_frame.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\caven_at_info_frame.c</FilePath>
+            </File>
+            <File>
               <FileName>Caven_event_frame.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\API\Caven_event_frame.c</FilePath>
@@ -608,6 +618,11 @@
               <FilePath>..\..\..\Caven-MCU_Lib\API\DATA_Handle.c</FilePath>
             </File>
             <File>
+              <FileName>Encrypt_crc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Encrypt_crc.c</FilePath>
+            </File>
+            <File>
               <FileName>Time_Handle.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\API\Time_Handle.c</FilePath>
@@ -616,11 +631,6 @@
               <FileName>Vofa_info.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\API\Vofa_info.c</FilePath>
-            </File>
-            <File>
-              <FileName>Encrypt_crc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\API\Encrypt_crc.c</FilePath>
             </File>
           </Files>
         </Group>

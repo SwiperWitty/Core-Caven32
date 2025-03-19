@@ -98,6 +98,7 @@ enum reader_order_MID
   config_China_Constructiong_Bank_Corp_entrance_guard_order = 0x53,
   cofing_system_device_http_update_bin_order = 0x54,
   query_beep_set_parameter_for_HL_rfid_reader = 0x55, // 查询蜂鸣器的设置参数
+  query_4G_ICCID_order = 0x62,
   system_plug_in_device_send_data_order = 0x63,       // 外挂设备数据透传命令
 
   gsl_open_one_led_read_epc_order = 0x64, // 广速联定制读卡只开一个灯

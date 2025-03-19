@@ -76,7 +76,7 @@
 
 //#define Exist_MLX90614                    //红外测温
 //#define Exist_RTC8564                     //时钟
-
+//#define GUI_LVGL
 
 /****   进一步的逻辑关系    ****/
 #ifdef Exist_LCD
