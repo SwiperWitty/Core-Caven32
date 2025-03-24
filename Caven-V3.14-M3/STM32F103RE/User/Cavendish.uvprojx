@@ -393,6 +393,11 @@
               <FileType>5</FileType>
               <FilePath>.\Items.h</FilePath>
             </File>
+            <File>
+              <FileName>center_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\center_app.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

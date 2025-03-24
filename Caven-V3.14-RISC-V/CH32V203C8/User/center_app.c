@@ -37,14 +37,16 @@ int Center_State_machine(Caven_BaseTIME_Type time)
     return retval;
 }
 
-#ifdef GUI_LVGL
+#if GUI_LVGL
 // Transfer GuiLite 32 bits color to your LCD color
 #define GL_RGB_32_to_16(rgb) (((((unsigned int)(rgb)) & 0xFF) >> 3) | ((((unsigned int)(rgb)) & 0xFC00) >> 5) | ((((unsigned int)(rgb)) & 0xF80000) >> 8))
 // Encapsulate your LCD driver:
 void gfx_draw_pixel(int x, int y, unsigned int rgb)
 {
+    #if Exist_OLED || Exist_LCD
     // LCD_Fast_DrawPoint(x, y, GL_RGB_32_to_16(rgb));
     Mode_Use.LCD.Draw_Point_pFun(x, y, GL_RGB_32_to_16(rgb));
+    #endif
 }
 // Implement it, if you have more fast solution than drawing pixels one by one.
 // void gfx_fill_rect(int x0, int y0, int x1, int y1, unsigned int rgb){}
