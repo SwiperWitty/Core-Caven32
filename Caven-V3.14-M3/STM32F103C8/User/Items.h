@@ -39,7 +39,7 @@
 #ifndef Exist_SYS_TIME
     #define Exist_SYS_TIME      // 一定存在
 #endif
-//#define Exist_PWM
+#define Exist_PWM
 //#define Exist_ENCODE
 
 #define Exist_BUTTON
@@ -135,7 +135,7 @@
 
 /*  MCU指令   */
 
-#define MCU_SYS_FREQ    SystemCoreClock // 刚启动是xM，经过配置文件之后就是144（system_clock_config()之后）
+#define MCU_SYS_FREQ    SystemCoreClock // 刚启动是xM，经过配置文件之后就是72（system_clock_config()之后）
 
 #ifndef NOP
     #define NOP()    __NOP()

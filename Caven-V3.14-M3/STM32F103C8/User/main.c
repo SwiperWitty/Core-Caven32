@@ -20,7 +20,7 @@ int main(void)
             .Switch = 1,
             .Begin_time = now_time,
             .Set_time.SYS_Sec = 1,
-            .Set_time.SYS_Us = 500000,
+            .Set_time.SYS_Us = 0,
             .Flip_falg = 0,
     };
     User_GPIO_config(1,11,1);
@@ -31,6 +31,11 @@ int main(void)
         API_Task_Timer (&LED_Task,now_time);        // LED任务
         User_GPIO_set(1,11,LED_Task.Flip_falg);
         User_GPIO_set(3,13,LED_Task.Flip_falg);
+		if(LED_Task.Trigger_Flag)
+		{
+			printf("time %d s :%d us \n",now_time.SYS_Sec,now_time.SYS_Us);
+		}
+		
 //        if(Center_State_machine(now_time))          // 状态机入口
 //        {
 //            break;                                  // 状态机退出,程序重启
@@ -47,7 +52,10 @@ void Main_Init(void)
     
 	Mode_Init.UART(m_UART_CH2,115200,ENABLE);
     Mode_Init.UART(m_UART_CH3,115200,ENABLE);
+	TIM4_PWM_Start_Init(2000,(MCU_SYS_FREQ / 3600000)-1,ENABLE);
+	//TIM4_PWM_Start_Init(2000,(MCU_SYS_FREQ / 100000)-1,ENABLE);
 	//
     Mode_Use.UART.Send_String_pFun(m_UART_CH2,"hello !\n");
     Mode_Use.UART.Send_String_pFun(m_UART_CH3,"hello !\n");
+	TIM4_PWMx_SetValue(1,1000);
 }
