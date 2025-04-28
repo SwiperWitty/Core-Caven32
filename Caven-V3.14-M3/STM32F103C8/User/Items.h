@@ -12,15 +12,15 @@
  *                      -->Base     -->Mode
  *                      //          //
  *  C(Lib)->Caven_Type->        API
- *  
+ *  2.0     2023.11.16
 */
 
 /*  基本外设就能实现的功能     */
 
-#define OPEN_0001   0x01    //  设备0开启
-#define OPEN_0010   0x02    //  设备1开启
-#define OPEN_0011   0x03    //  设备0、1开启
-#define OPEN_0100   0x04
+#define OPEN_0001   0x01    // 存在设备0
+#define OPEN_0010   0x02    // 存在设备1
+#define OPEN_0011   0x03    // 存在设备1、0
+#define OPEN_0100   0x04	// ...
 #define OPEN_0101   0x05
 #define OPEN_0110   0x06
 #define OPEN_0111   0x07
@@ -40,13 +40,13 @@
     #define Exist_SYS_TIME      // 一定存在
 #endif
 #define Exist_PWM
-//#define Exist_ENCODE
+#define Exist_CAPTURE
 
 #define Exist_BUTTON
 #define Exist_LED       OPEN_0001  // LED0
 #define Exist_BZZ
 
-//#define Exist_ADC		OPEN_1101
+//#define Exist_ADC		OPEN_1100
 //#define Exist_DAC
 
 #define Exist_UART      OPEN_11110  // 串口
@@ -58,6 +58,7 @@
 //#define Exist_FLASH
 
 /***    需要加上逻辑才能的功能     ***/
+#define Exist_LCD	OPEN_0001
 //#define Exist_OLED
 
 //#define Exist_HC138
@@ -80,7 +81,7 @@
 /****   进一步的逻辑关系    ****/
 #ifdef Exist_LCD
     #ifndef Exist_SPI
-        #define Exist_SPI
+        #define Exist_SPI	OPEN_0100
     #endif
 #endif
 
@@ -118,6 +119,12 @@
 #endif
 
 /*****  冲突      *****/
+#if DEBUG_OUT == 1
+    #ifdef Exist_USB
+        #warning (UART1 And USB Clash !!!)
+    #endif
+#endif
+
 #ifdef Exist_LCD
     #ifdef Exist_OLED
         #warning (LCD And OLED Have A Clash !!!)
@@ -135,14 +142,14 @@
 
 /*  MCU指令   */
 
-#define MCU_SYS_FREQ    SystemCoreClock // 刚启动是xM，经过配置文件之后就是72（system_clock_config()之后）
+#define MCU_SYS_FREQ    SystemCoreClock // 刚启动是xM，经过配置文件之后就是144（system_clock_config()之后）
 
 #ifndef NOP
-    #define NOP()    __NOP()
+	#define NOP()    __NOP()
 #endif
 
 #ifndef SYS_RESET
-    #define SYS_RESET() NVIC_SystemReset()
+	#define SYS_RESET() NVIC_SystemReset()
 #endif
 
 // boot
@@ -150,26 +157,26 @@
                             \
 }while(0);
 
-#define REG_IO_H    BSRR
-#define REG_IO_L    BRR
+#define IO_H_REG    BSRR
+#define IO_L_REG    BRR
 
 #ifdef GPIO_PINS_0
-    #define GPIO_Pin_0  GPIO_PINS_0
-    #define GPIO_Pin_1  GPIO_PINS_1
-    #define GPIO_Pin_2  GPIO_PINS_2
-    #define GPIO_Pin_3  GPIO_PINS_3
-    #define GPIO_Pin_4  GPIO_PINS_4
-    #define GPIO_Pin_5  GPIO_PINS_5
-    #define GPIO_Pin_6  GPIO_PINS_6
-    #define GPIO_Pin_7  GPIO_PINS_7
-    #define GPIO_Pin_8  GPIO_PINS_8
-    #define GPIO_Pin_9  GPIO_PINS_9
-    #define GPIO_Pin_10 GPIO_PINS_10
-    #define GPIO_Pin_11 GPIO_PINS_11
-    #define GPIO_Pin_12 GPIO_PINS_12
-    #define GPIO_Pin_13 GPIO_PINS_13
-    #define GPIO_Pin_14 GPIO_PINS_14
-    #define GPIO_Pin_15 GPIO_PINS_15
+	#define GPIO_Pin_0  GPIO_PINS_0
+	#define GPIO_Pin_1  GPIO_PINS_1
+	#define GPIO_Pin_2  GPIO_PINS_2
+	#define GPIO_Pin_3  GPIO_PINS_3
+	#define GPIO_Pin_4  GPIO_PINS_4
+	#define GPIO_Pin_5  GPIO_PINS_5
+	#define GPIO_Pin_6  GPIO_PINS_6
+	#define GPIO_Pin_7  GPIO_PINS_7
+	#define GPIO_Pin_8  GPIO_PINS_8
+	#define GPIO_Pin_9  GPIO_PINS_9
+	#define GPIO_Pin_10 GPIO_PINS_10
+	#define GPIO_Pin_11 GPIO_PINS_11
+	#define GPIO_Pin_12 GPIO_PINS_12
+	#define GPIO_Pin_13 GPIO_PINS_13
+	#define GPIO_Pin_14 GPIO_PINS_14
+	#define GPIO_Pin_15 GPIO_PINS_15
 #endif
 
 #ifndef MAX
