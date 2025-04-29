@@ -74,7 +74,7 @@ int main(void)
 			period_t = 0.00f;
 			cycle = 0.00f;
 		}
-		temp_val = now_time.SYS_Sec - show_time.SYS_Sec;
+		temp_val = (now_time.SYS_Sec - show_time.SYS_Sec)%10;
 		temp_val *= 1000000;
 		temp_val += now_time.SYS_Us;
 		if (temp_val > 1200000)
@@ -129,20 +129,20 @@ void Main_Init(void)
     Mode_Init.TIME(ENABLE);
     Mode_Use.TIME.Delay_Ms(10);
     
-	Mode_Init.UART(m_UART_CH2,115200,ENABLE);
+	TIM1_Capture_Start_Init(0xffff,72-1,0x02,0,ENABLE);				// a8,a9
+	Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
     Mode_Init.UART(m_UART_CH3,115200,ENABLE);
 	Mode_Use.LCD.Set_TargetModel_pFun(m_LCD_TYPE_1_30);
     Mode_Init.LCD(ENABLE);
 	
-	TIM1_Capture_Start_Init(0xffff,72-1,0x03,0,ENABLE);				// a8,a9
 	
 	User_GPIO_config(1,11,1);
     User_GPIO_config(3,13,0);
 	
 	tim4_pwm_period_switch (1);
 	
-    Mode_Use.UART.Send_String_pFun(m_UART_CH2,"hello !\n");
-    Mode_Use.UART.Send_String_pFun(m_UART_CH3,"hello !\n");
+    Mode_Use.UART.Send_String_pFun(DEBUG_OUT,"hello 2!\n");
+    Mode_Use.UART.Send_String_pFun(m_UART_CH3,"hello 3!\n");
 	TIMx_Capture_Callback_pFunBind(1,Capture_pwm_handle);
 	TIM4_PWMx_SetValue(1,100);
 	TIM4_PWMx_SetValue(2,500);
@@ -179,7 +179,7 @@ void Capture_pwm_handle (void *data)
 	if(data != NULL)
 	{
 		memcpy(&temp_Capture_val,data,sizeof(TIM_Capture_Type));
-		if (temp_Capture_val.Channel == 1)
+		if (temp_Capture_val.Channel == 2)
 		{
 			memcpy(&time1_Capture_val,data,sizeof(TIM_Capture_Type));
 		}
