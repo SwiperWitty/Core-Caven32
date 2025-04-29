@@ -109,6 +109,10 @@ int main(void)
 					PWM_period_switch = 0;
 				}
 				tim4_pwm_period_switch (PWM_period_switch);
+				TIM4_PWMx_SetValue(1,100);
+				TIM4_PWMx_SetValue(2,500);
+				TIM4_PWMx_SetValue(3,1000);
+				TIM4_PWMx_SetValue(4,1500);
 			}
 		}
 //        if(Center_State_machine(now_time))          // 状态机入口
