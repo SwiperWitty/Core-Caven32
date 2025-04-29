@@ -68,10 +68,10 @@ int main(void)
 		{
 			Capture_flag = 0;
 			show_time = now_time;
-			show_buff[0] = period_t;
+			show_buff[0] = Freq;
 			show_buff[1] = cycle;
 			Vofa_JustFloat_Show_Fun (2,show_buff);
-			period_t = 0.00f;
+			Freq = 0;
 			cycle = 0.00f;
 		}
 		temp_val = (now_time.SYS_Sec - show_time.SYS_Sec)%10;
@@ -96,6 +96,7 @@ int main(void)
 		if (User_GPIO_get(3,13) == 0)
 		{
 			key_sw = 1;
+			User_GPIO_set(1,12,1);
 			Mode_Use.TIME.Delay_Ms(10);
 		}
 		else
@@ -103,6 +104,7 @@ int main(void)
 			if(key_sw)
 			{
 				key_sw = 0;
+				User_GPIO_set(1,12,0);
 				PWM_period_switch ++;
 				if(PWM_period_switch > 2)
 				{
@@ -132,14 +134,15 @@ void Main_Init(void)
 	TIM1_Capture_Start_Init(0xffff,72-1,0x02,0,ENABLE);				// a8,a9
 	Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
     Mode_Init.UART(m_UART_CH3,115200,ENABLE);
-	Mode_Use.LCD.Set_TargetModel_pFun(m_LCD_TYPE_1_30);
-    Mode_Init.LCD(ENABLE);
-	
+	Mode_Init.OLED(ENABLE);
 	
 	User_GPIO_config(1,11,1);
+	User_GPIO_config(1,12,1);
     User_GPIO_config(3,13,0);
+	User_GPIO_set(1,11,1);
+	User_GPIO_set(1,12,0);
 	
-	tim4_pwm_period_switch (1);
+	tim4_pwm_period_switch (0);
 	
     Mode_Use.UART.Send_String_pFun(DEBUG_OUT,"hello 2!\n");
     Mode_Use.UART.Send_String_pFun(m_UART_CH3,"hello 3!\n");
@@ -157,7 +160,7 @@ void tim4_pwm_period_switch (char num)
 	{
 		case (0):
 		{
-			TIM4_PWM_Start_Init(2000-1,(MCU_SYS_FREQ / 3600000)-1,ENABLE);	// b6-b9
+			TIM4_PWM_Start_Init(2000-1,(MCU_SYS_FREQ / 18000000)-1,ENABLE);	// b6-b9
 		}
 		break;
 		case (1):
