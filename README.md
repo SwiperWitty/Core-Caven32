@@ -28,11 +28,11 @@ _____
 
 |  更新速度Top  | Base底层完成度（独立） | Mode调度层完成度(共享)  |
 | :-----------: | :--------------------: | :---------------------: |
-| **AT32F415**  |          90%           |           95%           |
-|   AT32F403A   |          40%           |           95%           |
-| **STM32F103** |           --           |           95%           |
-| **GD32F405**  |           --           |           95%           |
-| **CH32V203**  |          90%           |           95%           |
+| **AT32F415**  |          98%           |           95%           |
+|   AT32F403A   |          40%           |            -            |
+| **STM32F103** |          90%           |            -            |
+| **GD32F405**  |           --           |            -            |
+| **CH32V203**  |          90%           |            -            |
 |   HC32L110    |         99.8%          | 不在Caven框架(内存太小) |
 |     Other     |           --           |           --            |
 
@@ -147,14 +147,14 @@ ______
 ~~~~c
 typedef struct
 {
-    u32 SYS_Time_H; //每Frequency进1
-    u32 SYS_Time_L; // 24bit 的
+    uint32_t SYS_Time_H; // 每Frequency进1
+    uint32_t SYS_Time_L; // 24bit 的
 }SYS_Time_Type;
 
 typedef struct
 {
-    U32 SYS_Sec;
-    U32 SYS_Us;             // 这里最大 1000 000
+    uint32_t SYS_Sec;
+    uint32_t SYS_Us;             // 这里最大 1000 000
 }SYS_BaseTIME_Type;
 
 void SYS_Time_Init(int Set);
@@ -163,33 +163,25 @@ void SYS_Time_Set(SYS_BaseTIME_Type * time);
 void SYS_Time_Get(SYS_BaseTIME_Type * time);
 
 void SYS_Base_Delay(int time, int speed);
+void SYS_Delay_us(int n);
+void SYS_Delay_ms(int n);
+
 ~~~~
 
-由`MODE_Time.c`提供用户使用的时钟函数，提供用户层能使用的数据，例如当日时间`Caven_Watch_Type`，日期`Caven_Date_Type`，其中`Caven_Watch_Type`是内带系统总秒数的。
+由`MODE_Time.c`提供用户使用的时钟函数，提供用户层能使用的数据`Real_TIME_Type`，包含UTC`Caven_BaseTIME_Type Time`，日期`struct tm *date`。
 
 ~~~c
-// 日期
 typedef struct
 {
-    U16 year;
-    U8 month;
-    U8 day;
-    U32 SYS_Day;
-}Caven_Date_Type;
-
-// 时间
-typedef struct
-{
-    U8 hour;
-    U8 minutes;
-    U8 second;
-    U32 time_us;            // 这里最大 1000 000
-    U32 SYS_Sec;
-}Caven_Watch_Type;
+	volatile char SYNC_Flag;
+	Caven_BaseTIME_Type Time;
+    struct tm *date;
+}Real_TIME_Type;
 
 Mode_Init.TIME(ENABLE);
 Mode_Use.TIME.Delay_Ms(10);
-Mode_Use.TIME.Get_Watch_pFun();
+Mode_Use.TIME.Get_BaseTIME_pFun();
+Mode_Use.TIME.MODE_TIME_Get_Date(8*60*60);		// 获取东8区的日期
 ~~~
 
 ##### 多任务
@@ -202,13 +194,14 @@ Mode_Use.TIME.Get_Watch_pFun();
 ~~~~c
 typedef struct
 {
-    volatile Caven_Watch_Type Set_time;
-    volatile Caven_Watch_Type Begin_time;
+    volatile Caven_BaseTIME_Type Set_time;
+    volatile Caven_BaseTIME_Type Begin_time;
     volatile char Trigger_Flag;              //[000][1][000]
     volatile char Flip_falg;                 //[000][111][000]   only Read
     int Switch;
 }Task_Overtime_Type;
-int API_Task_Timer (Task_Overtime_Type *task,Caven_Watch_Type now_time);
+
+int API_Task_Timer (Task_Overtime_Type *task,Caven_BaseTIME_Type now_time);
 ~~~~
 
 由`Caven_event_frame.c`提供事件任务函数。
@@ -234,7 +227,6 @@ int Caven_handle_event_Fun(Caven_event_Type *events);
 例如
 
 ~~~~c
-Caven_Watch_Type now_time;
 Caven_event_Type SYS_events;
 int BZZ_event_Handle = 0;
 
@@ -254,28 +246,28 @@ void BZZ_event_task_Fun (void * data)
 
 void Main_Init(void)
 {
-    int reverse = 0;
-    system_clock_config();
-    nvic_priority_group_config(NVIC_PRIORITY_GROUP_4);
     Mode_Index();
 
-    Mode_Init.TIME_Init_State = Mode_Init.TIME(ENABLE);
+    Mode_Init.TIME(ENABLE);
 	Mode_Init.LED(ENABLE);
     Mode_Init.BZZ(ENABLE);
     
-	now_time = Mode_Use.TIME.Get_Watch_pFun();
     Caven_new_event_Fun(&SYS_events,BZZ_event_task_Fun,&BZZ_event_Handle); // 创建BZZ事件任务
 }
 
 int main (void)
 {
+    Caven_BaseTIME_Type now_time;
     Main_Init();
     
+    now_time.SYS_Sec = 1742200000;
+    Mode_Use.TIME.Set_BaseTIME_pFun(now_time);
+    now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
     Task_Overtime_Type LED_Task = {
             .Switch = 1,
             .Begin_time = now_time,
-            .Set_time.second = 1,
-            .Set_time.time_us = 5000,
+            .Set_time.SYS_Sec = 1,
+            .Set_time.SYS_Us = 500000,
             .Flip_falg = 1,
     };
 	API_Task_Timer (&LED_Task,now_time);        // 创建LED时间任务
@@ -306,11 +298,13 @@ ___
 
 #### 支持芯片
 
-**M0:**	STM32F030F4、STM32G030F6(M0+)
+**M0:**	STM32F030F4
+
+**M0+**：HC32L110
 
 **M3:**	STM32F103RC、GD32F103RC
 
-**M4:**	STM32F405RC、AT32F415RC、AT32F425RC、AT32F403ARC、
+**M4:**	STM32F405RC、AT32F415RC、AT32F425RC、AT32F403ARC
 
 **RISC-V:**	CH32V203C8T6、CH32V307RET6（这玩意Flash不行）
 
@@ -343,8 +337,8 @@ ___
 
 **数字（时钟输入输出）：**
 
-1. PWM
-2. ENCODE（编码）
+1. 输出PWM
+2. 输入捕获（编码）
 
 **GPIO：**
 
