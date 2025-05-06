@@ -22,16 +22,16 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 
     center_time = time;
     center_time = Mode_Use.TIME.Get_BaseTIME_pFun();
-    center_date = Mode_Use.TIME.Get_Date_pFun();
-    center_date.tm_hour += 8;          // 加上 8 小时
-    mktime(&center_date);              // 规范化时间（处理溢出，例如跨天）
+    center_date = Mode_Use.TIME.Get_Date_pFun(8*60*60);
 
-    if ((center_time.SYS_Sec % 2) && (center_time.SYS_Sec != last_time.SYS_Sec)) {
+    if ((center_time.SYS_Sec != last_time.SYS_Sec)) {
         last_time = center_time;
         printf("date %d/%d/%d %02d:%02d:%02d  utc [%d] [%d]\n",
                 center_date.tm_year,center_date.tm_mon,center_date.tm_mday,
                 center_date.tm_hour,center_date.tm_min,center_date.tm_sec,
                 center_time.SYS_Sec,center_time.SYS_Us);
+        Mode_Use.OLED.Show_String_pFun(0,0,"oled show",0,0,16);
+        Mode_Use.OLED.Refresh();
     }
 
     return retval;
@@ -43,7 +43,10 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 // Encapsulate your LCD driver:
 void gfx_draw_pixel(int x, int y, unsigned int rgb)
 {
-    #if Exist_OLED || Exist_LCD
+    #ifdef Exist_OLED
+    
+    #endif
+    #ifdef Exist_LCD
     // LCD_Fast_DrawPoint(x, y, GL_RGB_32_to_16(rgb));
     Mode_Use.LCD.Draw_Point_pFun(x, y, GL_RGB_32_to_16(rgb));
     #endif

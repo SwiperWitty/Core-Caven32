@@ -16,22 +16,19 @@ int main(void)
 {
     Main_Init();
     start_ui();
-    Caven_Watch_Type now_time = {
-        .hour = 8,
-        .minutes = 7,
-        .second = 50,
-    };
-    Mode_Use.TIME.Set_Watch_pFun(now_time);
-    now_time = Mode_Use.TIME.Get_Watch_pFun();
+    Caven_BaseTIME_Type now_time;
+    now_time.SYS_Sec = 1746514130;
+    Mode_Use.TIME.Set_BaseTIME_pFun(now_time);
+    now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
 
     Task_Overtime_Type LED_Task = {
         .Switch = 1,
         .Begin_time = now_time,
-        .Set_time.second = 1,
-        .Set_time.time_us = 5000,
+        .Set_time.SYS_Sec = 1,
+        .Set_time.SYS_Us = 500000,
         .Flip_falg = 1,
     };
-    Vofa_JustFloat_Init_Fun(2, Debug_Out);
+    Vofa_JustFloat_Init_Fun(Debug_Out);
     float_array[1] = 3.3;
 
     char last_s = 0, last_m = 0, last_h = 0;
@@ -45,7 +42,7 @@ int main(void)
     Mode_Use.LCD.Show_String_pFun(0, 5, "9", LCD_BLACK, LCD_Back_Color, 24);
     while (1)
     {
-        now_time = Mode_Use.TIME.Get_Watch_pFun();
+        now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
         //        printf("sys time: %d : %d : %d , %d (us)\n",now_time.hour,now_time.minutes,now_time.second,now_time.time_us);
         API_Task_Timer(&LED_Task, now_time); // LED任务
         Mode_Use.LED.SET_pFun(1, LED_Task.Flip_falg);
@@ -56,7 +53,7 @@ int main(void)
             float_array[0] = 0;
         }
 
-        time_temp = now_time.second;
+        time_temp = now_time.SYS_Sec % (24*60*60);
         time_temp = (time_temp / 60) * 100;
 
         run_num = Caven_math_approximate((int)time_temp, 5, 0, 100);
@@ -73,54 +70,13 @@ int main(void)
                 Caven_GUI_Draw_Circle(temp_run, temp_num, 1, 5, 100, LCD_RED);
             }
         }
-        time_temp = now_time.minutes;
-        time_temp = (time_temp / 60) * 100;
-        run_num = Caven_math_approximate((int)time_temp, 5, 0, 100);
-        if (last_m != run_num)
-        {
-            last_m = run_num;
-            Caven_GUI_Draw_Circle(((min_point_drop >> 8) & 0xff), (min_point_drop & 0xff), 1, 5, 100, LCD_Back_Color);
-            run_num = Caven_GUI_Draw_Circle(120, 120, 60, 11, last_m, LCD_BLUE);
-            min_point_drop = run_num;
-            temp_num = run_num & 0xff;
-            temp_run = (run_num >> 8) & 0xff;
-            if (temp_num > 0 && temp_run > 0)
-            {
-                Caven_GUI_Draw_Circle(temp_run, temp_num, 1, 5, 100, LCD_BLUE);
-            }
-        }
-        time_temp = now_time.hour;
-        time_temp = (time_temp / 12) * 100;
-        run_num = Caven_math_approximate((int)time_temp, 5, 0, 100);
-        if (last_h != run_num)
-        {
-            last_h = run_num;
-            Caven_GUI_Draw_Circle(((hour_point_drop >> 8) & 0xff), (hour_point_drop & 0xff), 1, 5, 100, LCD_Back_Color);
-            run_num = Caven_GUI_Draw_Circle(120, 120, 40, 11, last_h, LCD_GREEN);
-            hour_point_drop = run_num;
-            temp_num = run_num & 0xff;
-            temp_run = (run_num >> 8) & 0xff;
-            if (temp_num > 0 && temp_run > 0)
-            {
-                Caven_GUI_Draw_Circle(temp_run, temp_num, 1, 5, 100, LCD_GREEN);
-            }
-        }
 
-        if (overstep_s > now_time.second)
+        if (overstep_s > now_time.SYS_Sec)
         {
             overstep_s = 1;
             Caven_GUI_Draw_Circle(120, 120, 80, 12, 100, LCD_Back_Color);
         }
-        if (overstep_m > now_time.minutes)
-        {
-            overstep_m = 1;
-            Caven_GUI_Draw_Circle(120, 120, 60, 12, 100, LCD_Back_Color);
-        }
-        if (overstep_h > now_time.hour)
-        {
-            overstep_h = 1;
-            Caven_GUI_Draw_Circle(120, 120, 40, 12, 100, LCD_Back_Color);
-        }
+
 //        Vofa_JustFloat_Show_Fun (float_array);
 //        Mode_Use.TIME.Delay_Ms(10);
     }

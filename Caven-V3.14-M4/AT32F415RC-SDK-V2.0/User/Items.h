@@ -53,6 +53,8 @@
 #define OPEN_11110  0x1E
 #define OPEN_11111  0x1f
 
+#define DEBUG_OUT	3   // Debug 通道(Caved 3.14是串口3)
+
 #ifndef Exist_SYS_TIME
     #define Exist_SYS_TIME      // 一定存在
 #endif
@@ -75,8 +77,8 @@
 //#define Exist_FLASH
 
 /***    需要加上逻辑才能的功能     ***/
-#define Exist_LCD	OPEN_0001
-//#define Exist_OLED
+//#define Exist_LCD	OPEN_0001
+#define Exist_OLED
 
 //#define Exist_HC138
 //#define Exist_HC595           OPEN_0001
@@ -104,8 +106,8 @@
 #endif
 
 #ifdef Exist_OLED
-    #ifndef Exist_SPI
-        #define Exist_SPI
+    #ifndef Exist_IIC
+        #define Exist_IIC
     #endif
 #endif
 

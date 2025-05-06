@@ -22,9 +22,7 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 
     center_time = time;
     center_time = Mode_Use.TIME.Get_BaseTIME_pFun();
-    center_date = Mode_Use.TIME.Get_Date_pFun();
-    center_date.tm_hour += 8;          // 加上 8 小时
-    mktime(&center_date);              // 规范化时间（处理溢出，例如跨天）
+    center_date = Mode_Use.TIME.Get_Date_pFun(8*60*60);
 
     if ((center_time.SYS_Sec % 2) && (center_time.SYS_Sec != last_time.SYS_Sec)) {
         last_time = center_time;

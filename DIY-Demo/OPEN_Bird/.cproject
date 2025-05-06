@@ -138,7 +138,7 @@
 						<entry excluding="Game_snake.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="API"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Base_CH32V203"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="GUI"/>
-						<entry excluding="MODE_LCD.c|MODE_LCD.h" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Mode"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Mode"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -160,4 +160,5 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
+	<storageModule moduleId="refreshScope"/>
 </cproject>
