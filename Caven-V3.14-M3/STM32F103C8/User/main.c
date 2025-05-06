@@ -12,6 +12,7 @@ void tim4_pwm_period_switch (char num);
 int main(void)
 {
     Caven_BaseTIME_Type now_time,show_time;
+	struct tm now_date;
     Main_Init();
     now_time.SYS_Sec = 1742299486;
     Mode_Use.TIME.Set_BaseTIME_pFun(now_time);
@@ -41,13 +42,23 @@ int main(void)
     while(1)
     {
         now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
+		now_date = Mode_Use.TIME.Get_Date_pFun(8*60*60);
         API_Task_Timer (&LED_Task,now_time);        // LED任务
 		API_Task_Timer (&Vofa_JustFloat_Show_Task,now_time);        // LED任务
         User_GPIO_set(1,11,LED_Task.Flip_falg);
 		
 		if(LED_Task.Trigger_Flag)
 		{
-//			printf("time %d s :%d us \n",now_time.SYS_Sec,now_time.SYS_Us);
+			printf("date %d/%d/%d %02d:%02d:%02d  utc [%d] [%d]\n",
+                now_date.tm_year,now_date.tm_mon,now_date.tm_mday,
+                now_date.tm_hour,now_date.tm_min,now_date.tm_sec,
+                now_time.SYS_Sec,now_time.SYS_Us);
+			memset(str_array,0,sizeof(str_array));
+			sprintf(str_array,"time: %02d s ",now_time.SYS_Sec%60);
+			Mode_Use.OLED.Show_String_pFun(6,0,"hello",0,0,16);
+			Mode_Use.OLED.Show_String_pFun(0,1,str_array,0,0,16);
+			Mode_Use.OLED.Refresh();
+			Mode_Use.OLED.Draw_Line_pFun(0,63,127,63,1);
 		}
 		// Capture
 		if (time1_Capture_val.finish_flag)
@@ -89,8 +100,8 @@ int main(void)
 		{
 			Freq_last = Freq;
 			memset(str_array,0,sizeof(str_array));
-			sprintf(str_array,"Freq :%d Hz",Freq);
-			//Mode_Use.LCD.Show_String_pFun (0,0,str_array,LCD_WHITE,LCD_BLACK,16);
+			sprintf(str_array,"Freq: %04d Hz ",Freq);
+			Mode_Use.OLED.Show_String_pFun (0,2,str_array,0,0,16);
 		}
 		// KEY
 		if (User_GPIO_get(3,13) == 0)
@@ -133,7 +144,8 @@ void Main_Init(void)
     
 	TIM1_Capture_Start_Init(0xffff,72-1,0x02,0,ENABLE);				// a8,a9
 	Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
-    Mode_Init.UART(m_UART_CH3,115200,ENABLE);
+	
+	Mode_Use.OLED.Set_Direction_pFun(0,0x3c);
 	Mode_Init.OLED(ENABLE);
 	
 	User_GPIO_config(1,11,1);
@@ -145,13 +157,13 @@ void Main_Init(void)
 	tim4_pwm_period_switch (0);
 	
     Mode_Use.UART.Send_String_pFun(DEBUG_OUT,"hello 2!\n");
-    Mode_Use.UART.Send_String_pFun(m_UART_CH3,"hello 3!\n");
 	TIMx_Capture_Callback_pFunBind(1,Capture_pwm_handle);
 	TIM4_PWMx_SetValue(1,100);
 	TIM4_PWMx_SetValue(2,500);
 	TIM4_PWMx_SetValue(3,1000);
 	TIM4_PWMx_SetValue(4,1500);
-	Vofa_JustFloat_Init_Fun (Debug_Out);
+//	Vofa_JustFloat_Init_Fun (Debug_Out);
+	
 }
 
 void tim4_pwm_period_switch (char num)
