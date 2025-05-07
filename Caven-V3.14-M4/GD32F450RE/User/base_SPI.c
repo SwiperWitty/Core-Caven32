@@ -1,6 +1,5 @@
 
 #include "base_SPI.h"
-#include "SYS_Time.h"
 
 int spi_startup = 0;
 
@@ -96,18 +95,18 @@ int spi_write_fpga_reg(uint16_t addr, uint16_t data)
     if(spi_startup & (0x01 << 0))       //SPI1
     {
         SPI1_CS1_L();
-        Base_Delay (5,10);
+//        Base_Delay (5,10);
 
         while(RESET == spi_i2s_flag_get(spi_temp, SPI_FLAG_TBE));
         spi_i2s_data_transmit(spi_temp,(addr & 0x0fff) | WRITE_FLAG);
-        Base_Delay (10,10);
+//        Base_Delay (10,10);
 
         while(RESET == spi_i2s_flag_get(spi_temp, SPI_FLAG_TBE));
         spi_i2s_data_transmit(spi_temp,data);
-        Base_Delay (10,10);
+//        Base_Delay (10,10);
 
         SPI1_CS1_H();
-        Base_Delay (5,10);
+//        Base_Delay (5,10);
     }
     return retval;
 }
@@ -121,12 +120,12 @@ uint32_t spi_read_fpga_reg(uint16_t addr, uint16_t* data)
     {
         //SPI_FLAG_RBNE
         SPI1_CS1_L();
-        Base_Delay (5,10);
+//        Base_Delay (5,10);
 
         while(RESET == spi_i2s_flag_get(spi_temp, SPI_FLAG_TBE));
         spi_i2s_data_transmit(spi_temp,(addr & 0x0fff) | READ_FLAG);    //发送要读的地址    >>
         
-        Base_Delay (10,10);
+//        Base_Delay (10,10);
         spi_i2s_data_receive(spi_temp);             //清空接收标志  <<
         
         while(RESET == spi_i2s_flag_get(spi_temp, SPI_FLAG_TBE));
@@ -140,16 +139,16 @@ uint32_t spi_read_fpga_reg(uint16_t addr, uint16_t* data)
             retval=1;
             return retval;
         }
-        Base_Delay (10,10);
+//        Base_Delay (10,10);
         
         while(RESET == spi_i2s_flag_get(spi_temp, SPI_FLAG_TBE));
         spi_i2s_data_transmit(spi_temp,0x0000);                         //发送时钟给MISO    >>
         while(RESET == spi_i2s_flag_get(spi_temp, SPI_FLAG_RBNE));
         * data = spi_i2s_data_receive(spi_temp);  //接收返回值（数据）  <<
         
-        Base_Delay (10,10);
+//        Base_Delay (10,10);
         SPI1_CS1_H();
-        Base_Delay (5,10);
+//        Base_Delay (5,10);
     }
     return retval;
 }
@@ -167,15 +166,15 @@ void spi2anachip(uint16_t data,uint16_t nss)
         {SPI2_CS2_L();}
         if(nss & (0x01 << 2))
         {SPI2_CS3_L();}
-        Base_Delay (1,10);
+//        Base_Delay (1,10);
 
         while(RESET == spi_i2s_flag_get(spi_temp, SPI_FLAG_TBE));
         spi_i2s_data_transmit(spi_temp,data);
         
-        Base_Delay (4,10);
+//        Base_Delay (4,10);
 
         SPI2_CS1_H(); SPI2_CS2_H(); SPI2_CS3_H();
-        Base_Delay (1,10);
+//        Base_Delay (1,10);
     }
     
 }

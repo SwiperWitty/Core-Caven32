@@ -169,7 +169,7 @@ uint16_t UART_RXD_Receive(char Channel)     //RXD 读取值
 }
 
 // 发送
-void UART_TXD_Send(char Channel,uint16_t DATA)
+void UART_TXD_Send(char Channel,uint16_t Data)
 {
     switch (Channel)
     {

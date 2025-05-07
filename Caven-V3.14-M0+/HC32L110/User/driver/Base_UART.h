@@ -53,27 +53,27 @@
 
 //可以有多个UART,建议把应用层也这样写一遍
 #ifdef UART0_EXIST
-void Uart0_Init(int Baud,int SET);
+void Uart0_Init(int Baud,int Set);
 #endif
 #ifdef UART1_EXIST
-void Uart1_Init(int Baud,int SET);
+void Uart1_Init(int Baud,int Set);
 #endif
 #ifdef UART2_EXIST
-void Uart2_Init(int Baud,int SET);
+void Uart2_Init(int Baud,int Set);
 #endif
 #ifdef UART3_EXIST
-void Uart3_Init(int Baud,int SET);
+void Uart3_Init(int Baud,int Set);
 #endif
 #ifdef UART4_EXIST
-void Uart4_Init(int Baud,int SET);
+void Uart4_Init(int Baud,int Set);
 #endif
 #ifdef UART5_EXIST
-void Uart5_Init(int Baud,int SET);
+void Uart5_Init(int Baud,int Set);
 #endif
 
 //发送、接收
 uint16_t UART_RXD_Receive(char Channel);            //接收
-void UART_TXD_Send(char Channel,uint16_t DATA);     //发送
+void UART_TXD_Send(char Channel,uint16_t Data);     //发送
 
 //接收的标志位，给应用层更大权限、灵活度
 char UART_RXD_Flag(char Channel);

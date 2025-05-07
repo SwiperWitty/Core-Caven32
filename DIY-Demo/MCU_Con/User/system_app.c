@@ -66,7 +66,7 @@ void User_HC595_Set_DATA_Fun (const uint8_t *Dat,char num)
     User_GPIO_set(2,12,0);
 }
 
-void User_HC595_GPIO_Init(int SET)
+void User_HC595_GPIO_Init(int Set)
 {
 #ifdef Exist_HC595
     unsigned char temp_array[8];

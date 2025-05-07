@@ -1,128 +1,224 @@
 #ifndef _ITEMS__H_
 #define _ITEMS__H_
 
-/*      
-#include "Items.h"
-*/
 #include "gd32f4xx.h"
-#include "system_gd32f4xx.h"     //软件配置的 基于内部晶振
-
-#include "string.h"
+// 软件配置的 基于内部
+// __SYSTEM_CLOCK_240M_PLL_IRC16M // __SYSTEM_CLOCK_240M_PLL_8M_HXTAL
+// print的库文件 
 #include "stdio.h"
-#include "math.h"
 
 /*
-    SDK->Items->GPIO(Exist_GPIO)->BASE->
-                                         \\
-                                          -->[XXX]->MODE
-                                         //
-                    C(Lib)->Caven->API->
-
+ *          SDK->Items
+ *                      \\
+ *                      -->Base     -->Mode
+ *                      //          //
+ *  C(Lib)->Caven_Type->        API
+ *  2.0     2023.11.16
 */
-#define TURE   TRUE
-#define DEBUG_OUT   3           //Debug 通道(Caved 3.14是串口3)->MODE
-#define MCU_SYS_Freq SystemCoreClock        //刚启动是xM，经过配置文件之后就是144（system_clock_config()之后）
-#define DEFAULT_BAUD_RATE   115200
-/*1字节帧头+2字节协议控制字+1字节485地址+2字节长度+1024字节数据+2字节CRC = 1032字节*/
-#define UARTRXMAX 136
-#define UARTTXMAX 512
 
-#define DMA_BUF_LEN 64
+/*  基本外设就能实现的功能     */
 
-#define BOARD_NV_BASEADDR  0x08000000
-#define BOARD_NV_SIZE      0x00040000
+#define OPEN_0001   0x01    // 存在设备0
+#define OPEN_0010   0x02    // 存在设备1
+#define OPEN_0011   0x03    // 存在设备1、0
+#define OPEN_0100   0x04	// ...
+#define OPEN_0101   0x05
+#define OPEN_0110   0x06
+#define OPEN_0111   0x07
+#define OPEN_1000   0x08
+#define OPEN_1001   0x09
+#define OPEN_1010   0x0a
+#define OPEN_1011   0x0b
+#define OPEN_1100   0x0c
+#define OPEN_1101   0x0d
+#define OPEN_1110   0x0e
+#define OPEN_1111   0x0f
 
-#define BOARD_RAM_BASEADDR 0x20000000
-#define BOARD_RAM_SIZE     0x00008000
+#define OPEN_00001  0x01
+#define OPEN_00010  0x02
+#define OPEN_00011  0x03
+#define OPEN_00100  0x04
+#define OPEN_00101  0x05
+#define OPEN_00110  0x06
+#define OPEN_00111  0x07
+#define OPEN_01000  0x08
+#define OPEN_01001  0x09
+#define OPEN_01010  0x0a
+#define OPEN_01011  0x0b
+#define OPEN_01100  0x0c
+#define OPEN_01101  0x0d
+#define OPEN_01110  0x0e
+#define OPEN_01111  0x0f
+#define OPEN_10000  0x10
+#define OPEN_11110  0x1E
+#define OPEN_11111  0x1f
 
+#define DEBUG_OUT	0   // Debug 通道(Caved 3.14是串口3)
 
-#define RF6004 1
-#define RF8004 2
-#define RF8008 3
-#define RF6002 4
-#define RF6001 5
-#define RF6101 6
-#define RF6008 7
-#define RF6016 8
-#define DESK   9
-#define RF6201 10
-#define XTM600 11
-#define RF8208 12
-#define RF8204 13
-#define RF6601 14      //二代二版
-#define RF2105_V5 15   //二代二版
-#define RF2108 16   //二代二版  
-
-#define GXRFID2008  1
-
-#define HARWARE_ARCHITECTURE_VERSION_1 1
-#define HARWARE_ARCHITECTURE_VERSION_2 2
-
-#define GX_API 1
-#define HL_API 2
-#define YWG_API 3
-#define GWDL_API 4
-
-#define HW_MODBUS 1
-#define XZ_MODBUS 2
-
-#define BOARDTYPE   RF6001
-
-//*             *//
-                                             /*  基本外设就能实现的功能    */
-#define Exist_SYS_TIME
-//#define Exist_PWM
+#ifndef Exist_SYS_TIME
+    #define Exist_SYS_TIME      // 一定存在
+#endif
+#define Exist_PWM
 //#define Exist_ENCODE
 
-//#define Exist_KEY
-//#define Exist_LED
-//#define Exist_BZZ
+#define Exist_BUTTON
+#define Exist_LED       OPEN_0001  // LED0
+#define Exist_BZZ
 
-// #define Exist_ADC
+// #define Exist_ADC		OPEN_1101
 //#define Exist_DAC
 
-#define Exist_UART
-//#define Exist_IIC
-#define Exist_SPI
-#define Exist_USB
+#define Exist_UART      OPEN_11111  // 串口
+//#define Exist_IIC     OPEN_0001
+//#define Exist_SPI     OPEN_0100   // SPI2
+//#define Exist_USB
 //#define Exist_CAN
 
-#define Exist_FLASH
-    
-                                                    /*  只需要加上逻辑才能的功能    */
-//#define Exist_LCD
+//#define Exist_FLASH
+
+/***    需要加上逻辑才能的功能     ***/
+//#define Exist_LCD	OPEN_0001
+#define Exist_OLED
+
+//#define Exist_HC138
+//#define Exist_HC595           OPEN_0001
+//#define Exist_DS18B20
+
+//#define Exist_Ultrasonic                  //超声波测距
+//#define Exist_FindLine                    //循迹
+
+//#define Exist_Voice                       //语音播报(MP3)
+
+//#define Exist_Motor           OPEN_1111   // 电机
+//#define Exist_Steering_Engine OPEN_1111   // 舵机
+//#define Exist_STEP_Motor
+
+//#define Exist_MLX90614                    //红外测温
+//#define Exist_RTC_Clock                     //时钟
+
+#define GUI_LVGL    1
+
+/****   进一步的逻辑关系    ****/
+#ifdef Exist_LCD
+    #ifndef Exist_SPI
+        #define Exist_SPI	OPEN_0100
+    #endif
+#endif
+
+#ifdef Exist_OLED
+    #ifndef Exist_IIC
+        #define Exist_IIC
+    #endif
+#endif
+
+#ifdef Exist_Voice
+    #ifndef Exist_UART
+        #define Exist_UART
+    #endif
+#endif
+
+#ifdef Exist_Motor
+    #ifndef Exist_PWM
+        #define Exist_PWM
+    #endif
+    #ifndef Exist_ENCODE
+        #define Exist_ENCODE
+    #endif
+#endif
+
+#ifdef Exist_Steering_Engine        //舵机基于TIM4-PWM
+    #ifndef Exist_PWM
+        #define Exist_PWM
+    #endif
+#endif
+
+#ifdef Exist_MLX90614
+    #ifndef Exist_IIC
+        #define Exist_IIC
+    #endif
+#endif
+
+#ifdef Exist_RTC_Clock
+    #ifndef Exist_IIC
+        #define Exist_IIC
+    #endif
+#endif
+
+/*****  冲突      *****/
+#if DEBUG_OUT == 1
+    #ifdef Exist_USB
+        #warning (UART1 And USB Clash !!!)
+    #endif
+#endif
+
+#ifdef Exist_LCD
+    #ifdef Exist_OLED
+        #warning (LCD And OLED Have A Clash !!!)
+        #undef Exist_OLED
+    #endif
+#endif
+
+#ifdef Exist_ADC
+    #ifdef Exist_DAC
+        #warning (ADC And DAC Have A Clash !!!)
+        #undef Exist_DAC
+    #endif
+#endif
 
 
-#define	NOP()		__nop()
+/*  MCU指令   */
 
-#define Reg_IO_H    scr
-#define Reg_IO_L    clr
+#define MCU_SYS_FREQ    SystemCoreClock // 刚启动是xM，经过配置文件之后就是144（system_clock_config()之后）
 
-#define u8      uint8_t
-#define u16     uint16_t
-#define u32     uint32_t 
+#ifndef NOP
+	#define NOP()    __NOP()
+#endif
 
-#define vu32    (__IO uint32_t)
-#define vu16    (__IO uint16_t)
-#define vu8     (__IO uint8_t)
+#ifndef SYS_RESET
+	#define SYS_RESET() NVIC_SystemReset()
+#endif
 
-#define GPIO_Pins_0  GPIO_PIN_0  
-#define GPIO_Pins_1  GPIO_PIN_1  
-#define GPIO_Pins_2  GPIO_PIN_2  
-#define GPIO_Pins_3  GPIO_PIN_3  
-#define GPIO_Pins_4  GPIO_PIN_4  
-#define GPIO_Pins_5  GPIO_PIN_5  
-#define GPIO_Pins_6  GPIO_PIN_6  
-#define GPIO_Pins_7  GPIO_PIN_7  
-#define GPIO_Pins_8  GPIO_PIN_8  
-#define GPIO_Pins_9  GPIO_PIN_9  
-#define GPIO_Pins_10 GPIO_PIN_10 
-#define GPIO_Pins_11 GPIO_PIN_11 
-#define GPIO_Pins_12 GPIO_PIN_12 
-#define GPIO_Pins_13 GPIO_PIN_13
-#define GPIO_Pins_14 GPIO_PIN_14 
-#define GPIO_Pins_15 GPIO_PIN_15 
-#define GPIO_Pin_ALL GPIO_PIN_ALL
+// boot
+#define GO_TO_APP() do{     \
+                            \
+}while(0);
+
+#ifdef GPIO_PINS_0
+	#define GPIO_Pin_0  GPIO_PINS_0
+	#define GPIO_Pin_1  GPIO_PINS_1
+	#define GPIO_Pin_2  GPIO_PINS_2
+	#define GPIO_Pin_3  GPIO_PINS_3
+	#define GPIO_Pin_4  GPIO_PINS_4
+	#define GPIO_Pin_5  GPIO_PINS_5
+	#define GPIO_Pin_6  GPIO_PINS_6
+	#define GPIO_Pin_7  GPIO_PINS_7
+	#define GPIO_Pin_8  GPIO_PINS_8
+	#define GPIO_Pin_9  GPIO_PINS_9
+	#define GPIO_Pin_10 GPIO_PINS_10
+	#define GPIO_Pin_11 GPIO_PINS_11
+	#define GPIO_Pin_12 GPIO_PINS_12
+	#define GPIO_Pin_13 GPIO_PINS_13
+	#define GPIO_Pin_14 GPIO_PINS_14
+	#define GPIO_Pin_15 GPIO_PINS_15
+#endif
+#ifdef GPIO_PIN_0
+    #define GPIO_Pin_0  GPIO_PIN_0
+    #define GPIO_Pin_1  GPIO_PIN_1
+    #define GPIO_Pin_2  GPIO_PIN_2
+    #define GPIO_Pin_3  GPIO_PIN_3
+    #define GPIO_Pin_4  GPIO_PIN_4
+    #define GPIO_Pin_5  GPIO_PIN_5
+    #define GPIO_Pin_6  GPIO_PIN_6
+    #define GPIO_Pin_7  GPIO_PIN_7
+    #define GPIO_Pin_8  GPIO_PIN_8
+    #define GPIO_Pin_9  GPIO_PIN_9
+    #define GPIO_Pin_10 GPIO_PIN_10
+    #define GPIO_Pin_11 GPIO_PIN_11
+    #define GPIO_Pin_12 GPIO_PIN_12
+    #define GPIO_Pin_13 GPIO_PIN_13
+    #define GPIO_Pin_14 GPIO_PIN_14
+    #define GPIO_Pin_15 GPIO_PIN_15
+#endif
 
 #ifndef MAX
     #define MAX(a,b)    ((a)>(b))?(a):(b)               // 比较函数返回最大值，防止过小

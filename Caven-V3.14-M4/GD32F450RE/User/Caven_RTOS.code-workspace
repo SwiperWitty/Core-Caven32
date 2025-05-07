@@ -1,0 +1,21 @@
+{
+    "folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": "../../../Caven-MCU_Lib/API"
+        },
+        {
+            "path": "../../../Caven-MCU_Lib/Base_GD32F450"
+        },
+        {
+            "path": "../../../Caven-MCU_Lib/Mode"
+        },
+        {
+            "path": "../SDK"
+        }
+    ],
+    "settings": {},
+    "extensions": {}
+}

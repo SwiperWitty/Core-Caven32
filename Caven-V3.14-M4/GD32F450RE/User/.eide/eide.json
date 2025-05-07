@@ -1,0 +1,508 @@
+{
+  "name": "Caven_RTOS",
+  "type": "ARM",
+  "dependenceList": [],
+  "srcDirs": [],
+  "virtualFolder": {
+    "name": "<virtual_root>",
+    "files": [],
+    "folders": [
+      {
+        "name": "User",
+        "files": [
+          {
+            "path": "base_adc.c"
+          },
+          {
+            "path": "base_SPI.c"
+          },
+          {
+            "path": "base_uart.c"
+          },
+          {
+            "path": "main.c"
+          },
+          {
+            "path": "main-ADC.c"
+          },
+          {
+            "path": "main-delay.c"
+          },
+          {
+            "path": "main-Flash.c"
+          },
+          {
+            "path": "main-IO.c"
+          },
+          {
+            "path": "main-SPI.c"
+          },
+          {
+            "path": "main-UART.c"
+          },
+          {
+            "path": "base_Flash.c"
+          },
+          {
+            "path": "cpuspec.c"
+          },
+          {
+            "path": "macadc.c"
+          },
+          {
+            "path": "rand.c"
+          },
+          {
+            "path": "timetick.c"
+          },
+          {
+            "path": "Items.h"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "Base",
+        "files": [
+          {
+            "path": "../../../Caven-MCU_Lib/Base_GD32F450/Base.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Base_GD32F450/Base_GPIO.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Base_GD32F450/Base_Sys_Time.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Base_GD32F450/Base_UART.c"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "Mode",
+        "files": [
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/Control_Mode.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/DS18B20.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/HC138.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/HC595.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/mlx90614.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/Mode.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/MODE_Button.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/MODE_BZZ.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/MODE_LCD.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/MODE_LED.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/MODE_Motor.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/MODE_Motor_BYJ.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/MODE_MP3.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/MODE_OLED.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/MODE_RTC8564.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/MODE_st7789_dever.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/MODE_Time.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/MODE_Tracing.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/MODE_UART.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/MODE_Ultrasonic.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/Steering_engine.c"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "API",
+        "files": [
+          {
+            "path": "../../../Caven-MCU_Lib/API/API.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/API/caven_at_info_frame.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/API/Caven_event_frame.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/API/Caven_info_frame.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/API/cJSON.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/API/DATA_Handle.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/API/Encrypt_crc.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/API/Time_Handle.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/API/Vofa_info.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/API/Caven_Type.h"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "Config",
+        "files": [
+          {
+            "path": "../Config/gd32f4xx_it.c"
+          },
+          {
+            "path": "../Config/system_gd32f4xx.c"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "CMSIS",
+        "files": [
+          {
+            "path": "../CMSIS/core_cm4.h"
+          },
+          {
+            "path": "../CMSIS/core_cm4_simd.h"
+          },
+          {
+            "path": "../CMSIS/core_cmFunc.h"
+          },
+          {
+            "path": "../CMSIS/core_cmInstr.h"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "Peripherals",
+        "files": [
+          {
+            "path": "../SDK/src/gd32f4xx_adc.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_can.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_crc.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_ctc.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_dac.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_dbg.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_dci.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_dma.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_enet.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_exmc.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_exti.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_fmc.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_fwdgt.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_gpio.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_i2c.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_ipa.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_iref.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_misc.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_pmu.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_rcu.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_rtc.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_sdio.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_spi.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_syscfg.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_timer.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_tli.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_trng.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_usart.c"
+          },
+          {
+            "path": "../SDK/src/gd32f4xx_wwdgt.c"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "Startup",
+        "files": [
+          {
+            "path": "../Startup/startup_gd32f450_470.s"
+          }
+        ],
+        "folders": []
+      }
+    ]
+  },
+  "outDir": "build",
+  "deviceName": null,
+  "packDir": null,
+  "miscInfo": {
+    "uid": "8240f5af76c70f1181b2b8070270c974"
+  },
+  "targets": {
+    "default": {
+      "excludeList": [],
+      "toolchain": "AC5",
+      "compileConfig": {
+        "cpuType": "Cortex-M4",
+        "floatingPointHardware": "single",
+        "scatterFilePath": "",
+        "useCustomScatterFile": false,
+        "storageLayout": {
+          "RAM": [
+            {
+              "tag": "RAM",
+              "id": 1,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "noInit": false
+            },
+            {
+              "tag": "RAM",
+              "id": 2,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "noInit": false
+            },
+            {
+              "tag": "RAM",
+              "id": 3,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "noInit": false
+            },
+            {
+              "tag": "IRAM",
+              "id": 1,
+              "mem": {
+                "startAddr": "0x20000000",
+                "size": "0x30000"
+              },
+              "isChecked": true,
+              "noInit": false
+            },
+            {
+              "tag": "IRAM",
+              "id": 2,
+              "mem": {
+                "startAddr": "0x10000000",
+                "size": "0x10000"
+              },
+              "isChecked": false,
+              "noInit": false
+            }
+          ],
+          "ROM": [
+            {
+              "tag": "ROM",
+              "id": 1,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "isStartup": false
+            },
+            {
+              "tag": "ROM",
+              "id": 2,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "isStartup": false
+            },
+            {
+              "tag": "ROM",
+              "id": 3,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "isStartup": false
+            },
+            {
+              "tag": "IROM",
+              "id": 1,
+              "mem": {
+                "startAddr": "0x8000000",
+                "size": "0x80000"
+              },
+              "isChecked": true,
+              "isStartup": true
+            },
+            {
+              "tag": "IROM",
+              "id": 2,
+              "mem": {
+                "startAddr": "0x0",
+                "size": "0x0"
+              },
+              "isChecked": false,
+              "isStartup": false
+            }
+          ]
+        },
+        "options": "null"
+      },
+      "uploader": "JLink",
+      "uploadConfig": {
+        "bin": "",
+        "baseAddr": "",
+        "cpuInfo": {
+          "vendor": "null",
+          "cpuName": "null"
+        },
+        "proType": 1,
+        "speed": 8000,
+        "otherCmds": ""
+      },
+      "uploadConfigMap": {},
+      "custom_dep": {
+        "name": "default",
+        "incList": [
+          "../CMSIS",
+          "../Config",
+          "../SDK/inc",
+          "../Startup",
+          ".",
+          "../../../Caven-MCU_Lib/Base_GD32F450",
+          "../../../Caven-MCU_Lib/Mode",
+          "../../../Caven-MCU_Lib/API",
+          "RTE/_default"
+        ],
+        "libList": [],
+        "defineList": [
+          "USE_STDPERIPH_DRIVER",
+          "GD32F450",
+          "DEFAULT"
+        ]
+      },
+      "builderOptions": {
+        "AC5": {
+          "version": 4,
+          "beforeBuildTasks": [],
+          "afterBuildTasks": [],
+          "global": {
+            "use-microLIB": true,
+            "output-debug-info": "enable"
+          },
+          "c/cpp-compiler": {
+            "optimization": "level-0",
+            "one-elf-section-per-function": true,
+            "c99-mode": true,
+            "C_FLAGS": "--diag_suppress=1 --diag_suppress=1295",
+            "CXX_FLAGS": "--diag_suppress=1 --diag_suppress=1295",
+            "execute-only-code": true,
+            "plain-char-is-signed": true,
+            "warnings": "all-warnings"
+          },
+          "asm-compiler": {},
+          "linker": {
+            "output-format": "elf",
+            "xo-base": "",
+            "ro-base": "0x08000000",
+            "rw-base": "0x20000000"
+          }
+        }
+      }
+    }
+  },
+  "version": "3.5"
+}

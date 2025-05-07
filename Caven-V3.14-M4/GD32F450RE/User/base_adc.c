@@ -1,6 +1,5 @@
 
 #include "base_adc.h"
-#include "SYS_Time.h"
 
 //static    struct
 static uint8_t adc_list[6] = {ADC_CHANNEL_12,ADC_CHANNEL_13,ADC_CHANNEL_8,ADC_CHANNEL_9,};   //PRB_Q PRB_I   RF_FWD_DET  RF_RES_DET
@@ -49,7 +48,7 @@ int adc_config(void)
     /* enable ADC interface */
     adc_enable(ADC0);
 //    delay_1ms(1);
-    Base_Delay (1000,10);
+//    Base_Delay (1000,10);
     /* ADC calibration and reset calibration */
     adc_calibration_enable(ADC0);
     

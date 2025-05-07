@@ -7,7 +7,7 @@
 
   <Targets>
     <Target>
-      <TargetName>GD32F4XX</TargetName>
+      <TargetName>default</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <pArmCC>5060960::V5.06 update 7 (build 960)::.\ARMCC</pArmCC>
@@ -338,9 +338,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_STDPERIPH_DRIVER,GD32F450</Define>
+              <Define>USE_STDPERIPH_DRIVER,GD32F450,DEFAULT</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CMSIS;..\Config;..\SDK\inc;..\Startup;..\User;..\Utilities</IncludePath>
+              <IncludePath>..\CMSIS;..\Config;..\SDK\inc;..\Startup;..\User;..\..\..\Caven-MCU_Lib\Base_GD32F450;..\..\..\Caven-MCU_Lib\Mode;..\..\..\Caven-MCU_Lib\API</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -382,7 +382,7 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>Application</GroupName>
+          <GroupName>User</GroupName>
           <Files>
             <File>
               <FileName>base_adc.c</FileName>
@@ -393,11 +393,6 @@
               <FileName>base_SPI.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\base_SPI.c</FilePath>
-            </File>
-            <File>
-              <FileName>base_uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\base_uart.c</FilePath>
             </File>
             <File>
               <FileName>main.c</FileName>
@@ -420,24 +415,9 @@
               <FilePath>.\main-Flash.c</FilePath>
             </File>
             <File>
-              <FileName>main-IO.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\main-IO.c</FilePath>
-            </File>
-            <File>
               <FileName>main-SPI.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\main-SPI.c</FilePath>
-            </File>
-            <File>
-              <FileName>main-UART.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\main-UART.c</FilePath>
-            </File>
-            <File>
-              <FileName>SYS_Time.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\SYS_Time.c</FilePath>
             </File>
             <File>
               <FileName>base_Flash.c</FileName>
@@ -450,11 +430,6 @@
               <FilePath>.\cpuspec.c</FilePath>
             </File>
             <File>
-              <FileName>gpio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\gpio.c</FilePath>
-            </File>
-            <File>
               <FileName>macadc.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\macadc.c</FilePath>
@@ -465,9 +440,224 @@
               <FilePath>.\rand.c</FilePath>
             </File>
             <File>
-              <FileName>timetick.c</FileName>
+              <FileName>Items.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Items.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Base</GroupName>
+          <Files>
+            <File>
+              <FileName>Base.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\timetick.c</FilePath>
+              <FilePath>..\..\..\Caven-MCU_Lib\Base_GD32F450\Base.c</FilePath>
+            </File>
+            <File>
+              <FileName>Base_GPIO.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Base_GD32F450\Base_GPIO.c</FilePath>
+            </File>
+            <File>
+              <FileName>Base_Sys_Time.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Base_GD32F450\Base_Sys_Time.c</FilePath>
+            </File>
+            <File>
+              <FileName>Base_UART.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Base_GD32F450\Base_UART.c</FilePath>
+            </File>
+            <File>
+              <FileName>Base_IIC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Base_GD32F450\Base_IIC.c</FilePath>
+            </File>
+            <File>
+              <FileName>Base_PWM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Base_GD32F450\Base_PWM.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Mode</GroupName>
+          <Files>
+            <File>
+              <FileName>Control_Mode.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\Control_Mode.c</FilePath>
+            </File>
+            <File>
+              <FileName>DS18B20.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\DS18B20.c</FilePath>
+            </File>
+            <File>
+              <FileName>HC138.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\HC138.c</FilePath>
+            </File>
+            <File>
+              <FileName>HC595.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\HC595.c</FilePath>
+            </File>
+            <File>
+              <FileName>mlx90614.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\mlx90614.c</FilePath>
+            </File>
+            <File>
+              <FileName>Mode.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\Mode.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_Button.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Button.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_BZZ.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_BZZ.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_LCD.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_LCD.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_LED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_LED.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_Motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Motor.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_Motor_BYJ.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Motor_BYJ.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_MP3.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_MP3.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_OLED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_OLED.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_RTC8564.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_RTC8564.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_st7789_dever.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_st7789_dever.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_Time.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Time.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_Tracing.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Tracing.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_UART.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_UART.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_Ultrasonic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Ultrasonic.c</FilePath>
+            </File>
+            <File>
+              <FileName>Steering_engine.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\Steering_engine.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>API</GroupName>
+          <Files>
+            <File>
+              <FileName>API.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\API.c</FilePath>
+            </File>
+            <File>
+              <FileName>caven_at_info_frame.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\caven_at_info_frame.c</FilePath>
+            </File>
+            <File>
+              <FileName>Caven_event_frame.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Caven_event_frame.c</FilePath>
+            </File>
+            <File>
+              <FileName>Caven_info_frame.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Caven_info_frame.c</FilePath>
+            </File>
+            <File>
+              <FileName>cJSON.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\cJSON.c</FilePath>
+            </File>
+            <File>
+              <FileName>DATA_Handle.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\DATA_Handle.c</FilePath>
+            </File>
+            <File>
+              <FileName>Encrypt_crc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Encrypt_crc.c</FilePath>
+            </File>
+            <File>
+              <FileName>Time_Handle.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Time_Handle.c</FilePath>
+            </File>
+            <File>
+              <FileName>Vofa_info.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Vofa_info.c</FilePath>
+            </File>
+            <File>
+              <FileName>Caven_Type.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Caven_Type.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Config</GroupName>
+          <Files>
+            <File>
+              <FileName>gd32f4xx_it.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Config\gd32f4xx_it.c</FilePath>
+            </File>
+            <File>
+              <FileName>system_gd32f4xx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Config\system_gd32f4xx.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -653,31 +843,6 @@
               <FileName>startup_gd32f450_470.s</FileName>
               <FileType>2</FileType>
               <FilePath>..\Startup\startup_gd32f450_470.s</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Utilities</GroupName>
-          <Files>
-            <File>
-              <FileName>gd32f450i_eval.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Utilities\gd32f450i_eval.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Config</GroupName>
-          <Files>
-            <File>
-              <FileName>gd32f4xx_it.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Config\gd32f4xx_it.c</FilePath>
-            </File>
-            <File>
-              <FileName>system_gd32f4xx.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Config\system_gd32f4xx.c</FilePath>
             </File>
           </Files>
         </Group>
