@@ -30,8 +30,8 @@ int Center_State_machine(Caven_BaseTIME_Type time)
                 center_date.tm_year,center_date.tm_mon,center_date.tm_mday,
                 center_date.tm_hour,center_date.tm_min,center_date.tm_sec,
                 center_time.SYS_Sec,center_time.SYS_Us);
-        Mode_Use.OLED.Show_String_pFun(0,0,"oled show",0,0,16);
-        Mode_Use.OLED.Refresh();
+//        Mode_Use.OLED.Show_String_pFun(0,0,"oled show",0,0,16);
+//        Mode_Use.OLED.Refresh();
     }
 
     return retval;

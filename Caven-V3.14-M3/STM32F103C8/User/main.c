@@ -11,9 +11,20 @@ void tim4_pwm_period_switch (char num);
 
 int main(void)
 {
+    int temp_num = 0;
     Caven_BaseTIME_Type now_time,show_time;
 	struct tm now_date;
     Main_Init();
+    tim4_pwm_period_switch (0);
+    temp_num = 100;
+    TIM4_PWMx_SetValue(1,&temp_num);
+    temp_num = 500;
+    TIM4_PWMx_SetValue(1,&temp_num);
+    temp_num = 1000;
+    TIM4_PWMx_SetValue(1,&temp_num);
+    temp_num = 1500;
+    TIM4_PWMx_SetValue(1,&temp_num);
+    
     now_time.SYS_Sec = 1742299486;
     Mode_Use.TIME.Set_BaseTIME_pFun(now_time);
     now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
@@ -42,13 +53,14 @@ int main(void)
     while(1)
     {
         now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
-		now_date = Mode_Use.TIME.Get_Date_pFun(8*60*60);
+		
         API_Task_Timer (&LED_Task,now_time);        // LED任务
 		API_Task_Timer (&Vofa_JustFloat_Show_Task,now_time);        // LED任务
         User_GPIO_set(1,11,LED_Task.Flip_falg);
 		
 		if(LED_Task.Trigger_Flag)
 		{
+            now_date = Mode_Use.TIME.Get_Date_pFun(8*60*60);
 			printf("date %d/%d/%d %02d:%02d:%02d  utc [%d] [%d]\n",
                 now_date.tm_year,now_date.tm_mon,now_date.tm_mday,
                 now_date.tm_hour,now_date.tm_min,now_date.tm_sec,
@@ -122,10 +134,14 @@ int main(void)
 					PWM_period_switch = 0;
 				}
 				tim4_pwm_period_switch (PWM_period_switch);
-				TIM4_PWMx_SetValue(1,100);
-				TIM4_PWMx_SetValue(2,500);
-				TIM4_PWMx_SetValue(3,1000);
-				TIM4_PWMx_SetValue(4,1500);
+                temp_num = 100;
+                TIM4_PWMx_SetValue(1,&temp_num);
+                temp_num = 500;
+                TIM4_PWMx_SetValue(1,&temp_num);
+                temp_num = 1000;
+                TIM4_PWMx_SetValue(1,&temp_num);
+                temp_num = 1500;
+                TIM4_PWMx_SetValue(1,&temp_num);
 			}
 		}
 //        if(Center_State_machine(now_time))          // 状态机入口
@@ -154,14 +170,9 @@ void Main_Init(void)
 	User_GPIO_set(1,11,1);
 	User_GPIO_set(1,12,0);
 	
-	tim4_pwm_period_switch (0);
-	
     Mode_Use.UART.Send_String_pFun(DEBUG_OUT,"hello 2!\n");
 	TIMx_Capture_Callback_pFunBind(1,Capture_pwm_handle);
-	TIM4_PWMx_SetValue(1,100);
-	TIM4_PWMx_SetValue(2,500);
-	TIM4_PWMx_SetValue(3,1000);
-	TIM4_PWMx_SetValue(4,1500);
+
 //	Vofa_JustFloat_Init_Fun (Debug_Out);
 	
 }

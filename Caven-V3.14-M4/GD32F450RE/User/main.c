@@ -12,9 +12,17 @@ void Main_Init(void);
 
 int main(void)
 {
+    int temp_num = 0;
     Caven_BaseTIME_Type now_time;
     struct tm now_date;
     Main_Init();
+
+    Mode_Use.Steering_Engine.Bind_PWM_Time (TIM3_PWMx_SetValue);
+    Mode_Use.Steering_Engine.Set_Angle(1,0);
+    Mode_Use.Steering_Engine.Set_Angle(2,90);
+    Mode_Use.Steering_Engine.Set_Angle(3,120);
+    Mode_Use.Steering_Engine.Set_Angle(4,180);
+    
     now_time.SYS_Sec = 1746514130;
     Mode_Use.TIME.Set_BaseTIME_pFun(now_time);
     now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
@@ -51,13 +59,6 @@ void Main_Init(void)
     Mode_Init.UART(m_UART_CH3,115200,1);
     Mode_Init.UART(m_UART_CH4,115200,1);
     Mode_Init.OLED(1);
-    
-    TIM3_PWM_Start_Init(2000-1,1200-1,1);
-    
-    TIM3_PWMx_SetValue(1,100);
-    TIM3_PWMx_SetValue(2,200);
-    TIM3_PWMx_SetValue(3,1000);
-    TIM3_PWMx_SetValue(4,1500);
     
     Mode_Use.TIME.Delay_Ms(10);
     User_GPIO_config(3,0,1);

@@ -24,6 +24,8 @@
         "encrypt_crc.h": "c",
         "caven_at_info_frame.h": "c",
         "base_gpio.h": "c",
-        "exist_gpio.h": "c"
+        "exist_gpio.h": "c",
+        "base_capture.h": "c",
+        "base_pwm.h": "c"
     }
 }
