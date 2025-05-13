@@ -5,8 +5,11 @@
 
 char temp_array[100];
 void Main_Init(void);
-void Capture_pwm_handle (void *data);
+void Capture1_pwm_handle (void *data);
+void Capture2_pwm_handle (void *data);
 TIM_Capture_Type time1_Capture_val;
+TIM_Capture_Type time2_Capture_val;
+
 void tim4_pwm_period_switch (char num);
 
 int main(void)
@@ -15,15 +18,15 @@ int main(void)
     Caven_BaseTIME_Type now_time,show_time;
 	struct tm now_date;
     Main_Init();
-    tim4_pwm_period_switch (0);
+    tim4_pwm_period_switch (2);
     temp_num = 100;
     TIM4_PWMx_SetValue(1,&temp_num);
     temp_num = 500;
-    TIM4_PWMx_SetValue(1,&temp_num);
+    TIM4_PWMx_SetValue(2,&temp_num);
     temp_num = 1000;
-    TIM4_PWMx_SetValue(1,&temp_num);
+    TIM4_PWMx_SetValue(3,&temp_num);
     temp_num = 1500;
-    TIM4_PWMx_SetValue(1,&temp_num);
+    TIM4_PWMx_SetValue(4,&temp_num);
     
     now_time.SYS_Sec = 1742299486;
     Mode_Use.TIME.Set_BaseTIME_pFun(now_time);
@@ -69,13 +72,12 @@ int main(void)
 			sprintf(str_array,"time: %02d s ",now_time.SYS_Sec%60);
 			Mode_Use.OLED.Show_String_pFun(6,0,"hello",0,0,16);
 			Mode_Use.OLED.Show_String_pFun(0,1,str_array,0,0,16);
-			Mode_Use.OLED.Refresh();
-			Mode_Use.OLED.Draw_Line_pFun(0,63,127,63,1);
+//			Mode_Use.OLED.Refresh();
+//			Mode_Use.OLED.Draw_Line_pFun(0,63,127,63,1);
 		}
 		// Capture
 		if (time1_Capture_val.finish_flag)
 		{
-			time1_Capture_val.finish_flag = 0;
 			period = time1_Capture_val.period_val;
 			cycle = time1_Capture_val.high_val;
 			temp_f = period;
@@ -85,6 +87,11 @@ int main(void)
 			Capture_flag = 1;
 			temp_f = 1 / (period_t / 1000);
 			Freq = (int)temp_f;
+            memset(&time1_Capture_val,0,sizeof(TIM_Capture_Type));
+		}
+		if (time2_Capture_val.finish_flag)
+		{
+            memset(&time2_Capture_val,0,sizeof(TIM_Capture_Type));
 		}
 		// Vofa
 		if(Vofa_JustFloat_Show_Task.Trigger_Flag && Capture_flag)
@@ -137,11 +144,11 @@ int main(void)
                 temp_num = 100;
                 TIM4_PWMx_SetValue(1,&temp_num);
                 temp_num = 500;
-                TIM4_PWMx_SetValue(1,&temp_num);
+                TIM4_PWMx_SetValue(2,&temp_num);
                 temp_num = 1000;
-                TIM4_PWMx_SetValue(1,&temp_num);
+                TIM4_PWMx_SetValue(3,&temp_num);
                 temp_num = 1500;
-                TIM4_PWMx_SetValue(1,&temp_num);
+                TIM4_PWMx_SetValue(4,&temp_num);
 			}
 		}
 //        if(Center_State_machine(now_time))          // 状态机入口
@@ -158,11 +165,12 @@ void Main_Init(void)
     Mode_Init.TIME(ENABLE);
     Mode_Use.TIME.Delay_Ms(10);
     
-	TIM1_Capture_Start_Init(0xffff,72-1,0x02,0,ENABLE);				// a8,a9
+
+    
 	Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
 	
-	Mode_Use.OLED.Set_Direction_pFun(0,0x3c);
-	Mode_Init.OLED(ENABLE);
+//	Mode_Use.OLED.Set_Direction_pFun(0,0x3c);
+//	Mode_Init.OLED(ENABLE);
 	
 	User_GPIO_config(1,11,1);
 	User_GPIO_config(1,12,1);
@@ -171,8 +179,11 @@ void Main_Init(void)
 	User_GPIO_set(1,12,0);
 	
     Mode_Use.UART.Send_String_pFun(DEBUG_OUT,"hello 2!\n");
-	TIMx_Capture_Callback_pFunBind(1,Capture_pwm_handle);
-
+	TIMx_Capture_Callback_pFunBind(1,Capture1_pwm_handle);
+    TIMx_Capture_Callback_pFunBind(2,Capture2_pwm_handle);
+    
+    TIM1_Capture_Start_Init(0xffff,72-1,0x01|0x02|0x04|0x08,0,ENABLE);				// a8,a9
+    TIM2_Capture_Start_Init(0xffff,72-1,0x01|0x02|0x04|0x08,0,ENABLE);
 //	Vofa_JustFloat_Init_Fun (Debug_Out);
 	
 }
@@ -199,15 +210,24 @@ void tim4_pwm_period_switch (char num)
 	}
 }
 
-void Capture_pwm_handle (void *data)
+void Capture1_pwm_handle (void *data)
 {
 	TIM_Capture_Type temp_Capture_val;
 	if(data != NULL)
 	{
 		memcpy(&temp_Capture_val,data,sizeof(TIM_Capture_Type));
-		if (temp_Capture_val.Channel == 2)
-		{
-			memcpy(&time1_Capture_val,data,sizeof(TIM_Capture_Type));
-		}
+		memcpy(&time1_Capture_val,data,sizeof(TIM_Capture_Type));
+
+	}
+}
+
+void Capture2_pwm_handle (void *data)
+{
+	TIM_Capture_Type temp_Capture_val;
+	if(data != NULL)
+	{
+		memcpy(&temp_Capture_val,data,sizeof(TIM_Capture_Type));
+		memcpy(&time2_Capture_val,data,sizeof(TIM_Capture_Type));
+
 	}
 }

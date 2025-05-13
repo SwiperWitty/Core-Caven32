@@ -493,39 +493,39 @@
           <GroupName>Mode</GroupName>
           <Files>
             <File>
+              <FileName>IC_DS18B20.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\IC_DS18B20.c</FilePath>
+            </File>
+            <File>
+              <FileName>IC_HC138.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\IC_HC138.c</FilePath>
+            </File>
+            <File>
+              <FileName>IC_HC595.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\IC_HC595.c</FilePath>
+            </File>
+            <File>
+              <FileName>IC_MLX90614.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\IC_MLX90614.c</FilePath>
+            </File>
+            <File>
+              <FileName>IC_RTC8564.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\IC_RTC8564.c</FilePath>
+            </File>
+            <File>
               <FileName>Mode.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\Mode.c</FilePath>
             </File>
             <File>
-              <FileName>MODE_LCD.c</FileName>
+              <FileName>MODE_Button.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_LCD.c</FilePath>
-            </File>
-            <File>
-              <FileName>Control_Mode.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\Control_Mode.c</FilePath>
-            </File>
-            <File>
-              <FileName>DS18B20.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\DS18B20.c</FilePath>
-            </File>
-            <File>
-              <FileName>HC138.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\HC138.c</FilePath>
-            </File>
-            <File>
-              <FileName>HC595.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\HC595.c</FilePath>
-            </File>
-            <File>
-              <FileName>mlx90614.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\mlx90614.c</FilePath>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Button.c</FilePath>
             </File>
             <File>
               <FileName>MODE_BZZ.c</FileName>
@@ -533,19 +533,14 @@
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_BZZ.c</FilePath>
             </File>
             <File>
+              <FileName>MODE_LCD.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_LCD.c</FilePath>
+            </File>
+            <File>
               <FileName>MODE_LED.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_LED.c</FilePath>
-            </File>
-            <File>
-              <FileName>MODE_Motor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Motor.c</FilePath>
-            </File>
-            <File>
-              <FileName>MODE_Motor_BYJ.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Motor_BYJ.c</FilePath>
             </File>
             <File>
               <FileName>MODE_MP3.c</FileName>
@@ -553,9 +548,14 @@
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_MP3.c</FilePath>
             </File>
             <File>
-              <FileName>Mode_RTC8564.c</FileName>
+              <FileName>MODE_OLED.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\Mode_RTC8564.c</FilePath>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_OLED.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_st7789_dever.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_st7789_dever.c</FilePath>
             </File>
             <File>
               <FileName>MODE_Time.c</FileName>
@@ -578,24 +578,19 @@
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Ultrasonic.c</FilePath>
             </File>
             <File>
+              <FileName>Motor_BYJ.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\Motor_BYJ.c</FilePath>
+            </File>
+            <File>
+              <FileName>Motor_engine.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\Motor_engine.c</FilePath>
+            </File>
+            <File>
               <FileName>Steering_engine.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\Steering_engine.c</FilePath>
-            </File>
-            <File>
-              <FileName>MODE_Button.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Button.c</FilePath>
-            </File>
-            <File>
-              <FileName>MODE_st7789_dever.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_st7789_dever.c</FilePath>
-            </File>
-            <File>
-              <FileName>MODE_OLED.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_OLED.c</FilePath>
             </File>
           </Files>
         </Group>

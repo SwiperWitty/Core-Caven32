@@ -27,6 +27,8 @@
         "exist_gpio.h": "c",
         "base_capture.h": "c",
         "base_pwm.h": "c",
-        "caven_type.h": "c"
+        "caven_type.h": "c",
+        "mode_ultrasonic.h": "c",
+        "motor_engine.h": "c"
     }
 }

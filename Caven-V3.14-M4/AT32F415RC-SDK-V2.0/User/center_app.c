@@ -37,6 +37,11 @@ int Center_State_machine(Caven_BaseTIME_Type time)
     return retval;
 }
 
+void delay_ms(int milli_seconds)
+{
+    SYS_Delay_ms(milli_seconds);
+}
+
 #if GUI_LVGL
 // Transfer GuiLite 32 bits color to your LCD color
 #define GL_RGB_32_to_16(rgb) (((((unsigned int)(rgb)) & 0xFF) >> 3) | ((((unsigned int)(rgb)) & 0xFC00) >> 5) | ((((unsigned int)(rgb)) & 0xF80000) >> 8))
@@ -71,8 +76,4 @@ int start_ui(void)
     return 0;
 }
 
-void delay_ms(int milli_seconds)
-{
-    SYS_Delay_ms(milli_seconds);
-}
 #endif

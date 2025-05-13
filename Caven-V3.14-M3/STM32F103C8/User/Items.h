@@ -2,7 +2,7 @@
 #define _ITEMS__H_
 
 #include "stm32f10x.h"
-//软件配置的 基于xx晶振  
+// 软件配置的 基于xx晶振  
 #include "system_stm32f10x.h"
 #include "stdio.h"
 
@@ -34,6 +34,22 @@
 #define OPEN_1101   0x0d
 #define OPEN_1110   0x0e
 #define OPEN_1111   0x0f
+
+#define OPEN_00001  0x01
+#define OPEN_00010  0x02
+#define OPEN_00011  0x03
+#define OPEN_00100  0x04
+#define OPEN_00101  0x05
+#define OPEN_00110  0x06
+#define OPEN_00111  0x07
+#define OPEN_01000  0x08
+#define OPEN_01001  0x09
+#define OPEN_01010  0x0a
+#define OPEN_01011  0x0b
+#define OPEN_01100  0x0c
+#define OPEN_01101  0x0d
+#define OPEN_01110  0x0e
+#define OPEN_01111  0x0f
 #define OPEN_10000  0x10
 #define OPEN_11110  0x1E
 #define OPEN_11111  0x1f
@@ -47,19 +63,21 @@
 #define Exist_CAPTURE   OPEN_0001
 
 #define Exist_BUTTON    OPEN_0001
-#define Exist_LED       OPEN_0001  // LED0
+#define Exist_LED       OPEN_0001
 #define Exist_BZZ       OPEN_0001
 
 #define Exist_ADC		OPEN_NULL
 #define Exist_DAC       OPEN_NULL
 
-#define Exist_UART      OPEN_11110  // 串口
+#define Exist_UART      OPEN_11110
 #define Exist_IIC       OPEN_NULL
-#define Exist_SPI       OPEN_0100   // SPI2
+#define Exist_SPI       OPEN_0100
 #define Exist_USB       OPEN_NULL
 #define Exist_CAN       OPEN_NULL
 
 #define Exist_FLASH     OPEN_NULL
+
+#define GUI_LVGL        OPEN_NULL
 
 /***    需要加上逻辑才能的功能     ***/
 #define Exist_LCD	            OPEN_NULL
@@ -68,17 +86,18 @@
 #define Exist_HC138             OPEN_NULL
 #define Exist_HC595             OPEN_NULL
 #define Exist_DS18B20           OPEN_0001
+#define Exist_MLX90614          OPEN_NULL
+#define Exist_RTC8564           OPEN_NULL   // 时钟
 
 #define Exist_Ultrasonic        OPEN_NULL   // 超声波测距
 
 #define Exist_Voice             OPEN_NULL   // 语音播报(MP3)
 
-#define Exist_Motor             OPEN_NULL   // 电机
+#define Exist_Motor_Engine      OPEN_NULL   // 电机
 #define Exist_Steering_Engine   OPEN_0001   // 舵机
 #define Exist_STEP_Motor        OPEN_NULL
+#define Exist_Motor_BYJ         OPEN_NULL
 
-#define Exist_MLX90614          OPEN_NULL   // 红外测温
-#define Exist_RTC8564           OPEN_NULL   // 时钟
 
 /****   进一步的逻辑关系    ****/
 #if Exist_UART
@@ -87,41 +106,43 @@
     #define UART3_REMAP OPEN_0001       // OPEN_0000:PB10 11,OPEN_0001:PC10 11
     #define UART4_REMAP OPEN_0000
 #endif
+#if Exist_CAPTURE
+    #define TIM1_REMAP  OPEN_0000
+    #define TIM2_REMAP  OPEN_0001       // OPEN_0000:PA0-3,OPEN_0001:PA15、PB3、PB10、PB11
+    #define TIM3_REMAP  OPEN_0000        
+    #define TIM4_REMAP  OPEN_0000
+#endif
 
 #if Exist_LCD
-    #if Exist_SPI == 0
+    #if Exist_SPI == OPEN_NULL
         #undef Exist_SPI
         #define Exist_SPI	OPEN_0100
     #endif
 #endif
 
 #if Exist_OLED || Exist_MLX90614 || Exist_RTC8564
-    #if Exist_IIC == 0
+    #if Exist_IIC == OPEN_NULL
         #undef Exist_IIC
         #define Exist_IIC   OPEN_0001
     #endif
 #endif
 
 #if Exist_Voice
-    #if Exist_UART == 0
+    #if Exist_UART == OPEN_NULL
         #undef Exist_UART
         #define Exist_UART  OPEN_0100
     #endif
 #endif
 
-#if Exist_Motor                 // 电机基于TIM8-PWM
-    #if Exist_PWM == 0
+#if Exist_Motor_Engine          // 电机基于TIM8-PWM
+    #if Exist_PWM == OPEN_NULL
         #undef Exist_PWM
         #define Exist_PWM   OPEN_0001
     #endif
-    #if Exist_CAPTURE == 0
-        #undef Exist_CAPTURE
-        #define Exist_CAPTURE   OPEN_0001
-    #endif
 #endif
 
-#if Exist_Steering_Engine        // 舵机基于TIM4-PWM
-    #if Exist_PWM == 0
+#if Exist_Steering_Engine       // 舵机基于TIM4-PWM
+    #if Exist_PWM == OPEN_NULL
         #undef Exist_PWM
         #define Exist_PWM   OPEN_0001
     #endif
@@ -181,6 +202,24 @@
 	#define GPIO_Pin_13 GPIO_PINS_13
 	#define GPIO_Pin_14 GPIO_PINS_14
 	#define GPIO_Pin_15 GPIO_PINS_15
+#endif
+#ifdef GPIO_PIN_0
+    #define GPIO_Pin_0  GPIO_PIN_0
+    #define GPIO_Pin_1  GPIO_PIN_1
+    #define GPIO_Pin_2  GPIO_PIN_2
+    #define GPIO_Pin_3  GPIO_PIN_3
+    #define GPIO_Pin_4  GPIO_PIN_4
+    #define GPIO_Pin_5  GPIO_PIN_5
+    #define GPIO_Pin_6  GPIO_PIN_6
+    #define GPIO_Pin_7  GPIO_PIN_7
+    #define GPIO_Pin_8  GPIO_PIN_8
+    #define GPIO_Pin_9  GPIO_PIN_9
+    #define GPIO_Pin_10 GPIO_PIN_10
+    #define GPIO_Pin_11 GPIO_PIN_11
+    #define GPIO_Pin_12 GPIO_PIN_12
+    #define GPIO_Pin_13 GPIO_PIN_13
+    #define GPIO_Pin_14 GPIO_PIN_14
+    #define GPIO_Pin_15 GPIO_PIN_15
 #endif
 
 #ifndef MAX

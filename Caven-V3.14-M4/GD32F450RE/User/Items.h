@@ -18,6 +18,8 @@
 
 /*  基本外设就能实现的功能     */
 
+#define OPEN_NULL   0x00    // 不存在设备
+#define OPEN_0000   0x00    // 默认MAP
 #define OPEN_0001   0x01    // 存在设备0
 #define OPEN_0010   0x02    // 存在设备1
 #define OPEN_0011   0x03    // 存在设备1、0
@@ -53,118 +55,116 @@
 #define OPEN_11110  0x1E
 #define OPEN_11111  0x1f
 
-#define DEBUG_OUT	0   // Debug 通道(Caved 3.14是串口3)
+#define DEBUG_OUT	2   		// Debug 通道(Caved 3.14是串口3)
 
 #ifndef Exist_SYS_TIME
-    #define Exist_SYS_TIME      // 一定存在
+    #define Exist_SYS_TIME  OPEN_0001 // 一定存在
 #endif
-#define Exist_PWM
-//#define Exist_ENCODE
+#define Exist_PWM       OPEN_0001
+#define Exist_CAPTURE   OPEN_0001
 
-#define Exist_BUTTON
-#define Exist_LED       OPEN_0001  // LED0
-#define Exist_BZZ
+#define Exist_BUTTON    OPEN_0001
+#define Exist_LED       OPEN_0001
+#define Exist_BZZ       OPEN_0001
 
-// #define Exist_ADC		OPEN_1101
-//#define Exist_DAC
+#define Exist_ADC		OPEN_NULL
+#define Exist_DAC       OPEN_NULL
 
-#define Exist_UART      OPEN_11111  // 串口
-//#define Exist_IIC     OPEN_0001
-//#define Exist_SPI     OPEN_0100   // SPI2
-//#define Exist_USB
-//#define Exist_CAN
+#define Exist_UART      OPEN_11110
+#define Exist_IIC       OPEN_NULL
+#define Exist_SPI       OPEN_0100
+#define Exist_USB       OPEN_NULL
+#define Exist_CAN       OPEN_NULL
 
-//#define Exist_FLASH
+#define Exist_FLASH     OPEN_NULL
+
+#define GUI_LVGL        OPEN_NULL
 
 /***    需要加上逻辑才能的功能     ***/
-//#define Exist_LCD	OPEN_0001
-#define Exist_OLED
+#define Exist_LCD	            OPEN_NULL
+#define Exist_OLED              OPEN_0001
 
-//#define Exist_HC138
-//#define Exist_HC595           OPEN_0001
-//#define Exist_DS18B20
+#define Exist_HC138             OPEN_NULL
+#define Exist_HC595             OPEN_NULL
+#define Exist_DS18B20           OPEN_0001
+#define Exist_MLX90614          OPEN_NULL
+#define Exist_RTC8564           OPEN_NULL   // 时钟
 
-//#define Exist_Ultrasonic                  //超声波测距
-//#define Exist_FindLine                    //循迹
+#define Exist_Ultrasonic        OPEN_NULL   // 超声波测距
 
-//#define Exist_Voice                       //语音播报(MP3)
+#define Exist_Voice             OPEN_NULL   // 语音播报(MP3)
 
-//#define Exist_Motor           OPEN_1111   // 电机
-#define Exist_Steering_Engine OPEN_1111   // 舵机
-//#define Exist_STEP_Motor
+#define Exist_Motor_Engine      OPEN_NULL   // 电机
+#define Exist_Steering_Engine   OPEN_0001   // 舵机
+#define Exist_STEP_Motor        OPEN_NULL
+#define Exist_Motor_BYJ         OPEN_NULL
 
-//#define Exist_MLX90614                    //红外测温
-//#define Exist_RTC_Clock                     //时钟
-
-#define GUI_LVGL    1
 
 /****   进一步的逻辑关系    ****/
-#ifdef Exist_LCD
-    #ifndef Exist_SPI
+#if Exist_UART
+    #define UART1_REMAP OPEN_0000
+    #define UART2_REMAP OPEN_0000
+    #define UART3_REMAP OPEN_0001       // OPEN_0000:PB10 11,OPEN_0001:PC10 11
+    #define UART4_REMAP OPEN_0000
+#endif
+#if Exist_CAPTURE
+    #define TIM1_REMAP  OPEN_0000
+    #define TIM2_REMAP  OPEN_0001       // OPEN_0000:PA0-3,OPEN_0001:PA15、PB3、PB10、PB11
+    #define TIM3_REMAP  OPEN_0000        
+    #define TIM4_REMAP  OPEN_0000
+#endif
+
+#if Exist_LCD
+    #if Exist_SPI == OPEN_NULL
+        #undef Exist_SPI
         #define Exist_SPI	OPEN_0100
     #endif
 #endif
 
-#ifdef Exist_OLED
-    #ifndef Exist_IIC
-        #define Exist_IIC
+#if Exist_OLED || Exist_MLX90614 || Exist_RTC8564
+    #if Exist_IIC == OPEN_NULL
+        #undef Exist_IIC
+        #define Exist_IIC   OPEN_0001
     #endif
 #endif
 
-#ifdef Exist_Voice
-    #ifndef Exist_UART
-        #define Exist_UART
+#if Exist_Voice
+    #if Exist_UART == OPEN_NULL
+        #undef Exist_UART
+        #define Exist_UART  OPEN_0100
     #endif
 #endif
 
-#ifdef Exist_Motor
-    #ifndef Exist_PWM
-        #define Exist_PWM
-    #endif
-    #ifndef Exist_ENCODE
-        #define Exist_ENCODE
+#if Exist_Motor_Engine          // 电机基于TIM8-PWM
+    #if Exist_PWM == OPEN_NULL
+        #undef Exist_PWM
+        #define Exist_PWM   OPEN_0001
     #endif
 #endif
 
-#ifdef Exist_Steering_Engine        //舵机基于TIM4-PWM
-    #ifndef Exist_PWM
-        #define Exist_PWM
-    #endif
-#endif
-
-#ifdef Exist_MLX90614
-    #ifndef Exist_IIC
-        #define Exist_IIC
-    #endif
-#endif
-
-#ifdef Exist_RTC_Clock
-    #ifndef Exist_IIC
-        #define Exist_IIC
+#if Exist_Steering_Engine       // 舵机基于TIM4-PWM
+    #if Exist_PWM == OPEN_NULL
+        #undef Exist_PWM
+        #define Exist_PWM   OPEN_0001
     #endif
 #endif
 
 /*****  冲突      *****/
 #if DEBUG_OUT == 1
-    #ifdef Exist_USB
+    #if Exist_USB
         #warning (UART1 And USB Clash !!!)
+        #undef Exist_USB
+        #define Exist_USB   OPEN_0000
     #endif
 #endif
 
-#ifdef Exist_LCD
-    #ifdef Exist_OLED
+#if Exist_LCD
+    #if Exist_OLED
         #warning (LCD And OLED Have A Clash !!!)
         #undef Exist_OLED
+        #define Exist_OLED  OPEN_0000
     #endif
 #endif
-
-#ifdef Exist_ADC
-    #ifdef Exist_DAC
-        #warning (ADC And DAC Have A Clash !!!)
-        #undef Exist_DAC
-    #endif
-#endif
-
 
 /*  MCU指令   */
 
