@@ -10,12 +10,13 @@
       <TargetName>Default</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060061::V5.06 update 1 (build 61)::ARMCC</pCCUsed>
+      <pCCUsed>5060960::V5.06 update 7 (build 960)::.\ARMCC</pCCUsed>
+      <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>-AT32F415RCT7</Device>
           <Vendor>ArteryTek</Vendor>
-          <PackID>ArteryTek.AT32F415_DFP.2.1.4</PackID>
+          <PackID>ArteryTek.AT32F415_DFP.2.1.5</PackID>
           <Cpu>IRAM(0x20000000,0x8000) IROM(0x08000000,0x40000) CPUTYPE("Cortex-M4") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
@@ -182,6 +183,8 @@
             <hadXRAM>0</hadXRAM>
             <uocXRam>0</uocXRam>
             <RvdsVP>0</RvdsVP>
+            <RvdsMve>0</RvdsMve>
+            <RvdsCdeCp>0</RvdsCdeCp>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -322,11 +325,15 @@
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
             <uC99>1</uC99>
+            <uGnu>0</uGnu>
             <useXO>0</useXO>
             <v6Lang>3</v6Lang>
             <v6LangP>5</v6LangP>
             <vShortEn>1</vShortEn>
             <vShortWch>1</vShortWch>
+            <v6Lto>0</v6Lto>
+            <v6WtE>0</v6WtE>
+            <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define>AT32F415RCT7,USE_STDPERIPH_DRIVER,CAVEN,DEFAULT,INS_HSCLK</Define>
@@ -344,6 +351,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
+            <ClangAsOpt>1</ClangAsOpt>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -445,34 +453,39 @@
           <GroupName>Mode</GroupName>
           <Files>
             <File>
+              <FileName>IC_DS18B20.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\IC_DS18B20.c</FilePath>
+            </File>
+            <File>
+              <FileName>IC_HC138.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\IC_HC138.c</FilePath>
+            </File>
+            <File>
+              <FileName>IC_HC595.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\IC_HC595.c</FilePath>
+            </File>
+            <File>
+              <FileName>IC_MLX90614.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\IC_MLX90614.c</FilePath>
+            </File>
+            <File>
+              <FileName>IC_RTC8564.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\IC_RTC8564.c</FilePath>
+            </File>
+            <File>
               <FileName>Mode.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\Mode.c</FilePath>
             </File>
             <File>
-              <FileName>Control_Mode.c</FileName>
+              <FileName>MODE_Button.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\Control_Mode.c</FilePath>
-            </File>
-            <File>
-              <FileName>DS18B20.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\DS18B20.c</FilePath>
-            </File>
-            <File>
-              <FileName>HC138.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\HC138.c</FilePath>
-            </File>
-            <File>
-              <FileName>HC595.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\HC595.c</FilePath>
-            </File>
-            <File>
-              <FileName>mlx90614.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\mlx90614.c</FilePath>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Button.c</FilePath>
             </File>
             <File>
               <FileName>MODE_BZZ.c</FileName>
@@ -480,19 +493,14 @@
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_BZZ.c</FilePath>
             </File>
             <File>
+              <FileName>MODE_LCD.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_LCD.c</FilePath>
+            </File>
+            <File>
               <FileName>MODE_LED.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_LED.c</FilePath>
-            </File>
-            <File>
-              <FileName>MODE_Motor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Motor.c</FilePath>
-            </File>
-            <File>
-              <FileName>MODE_Motor_BYJ.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Motor_BYJ.c</FilePath>
             </File>
             <File>
               <FileName>MODE_MP3.c</FileName>
@@ -500,9 +508,14 @@
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_MP3.c</FilePath>
             </File>
             <File>
-              <FileName>Mode_RTC8564.c</FileName>
+              <FileName>MODE_OLED.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\Mode_RTC8564.c</FilePath>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_OLED.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_st7789_dever.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_st7789_dever.c</FilePath>
             </File>
             <File>
               <FileName>MODE_Time.c</FileName>
@@ -525,24 +538,19 @@
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Ultrasonic.c</FilePath>
             </File>
             <File>
+              <FileName>Motor_BYJ.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\Motor_BYJ.c</FilePath>
+            </File>
+            <File>
+              <FileName>Motor_engine.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\Motor_engine.c</FilePath>
+            </File>
+            <File>
               <FileName>Steering_engine.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\Steering_engine.c</FilePath>
-            </File>
-            <File>
-              <FileName>MODE_Button.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Button.c</FilePath>
-            </File>
-            <File>
-              <FileName>MODE_LCD.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_LCD.c</FilePath>
-            </File>
-            <File>
-              <FileName>MODE_st7789_dever.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_st7789_dever.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1549,5 +1557,20 @@
       </Groups>
     </Target>
   </Targets>
+
+  <RTE>
+    <apis/>
+    <components/>
+    <files/>
+  </RTE>
+
+  <LayerInfo>
+    <Layers>
+      <Layer>
+        <LayName>Caven</LayName>
+        <LayPrjMark>1</LayPrjMark>
+      </Layer>
+    </Layers>
+  </LayerInfo>
 
 </Project>
