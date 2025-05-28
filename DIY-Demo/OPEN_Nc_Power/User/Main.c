@@ -55,11 +55,15 @@ int main(void)
     int line_temp = 0;
     int last_show;
     Main_Init();
-
+	Caven_BaseTIME_Type now_time;
+	now_time.SYS_Sec = 1748315318;
+	Mode_Use.TIME.Set_BaseTIME_pFun(now_time);
     while (1)
     {
         Get_Control_data_Fun (&YG_Control);
         YG_Control.Control_value = ADC_array;
+		now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
+		Open_power.Watch = now_time;
         //
         Open_power.string = array_buff;
         switch (Open_power.app_ID) 
@@ -103,31 +107,27 @@ int main(void)
         if (retval) {
             break;
         }
-//        Mode_Use.TIME.Delay_Ms(100);
     }
 }
 
 void Main_Init(void)
 {
     int reverse = 0;
-    system_clock_config();
-    nvic_priority_group_config(NVIC_PRIORITY_GROUP_4);
     Mode_Index();
 	
 //	LCD_Set_TargetModel(m_LCD_TYPE_1_30);
     Mode_Init.TIME(ENABLE);
     Mode_Init.UART(DEBUG_OUT, 115200, ENABLE);
+	Mode_Use.TIME.Delay_Ms(200);
     Mode_Init.LCD(ENABLE);
     
     Mode_Init.User_ADC(ENABLE);
 	Mode_Use.USER_ADC.Receive_Bind_pFun(ADC_Data_Handle);
 
-
     reverse |= Power_app_init(ENABLE);	//while (1);
     reverse |= Games_app_init(ENABLE);
     reverse |= Steer_app_init(ENABLE);
-    while (reverse);
-
+	Mode_Use.TIME.Delay_Ms(500);
     Mode_Use.UART.Send_String_pFun(DEBUG_OUT, "Hello world ! \n");
 
 #ifdef PICTURE
@@ -299,9 +299,10 @@ void LCD_Show_string(char *string,char cursor,char width,char length)
 
 void Get_Control_data_Fun (Caven_Control_Type *data)
 {
-    static int yg_lock_x = 0;  //回正锁
-    static int yg_lock_y = 0;  //回正锁
-	int line_temp = 0;
+    static int yg_lock_x = 0;
+    static int yg_lock_y = 0;
+	static int yg_lock_key = 0;
+	int line_temp = 0,temp_num,temp_val;
     int Val_YG_x,Val_YG_y;
 	Caven_Control_Type temp_YG_Control;
     if (data != NULL)
@@ -309,61 +310,97 @@ void Get_Control_data_Fun (Caven_Control_Type *data)
         memset(&temp_YG_Control,0,sizeof(temp_YG_Control));
         Val_YG_x  = (0x0fff - ADC_array[line_temp++]) / 40;
         Val_YG_y = ADC_array[line_temp++] / 40;
-        //
-        temp = Val_YG_x - YG_DEFAULT;
-        if ((temp > YG_DIF_MIN) && (yg_lock_x > 0))		// x
-        {
-            if (temp > YG_DIF_MAX)
-                temp_YG_Control.Control_x = 2;
-            else
-                temp_YG_Control.Control_x = (1);
-            yg_lock_x = 0;
-        }
-        else if ((-temp > YG_DIF_MIN) && (yg_lock_x > 0))
-        {
-            if (-temp > YG_DIF_MAX)
-                temp_YG_Control.Control_x = (-2);
-            else
-                temp_YG_Control.Control_x = (-1);
-            yg_lock_x = 0;
-        }
-        else if(abs(temp) < YG_DIF_MIN)					// 空闲　
-        {
-            yg_lock_x++;
-            yg_lock_x = MIN(yg_lock_x,100);
-            temp_YG_Control.Control_x = 0;
-        }
-        //
-        temp = Val_YG_y - YG_DEFAULT;
-        if ((temp > YG_DIF_MIN) && (yg_lock_y > 0))		// y
-        {
-            if (temp > YG_DIF_MAX)
-                temp_YG_Control.Control_y = (-2);
-            else
-                temp_YG_Control.Control_y = (-1);
-            yg_lock_y = 0;
-        }
-        else if ((-temp > YG_DIF_MIN) && (yg_lock_y > 0))
-        {
-            if (temp > YG_DIF_MAX)
-                temp_YG_Control.Control_y = (2);
-            else
-                temp_YG_Control.Control_y = (1);
-            yg_lock_y = 0;
-        }
-        else if(abs(temp) < YG_DIF_MIN)					// 空闲　
-        {
-            yg_lock_y++;
-            yg_lock_y = MIN(yg_lock_y,100);
-            temp_YG_Control.Control_y = 0;
-        }
+        // x
+        if(Val_YG_x > YG_DEFAULT)
+		{
+			temp_num = Val_YG_x - YG_DEFAULT;
+			if(temp_num > YG_DIF_MAX)
+			{
+				yg_lock_x = 2;
+			}
+			else if(temp_num > YG_DIF_MIN)
+			{
+				yg_lock_x = 1;
+			}
+			else
+			{
+				if(yg_lock_x != 0)
+				{
+					temp_YG_Control.Control_x = yg_lock_x;
+					yg_lock_x = 0;
+				}
+			}
+		}
+		else
+		{
+			temp_num = YG_DEFAULT - Val_YG_x;
+			if(temp_num > YG_DIF_MAX)
+			{
+				yg_lock_x = -2;
+			}
+			else if(temp_num > YG_DIF_MIN)
+			{
+				yg_lock_x = -1;
+			}
+			else
+			{
+				if(yg_lock_x != 0)
+				{
+					temp_YG_Control.Control_x = yg_lock_x;
+					yg_lock_x = 0;
+				}
+			}
+		}
+        // y
+        if(Val_YG_y > YG_DEFAULT)
+		{
+			temp_num = Val_YG_y - YG_DEFAULT;
+			if(temp_num > YG_DIF_MAX)
+			{
+				yg_lock_y = 2;
+			}
+			else if(temp_num > YG_DIF_MIN)
+			{
+				yg_lock_y = 1;
+			}
+			else
+			{
+				if(yg_lock_y != 0)
+				{
+					temp_YG_Control.Control_y = yg_lock_y;
+					yg_lock_y = 0;
+				}
+			}
+		}
+		else
+		{
+			temp_num = YG_DEFAULT - Val_YG_y;
+			if(temp_num > YG_DIF_MAX)
+			{
+				yg_lock_y = -2;
+			}
+			else if(temp_num > YG_DIF_MIN)
+			{
+				yg_lock_y = -1;
+			}
+			else
+			{
+				if(yg_lock_y != 0)
+				{
+					temp_YG_Control.Control_y = yg_lock_y;
+					yg_lock_y = 0;
+				}
+			}
+		}
         if (User_GPIO_get(3,3) == 0)
         {
-            temp_YG_Control.Control_botton = 1;
-            do{
-                Mode_Use.TIME.Delay_Ms(1);
-            }while(User_GPIO_get(3,3) == 0);
+            yg_lock_key = 1;
         }
+		else if(yg_lock_key)
+		{
+			yg_lock_key = 0;
+			temp_YG_Control.Control_botton = 1;
+		}
         memcpy(data,&temp_YG_Control,sizeof(temp_YG_Control));
     }
 
@@ -378,7 +415,7 @@ void ADC_Data_Handle (void * data)
     }
     if(ADC_array[6] > 2000) // MCU_TEMP
     {
-        User_GPIO_config(3,0,0);	// 5v
+        User_GPIO_set(3,0,0);	// 5v
     }
 }
 

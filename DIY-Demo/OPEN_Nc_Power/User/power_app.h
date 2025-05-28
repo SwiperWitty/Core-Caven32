@@ -14,6 +14,7 @@ typedef struct
 	
 	int set_out_sync;
 	
+	char set_pd;
 	float set_out_vol;	//voltage
 	float set_out_temp;
 	float set_ele_val;	//value
