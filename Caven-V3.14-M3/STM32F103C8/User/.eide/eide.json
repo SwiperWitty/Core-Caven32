@@ -26,6 +26,9 @@
             "path": "../../../Caven-MCU_Lib/Base_STM32F103/Base.c"
           },
           {
+            "path": "../../../Caven-MCU_Lib/Base_STM32F103/Base_GPIO.c"
+          },
+          {
             "path": "../../../Caven-MCU_Lib/Base_STM32F103/Base_ADC.c"
           },
           {
@@ -33,9 +36,6 @@
           },
           {
             "path": "../../../Caven-MCU_Lib/Base_STM32F103/Base_IIC.c"
-          },
-          {
-            "path": "../../../Caven-MCU_Lib/Base_STM32F103/Base_PWM.c"
           },
           {
             "path": "../../../Caven-MCU_Lib/Base_STM32F103/Base_SPI.c"
@@ -47,7 +47,7 @@
             "path": "../../../Caven-MCU_Lib/Base_STM32F103/Base_UART.c"
           },
           {
-            "path": "../../../Caven-MCU_Lib/Base_STM32F103/Base_GPIO.c"
+            "path": "../../../Caven-MCU_Lib/Base_STM32F103/Base_PWM.c"
           },
           {
             "path": "../../../Caven-MCU_Lib/Base_STM32F103/Base_Capture.c"
@@ -58,21 +58,6 @@
       {
         "name": "Mode",
         "files": [
-          {
-            "path": "../../../Caven-MCU_Lib/Mode/Control_Mode.c"
-          },
-          {
-            "path": "../../../Caven-MCU_Lib/Mode/DS18B20.c"
-          },
-          {
-            "path": "../../../Caven-MCU_Lib/Mode/HC138.c"
-          },
-          {
-            "path": "../../../Caven-MCU_Lib/Mode/HC595.c"
-          },
-          {
-            "path": "../../../Caven-MCU_Lib/Mode/mlx90614.c"
-          },
           {
             "path": "../../../Caven-MCU_Lib/Mode/Mode.c"
           },
@@ -89,16 +74,7 @@
             "path": "../../../Caven-MCU_Lib/Mode/MODE_LED.c"
           },
           {
-            "path": "../../../Caven-MCU_Lib/Mode/MODE_Motor.c"
-          },
-          {
-            "path": "../../../Caven-MCU_Lib/Mode/MODE_Motor_BYJ.c"
-          },
-          {
             "path": "../../../Caven-MCU_Lib/Mode/MODE_MP3.c"
-          },
-          {
-            "path": "../../../Caven-MCU_Lib/Mode/Mode_RTC8564.c"
           },
           {
             "path": "../../../Caven-MCU_Lib/Mode/MODE_st7789_dever.c"
@@ -116,10 +92,31 @@
             "path": "../../../Caven-MCU_Lib/Mode/MODE_Ultrasonic.c"
           },
           {
+            "path": "../../../Caven-MCU_Lib/Mode/MODE_OLED.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/IC_DS18B20.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/IC_HC138.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/IC_HC595.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/IC_MLX90614.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/IC_RTC8564.c"
+          },
+          {
             "path": "../../../Caven-MCU_Lib/Mode/Steering_engine.c"
           },
           {
-            "path": "../../../Caven-MCU_Lib/Mode/MODE_OLED.c"
+            "path": "../../../Caven-MCU_Lib/Mode/Motor_engine.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/Mode/Motor_BYJ.c"
           }
         ],
         "folders": []
@@ -389,8 +386,8 @@
         "bin": "",
         "baseAddr": "",
         "cpuInfo": {
-          "vendor": "null",
-          "cpuName": "null"
+          "vendor": "ST",
+          "cpuName": "STM32F103C8"
         },
         "proType": 1,
         "speed": 8000,

@@ -598,6 +598,11 @@
               <FileType>5</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\API\Caven_Type.h</FilePath>
             </File>
+            <File>
+              <FileName>GX_info_frame.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\GX_info_frame.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

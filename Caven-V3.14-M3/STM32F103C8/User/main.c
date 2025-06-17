@@ -2,13 +2,20 @@
 #include "API.h"
 #include "pic.h" //图片
 
+#include "GX_info_frame.h"
 
 char temp_array[100];
 void Main_Init(void);
 void Capture1_pwm_handle (void *data);
 void Capture2_pwm_handle (void *data);
+
+void debug_info_handle (void *data);
+
 TIM_Capture_Type time1_Capture_val;
 TIM_Capture_Type time2_Capture_val;
+Caven_info_packet_Type debug_pack;
+GX_info_packet_Type debug_gx_pack;
+uint8_t debug_array[500];
 
 void tim4_pwm_period_switch (char num);
 
@@ -69,11 +76,11 @@ int main(void)
                 now_date.tm_hour,now_date.tm_min,now_date.tm_sec,
                 now_time.SYS_Sec,now_time.SYS_Us);
 			memset(str_array,0,sizeof(str_array));
-			sprintf(str_array,"time: %02d s ",now_time.SYS_Sec%60);
+			sprintf(str_array,"time: %02d s ",60 - (now_time.SYS_Sec%60));
 			Mode_Use.OLED.Show_String_pFun(6,0,"hello",0,0,16);
 			Mode_Use.OLED.Show_String_pFun(0,1,str_array,0,0,16);
-//			Mode_Use.OLED.Refresh();
-//			Mode_Use.OLED.Draw_Line_pFun(0,63,127,63,1);
+			Mode_Use.OLED.Refresh();
+			Mode_Use.OLED.Draw_Line_pFun(0,63,127,63,1);
 		}
 		// Capture
 		if (time1_Capture_val.finish_flag)
@@ -155,6 +162,42 @@ int main(void)
 //        {
 //            break;                                  // 状态机退出,程序重启
 //        }
+		if (debug_pack.Result & m_Result_SUCC) 
+		{
+			printf("Caven pack \n");
+			printf("Versions: 0x%02x \n",debug_pack.Versions);
+			printf("Type: 0x%02x \n",debug_pack.Type);
+			printf("Addr: 0x%02x \n",debug_pack.Addr);
+			printf("Cmd: 0x%02x \n",debug_pack.Cmd);
+			printf("Cmd_sub: 0x%02x \n",debug_pack.Cmd_sub);
+
+			printf("dSize: 0x%x \n",debug_pack.dSize);
+			printf("data: --- \n");
+			printf("Result: 0x%02x \n",debug_pack.Result);
+			printf("Get_num: 0x%x \n",debug_pack.Get_num);
+			printf("Comm_way: 0x%02x \n",debug_pack.Comm_way);
+			
+			Caven_info_packet_fast_clean_Fun(&debug_pack);
+		}
+		if (debug_gx_pack.Result & m_Result_SUCC) 
+		{
+			printf("GX pack \n");
+			printf("Prot_W_Type: 0x%02x \n",debug_gx_pack.Prot_W_Type);
+			printf("Prot_W_Versions: 0x%02x \n",debug_gx_pack.Prot_W_Versions);
+			printf("Prot_W_485Type: 0x%02x \n",debug_gx_pack.Prot_W_485Type);
+			printf("Prot_W_DFlag: 0x%02x \n",debug_gx_pack.Prot_W_DFlag);
+			printf("Prot_W_Class: 0x%02x \n",debug_gx_pack.Prot_W_Class);
+			printf("Prot_W_MID: 0x%02x \n",debug_gx_pack.Prot_W_MID);
+			printf("Addr: 0x%02x \n",debug_gx_pack.Addr);
+			
+			printf("dSize: 0x%x \n",debug_gx_pack.dSize);
+			printf("data: --- \n");
+			printf("Result: 0x%02x \n",debug_gx_pack.Result);
+			printf("Get_num: 0x%x \n",debug_gx_pack.Get_num);
+			printf("Comm_way: 0x%02x \n",debug_gx_pack.Comm_way);
+			
+			GX_info_packet_fast_clean_Fun(&debug_gx_pack);
+		}
     }
     SYS_RESET();
 }
@@ -165,12 +208,13 @@ void Main_Init(void)
     Mode_Init.TIME(ENABLE);
     Mode_Use.TIME.Delay_Ms(10);
     
-
-    
+	Caven_info_packet_index_Fun(&debug_pack, debug_array);
+	GX_info_packet_index_Fun(&debug_gx_pack, debug_array);
+	Mode_Use.UART.Receive_Bind_pFun (DEBUG_OUT,debug_info_handle);
 	Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
 	
-//	Mode_Use.OLED.Set_Direction_pFun(0,0x3c);
-//	Mode_Init.OLED(ENABLE);
+	Mode_Use.OLED.Set_Direction_pFun(0,0x3c);
+	Mode_Init.OLED(ENABLE);
 	
 	User_GPIO_config(1,11,1);
 	User_GPIO_config(1,12,1);
@@ -178,14 +222,56 @@ void Main_Init(void)
 	User_GPIO_set(1,11,1);
 	User_GPIO_set(1,12,0);
 	
-    Mode_Use.UART.Send_String_pFun(DEBUG_OUT,"hello 2!\n");
 	TIMx_Capture_Callback_pFunBind(1,Capture1_pwm_handle);
     TIMx_Capture_Callback_pFunBind(2,Capture2_pwm_handle);
+    Mode_Use.UART.Send_String_pFun(DEBUG_OUT,"hello 2!\n");
     
     TIM1_Capture_Start_Init(0xffff,72-1,0x01|0x02|0x04|0x08,0,ENABLE);				// a8,a9
-    TIM2_Capture_Start_Init(0xffff,72-1,0x01|0x02|0x04|0x08,0,ENABLE);
+    TIM2_Capture_Start_Init(0xffff,72-1,0x01|0x02,0,ENABLE);
 //	Vofa_JustFloat_Init_Fun (Debug_Out);
 	
+}
+
+Caven_info_packet_Type Caven_standard = {
+	.Head = 0xFA55,
+    .Versions = 0x01,		// 版本
+    .dSize = BUFF_MAX,		// 最大长度
+};
+GX_info_packet_Type GX_standard = {
+	.Head = 0x5A,
+	.Prot_W_Type = 0x01,
+    .Prot_W_Versions = 0x01,		// 版本
+    .dSize = BUFF_MAX,		// 最大长度
+};
+
+
+void debug_info_handle (void *data)
+{
+	uint8_t temp_data = *(uint8_t *)data;
+	int temp_num = 0;
+	// caven
+	temp_num = Caven_info_Make_packet_Fun(Caven_standard, &debug_pack, temp_data);
+	if (debug_pack.Run_status == 0xFF)
+	{
+		debug_pack.Comm_way = DEBUG_OUT;
+	}
+	else if (debug_pack.Run_status < 0)
+	{
+		Caven_info_packet_fast_clean_Fun(&debug_pack);
+	}
+	if(temp_num <= 0)
+	{
+		// gx
+		temp_num = GX_info_Make_packet_Fun(GX_standard,&debug_gx_pack,temp_data);
+		if (debug_gx_pack.Run_status == 0xFF)
+		{
+			debug_gx_pack.Comm_way = DEBUG_OUT;
+		}
+		else if (debug_gx_pack.Run_status < 0)
+		{
+			GX_info_packet_fast_clean_Fun(&debug_gx_pack);
+		}
+	}
 }
 
 void tim4_pwm_period_switch (char num)
