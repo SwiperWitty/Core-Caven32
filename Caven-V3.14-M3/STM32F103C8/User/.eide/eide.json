@@ -18,6 +18,15 @@
           },
           {
             "path": "center_app.c"
+          },
+          {
+            "path": "system_app.c"
+          },
+          {
+            "path": "caven_app.c"
+          },
+          {
+            "path": "gx_app.c"
           }
         ],
         "folders": []
@@ -137,10 +146,16 @@
             "path": "../../../Caven-MCU_Lib/API/Caven_info_frame.c"
           },
           {
-            "path": "../../../Caven-MCU_Lib/API/DATA_Handle.c"
+            "path": "../../../Caven-MCU_Lib/API/Caven_at_info_frame.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/API/GX_info_frame.c"
           },
           {
             "path": "../../../Caven-MCU_Lib/API/Encrypt_crc.c"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/API/Data_Handle.c"
           },
           {
             "path": "../../../Caven-MCU_Lib/API/Time_Handle.c"
@@ -150,9 +165,6 @@
           },
           {
             "path": "../../../Caven-MCU_Lib/API/Caven_Type.h"
-          },
-          {
-            "path": "../../../Caven-MCU_Lib/API/GX_info_frame.c"
           }
         ],
         "folders": []
@@ -411,7 +423,6 @@
           "../../../Caven-MCU_Lib/API",
           "../../../Caven-MCU_Lib/Mode",
           "../../../Caven-MCU_Lib/Base_STM32F103",
-          ".cmsis/include",
           "RTE/_M3-Caven"
         ],
         "libList": [],

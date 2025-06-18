@@ -9,7 +9,7 @@
     ],
     "settings": {
         "files.associations": {
-            "data_handle.h": "c"
+            "caven_app.h": "c"
         }
     },
     "extensions": {}

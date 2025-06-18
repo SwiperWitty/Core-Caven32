@@ -1,9 +1,4 @@
 #include "center_app.h"
-#include "GX_info_frame.h"
-
-Caven_info_packet_Type debug_pack;
-GX_info_packet_Type debug_gx_pack;
-uint8_t debug_array[500];
 
 Caven_BaseTIME_Type Center_time;
 Caven_BaseTIME_Type show_time;
@@ -34,42 +29,8 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 	int retval = 0;
     Center_time = time;
 	
-    if (debug_pack.Result & m_Result_SUCC) 
-    {
-        printf("Caven pack \n");
-        printf("Versions: 0x%02x \n",debug_pack.Versions);
-        printf("Type: 0x%02x \n",debug_pack.Type);
-        printf("Addr: 0x%02x \n",debug_pack.Addr);
-        printf("Cmd: 0x%02x \n",debug_pack.Cmd);
-        printf("Cmd_sub: 0x%02x \n",debug_pack.Cmd_sub);
-
-        printf("dSize: 0x%x \n",debug_pack.dSize);
-        printf("data: --- \n");
-        printf("Result: 0x%02x \n",debug_pack.Result);
-        printf("Get_num: 0x%x \n",debug_pack.Get_num);
-        printf("Comm_way: 0x%02x \n",debug_pack.Comm_way);
-        
-        Caven_info_packet_fast_clean_Fun(&debug_pack);
-    }
-    if (debug_gx_pack.Result & m_Result_SUCC) 
-    {
-        printf("GX pack \n");
-        printf("Prot_W_Type: 0x%02x \n",debug_gx_pack.Prot_W_Type);
-        printf("Prot_W_Versions: 0x%02x \n",debug_gx_pack.Prot_W_Versions);
-        printf("Prot_W_485Type: 0x%02x \n",debug_gx_pack.Prot_W_485Type);
-        printf("Prot_W_DFlag: 0x%02x \n",debug_gx_pack.Prot_W_DFlag);
-        printf("Prot_W_Class: 0x%02x \n",debug_gx_pack.Prot_W_Class);
-        printf("Prot_W_MID: 0x%02x \n",debug_gx_pack.Prot_W_MID);
-        printf("Addr: 0x%02x \n",debug_gx_pack.Addr);
-        
-        printf("dSize: 0x%x \n",debug_gx_pack.dSize);
-        printf("data: --- \n");
-        printf("Result: 0x%02x \n",debug_gx_pack.Result);
-        printf("Get_num: 0x%x \n",debug_gx_pack.Get_num);
-        printf("Comm_way: 0x%02x \n",debug_gx_pack.Comm_way);
-        
-        GX_info_packet_fast_clean_Fun(&debug_gx_pack);
-    }
+	retval = Caven_app_State_machine (time);
+	
 	// Vofa任务
 	API_Task_Timer (&Vofa_JustFloat_Show_Task,Center_time);
 	if(Center_time.SYS_Sec != time_one)
@@ -86,6 +47,7 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 		Mode_Use.OLED.Show_String_pFun(0,1,str_array,0,0,16);
 		Mode_Use.OLED.Refresh();
 		Mode_Use.OLED.Draw_Line_pFun(0,63,127,63,1);
+
 	}
 	// Capture
 	if (time1_Capture_val.finish_flag)
@@ -139,67 +101,27 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 
 void Center_app_Init (void)
 {
-    Caven_info_packet_index_Fun(&debug_pack, debug_array);
-	GX_info_packet_index_Fun(&debug_gx_pack, debug_array);
-	
 	Mode_Use.UART.Receive_Bind_pFun (DEBUG_OUT,debug_info_handle);
 	
 	TIMx_Capture_Callback_pFunBind(1,Capture1_pwm_handle);
     TIMx_Capture_Callback_pFunBind(2,Capture2_pwm_handle);
 }
 
-Caven_info_packet_Type Caven_standard = {
-	.Head = 0xFA55,
-    .Versions = 0x01,		// 版本
-    .dSize = BUFF_MAX,		// 最大长度
-};
-GX_info_packet_Type GX_standard = {
-	.Head = 0x5A,
-	.Prot_W_Type = 0x01,
-    .Prot_W_Versions = 0x01,	// 版本
-    .dSize = BUFF_MAX,			// 最大长度
-};
-Caven_BaseTIME_Type debug_info_time = {0};
-
+int get_debug_data_num = 0,get_debug_pack_num = 0;
 void debug_info_handle (void *data)
 {
 	uint8_t temp_data = *(uint8_t *)data;
-    // time over = 1s
-	int temp_num = Center_time.SYS_Sec - debug_info_time.SYS_Sec;
-    if (temp_num > 1)
-    {
-        Caven_info_packet_fast_clean_Fun(&debug_pack);
-        GX_info_packet_fast_clean_Fun(&debug_gx_pack);
-    }
-    debug_info_time = Center_time;
-	// caven
-	temp_num = Caven_info_Make_packet_Fun(Caven_standard, &debug_pack, temp_data);
-	if (debug_pack.Run_status == 0xFF)
+	int temp_num = 0;
+    temp_num = Caven_app_Make_pack (temp_data,SYS_Link,Center_time);
+	if (temp_num <= 0)
 	{
-		debug_pack.Comm_way = DEBUG_OUT;
+		
 	}
-	else if (debug_pack.Run_status < 0)
+	if(temp_num == 0xff)
 	{
-		Caven_info_packet_fast_clean_Fun(&debug_pack);
+		get_debug_pack_num ++;
 	}
-	if(temp_num <= 0)
-	{
-		// gx
-		temp_num = GX_info_Make_packet_Fun(GX_standard,&debug_gx_pack,temp_data);
-		if (debug_gx_pack.Run_status == 0xFF)
-		{
-			debug_gx_pack.Comm_way = DEBUG_OUT;
-		}
-		else if (debug_gx_pack.Run_status < 0)
-		{
-			GX_info_packet_fast_clean_Fun(&debug_gx_pack);
-		}
-	}
-    if(temp_num <= 0)
-	{
-		// xx
-
-	}
+	get_debug_data_num ++;
 }
 
 void Capture1_pwm_handle (void *data)

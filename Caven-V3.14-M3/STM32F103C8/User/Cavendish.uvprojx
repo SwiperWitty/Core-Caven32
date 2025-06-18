@@ -398,6 +398,21 @@
               <FileType>1</FileType>
               <FilePath>.\center_app.c</FilePath>
             </File>
+            <File>
+              <FileName>system_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\system_app.c</FilePath>
+            </File>
+            <File>
+              <FileName>caven_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\caven_app.c</FilePath>
+            </File>
+            <File>
+              <FileName>gx_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gx_app.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
