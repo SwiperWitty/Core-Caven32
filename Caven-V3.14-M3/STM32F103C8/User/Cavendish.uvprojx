@@ -393,6 +393,11 @@
               <FileType>5</FileType>
               <FilePath>.\Items.h</FilePath>
             </File>
+            <File>
+              <FileName>center_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\center_app.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -574,14 +579,24 @@
               <FilePath>..\..\..\Caven-MCU_Lib\API\Caven_info_frame.c</FilePath>
             </File>
             <File>
-              <FileName>DATA_Handle.c</FileName>
+              <FileName>Caven_at_info_frame.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\API\DATA_Handle.c</FilePath>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Caven_at_info_frame.c</FilePath>
+            </File>
+            <File>
+              <FileName>GX_info_frame.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\GX_info_frame.c</FilePath>
             </File>
             <File>
               <FileName>Encrypt_crc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\API\Encrypt_crc.c</FilePath>
+            </File>
+            <File>
+              <FileName>Data_Handle.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Data_Handle.c</FilePath>
             </File>
             <File>
               <FileName>Time_Handle.c</FileName>
@@ -597,11 +612,6 @@
               <FileName>Caven_Type.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\API\Caven_Type.h</FilePath>
-            </File>
-            <File>
-              <FileName>GX_info_frame.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\API\GX_info_frame.c</FilePath>
             </File>
           </Files>
         </Group>

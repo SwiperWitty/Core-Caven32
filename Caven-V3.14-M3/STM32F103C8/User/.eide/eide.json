@@ -15,6 +15,9 @@
           },
           {
             "path": "Items.h"
+          },
+          {
+            "path": "center_app.c"
           }
         ],
         "folders": []
@@ -147,6 +150,9 @@
           },
           {
             "path": "../../../Caven-MCU_Lib/API/Caven_Type.h"
+          },
+          {
+            "path": "../../../Caven-MCU_Lib/API/GX_info_frame.c"
           }
         ],
         "folders": []

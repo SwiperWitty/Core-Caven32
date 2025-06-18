@@ -7,6 +7,10 @@
             "path": "../../../Caven-MCU_Lib"
         }
     ],
-    "settings": {},
+    "settings": {
+        "files.associations": {
+            "data_handle.h": "c"
+        }
+    },
     "extensions": {}
 }
