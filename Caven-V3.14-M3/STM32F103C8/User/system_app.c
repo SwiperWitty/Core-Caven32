@@ -3,7 +3,7 @@
 /*
  * SYS
  */
-SYS_cfg_Type s_SYS_Config = {
+SYS_cfg_Type g_SYS_Config = {
     .Board_ID = 0,
     .debug = 1,
     .Hostname = "Link Board",
@@ -51,11 +51,25 @@ SYS_cfg_Type s_SYS_Config = {
     .BLECfg = 0,
 };
 
+Caven_BaseTIME_Type System_start_Time = {0};
+int System_app_State_machine (Caven_BaseTIME_Type time)
+{
+	int retval = 0;
+    
+    g_SYS_Config.Now_time = time;
+    if (System_start_Time.SYS_Sec != g_SYS_Config.Now_time.SYS_Sec)
+    {
+        System_start_Time = g_SYS_Config.Now_time;
+        g_SYS_Config.Work_sec ++;
+    }
+    
+    return retval;
+}
+
 void System_app_Init (void)
 {
     Mode_Init.TIME(ENABLE);
     Mode_Use.TIME.Delay_Ms(10);
-//    s_SYS_Config.Board_ID = 0;
 	Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
 	
 	Mode_Use.OLED.Set_Direction_pFun(0,0x3c);

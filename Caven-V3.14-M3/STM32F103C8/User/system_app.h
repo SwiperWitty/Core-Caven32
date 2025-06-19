@@ -4,6 +4,7 @@
 #include "Mode.h"
 #include "API.h"
 
+#include "debug_log.h"
 //
 #define SYS_Link        0
 #define RS232_Link      1
@@ -25,8 +26,6 @@
 #define DEMO_Serial 0x0101011900123456
 //
 #define DEMO_VER_str      "E1205_Linux_4G"
-//
-
 //
 #define NETWORK     0
 
@@ -105,6 +104,7 @@ extern SYS_cfg_Type g_SYS_Config;
 extern Caven_event_Type g_Events_buff;
 
 //
+int System_app_State_machine (Caven_BaseTIME_Type time);
 void System_app_Init (void);
 
 #endif 

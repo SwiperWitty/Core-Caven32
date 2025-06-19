@@ -1,5 +1,6 @@
 #include "caven_app.h"
 
+#define Log_tag "Caven_app info"
 
 static uint8_t info_packet_array[10][BUFF_MAX];
 static uint8_t info_packet_buff_array[6][BUFF_MAX];
@@ -148,6 +149,8 @@ int Caven_app_send_packet(Caven_info_packet_Type pack)
     case SYS_Link:
         {
             Mode_Use.UART.Send_Data_pFun(2,temp_array,temp_num);
+//            debug_log (LOG_Info,Log_tag,"sys link send");
+//            debug_log_hex (temp_array,temp_num);
         }
         break;
     case RS232_Link:
@@ -171,7 +174,7 @@ int Caven_app_send_packet(Caven_info_packet_Type pack)
     return retval;
 }
 
-Caven_BaseTIME_Type debug_time = {0},rs232_time = {0},rs485_time = {0},server_time = {0};
+static Caven_BaseTIME_Type debug_time = {0},rs232_time = {0},rs485_time = {0},server_time = {0};
 int Caven_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time)
 {
     int retval = 0;
@@ -198,11 +201,11 @@ int Caven_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time)
             temp_pack = &Caven_packet_rs485;
             temp_num = time.SYS_Sec - rs485_time.SYS_Sec;
 			rs485_time = time;
-            // if(g_SYS_Config.Addr != temp_pack->Addr)
-            // {
-            //     temp_num = 0xee;
-            //     retval = 0xee;
-            // }
+            if(temp_pack->Addr != g_SYS_Config.Addr)
+            {
+                temp_num = 0xee;
+                retval = 0xee;
+            }
         }
         break;
     case TCP_Server_Link:
@@ -222,12 +225,13 @@ int Caven_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time)
     if (temp_pack != NULL && retval == 0)
     {
         retval = Caven_info_Make_packet_Fun(Caven_standard, temp_pack, data);
-        if (temp_pack->Run_status == 0xFF)
+        if (retval == 0xFF)
         {
             temp_pack->Comm_way = way;
             Caven_Circular_queue_input (*temp_pack,Caven_packet_buff,6);   // 入队 
+            Caven_info_packet_fast_clean_Fun(temp_pack);
         }
-        else if (temp_pack->Run_status < 0)
+        else if (retval < 0)
         {
             Caven_info_packet_fast_clean_Fun(temp_pack);
         }
