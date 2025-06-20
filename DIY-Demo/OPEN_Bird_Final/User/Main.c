@@ -112,7 +112,7 @@ int main(void)
         now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
         //        printf("sys time: %d : %d : %d , %d (us)\n",now_time.hour,now_time.minutes,now_time.second,now_time.time_us);
         API_Task_Timer(&LED_Task, now_time); // LED任务
-        Mode_Use.LED.SET_pFun(1, LED_Task.Flip_falg);
+        Mode_Use.LED.Set_pFun(1, LED_Task.Flip_falg);
 
 		f_temp_num = ADC_array[0];	// VCC
 		vcc_vol = (f_temp_num / 4096) * 3.3 * 8.5;	// 还原
