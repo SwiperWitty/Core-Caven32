@@ -86,9 +86,7 @@ void System_app_Init (void)
 	User_GPIO_set(1,12,0);
 	
     Mode_Use.UART.Send_String_pFun(DEBUG_OUT,"hello 2!\n");
-    
-    TIM1_Capture_Start_Init(0xffff,72-1,0x01|0x02|0x04|0x08,0,ENABLE);				// a8,a9
-    TIM2_Capture_Start_Init(0xffff,72-1,0x01|0x02,0,ENABLE);
+
 //	Vofa_JustFloat_Init_Fun (Debug_Out);
 #ifdef MCU_SYS_FREQ 
 	printf("MCU Init,MCU_SYS_FREQ: %d Hz \n",MCU_SYS_FREQ);

@@ -17,6 +17,7 @@ static Caven_info_packet_Type Caven_packet_BLE;
 static Caven_info_packet_Type Caven_standard = {
 	.Head = 0xFA55,
     .Versions = 0x01,		// 版本
+	.Type = 1,
     .dSize = BUFF_MAX,		// 最大长度
 };
 
@@ -87,24 +88,77 @@ int Caven_app_State_machine(Caven_BaseTIME_Type time)
 int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
 {
     int retval = 0;
+    int temp_num = 0,temp_run = 0;
+    uint8_t rw_info = 0;
+    uint8_t temp_array[100];
     switch (pack.Cmd_sub)
     {
     case 0:
-        Caven_app_send_packet(pack);
+        retval = 2;
         break;
     case m_CAVEN_CMD1_Version_Order:
         {
-            
+            rw_info = pack.p_Data[temp_num++];
+            if(rw_info == 0)
+            {
+                temp_array[temp_run++] = DEMO_VER;
+                temp_array[temp_run++] = DEMO_VER_sub;
+                temp_array[temp_run++] = DEMO_VER_sub_bit;
+                temp_array[temp_run++] = 0;
+                pack.dSize = temp_run;
+                pack.Result = 0;
+                memcpy(pack.p_Data,temp_array,temp_run);
+            }
+            else
+            {
+                pack.Result = 9;
+                pack.dSize = 0;
+            }
+            retval = 1;
         }
         break;
-    case m_CAVEN_CMD1_Bdtime_Order:
+    case m_CAVEN_CMD1_Serial_Order:
         {
-
+            rw_info = pack.p_Data[temp_num++];
+            if(rw_info == 0)
+            {
+                temp_array[temp_run++] = 0;
+                temp_array[temp_run++] = 8;
+                temp_array[temp_run++] = (DEMO_Serial >> ( 8 * 7)) & 0xFF;
+                temp_array[temp_run++] = (DEMO_Serial >> ( 8 * 6)) & 0xFF;
+                temp_array[temp_run++] = (DEMO_Serial >> ( 8 * 5)) & 0xFF;
+                temp_array[temp_run++] = (DEMO_Serial >> ( 8 * 4)) & 0xFF;
+                temp_array[temp_run++] = (DEMO_Serial >> ( 8 * 3)) & 0xFF;
+                temp_array[temp_run++] = (DEMO_Serial >> ( 8 * 2)) & 0xFF;
+                temp_array[temp_run++] = (DEMO_Serial >> ( 8 * 1)) & 0xFF;
+                temp_array[temp_run++] = (DEMO_Serial >> ( 8 * 0)) & 0xFF;
+                pack.dSize = temp_run;
+                pack.Result = 0;
+                memcpy(pack.p_Data,temp_array,temp_run);
+            }
+            else
+            {
+                pack.Result = 9;
+                pack.dSize = 0;
+            }
+            retval = 1;
         }
         break;
     default:
         break;
     }
+    if (retval && (pack.Result == 0 || pack.Result == 1 || pack.Result == 4 || pack.Result == 5 || pack.Result == 6 || pack.Result == 9 || pack.Result == 0x0A))
+    {
+        Caven_app_send_packet(pack);
+    }
+    else if (retval == 2)
+    {
+		Caven_app_send_packet(pack);
+    }
+	else
+	{
+		
+	}
     return retval;
 }
 
@@ -149,6 +203,7 @@ int Caven_app_send_packet(Caven_info_packet_Type pack)
     case SYS_Link:
         {
             Mode_Use.UART.Send_Data_pFun(DEBUG_OUT,temp_array,temp_num);
+
 //            debug_log (LOG_Info,Log_tag,"sys link send");
 //            debug_log_hex (temp_array,temp_num);
         }

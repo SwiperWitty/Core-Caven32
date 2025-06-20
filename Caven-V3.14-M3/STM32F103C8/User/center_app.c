@@ -46,6 +46,9 @@ void Center_app_Init (void)
 	
 	TIMx_Capture_Callback_pFunBind(1,Capture1_pwm_handle);
     TIMx_Capture_Callback_pFunBind(2,Capture2_pwm_handle);
+
+	Caven_app_Init ();
+	GX_app_Init ();
 }
 
 int get_debug_data_num = 0,get_debug_pack_num = 0;

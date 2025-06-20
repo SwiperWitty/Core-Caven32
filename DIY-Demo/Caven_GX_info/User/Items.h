@@ -54,7 +54,7 @@
 #define OPEN_11110  0x1E
 #define OPEN_11111  0x1f
 
-#define DEBUG_OUT	3   		// Debug 通道(Caved 3.14是串口3)
+#define DEBUG_OUT	1   		// Debug 通道(Caved 3.14是串口3)
 
 #ifndef Exist_SYS_TIME
     #define Exist_SYS_TIME  OPEN_0001 // 一定存在

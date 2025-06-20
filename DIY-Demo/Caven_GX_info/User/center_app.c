@@ -43,9 +43,9 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 void Center_app_Init (void)
 {
 	Mode_Use.UART.Receive_Bind_pFun (DEBUG_OUT,debug_info_handle);
-	
-	TIMx_Capture_Callback_pFunBind(1,Capture1_pwm_handle);
-    TIMx_Capture_Callback_pFunBind(2,Capture2_pwm_handle);
+
+	Caven_app_Init ();
+	GX_app_Init ();
 }
 
 int get_debug_data_num = 0,get_debug_pack_num = 0;
@@ -63,26 +63,4 @@ void debug_info_handle (void *data)
 		get_debug_pack_num ++;
 	}
 	get_debug_data_num ++;
-}
-
-void Capture1_pwm_handle (void *data)
-{
-	TIM_Capture_Type temp_Capture_val;
-	if(data != NULL)
-	{
-		memcpy(&temp_Capture_val,data,sizeof(TIM_Capture_Type));
-		memcpy(&time1_Capture_val,data,sizeof(TIM_Capture_Type));
-
-	}
-}
-
-void Capture2_pwm_handle (void *data)
-{
-	TIM_Capture_Type temp_Capture_val;
-	if(data != NULL)
-	{
-		memcpy(&temp_Capture_val,data,sizeof(TIM_Capture_Type));
-		memcpy(&time2_Capture_val,data,sizeof(TIM_Capture_Type));
-
-	}
 }

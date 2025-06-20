@@ -257,7 +257,7 @@
         "name": "Startup",
         "files": [
           {
-            "path": "../Startup/startup_stm32f10x_md.s"
+            "path": "../Startup/startup_stm32f10x_hd.s"
           }
         ],
         "folders": []
@@ -328,7 +328,7 @@
               "id": 1,
               "mem": {
                 "startAddr": "0x20000000",
-                "size": "0x5000"
+                "size": "0xc000"
               },
               "isChecked": true,
               "noInit": false
@@ -380,7 +380,7 @@
               "id": 1,
               "mem": {
                 "startAddr": "0x8000000",
-                "size": "0x10000"
+                "size": "0x40000"
               },
               "isChecked": true,
               "isStartup": true
@@ -405,7 +405,7 @@
         "baseAddr": "",
         "cpuInfo": {
           "vendor": "ST",
-          "cpuName": "STM32F103C8"
+          "cpuName": "STM32F103RC"
         },
         "proType": 1,
         "speed": 8000,
@@ -428,7 +428,7 @@
         ],
         "libList": [],
         "defineList": [
-          "STM32F10X_MD",
+          "STM32F10X_HD",
           "USE_STDPERIPH_DRIVER",
           "CAVEN",
           "DEFAULT"
