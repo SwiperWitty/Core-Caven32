@@ -97,8 +97,12 @@ void System_app_Init (void)
 	/* 
 	初始化OLED,其中的IIC会自动初始化
 	*/
+	OLED_Set_Horizontal_addr(0,0X3C);
 	Mode_Init.OLED (ENABLE);
-	
+	/* 
+	初始化DS18B20
+	*/
+	Mode_Init.DS18B20 (1,8,ENABLE);
 #ifdef MCU_SYS_FREQ 
 	printf("MCU Init,MCU_SYS_FREQ: %d Hz \n",MCU_SYS_FREQ);
 #endif

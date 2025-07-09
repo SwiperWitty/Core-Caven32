@@ -12,17 +12,22 @@ date	2025.7.4
 int Center_State_machine(Caven_BaseTIME_Type time)
 {
 	int retval = 0,get_State = 0;
+	float temp_ft = 0;
 	char array_str[200];
 	struct tm Center_tm;
 	
 	Center_time = time;
 	Center_tm = Mode_Use.TIME.Get_Date_pFun (8*60*60);
 	memset(array_str,0,sizeof(array_str));
-	sprintf(array_str,"time %d:%02d:%02d \n",Center_tm.tm_hour,Center_tm.tm_min,Center_tm.tm_sec);
+	sprintf(array_str,"time %d:%02d:%02d ",Center_tm.tm_hour,Center_tm.tm_min,Center_tm.tm_sec);
 	API_Task_Timer (&oled_task,Center_time);
-
+	
+	temp_ft = Mode_Use.DS18B20.Get_Temp();
+//	DS18B20_Start ();
 	Mode_Use.OLED.Show_String_pFun (2,0,"oled show",0,0,16);
 	Mode_Use.OLED.Show_String_pFun (0,1,array_str,0,0,16);
+	sprintf(array_str,"TEMP %05f ",temp_ft);
+	Mode_Use.OLED.Show_String_pFun (0,2,array_str,0,0,16);
 	if (oled_task.Trigger_Flag)					// 每隔 50ms刷新一次
 	{
 		Mode_Use.OLED.Refresh();
