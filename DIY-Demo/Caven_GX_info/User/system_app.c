@@ -43,6 +43,7 @@ SYS_cfg_Type g_SYS_Config = {
     .Connect_passage = 0,
     .Work_sec = 0,
     .Now_time = {0},
+    .Bdtime = DEMO_Build_UTC,
 
     .SYS_UART_Cfg = 115200,
     .RS232_UART_Cfg = 115200,
@@ -92,3 +93,15 @@ void System_app_Init (void)
 	printf("MCU Init,MCU_SYS_FREQ: %d Hz \n",MCU_SYS_FREQ);
 #endif
 }
+
+int sys_set_time_fun (Caven_BaseTIME_Type time)
+{
+	g_SYS_Config.Now_time = time;
+}
+
+Caven_BaseTIME_Type sys_get_time_fun (void)
+{
+	return g_SYS_Config.Now_time;
+}
+
+

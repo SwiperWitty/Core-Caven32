@@ -23,11 +23,13 @@
 #define DEMO_VER_sub      0L
 #define DEMO_VER_sub_bit  1L
 //
+#define DEMO_Build_UTC 1752226212
+//
 #define DEMO_Serial 0x0101011900123456
 //
 #define DEMO_VER_str      "E1205_Linux_4G"
 //
-#define NETWORK     0
+#define NETWORK     1
 
 typedef struct
 {

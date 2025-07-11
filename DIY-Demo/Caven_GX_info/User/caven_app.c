@@ -88,7 +88,7 @@ int Caven_app_State_machine(Caven_BaseTIME_Type time)
 int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
 {
     int retval = 0;
-    int temp_num = 0,temp_run = 0;
+    int temp_num = 0,temp_run = 0,temp_val = 0;
     uint8_t rw_info = 0;
     uint8_t temp_array[100];
     switch (pack.Cmd_sub)
@@ -111,7 +111,7 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
             }
             else
             {
-                pack.Result = 9;
+                pack.Result = m_Result_Back_ERROR;
                 pack.dSize = 0;
             }
             retval = 1;
@@ -138,12 +138,162 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
             }
             else
             {
-                pack.Result = 9;
+                pack.Result = m_Result_Back_ERROR;
                 pack.dSize = 0;
             }
             retval = 1;
         }
         break;
+    case m_CAVEN_CMD1_Bdtime_Order:
+        {
+            rw_info = pack.p_Data[temp_num++];
+            if(rw_info == 0)
+            {
+                temp_array[temp_run++] = (DEMO_Build_UTC >> ( 8 * 3)) & 0xFF;
+                temp_array[temp_run++] = (DEMO_Build_UTC >> ( 8 * 2)) & 0xFF;
+                temp_array[temp_run++] = (DEMO_Build_UTC >> ( 8 * 1)) & 0xFF;
+                temp_array[temp_run++] = (DEMO_Build_UTC >> ( 8 * 0)) & 0xFF;
+                pack.dSize = temp_run;
+                pack.Result = 0;
+                memcpy(pack.p_Data,temp_array,temp_run);
+            }
+            else
+            {
+                pack.Result = m_Result_Back_ERROR;
+                pack.dSize = 0;
+            }
+            retval = 1;
+        }
+        break;
+    case m_CAVEN_CMD1_UTCtime_Order:
+        {
+            rw_info = pack.p_Data[temp_num++];
+            if(rw_info == 0)
+            {
+                temp_array[temp_run++] = (g_SYS_Config.Now_time.SYS_Sec >> ( 8 * 3)) & 0xFF;
+                temp_array[temp_run++] = (g_SYS_Config.Now_time.SYS_Sec >> ( 8 * 2)) & 0xFF;
+                temp_array[temp_run++] = (g_SYS_Config.Now_time.SYS_Sec >> ( 8 * 1)) & 0xFF;
+                temp_array[temp_run++] = (g_SYS_Config.Now_time.SYS_Sec >> ( 8 * 0)) & 0xFF;
+                pack.dSize = temp_run;
+                pack.Result = 0;
+                memcpy(pack.p_Data,temp_array,temp_run);
+            }
+            else
+            {
+                temp_val = pack.p_Data[temp_num++];
+                temp_val <<= 8;
+                temp_val |= pack.p_Data[temp_num++];
+                temp_val <<= 8;
+                temp_val |= pack.p_Data[temp_num++];
+                temp_val <<= 8;
+                temp_val |= pack.p_Data[temp_num++];
+                g_SYS_Config.Now_time.SYS_Sec = temp_val;
+                g_SYS_Config.Now_time.SYS_Us = 0;
+                pack.Result = 0;
+                pack.dSize = 0;
+            }
+            retval = 1;
+        }
+        break;
+    case m_CAVEN_CMD1_Addr_Order:
+        {
+            rw_info = pack.p_Data[temp_num++];
+            if(rw_info == 0)
+            {
+                temp_array[temp_run++] = g_SYS_Config.Addr;
+                pack.dSize = temp_run;
+                pack.Result = 0;
+                memcpy(pack.p_Data,temp_array,temp_run);
+            }
+            else
+            {
+                temp_val = pack.p_Data[temp_num++];
+                if (temp_val == 0 || temp_val == 0xFF)
+                {
+                    pack.Result = m_Result_Back_ERROR;
+                }
+                else
+                {
+                    g_SYS_Config.Addr = temp_val;
+                    pack.Result = 0;
+                }
+                pack.dSize = 0;
+            }
+            retval = 1;
+        }
+        break;
+#if NETWORK
+    case m_CAVEN_CMD1_TCPHBT_Order:
+        {
+            rw_info = pack.p_Data[temp_num++];
+            if(rw_info == 0)
+            {
+                temp_array[temp_run++] = g_SYS_Config.TCPHBT_En;
+                pack.dSize = temp_run;
+                pack.Result = 0;
+                memcpy(pack.p_Data,temp_array,temp_run);
+            }
+            else
+            {
+                g_SYS_Config.TCPHBT_En = pack.p_Data[temp_num++];
+                pack.Result = 0;
+                pack.dSize = 0;
+            }
+            retval = 1;
+        }
+        break;
+    case m_CAVEN_CMD1_IPv4Cfg_Order:
+        {
+            rw_info = pack.p_Data[temp_num++];
+            if(rw_info == 0)
+            {
+                temp_array[temp_run++] = 0;
+                temp_array[temp_run++] = 0;
+                temp_val = strlen(g_SYS_Config.eth_ip_str);
+                memcpy(&temp_array[temp_run],g_SYS_Config.eth_ip_str,temp_val);
+                temp_run += temp_val;
+                memcpy(&temp_array[temp_run],"|",1);
+                temp_run += 1;
+                //
+                temp_val = strlen(g_SYS_Config.wifi_gw_str);
+                memcpy(&temp_array[temp_run],g_SYS_Config.wifi_gw_str,temp_val);
+                temp_run += temp_val;
+                memcpy(&temp_array[temp_run],"|",1);
+                temp_run += 1;
+                //
+                temp_val = strlen(g_SYS_Config.wifi_netmask_str);
+                memcpy(&temp_array[temp_run],g_SYS_Config.wifi_netmask_str,temp_val);
+                temp_run += temp_val;
+                memcpy(&temp_array[temp_run],"|",1);
+                temp_run += 1;
+                //
+                temp_val = strlen(g_SYS_Config.wifi_DNS1_str);
+                memcpy(&temp_array[temp_run],g_SYS_Config.wifi_DNS1_str,temp_val);
+                temp_run += temp_val;
+                memcpy(&temp_array[temp_run],"|",1);
+                temp_run += 1;
+                //
+                temp_val = strlen(g_SYS_Config.wifi_DNS2_str);
+                memcpy(&temp_array[temp_run],g_SYS_Config.wifi_DNS2_str,temp_val);
+                temp_run += temp_val;
+                memcpy(&temp_array[temp_run],"|",1);
+                temp_run += 1;
+                temp_array[0] = (temp_run >> 8) & 0xff;
+                temp_array[1] = (temp_run >> 0) & 0xff;
+                pack.dSize = temp_run;
+                pack.Result = 0;
+                memcpy(pack.p_Data,temp_array,temp_run);
+            }
+            else
+            {
+                g_SYS_Config.HTTPHBT_En = pack.p_Data[temp_num++];
+                pack.Result = 0;
+                pack.dSize = 0;
+            }
+            retval = 1;
+        }
+        break;
+#endif
     default:
         break;
     }
