@@ -4,7 +4,6 @@
 
 void Main_Init(void);
 
-void tim4_pwm_period_switch (char num);
 
 int main(void)
 {
