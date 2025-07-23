@@ -22,14 +22,16 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 	sprintf(array_str,"time %d:%02d:%02d ",Center_tm.tm_hour,Center_tm.tm_min,Center_tm.tm_sec);
 	API_Task_Timer (&oled_task,Center_time);
 	
-	temp_ft = Mode_Use.Ultrasonic.Distance();
+//	temp_ft = Mode_Use.Ultrasonic.Distance();
 
 	Mode_Use.OLED.Show_String_pFun (2,0,"oled show",0,0,16);
 	Mode_Use.OLED.Show_String_pFun (0,1,array_str,0,0,16);
-	sprintf(array_str,"far %5.2f cm",temp_ft);
-	Mode_Use.OLED.Show_String_pFun (0,2,array_str,0,0,16);
+	
 	if (oled_task.Trigger_Flag)					// 每隔 50ms刷新一次
 	{
+		temp_ft = Mode_Use.Ultrasonic.Distance();
+		sprintf(array_str,"far %5.2f cm ",temp_ft);
+		Mode_Use.OLED.Show_String_pFun (0,2,array_str,0,0,16);
 		Mode_Use.OLED.Refresh();
 	}
 
