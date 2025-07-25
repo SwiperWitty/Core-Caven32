@@ -25,7 +25,7 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 	/* 
 	每三秒转两圈
 	*/
-	if (Center_time.SYS_Sec % 3)
+	if ((Center_time.SYS_Sec % 3) == 0)
 	{
 		Mode_Use.Motor_BYJ.Drive(1,1,2);
 	}

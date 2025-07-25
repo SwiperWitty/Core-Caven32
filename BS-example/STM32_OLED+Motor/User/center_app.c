@@ -28,7 +28,7 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 	三秒变换一次
 	左转，右转，停止
 	*/
-	if (Center_time.SYS_Sec % 3)
+	if ((Center_time.SYS_Sec % 3) == 0)
 	{
 		drive_num ++;
 		if(drive_num > 2)

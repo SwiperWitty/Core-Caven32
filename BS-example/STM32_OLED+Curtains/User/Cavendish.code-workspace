@@ -1,0 +1,16 @@
+{
+    "folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": "../../../Caven-MCU_Lib"
+        }
+    ],
+    "settings": {
+        "files.associations": {
+            "caven_info_frame.h": "c"
+        }
+    },
+    "extensions": {}
+}
