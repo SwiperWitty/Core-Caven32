@@ -513,19 +513,9 @@
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_OLED.c</FilePath>
             </File>
             <File>
-              <FileName>MODE_st7789_dever.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_st7789_dever.c</FilePath>
-            </File>
-            <File>
               <FileName>MODE_Time.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Time.c</FilePath>
-            </File>
-            <File>
-              <FileName>MODE_Tracing.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_Tracing.c</FilePath>
             </File>
             <File>
               <FileName>MODE_UART.c</FileName>
@@ -551,6 +541,11 @@
               <FileName>Steering_engine.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\Steering_engine.c</FilePath>
+            </File>
+            <File>
+              <FileName>MODE_st7789_drive.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_st7789_drive.c</FilePath>
             </File>
           </Files>
         </Group>

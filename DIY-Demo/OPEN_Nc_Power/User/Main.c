@@ -121,8 +121,8 @@ void Main_Init(void)
 	Mode_Use.TIME.Delay_Ms(200);
     Mode_Init.LCD(ENABLE);
     
-    Mode_Init.User_ADC(ENABLE);
-	Mode_Use.USER_ADC.Receive_Bind_pFun(ADC_Data_Handle);
+    Mode_Init.Base_ADC(ENABLE);
+	Mode_Use.Base_ADC.Receive_Bind_pFun(ADC_Data_Handle);
 
     reverse |= Power_app_init(ENABLE);	//while (1);
     reverse |= Games_app_init(ENABLE);

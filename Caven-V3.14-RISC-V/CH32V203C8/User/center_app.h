@@ -11,6 +11,6 @@
 
 
 int Center_Init(void);
-int Center_State_machine (Caven_BaseTIME_Type time);
+int Center_State_machine (SYS_BaseTIME_Type time);
 
 #endif /* USER_CENTER_APP_H_ */

@@ -12,7 +12,8 @@ date	2025.7.4
 */
 int Center_State_machine(Caven_BaseTIME_Type time)
 {
-	int retval = 0,get_State = 0;
+	int retval = 0;
+	float temp_ft = 0;
 	char array_str[200];
 	struct tm Center_tm;
 	
@@ -26,6 +27,9 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 	Mode_Use.OLED.Show_String_pFun (0,1,array_str,0,0,16);
 	if (oled_task.Trigger_Flag)					// 每隔 50ms刷新一次
 	{
+		temp_ft = Mode_Use.HX711.Get_Weight(5);
+		sprintf(array_str,"weight %5.2f g ",temp_ft);
+		Mode_Use.OLED.Show_String_pFun (0,2,array_str,0,0,16);
 		Mode_Use.OLED.Refresh();
 	}
 	

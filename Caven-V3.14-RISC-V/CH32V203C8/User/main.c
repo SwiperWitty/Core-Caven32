@@ -53,7 +53,7 @@ int main(void)
 void Main_Init(void)
 {
     Mode_Index();
-    Mode_Init.TIME(ENABLE);
+    Mode_Init.TIME (ENABLE);
     Mode_Use.TIME.Delay_Ms(10);
 
     Mode_Init.UART(1,115200,ENABLE);

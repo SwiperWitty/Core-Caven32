@@ -279,7 +279,7 @@ int Power_app (Caven_App_Type * message)
 				SET_Val_Handle (power_config.set_out_temp,0);
 			}
 			// 获取VIN电压
-            power_config.IN_vol = Mode_Use.USER_ADC.Conversion_Vol_pFun(adc_buff[run_num++]) * Divider_RES;
+            power_config.IN_vol = Mode_Use.Base_ADC.Conversion_Vol_pFun(adc_buff[run_num++]) * Divider_RES;
 			if(power_config.IN_vol < 5.2)
 			{
 				power_config.PD_val = 0;
@@ -300,16 +300,16 @@ int Power_app (Caven_App_Type * message)
 				power_config.PD_val = 0;
 			}
 			// 获取VOUT电压
-			Val_temp = Mode_Use.USER_ADC.Conversion_Vol_pFun(adc_buff[run_num++]) * Divider_RES;
+			Val_temp = Mode_Use.Base_ADC.Conversion_Vol_pFun(adc_buff[run_num++]) * Divider_RES;
 			temp_num = Caven_Data_Median_filtering_Handle (Val_temp,Val_OUT_array,&power_config.OUT_vol,&Val_OUT_num,30);
 			if(temp_num > 0)
 			{
 				
 			}
 			// ntc
-			Val_temp = Mode_Use.USER_ADC.Conversion_Vol_pFun(adc_buff[run_num++]);
+			Val_temp = Mode_Use.Base_ADC.Conversion_Vol_pFun(adc_buff[run_num++]);
 			// ele
-			Val_temp = Mode_Use.USER_ADC.Conversion_Vol_pFun(adc_buff[run_num++]) * (Sampling_RES_RATIO / MULTIP_RATIO);
+			Val_temp = Mode_Use.Base_ADC.Conversion_Vol_pFun(adc_buff[run_num++]) * (Sampling_RES_RATIO / MULTIP_RATIO);
 			temp_num = Caven_Data_Median_filtering_Handle (Val_temp,Val_ELE_array,&power_config.ELE_val,&Val_ELE_num,10);
 
 		}
