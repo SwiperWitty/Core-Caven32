@@ -54,7 +54,7 @@
 #define OPEN_11110  0x1E
 #define OPEN_11111  0x1f
 
-#define DEBUG_OUT	3   		// Debug 通道(Caved 3.14是串口3)
+#define DEBUG_OUT	1   		// Debug 通道(Caved 3.14是串口3)
 
 #ifndef Exist_SYS_TIME
     #define Exist_SYS_TIME  OPEN_0001 // 一定存在
@@ -75,7 +75,7 @@
 #define Exist_USB       OPEN_NULL
 #define Exist_CAN       OPEN_NULL
 
-#define Exist_FLASH     OPEN_NULL
+#define Exist_FLASH     OPEN_0001
 
 #define GUI_LVGL        OPEN_NULL
 
@@ -178,9 +178,19 @@
 #endif
 
 // boot
-#define GO_TO_APP() do{     \
-                            \
-}while(0);
+typedef void (*pFunction)(void); /* 跳转函数类型声明 */
+#define GO_TO_APP(addr) \
+do { \
+	__set_PRIMASK(1);	\
+    __set_MSP(*(__IO uint32_t*)(addr)); \
+    SCB->VTOR = FLASH_BASE | ((addr) & 0x1FFFFF); \
+    pFunction jump = (pFunction)(*(__IO uint32_t*)(addr + 4)); \
+	__set_PRIMASK(0);	\
+    jump(); \
+} while(0);
+
+#define NVIC_VECTOR_SET(addr);  NVIC_SetVectorTable(NVIC_VectTab_FLASH, addr);
+
 
 #define IO_H_REG    BSRR
 #define IO_L_REG    BRR

@@ -179,9 +179,17 @@
 #endif
 
 // boot
-#define GO_TO_APP() do{     \
-                            \
+typedef void (*pFunction)(void); /* 跳转函数类型声明 */
+#define GO_TO_APP(addr) do{     \
+	pFunction jump_to_app;						\
+	nvic_irq_disable(SysTick_IRQn);			\
+	__NVIC_ClearPendingIRQ(SysTick_IRQn);	\
+	jump_to_app = (pFunction)*(uint32_t*)(addr + 4);	\
+	__set_MSP(*(uint32_t*)addr);			\
+	jump_to_app();							\
 }while(0);
+
+#define NVIC_VECTOR_SET(addr)	nvic_vector_table_set(NVIC_VECTTAB_FLASH,addr)
 
 #define IO_H_REG    scr
 #define IO_L_REG    clr

@@ -29,6 +29,7 @@
         "base_pwm.h": "c",
         "caven_type.h": "c",
         "mode_ultrasonic.h": "c",
-        "motor_engine.h": "c"
+        "motor_engine.h": "c",
+        "base_flash.h": "c"
     }
 }
