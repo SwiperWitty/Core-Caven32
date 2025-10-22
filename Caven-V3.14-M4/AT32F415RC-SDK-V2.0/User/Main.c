@@ -101,7 +101,7 @@ void Main_Init(void)
     Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
     Mode_Init.OLED(ENABLE);
     Mode_Init.Steering_Engine(ENABLE);
-    
+    Mode_Init.USB(ENABLE);
 //    Mode_Use.Steering_Engine.Bind_PWM_Time (TIM4_PWMx_SetValue);
 //    Mode_Use.Steering_Engine.Set_Angle(1,0);
 //    Mode_Use.Steering_Engine.Set_Angle(2,90);
