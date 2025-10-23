@@ -150,16 +150,14 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
             rw_info = pack.p_Data[temp_num++];
             if(rw_info == 0)
             {
-                temp_array[temp_run++] = 0;
-                temp_array[temp_run++] = 8;
-                temp_array[temp_run++] = (DEMO_Serial >> ( 8 * 7)) & 0xFF;
-                temp_array[temp_run++] = (DEMO_Serial >> ( 8 * 6)) & 0xFF;
-                temp_array[temp_run++] = (DEMO_Serial >> ( 8 * 5)) & 0xFF;
-                temp_array[temp_run++] = (DEMO_Serial >> ( 8 * 4)) & 0xFF;
-                temp_array[temp_run++] = (DEMO_Serial >> ( 8 * 3)) & 0xFF;
-                temp_array[temp_run++] = (DEMO_Serial >> ( 8 * 2)) & 0xFF;
-                temp_array[temp_run++] = (DEMO_Serial >> ( 8 * 1)) & 0xFF;
-                temp_array[temp_run++] = (DEMO_Serial >> ( 8 * 0)) & 0xFF;
+                temp_array[temp_run++] = (g_SYS_Config.Serial >> ( 8 * 7)) & 0xFF;
+                temp_array[temp_run++] = (g_SYS_Config.Serial >> ( 8 * 6)) & 0xFF;
+                temp_array[temp_run++] = (g_SYS_Config.Serial >> ( 8 * 5)) & 0xFF;
+                temp_array[temp_run++] = (g_SYS_Config.Serial >> ( 8 * 4)) & 0xFF;
+                temp_array[temp_run++] = (g_SYS_Config.Serial >> ( 8 * 3)) & 0xFF;
+                temp_array[temp_run++] = (g_SYS_Config.Serial >> ( 8 * 2)) & 0xFF;
+                temp_array[temp_run++] = (g_SYS_Config.Serial >> ( 8 * 1)) & 0xFF;
+                temp_array[temp_run++] = (g_SYS_Config.Serial >> ( 8 * 0)) & 0xFF;
                 pack.dSize = temp_run;
                 pack.Result = 0;
                 memcpy(pack.p_Data,temp_array,temp_run);
@@ -715,12 +713,55 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 				// 重置，重启
 				System_app_Restore ();
                 g_SYS_Config.Reset_falg = 1;
-				pack.Result = 0;
+				pack.Result = m_Result_Back_Succ;
 				pack.p_Data[temp_run++] = 0;
             }
             else
             {
                 pack.Result = m_Result_Fail_ERROR;
+            }
+			pack.dSize = temp_run;
+            retval = 1;
+        }
+        break;
+    case m_CAVEN_CMD2_Serial_Order:
+        {
+            rw_info = pack.p_Data[temp_num++];
+            if(rw_info == 0)
+            {
+                temp_array[temp_run++] = (g_SYS_Config.Serial >> ( 8 * 7)) & 0xFF;
+                temp_array[temp_run++] = (g_SYS_Config.Serial >> ( 8 * 6)) & 0xFF;
+                temp_array[temp_run++] = (g_SYS_Config.Serial >> ( 8 * 5)) & 0xFF;
+                temp_array[temp_run++] = (g_SYS_Config.Serial >> ( 8 * 4)) & 0xFF;
+                temp_array[temp_run++] = (g_SYS_Config.Serial >> ( 8 * 3)) & 0xFF;
+                temp_array[temp_run++] = (g_SYS_Config.Serial >> ( 8 * 2)) & 0xFF;
+                temp_array[temp_run++] = (g_SYS_Config.Serial >> ( 8 * 1)) & 0xFF;
+                temp_array[temp_run++] = (g_SYS_Config.Serial >> ( 8 * 0)) & 0xFF;
+                pack.dSize = temp_run;
+                pack.Result = m_Result_Back_Succ;
+                memcpy(pack.p_Data,temp_array,temp_run);
+            }
+            else
+            {
+				g_SYS_Config.Serial = pack.p_Data[temp_num++];
+				g_SYS_Config.Serial <<= 8;
+				g_SYS_Config.Serial |= pack.p_Data[temp_num++];
+				g_SYS_Config.Serial <<= 8;
+				g_SYS_Config.Serial |= pack.p_Data[temp_num++];
+				g_SYS_Config.Serial <<= 8;
+				g_SYS_Config.Serial |= pack.p_Data[temp_num++];
+				g_SYS_Config.Serial <<= 8;
+				g_SYS_Config.Serial |= pack.p_Data[temp_num++];
+				g_SYS_Config.Serial <<= 8;
+				g_SYS_Config.Serial |= pack.p_Data[temp_num++];
+				g_SYS_Config.Serial <<= 8;
+				g_SYS_Config.Serial |= pack.p_Data[temp_num++];
+				g_SYS_Config.Serial <<= 8;
+				g_SYS_Config.Serial |= pack.p_Data[temp_num++];
+				
+				pack.p_Data[temp_run++] = 0;
+				pack.Result = m_Result_Back_Succ;
+				System_app_SYS_Config_Save ();
             }
 			pack.dSize = temp_run;
             retval = 1;
@@ -734,14 +775,15 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
             {
 				memcpy(temp_array,g_SYS_Config.MAC,sizeof(g_SYS_Config.MAC));
 				temp_run += sizeof(g_SYS_Config.MAC);
-                pack.Result = 0;
+                pack.Result = m_Result_Back_Succ;
                 memcpy(pack.p_Data,temp_array,temp_run);
             }
             else
             {
 				memcpy(g_SYS_Config.MAC,&pack.p_Data[temp_num],sizeof(g_SYS_Config.MAC));
 				pack.p_Data[temp_run++] = 0;
-                pack.Result = 0;
+                pack.Result = m_Result_Back_Succ;
+				System_app_SYS_Config_Save ();
             }
 			pack.dSize = temp_run;
             retval = 1;

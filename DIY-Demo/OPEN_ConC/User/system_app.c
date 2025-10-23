@@ -25,7 +25,7 @@ void System_app_Restore (void)
     g_SYS_Config.Board_ID = 0;
     g_SYS_Config.debug = 1;
 	memcpy(g_SYS_Config.Hostname,DEMO_Name_str,strlen(DEMO_Name_str));
-	g_SYS_Config.Serial = DEMO_Serial;
+//	g_SYS_Config.Serial = DEMO_Serial;
 	g_SYS_Config.Version[0] = DEMO_VER;
 	g_SYS_Config.Version[1] = DEMO_VER_sub;
 	g_SYS_Config.Version[2] = DEMO_VER_sub_bit;
