@@ -31,7 +31,7 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 			Mode_Use.UART.Send_Data_pFun (m_UART_CH2,(uint8_t *)JSON_array,JSON_len);
 			JSON_len = 0;
 		}
-		else if(temp_num > 30000)
+		else if(temp_num > 3000)
 		{
 			Caven_app_JSON_Make_pack (JSON_array,TCP_HTTP_Link);
 			Mode_Use.UART.Send_Data_pFun (m_UART_CH2,(uint8_t *)JSON_array,JSON_len);
@@ -51,7 +51,7 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 			Mode_Use.UART.Send_Data_pFun (DEBUG_OUT,(uint8_t *)RFID_array,RFIDBK_len);
 			RFIDBK_len = 0;
 		}
-		else if(temp_num > 30000)
+		else if(temp_num > 3000)
 		{
 			Mode_Use.UART.Send_Data_pFun (DEBUG_OUT,(uint8_t *)RFID_array,RFIDBK_len);
 			RFIDBK_len = 0;

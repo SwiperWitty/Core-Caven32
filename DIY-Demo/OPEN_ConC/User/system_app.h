@@ -34,7 +34,7 @@
 #define	SYS_BTLD	0
 #define	SYS_STR_ADDR		0x08000000
 #define	SYS_APP_ADDR		0x08000000		// 0x08000000\0x08008000
-#define	SYS_CFG_ADDR		0x08018000
+#define	SYS_CFG_ADDR		0x08038000
 
 #define	SYS_APP_SIZE		(SYS_CFG_ADDR - SYS_APP_ADDR)
 //
@@ -126,6 +126,7 @@ void System_app_Restore (void);
 int System_app_SYS_Config_Save (void);
 int System_app_SYS_Config_Gain (void);
 
+void line_gpo_set(int num,int val);
 int sys_set_gpo_fun (int gpo,int state);
 int sys_set_bzz_fun (int state);
 

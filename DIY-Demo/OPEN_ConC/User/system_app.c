@@ -174,12 +174,19 @@ void System_app_Init (void)
 	{
 		GO_TO_APP(SYS_APP_ADDR);
 	}
+	else
+	{
+		__enable_irq();
+		Mode_Init.TIME(ENABLE);
+		Mode_Use.TIME.Delay_Ms(10);
+		Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
+		Mode_Init.USB(ENABLE);
+	}
 #else
 	NVIC_VECTOR_SET(SYS_APP_ADDR);
-#endif
 	__enable_irq();
-
-    Mode_Init.TIME(ENABLE);
+	
+	Mode_Init.TIME(ENABLE);
     Mode_Use.TIME.Delay_Ms(10);
 	Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
 	Mode_Init.UART(m_UART_CH2,115200,ENABLE);
@@ -198,10 +205,10 @@ void System_app_Init (void)
 	User_GPIO_set(1,8,1);		// BZZ
 	User_GPIO_set(2,15,1);		// LED
 	
-    Mode_Use.UART.Send_String_pFun(DEBUG_OUT,"hello !\n");
-	Mode_Use.UART.Send_String_pFun(m_UART_CH2,"hello !\n");
 	Caven_new_event_Fun(&g_SYS_events,bzz_event_fun,&bzz_event);
 	Caven_new_event_Fun(&g_SYS_events,gpo_event_fun,&gpo_event);
+#endif
+
 #ifdef MCU_SYS_FREQ 
 	stb_printf("MCU Init,MCU_SYS_FREQ: %d Hz \n",MCU_SYS_FREQ);
 #endif
@@ -235,7 +242,7 @@ void bzz_event_fun (void *data)
 		{
 			temp_time *= 1000000;
 			temp_time += g_SYS_Config.Now_time.SYS_Us - bzz_TIME.SYS_Us;
-			if (temp_time > 1000000)
+			if (temp_time > 500000)
 			{
 				*(int *)data = 0;
 			}
@@ -270,33 +277,42 @@ void line_gpo_set(int num,int val)
 {
 	switch (num)
 	{
+		case 1:
+			User_GPIO_set(1,(3+num),val);
+			break;
+		case 2:
+			User_GPIO_set(1,(3+num),val);
+			break;
+		case 3:
+			User_GPIO_set(1,(3+num),val);
+			break;
 		case 4:
 			break;
 		case 5:
 			break;
 		default:
-			User_GPIO_set(1,(3+num),val);
+			
 			break;
 	}
 }
 
-int gpos_state = 0x00;
-int gpos_old = 0x00;
-int sys_set_gpo_fun (int gpo,int state)
+static int gpos_state = -1;
+int sys_set_gpo_fun (int gpos,int state)
 {
 	int retval = 0;
-	int temp_num = 0,temp_val = 0;
-	temp_num = gpo | 0xffff;
-	gpos_state &= ~(temp_num);
-	gpos_state |= state;
-	if (gpos_old != gpos_state)
+	int temp_num = 0,temp_val = 0,make_gpos_state = 0;
+	
+	temp_num = ~ gpos;
+	temp_val = gpos_state & temp_num;
+	make_gpos_state = temp_val | state;
+	
+	if (gpos_state != make_gpos_state)
 	{
-		gpos_old = gpos_state;
-		temp_num = gpos_state;
-		for (int n = 0;n < 32;n++)
+		for (int n = 0;n < 30;n++)
 		{
+			temp_num = (uint32_t)0x01 << n;
 			temp_val = n + 1;
-			if ((temp_num >> n) & 0x01)
+			if (make_gpos_state & temp_num)
 			{
 				line_gpo_set(temp_val,1);
 			}
@@ -305,6 +321,7 @@ int sys_set_gpo_fun (int gpo,int state)
 				line_gpo_set(temp_val,0);
 			}
 		}
+		gpos_state = make_gpos_state;
 	}
 	return retval;
 }

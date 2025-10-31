@@ -59,7 +59,6 @@ int GX_app_cmd1_handle (GX_info_packet_Type pack);
 int GX_app_cmd2_handle (GX_info_packet_Type pack);
 int GX_app_cmd3_handle (GX_info_packet_Type pack);
 int GX_app_send_packet(GX_info_packet_Type pack);
-int GX_app_send_array(GX_info_packet_Type pack);
 
 int GX_app_SYS_info_handle (GX_info_packet_Type pack)
 {
@@ -105,7 +104,7 @@ int GX_app_RFID_info_handle (GX_info_packet_Type pack)
 int GX_app_cmd1_handle (GX_info_packet_Type pack)
 {
     int retval = 0;
-	int temp_num = 0,temp_run = 0;
+	int temp_num = 0,temp_run = 0,temp_data = 0;
 	pack.Comm_way = RS232_Link;	// SYS_Link RS232_Link
 	switch (pack.Prot_W_MID)
 	{
@@ -113,12 +112,19 @@ int GX_app_cmd1_handle (GX_info_packet_Type pack)
 		GX_app_send_packet(pack);
 		break;
 	case config_reader_GPO_state_order:
-		temp_num = pack.p_Data[temp_run++];
-		sys_set_gpo_fun (0,0);
+	{
+		for(int i = 0;i < pack.dSize;)
+		{
+			temp_num = pack.p_Data[temp_run++];
+			temp_data = pack.p_Data[temp_run++];
+			line_gpo_set(temp_num,!temp_data);
+			i += 2;
+		}
 		pack.dSize = 1;
 		pack.p_Data[0] = 0;
 		pack.Comm_way = g_SYS_Config.Connect_passage;		// RS232_Link SYS_Link
 		GX_app_send_packet(pack);
+	}
 		break;
 	case beep_device_control_order:
 	{
@@ -183,35 +189,6 @@ int GX_app_cmd3_handle (GX_info_packet_Type pack)
     
     default:
 		GX_app_send_packet(pack);
-        break;
-    }
-    return retval;
-}
-
-/*
-	无需重组的邪修做法
-*/
-int GX_app_send_array(GX_info_packet_Type pack)
-{
-    int retval = 0;
-    switch (pack.Comm_way)
-    {
-    case SYS_Link:
-        {
-			MODE_UART_DMA_Send_Data_Fun(DEBUG_OUT,pack.p_AllData,pack.Get_num);
-        }
-        break;
-    case RS232_Link:
-        {
-			MODE_UART_DMA_Send_Data_Fun(m_UART_CH2,pack.p_AllData,pack.Get_num);
-        }
-        break;
-    case USB_Link:
-        {
-            Mode_Use.USB_HID.Send_Data(pack.p_AllData,pack.Get_num);
-        }
-        break;
-    default:
         break;
     }
     return retval;
