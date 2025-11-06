@@ -12,6 +12,7 @@
 
 #include "string.h"
 #include "eth_driver.h"
+#include "Base_Sys_Time.h"
 
 __attribute__((__aligned__(4))) ETH_DMADESCTypeDef DMARxDscrTab[ETH_RXBUFNB];       /* MAC receive descriptor, 4-byte aligned*/
 __attribute__((__aligned__(4))) ETH_DMADESCTypeDef DMATxDscrTab[ETH_TXBUFNB];       /* MAC send descriptor, 4-byte aligned */
@@ -204,7 +205,7 @@ void WCHNET_AccelerateLink(void)
                 phy_stat &= ~(1<<11);
                 ETH_WritePHYRegister(PHY_ADDRESS, PHY_BCR, phy_stat );
 
-                Delay_Us(300);
+                SYS_Delay_us(300);
                 PHY_FuncInit();
             }
             break;
@@ -256,7 +257,7 @@ void WCHNET_CheckLinkVaild(void)
                 LinkProcessingTime = 0;
                 phy_stat = ETH_ReadPHYRegister(gPHYAddress, PHY_BCR);
                 ETH_WritePHYRegister(gPHYAddress, PHY_BCR, PHY_Reset );
-                Delay_Us(100);
+                SYS_Delay_us(100);
                 ETH_WritePHYRegister(gPHYAddress, PHY_BCR, phy_stat );
                 ETH_LinkDownCfg();
             }
@@ -339,7 +340,7 @@ void ETH_SetClock(void)
     RCC_PLL3Config(RCC_PLL3Mul_12_5); // 8M*12.5 = 100MHz
     RCC_PLL3Cmd(ENABLE);
     while(RESET == RCC_GetFlagStatus(RCC_FLAG_PLL3RDY));
-    Delay_Us(300);//Wait for the PHY clock to stabilize
+    SYS_Delay_us(300);//Wait for the PHY clock to stabilize
 }
 
 /*********************************************************************
@@ -551,7 +552,7 @@ uint32_t ETH_RegInit( ETH_InitTypeDef* ETH_InitStruct, uint16_t PHYAddress )
 
     /* Reset the physical layer */
     ETH_WritePHYRegister(PHYAddress, PHY_BCR, PHY_Reset);
-    Delay_Ms(1);
+    SYS_Delay_ms(1);
     return ETH_SUCCESS;
 }
 
@@ -588,7 +589,7 @@ void ETH_Configuration( uint8_t *macAddr )
 
     /* Wait for software reset */
     do{
-        Delay_Us(10);
+        SYS_Delay_us(10);
         if( !--timeout )  break;
     }while(ETH->DMABMR & ETH_DMABMR_SR);
 

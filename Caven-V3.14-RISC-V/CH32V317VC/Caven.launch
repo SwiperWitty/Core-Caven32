@@ -28,7 +28,7 @@
   <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.ipAddress" value="localhost"/>
   <stringAttribute key="org.eclipse.cdt.dsf.gdb.DEBUG_NAME" value="${eclipse_home}toolchain/RISC-V Embedded GCC/bin/riscv-none-embed-gdb.exe"/>
   <stringAttribute key="com.mounriver.debug.gdbjtag.openocd.gdbClientOtherOptions" value=""/>
-  <stringAttribute key="com.mounriver.debug.gdbjtag.openocd.gdbClientOtherCommands" value="set mem inaccessible-by-default off&#xD;&#xA;set architecture riscv:rv32&#xD;&#xA;set remotetimeout unlimited&#xD;&#xA;set disassembler-options xw"/>
+  <stringAttribute key="com.mounriver.debug.gdbjtag.openocd.gdbClientOtherCommands" value="set mem inaccessible-by-default off&#xD;&#xA;set architecture riscv:rv32&#xD;&#xA;set remotetimeout unlimited"/>
   <stringAttribute key="com.mounriver.debug.gdbjtag.openocd.firstResetType" value="init"/>
   <stringAttribute key="com.mounriver.debug.gdbjtag.openocd.otherInitCommands" value=""/>
   <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.symbolsOffset" value=""/>

@@ -30,6 +30,8 @@
         "caven_type.h": "c",
         "mode_ultrasonic.h": "c",
         "motor_engine.h": "c",
-        "base_flash.h": "c"
+        "base_flash.h": "c",
+        "tcp_server_link.h": "c",
+        "network_manage.h": "c"
     }
 }

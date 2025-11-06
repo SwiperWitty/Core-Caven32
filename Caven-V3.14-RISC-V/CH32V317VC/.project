@@ -54,5 +54,13 @@
         <arguments>1.0-name-matches-false-false-SRC</arguments>
       </matcher>
     </filter>
+    <filter>
+      <name/>
+      <type>10</type>
+      <matcher>
+        <id>org.eclipse.ui.ide.multiFilter</id>
+        <arguments>1.0-name-matches-false-false-Debug</arguments>
+      </matcher>
+    </filter>
   </filteredResources>
 </projectDescription>

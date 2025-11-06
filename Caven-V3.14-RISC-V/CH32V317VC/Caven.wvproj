@@ -38,6 +38,11 @@
 				"parentLogicPath": "",
 				"type": "folder",
 				"name": "SRC"
+			},
+			{
+				"name": "Debug",
+				"parentLogicPath": "",
+				"type": "folder"
 			}
 		],
 		"projectName": "Caven",
@@ -69,10 +74,12 @@
 					"${project}/Startup/startup_ch32v30x.S",
 					"${project}/NetLib/eth_driver_10M.c",
 					"${project}/API/debug_log.c",
-					"${project}/API/debug_log.h"
+					"${project}/API/debug_log.h",
+					"${project}/Debug/debug.h",
+					"${project}/Debug/debug.c"
 				],
 				"optimization": {
-					"level": "size",
+					"level": "none",
 					"message_length": true,
 					"char_is_signed": true,
 					"function_sections": true,
@@ -81,7 +88,7 @@
 					"do_not_inline_functions": false,
 					"assume_freestanding_environment": false,
 					"disable_builtin": false,
-					"single_precision_constants": true,
+					"single_precision_constants": false,
 					"position_independent_code": false,
 					"link_time_optimizer": false,
 					"disable_loop_invariant_move": false,
@@ -148,7 +155,6 @@
 						"preprocess_only": false,
 						"defined_symbols": [
 							"CH32V317",
-							"STB_SPRINTF_IMPLEMENTATION",
 							"CAVEN=1",
 							"DEFAULT"
 						],
@@ -158,13 +164,13 @@
 						"include_paths": [
 							"${project}/NetLib",
 							"${project}/Core",
-							"${project}/Debug",
 							"${project}/Peripheral/inc",
 							"${project}/User",
 							"${project}/API",
 							"${project}/Base_CH32V317",
 							"${project}/Mode",
-							"${project}/API/STB"
+							"${project}/API/STB",
+							"${project}/IQmath_RV32IMACXW"
 						],
 						"include_system_paths": [],
 						"include_files": []
@@ -240,10 +246,13 @@
 					"libraries": {
 						"libraries": [
 							"m",
-							"wchnet"
+							"wchnet",
+							"IQMath_RV32"
 						],
 						"library_search_path": [
-							"${project}/NetLib"
+							"${project}/IQmath_RV32IMACXW",
+							"${project}/NetLib",
+							"${project}/User"
 						]
 					},
 					"miscellaneous": {
@@ -259,8 +268,8 @@
 						"do_not_use_syscalls": true,
 						"verbose": false,
 						"use_wch_printffloat": false,
-						"use_wch_printf": true,
-						"use_iqmath": false,
+						"use_wch_printf": false,
+						"use_iqmath": true,
 						"other_linker_flags": ""
 					}
 				},
@@ -279,10 +288,13 @@
 					"libraries": {
 						"libraries": [
 							"m",
-							"wchnet"
+							"wchnet",
+							"IQMath_RV32"
 						],
 						"library_search_path": [
-							"${project}/NetLib"
+							"${project}/IQmath_RV32IMACXW",
+							"${project}/NetLib",
+							"${project}/User"
 						]
 					},
 					"miscellaneous": {
@@ -298,8 +310,8 @@
 						"do_not_use_syscalls": true,
 						"verbose": false,
 						"use_wch_printffloat": false,
-						"use_wch_printf": true,
-						"use_iqmath": false,
+						"use_wch_printf": false,
+						"use_iqmath": true,
 						"other_linker_flags": ""
 					}
 				},
@@ -337,15 +349,15 @@
 				},
 				"riscvTargetProcessor": {
 					"architecture": "rv32i",
-					"multiply_extension": true,
+					"multiply_extension": false,
 					"atomic_extension": true,
-					"floating_point": "single",
+					"floating_point": "none",
 					"compressed_extension": true,
-					"extra_compressed_extension": true,
+					"extra_compressed_extension": false,
 					"bit_extension": false,
 					"multiplication_subset_of_the_M_extension": false,
 					"integer_ABI": "ilp32",
-					"floating_point_ABI": "single",
+					"floating_point_ABI": "none",
 					"tuning": "default",
 					"code_model": "default",
 					"small_data_limit": 8,
@@ -398,8 +410,7 @@
 			"commands": [
 				"set mem inaccessible-by-default off",
 				"set architecture riscv:rv32",
-				"set remotetimeout unlimited",
-				"set disassembler-options xw"
+				"set remotetimeout unlimited"
 			]
 		},
 		"startup": {

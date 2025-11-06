@@ -1,14 +1,10 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
- * Author             : WCH
+ * Author             : cavendish
  * Version            : V1.0.0
- * Date               : 2022/05/31
+ * Date               : 2025/11/4
  * Description        : Main program body.
 *********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
 /*
  *@Note
 TCP Server example, demonstrating that TCP Server
@@ -18,14 +14,13 @@ please refer to the "CH32V30x Evaluation Board Manual" under the CH32V307EVT\EVT
  */
 #include "string.h"
 #include "eth_driver.h"
-
+#include "IQmath_RV32.h"
 #define KEEPALIVE_ENABLE                1               //Enable keep alive function
 
-u8 MACAddr[6];                                          //MAC address
-u8 IPAddr[4] = {192, 168, 1, 10};                       //IP address
-u8 GWIPAddr[4] = {192, 168, 1, 1};                      //Gateway IP address
-u8 IPMask[4] = {255, 255, 255, 0};                      //subnet mask
-u16 srcport = 1000;                                     //source port
+#include "Base_ETH.h"
+
+
+u16 srcport = 8160;                                     //source port
 
 u8 SocketIdForListen;                                   //Socket for Listening
 u8 socket[WCHNET_MAX_SOCKET_NUM];                       //Save the currently connected socket
@@ -45,32 +40,6 @@ void mStopIfError(u8 iError)
 {
     if (iError == WCHNET_ERR_SUCCESS)
         return;
-    printf("Error: %02X\r\n", (u16) iError);
-}
-
-/*********************************************************************
- * @fn      TIM2_Init
- *
- * @brief   Initializes TIM2.
- *
- * @return  none
- */
-void TIM2_Init(void)
-{
-    TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure = { 0 };
-
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
-
-    TIM_TimeBaseStructure.TIM_Period = SystemCoreClock / 1000000;
-    TIM_TimeBaseStructure.TIM_Prescaler = WCHNETTIMERPERIOD * 1000 - 1;
-    TIM_TimeBaseStructure.TIM_ClockDivision = 0;
-    TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-    TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
-    TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE);
-
-    TIM_Cmd(TIM2, ENABLE);
-    TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
-    NVIC_EnableIRQ(TIM2_IRQn);
 }
 
 /*********************************************************************
@@ -89,7 +58,6 @@ void WCHNET_CreateTcpSocketListen(void)
     TmpSocketInf.SourPort = srcport;
     TmpSocketInf.ProtoType = PROTO_TYPE_TCP;
     i = WCHNET_SocketCreat(&SocketIdForListen, &TmpSocketInf);
-    printf("SocketIdForListen %d\r\n", SocketIdForListen);
     mStopIfError(i);
     i = WCHNET_SocketListen(SocketIdForListen);                   //listen for connections
     mStopIfError(i);
@@ -174,8 +142,6 @@ void WCHNET_HandleSockInt(u8 socketid, u8 intstat)
                 break;
             }
         }
-        printf("TCP Connect Success\r\n");
-        printf("socket id: %d\r\n",socket[i]);
     }
     if (intstat & SINT_STAT_DISCONNECT)                           //disconnect
     {
@@ -185,7 +151,6 @@ void WCHNET_HandleSockInt(u8 socketid, u8 intstat)
                 break;
             }
         }
-        printf("TCP Disconnect\r\n");
     }
     if (intstat & SINT_STAT_TIM_OUT)                              //timeout disconnect
     {
@@ -195,8 +160,6 @@ void WCHNET_HandleSockInt(u8 socketid, u8 intstat)
                 break;
             }
         }
-        printf("TCP Timeout\r\n");
-
     }
 }
 
@@ -216,11 +179,11 @@ void WCHNET_HandleGlobalInt(void)
     intstat = WCHNET_GetGlobalInt();                              //get global interrupt flag
     if (intstat & GINT_STAT_UNREACH)                              //Unreachable interrupt
     {
-        printf("GINT_STAT_UNREACH\r\n");
+        // printf("GINT_STAT_UNREACH\r\n");
     }
     if (intstat & GINT_STAT_IP_CONFLI)                            //IP conflict
     {
-        printf("GINT_STAT_IP_CONFLI\r\n");
+        // printf("GINT_STAT_IP_CONFLI\r\n");
     }
 
     if (intstat & GINT_STAT_PHY_CHANGE)                           //PHY status change
@@ -228,7 +191,7 @@ void WCHNET_HandleGlobalInt(void)
         i = WCHNET_GetPHYStatus();
         if (i & PHY_Linked_Status)
         {
-            printf("PHY Link Success\r\n");
+            // printf("PHY Link Success\r\n");
         }
         else
         {
@@ -245,6 +208,7 @@ void WCHNET_HandleGlobalInt(void)
     }
 }
 
+#include "Mode.h"
 /*********************************************************************
  * @fn      main
  *
@@ -255,50 +219,33 @@ void WCHNET_HandleGlobalInt(void)
 int main(void)
 {
     u8 i;
+    Caven_BaseTIME_Type now_time;
     SystemCoreClockUpdate();
-    Delay_Init();
-    USART_Printf_Init(115200);                                    //USART initialize
-    printf("TCPServer Test\r\n");
-    printf("SystemClk:%d\r\n", SystemCoreClock);
-    printf("ChipID:%08x\r\n", DBGMCU_GetCHIPID());
-    printf("net version:%x\n", WCHNET_GetVer());
-    if (WCHNET_LIB_VER != WCHNET_GetVer()) {
-        printf("version error.\n");
-    }
-    WCHNET_GetMacAddr(MACAddr);                                   //get the chip MAC address
-    printf("mac addr:");
-    for(i = 0; i < 6; i++) 
-        printf("%x ",MACAddr[i]);
-    printf("\n");
-    TIM2_Init();
-    i = ETH_LibInit(IPAddr, GWIPAddr, IPMask, MACAddr);           //Ethernet library initialize
-    mStopIfError(i);
-    if (i == WCHNET_ERR_SUCCESS)
-        printf("WCHNET_LibInit Success\r\n");
-#if KEEPALIVE_ENABLE                                               //Configure keep alive parameters
-    {
-        struct _KEEP_CFG cfg;
 
-        cfg.KLIdle = 20000;
-        cfg.KLIntvl = 15000;
-        cfg.KLCount = 9;
-        WCHNET_ConfigKeepLive(&cfg);
-    }
-#endif
+    Mode_Index();
+    Mode_Init.TIME(ENABLE);
+    Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
+
+    now_time.SYS_Sec = 1762236074;
+    Mode_Use.TIME.Set_BaseTIME_pFun (now_time);
+    stb_printf("MCU Init,MCU_SYS_FREQ: %d Hz \n",MCU_SYS_FREQ);
+
+    Base_ETH_Task_CallBcak_Bind(WCHNET_HandleGlobalInt);
+    Base_ETH_config_local_ip (1,"192.168.1.168","192.168.1.1","255.255.255.0");
+    Base_ETH_Init(1,ENABLE);
+
     memset(socket, 0xff, WCHNET_MAX_SOCKET_NUM);
     WCHNET_CreateTcpSocketListen();                               //Create TCP Socket for Listening
-
+    int old_sec = 0;
     while(1)
     {
-        /*Ethernet library main task function,
-         * which needs to be called cyclically*/
-        WCHNET_MainTask();
-        /*Query the Ethernet global interrupt,
-         * if there is an interrupt, call the global interrupt handler*/
-        if(WCHNET_QueryGlobalInt())
+        now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
+        if (old_sec != now_time.SYS_Sec)
         {
-            WCHNET_HandleGlobalInt();
+            old_sec = now_time.SYS_Sec;
+            stb_printf("sys time utc: %d s \n",old_sec);
         }
+        Base_ETH_Task ();
     }
 }
 

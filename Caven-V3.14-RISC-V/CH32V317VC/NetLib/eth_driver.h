@@ -16,7 +16,7 @@
  extern "C" {
 #endif 
 
-#include "debug.h"
+#include "ch32v30x.h"
 #include "wchnet.h"
 
  /* 1: interrupt 0: polling in RMII or RGMII mode */
