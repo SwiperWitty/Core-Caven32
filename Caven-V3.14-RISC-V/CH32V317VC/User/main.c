@@ -18,11 +18,13 @@ please refer to the "CH32V30x Evaluation Board Manual" under the CH32V307EVT\EVT
 #define KEEPALIVE_ENABLE                1               //Enable keep alive function
 
 #include "Base_ETH.h"
-
+#include "Mode.h"
 
 u16 srcport = 8160;                                     //source port
 
 u8 SocketIdForListen;                                   //Socket for Listening
+u8 SocketIdForclient = 0xff;                                   //Socket for Listening
+
 u8 socket[WCHNET_MAX_SOCKET_NUM];                       //Save the currently connected socket
 u8 SocketRecvBuf[WCHNET_MAX_SOCKET_NUM][RECE_BUF_LEN];  //socket receive buffer
 u8 MyBuf[RECE_BUF_LEN];
@@ -55,11 +57,39 @@ void WCHNET_CreateTcpSocketListen(void)
     u8 i;
     SOCK_INF TmpSocketInf;
     memset((void *) &TmpSocketInf, 0, sizeof(SOCK_INF));
-    TmpSocketInf.SourPort = srcport;
+    TmpSocketInf.SourPort = 8160;
     TmpSocketInf.ProtoType = PROTO_TYPE_TCP;
     i = WCHNET_SocketCreat(&SocketIdForListen, &TmpSocketInf);
     mStopIfError(i);
+    printf("server SocketId %d\r\n", SocketIdForclient);
     i = WCHNET_SocketListen(SocketIdForListen);                   //listen for connections
+    mStopIfError(i);
+
+}
+
+/*********************************************************************
+ * @fn      WCHNET_CreateTcpSocket
+ *
+ * @brief   Create TCP Socket
+ *
+ * @return  none
+ */
+void WCHNET_CreateTcpSocket(void)
+{
+    u8 i;
+    SOCK_INF TmpSocketInf;
+    u8 ip_array[10];
+    Caven_Str_To_ip ("192.168.1.160",ip_array,4);
+    memset((void *) &TmpSocketInf, 0, sizeof(SOCK_INF));
+    memcpy((void *) TmpSocketInf.IPAddr, ip_array, 4);
+    TmpSocketInf.DesPort = 8000;
+    TmpSocketInf.SourPort = 8000;
+    TmpSocketInf.ProtoType = PROTO_TYPE_TCP;
+    TmpSocketInf.RecvBufLen = RECE_BUF_LEN;
+    i = WCHNET_SocketCreat(&SocketIdForclient, &TmpSocketInf);
+    printf("client SocketId %d\r\n", SocketIdForclient);
+    mStopIfError(i);
+    i = WCHNET_SocketConnect(SocketIdForclient);                        //make a TCP connection
     mStopIfError(i);
 }
 
@@ -119,12 +149,14 @@ void WCHNET_DataLoopback(u8 id)
  *
  * @return  none
  */
+u8 last_sock = 0;
 void WCHNET_HandleSockInt(u8 socketid, u8 intstat)
 {
     u8 i;
 
     if (intstat & SINT_STAT_RECV)                                 //receive data
     {
+        stb_printf("socket[%d] stat recv\r\n",socketid);
         WCHNET_DataLoopback(socketid);                            //Data loopback
     }
     if (intstat & SINT_STAT_CONNECT)                              //connect successfully
@@ -135,7 +167,17 @@ void WCHNET_HandleSockInt(u8 socketid, u8 intstat)
         WCHNET_ModifyRecvBuf(socketid, (u32) SocketRecvBuf[socketid],
         
         RECE_BUF_LEN);
-        link_sock = socketid;
+        if(SocketIdForclient != socketid)
+        {
+            if(last_sock != 0 && last_sock != socketid)
+            {
+                stb_printf("socket[%d] has been abandon\r\n",last_sock);
+                WCHNET_SocketClose(last_sock,TCP_CLOSE_ABANDON);
+            }
+            link_sock = socketid;
+            last_sock = socketid;
+        }
+        stb_printf("socket[%d] con\r\n",socketid);
         for (i = 0; i < WCHNET_MAX_SOCKET_NUM; i++) {
             if (socket[i] == 0xff) {                              //save connected socket id
                 socket[i] = socketid;
@@ -151,6 +193,11 @@ void WCHNET_HandleSockInt(u8 socketid, u8 intstat)
                 break;
             }
         }
+        stb_printf("socket[%d] discon\r\n",socketid);
+        if(SocketIdForclient == socketid)
+        {
+            SocketIdForclient = 0;
+        }
     }
     if (intstat & SINT_STAT_TIM_OUT)                              //timeout disconnect
     {
@@ -159,6 +206,11 @@ void WCHNET_HandleSockInt(u8 socketid, u8 intstat)
                 socket[i] = 0xff;
                 break;
             }
+        }
+        stb_printf("socket[%d] over time\r\n",socketid);
+        if(SocketIdForclient == socketid)
+        {
+            SocketIdForclient = 0;
         }
     }
 }
@@ -179,11 +231,11 @@ void WCHNET_HandleGlobalInt(void)
     intstat = WCHNET_GetGlobalInt();                              //get global interrupt flag
     if (intstat & GINT_STAT_UNREACH)                              //Unreachable interrupt
     {
-        // printf("GINT_STAT_UNREACH\r\n");
+        stb_printf("GINT_STAT_UNREACH\r\n");
     }
     if (intstat & GINT_STAT_IP_CONFLI)                            //IP conflict
     {
-        // printf("GINT_STAT_IP_CONFLI\r\n");
+        stb_printf("GINT_STAT_IP_CONFLI\r\n");
     }
 
     if (intstat & GINT_STAT_PHY_CHANGE)                           //PHY status change
@@ -191,11 +243,25 @@ void WCHNET_HandleGlobalInt(void)
         i = WCHNET_GetPHYStatus();
         if (i & PHY_Linked_Status)
         {
-            // printf("PHY Link Success\r\n");
+            stb_printf("PHY Link Success\r\n");
+            SocketIdForclient = 0;
+            link_sock = 0;
         }
         else
         {
-            WCHNET_SocketClose(link_sock,TCP_CLOSE_ABANDON);
+            stb_printf("PHY Link down\r\n");
+            if(link_sock)
+            {
+                stb_printf("eth link_sock %d \r\n",link_sock);
+                WCHNET_SocketClose(link_sock,TCP_CLOSE_ABANDON);
+                link_sock = 0;
+            }
+            if(SocketIdForclient)
+            {
+                stb_printf("eth link_sock %d \r\n",link_sock);
+                WCHNET_SocketClose(SocketIdForclient,TCP_CLOSE_ABANDON);
+                SocketIdForclient = 0xff;
+            }
         }
     }
     if (intstat & GINT_STAT_SOCKET) {                             //socket related interru
@@ -208,7 +274,6 @@ void WCHNET_HandleGlobalInt(void)
     }
 }
 
-#include "Mode.h"
 /*********************************************************************
  * @fn      main
  *
@@ -216,12 +281,13 @@ void WCHNET_HandleGlobalInt(void)
  *
  * @return  none
  */
+ uint8_t array[1000];
 int main(void)
 {
     u8 i;
+    int addr = 0;
     Caven_BaseTIME_Type now_time;
     SystemCoreClockUpdate();
-
     Mode_Index();
     Mode_Init.TIME(ENABLE);
     Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
@@ -233,9 +299,10 @@ int main(void)
     Base_ETH_Task_CallBcak_Bind(WCHNET_HandleGlobalInt);
     Base_ETH_config_local_ip (1,"192.168.1.168","192.168.1.1","255.255.255.0");
     Base_ETH_Init(1,ENABLE);
-
+    Mode_Use.TIME.Delay_S(3);
     memset(socket, 0xff, WCHNET_MAX_SOCKET_NUM);
     WCHNET_CreateTcpSocketListen();                               //Create TCP Socket for Listening
+    
     int old_sec = 0;
     while(1)
     {
@@ -243,7 +310,11 @@ int main(void)
         if (old_sec != now_time.SYS_Sec)
         {
             old_sec = now_time.SYS_Sec;
-            stb_printf("sys time utc: %d s \n",old_sec);
+            // stb_printf("sys time utc: %d s \n",old_sec);
+        }
+        if (SocketIdForclient == 0)
+        {
+            WCHNET_CreateTcpSocket();
         }
         Base_ETH_Task ();
     }
