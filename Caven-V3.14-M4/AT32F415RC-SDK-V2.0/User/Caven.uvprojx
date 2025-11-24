@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>AT32F415RCT7,USE_STDPERIPH_DRIVER,CAVEN,DEFAULT</Define>
               <Undefine></Undefine>
-              <IncludePath>..\User;..\CMSIS;..\Config;..\SDK\inc;..\Startup\mdk;..\..\..\Caven-MCU_Lib\API;..\..\..\Caven-MCU_Lib\GUI;..\..\..\Caven-MCU_Lib\Mode;..\..\..\Caven-MCU_Lib\Base_AT32F415;..\..\..\Caven-MCU_Lib\Base_AT32F415\usb_drivers\inc;..\..\..\Caven-MCU_Lib\Base_AT32F415\composite_HID</IncludePath>
+              <IncludePath>..\User;..\CMSIS;..\Config;..\SDK\inc;..\Startup\mdk;..\..\..\Caven-MCU_Lib\API;..\..\..\Caven-MCU_Lib\GUI;..\..\..\Caven-MCU_Lib\Mode;..\..\..\Caven-MCU_Lib\Base_AT32F415;..\..\..\Caven-MCU_Lib\Base_AT32F415\usb_drivers\inc;..\..\..\Caven-MCU_Lib\Base_AT32F415\usbd_class\custom_hid</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -468,16 +468,6 @@
               <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F415\usb_drivers\src\usbd_sdr.c</FilePath>
             </File>
             <File>
-              <FileName>cdc_keyboard_class.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F415\composite_HID\cdc_keyboard_class.c</FilePath>
-            </File>
-            <File>
-              <FileName>cdc_keyboard_desc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F415\composite_HID\cdc_keyboard_desc.c</FilePath>
-            </File>
-            <File>
               <FileName>Base_Capture.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F415\Base_Capture.c</FilePath>
@@ -486,6 +476,16 @@
               <FileName>Base_USB.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F415\Base_USB.c</FilePath>
+            </File>
+            <File>
+              <FileName>custom_hid_class.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F415\usbd_class\custom_hid\custom_hid_class.c</FilePath>
+            </File>
+            <File>
+              <FileName>custom_hid_desc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Base_AT32F415\usbd_class\custom_hid\custom_hid_desc.c</FilePath>
             </File>
           </Files>
         </Group>

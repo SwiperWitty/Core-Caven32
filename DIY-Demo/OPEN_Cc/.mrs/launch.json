@@ -5,7 +5,7 @@
 			"type": "mrs-debugger",
 			"request": "launch",
 			"name": "Caven",
-			"cwd": "e:\\work\\soft-work\\Core-Caven32\\Caven-V3.14-RISC-V\\CH32V317VC",
+			"cwd": "e:\\work\\soft-work\\Core-Caven32\\DIY-Demo\\OPEN_Cc",
 			"openOCDCfg": {
 				"useLocalOpenOCD": true,
 				"executable": "c:/Users/ZhuanZ/MounRiver_Studio2/resources/app/resources/win32/components/WCH/OpenOCD/OpenOCD/bin/openocd.exe",
@@ -38,8 +38,8 @@
 					"additionalCommands": []
 				},
 				"loadedFiles": {
-					"executableFile": "e:\\work\\soft-work\\Core-Caven32\\Caven-V3.14-RISC-V\\CH32V317VC\\obj\\Caven.elf",
-					"symbolFile": "e:\\work\\soft-work\\Core-Caven32\\Caven-V3.14-RISC-V\\CH32V317VC\\obj\\Caven.elf",
+					"executableFile": "e:\\work\\soft-work\\Core-Caven32\\DIY-Demo\\OPEN_Cc\\obj\\Caven.elf",
+					"symbolFile": "e:\\work\\soft-work\\Core-Caven32\\DIY-Demo\\OPEN_Cc\\obj\\Caven.elf",
 					"executableFileOffset": 0,
 					"symbolFileOffset": 0
 				},
