@@ -12,7 +12,7 @@ char JSON_array[500];
 int JSON_len = 0;
 uint8_t RFID_array[500];
 int RFIDBK_len = 0;
-Caven_BaseTIME_Type JSON_time,RFIDBK_time;
+Caven_BaseTIME_Type JSON_time = {0},RFIDBK_time = {0};
 
 int time_one = 0;
 int Center_State_machine(Caven_BaseTIME_Type time)

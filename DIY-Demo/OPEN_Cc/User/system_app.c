@@ -274,6 +274,14 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
         System_start_Time = g_SYS_Config.Now_time;
         g_SYS_Config.Work_sec ++;
 		User_GPIO_set(2,15,1);
+		if(System_start_Time.SYS_Sec % 2)
+		{
+			User_GPIO_set(2,0,0);
+		}
+		else
+		{
+			User_GPIO_set(2,0,1);
+		}
     }
 
 	Base_ETH_Task ();
@@ -362,11 +370,15 @@ void System_app_Init (void)
 	Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
 	Mode_Init.UART(m_UART_CH2,g_SYS_Config.RS232_UART_Cfg,ENABLE);
 	
+	#ifdef MCU_SYS_FREQ 
+	printf("MCU Init,MCU_SYS_FREQ: %d Hz \n",MCU_SYS_FREQ);
+	#endif
+
 	Base_ETH_config_local_ip (g_SYS_Config.eth_mode,g_SYS_Config.eth_ip_str,g_SYS_Config.eth_gw_str,g_SYS_Config.eth_netmask_str);
 	Base_ETH_Init(1,ENABLE);
 
 	Base_TCP_Server_Config (g_SYS_Config.TCPServer_post,g_SYS_Config.tcp_server_enable);
-	Base_TCP_Client_Config (g_SYS_Config.TCPClient_url,g_SYS_Config.TCPClient_post,g_SYS_Config.tcp_client_enable);
+	// Base_TCP_Client_Config (g_SYS_Config.TCPClient_url,g_SYS_Config.TCPClient_post,g_SYS_Config.tcp_client_enable);
 
 	// Mode_Init.USB(ENABLE);
 
@@ -376,20 +388,20 @@ void System_app_Init (void)
 	
 	User_GPIO_config(1,8,1);
 	User_GPIO_config(2,15,1);
+	User_GPIO_config(2,0,1);
 	
 	User_GPIO_set(1,4,1);		// GPOA
 	User_GPIO_set(1,5,1);		// GPOB
 	User_GPIO_set(1,6,1);		// GPOC
 	User_GPIO_set(1,8,1);		// BZZ
 	User_GPIO_set(2,15,1);		// LED
+	User_GPIO_set(2,0,1);
 	
 	Caven_new_event_Fun(&g_SYS_events,bzz_event_fun,&bzz_event);
 	Caven_new_event_Fun(&g_SYS_events,gpo_event_fun,&gpo_event);
 #endif
 
-#ifdef MCU_SYS_FREQ 
-	printf("MCU Init,MCU_SYS_FREQ: %d Hz \n",MCU_SYS_FREQ);
-#endif
+
 	if(g_SYS_Config.Bt_mode == 0)
 	{
 		printf("MCU running bootloard ...\n");
