@@ -1,0 +1,274 @@
+version: "4.1"
+name: Caven
+type: ARM
+deviceName: null
+packDir: null
+srcDirs: []
+virtualFolder:
+  name: <virtual_root>
+  files: []
+  folders:
+    - name: User
+      files:
+        - path: center_app.c
+        - path: Main.c
+        - path: Items.h
+      folders: []
+    - name: Base
+      files:
+        - path: ../../../Caven-MCU_Lib/Base_AT32F415/Base.c
+        - path: ../../../Caven-MCU_Lib/Base_AT32F415/Base_ADC.c
+        - path: ../../../Caven-MCU_Lib/Base_AT32F415/Base_Flash.c
+        - path: ../../../Caven-MCU_Lib/Base_AT32F415/Base_IIC.c
+        - path: ../../../Caven-MCU_Lib/Base_AT32F415/Base_GPIO.c
+        - path: ../../../Caven-MCU_Lib/Base_AT32F415/Base_PWM.c
+        - path: ../../../Caven-MCU_Lib/Base_AT32F415/Base_SPI.c
+        - path: ../../../Caven-MCU_Lib/Base_AT32F415/Base_Sys_Time.c
+        - path: ../../../Caven-MCU_Lib/Base_AT32F415/Base_UART.c
+        - path: ../../../Caven-MCU_Lib/Base_AT32F415/usb_drivers/src/usb_core.c
+        - path: ../../../Caven-MCU_Lib/Base_AT32F415/usb_drivers/src/usbd_core.c
+        - path: ../../../Caven-MCU_Lib/Base_AT32F415/usb_drivers/src/usbd_int.c
+        - path: ../../../Caven-MCU_Lib/Base_AT32F415/usb_drivers/src/usbd_sdr.c
+        - path: ../../../Caven-MCU_Lib/Base_AT32F415/composite_HID/cdc_keyboard_class.c
+        - path: ../../../Caven-MCU_Lib/Base_AT32F415/composite_HID/cdc_keyboard_desc.c
+        - path: ../../../Caven-MCU_Lib/Base_AT32F415/composite_HID/usb_user.c
+      folders: []
+    - name: Mode
+      files:
+        - path: ../../../Caven-MCU_Lib/Mode/Mode.c
+        - path: ../../../Caven-MCU_Lib/Mode/MODE_LCD.c
+        - path: ../../../Caven-MCU_Lib/Mode/Control_Mode.c
+        - path: ../../../Caven-MCU_Lib/Mode/DS18B20.c
+        - path: ../../../Caven-MCU_Lib/Mode/HC138.c
+        - path: ../../../Caven-MCU_Lib/Mode/HC595.c
+        - path: ../../../Caven-MCU_Lib/Mode/mlx90614.c
+        - path: ../../../Caven-MCU_Lib/Mode/MODE_BZZ.c
+        - path: ../../../Caven-MCU_Lib/Mode/MODE_LED.c
+        - path: ../../../Caven-MCU_Lib/Mode/MODE_Motor.c
+        - path: ../../../Caven-MCU_Lib/Mode/MODE_Motor_BYJ.c
+        - path: ../../../Caven-MCU_Lib/Mode/MODE_MP3.c
+        - path: ../../../Caven-MCU_Lib/Mode/Mode_RTC8564.c
+        - path: ../../../Caven-MCU_Lib/Mode/MODE_Time.c
+        - path: ../../../Caven-MCU_Lib/Mode/MODE_Tracing.c
+        - path: ../../../Caven-MCU_Lib/Mode/MODE_UART.c
+        - path: ../../../Caven-MCU_Lib/Mode/MODE_Ultrasonic.c
+        - path: ../../../Caven-MCU_Lib/Mode/Steering_engine.c
+        - path: ../../../Caven-MCU_Lib/Mode/MODE_Button.c
+        - path: ../../../Caven-MCU_Lib/Mode/MODE_st7789_dever.c
+        - path: ../../../Caven-MCU_Lib/Mode/MODE_OLED.c
+      folders: []
+    - name: API
+      files:
+        - path: ../../../Caven-MCU_Lib/API/API.c
+        - path: ../../../Caven-MCU_Lib/API/caven_at_info_frame.c
+        - path: ../../../Caven-MCU_Lib/API/Caven_event_frame.c
+        - path: ../../../Caven-MCU_Lib/API/Caven_info_frame.c
+        - path: ../../../Caven-MCU_Lib/API/DATA_Handle.c
+        - path: ../../../Caven-MCU_Lib/API/Encrypt_crc.c
+        - path: ../../../Caven-MCU_Lib/API/Time_Handle.c
+        - path: ../../../Caven-MCU_Lib/API/Vofa_info.c
+        - path: ../../../Caven-MCU_Lib/API/Caven_Type.h
+      folders: []
+    - name: GUI
+      files:
+        - path: ../../../Caven-MCU_Lib/GUI/caven_gui.c
+        - path: ../../../Caven-MCU_Lib/GUI/guilite.cpp
+      folders: []
+    - name: Config
+      files:
+        - path: ../Config/at32f415_clock.c
+        - path: ../Config/at32f415_int.c
+        - path: ../Config/system_at32f415.c
+        - path: ../Config/at32f415_conf.h
+      folders: []
+    - name: Startup
+      files:
+        - path: ../Startup/mdk/startup_at32f415.s
+      folders: []
+    - name: CMSIS
+      files:
+        - path: ../CMSIS/arm_common_tables.h
+        - path: ../CMSIS/arm_const_structs.h
+        - path: ../CMSIS/arm_helium_utils.h
+        - path: ../CMSIS/arm_math.h
+        - path: ../CMSIS/arm_mve_tables.h
+        - path: ../CMSIS/arm_vec_math.h
+        - path: ../CMSIS/cmsis_armcc.h
+        - path: ../CMSIS/cmsis_armclang.h
+        - path: ../CMSIS/cmsis_armclang_ltm.h
+        - path: ../CMSIS/cmsis_compiler.h
+        - path: ../CMSIS/cmsis_gcc.h
+      folders: []
+    - name: SDK
+      files:
+        - path: ../SDK/src/at32f415_adc.c
+        - path: ../SDK/src/at32f415_can.c
+        - path: ../SDK/src/at32f415_cmp.c
+        - path: ../SDK/src/at32f415_crc.c
+        - path: ../SDK/src/at32f415_crm.c
+        - path: ../SDK/src/at32f415_debug.c
+        - path: ../SDK/src/at32f415_dma.c
+        - path: ../SDK/src/at32f415_ertc.c
+        - path: ../SDK/src/at32f415_exint.c
+        - path: ../SDK/src/at32f415_flash.c
+        - path: ../SDK/src/at32f415_gpio.c
+        - path: ../SDK/src/at32f415_i2c.c
+        - path: ../SDK/src/at32f415_misc.c
+        - path: ../SDK/src/at32f415_pwc.c
+        - path: ../SDK/src/at32f415_sdio.c
+        - path: ../SDK/src/at32f415_spi.c
+        - path: ../SDK/src/at32f415_tmr.c
+        - path: ../SDK/src/at32f415_usart.c
+        - path: ../SDK/src/at32f415_usb.c
+        - path: ../SDK/src/at32f415_wdt.c
+        - path: ../SDK/src/at32f415_wwdt.c
+      folders: []
+dependenceList: []
+outDir: build
+miscInfo:
+  uid: 0b12ac4586450a5d7d854fb968872608
+targets:
+  Default:
+    cppPreprocessAttrs:
+      defineList:
+        - AT32F415RCT7
+        - USE_STDPERIPH_DRIVER
+        - CAVEN
+        - DEFAULT
+      incList:
+        - .
+        - ../CMSIS
+        - ../Config
+        - ../SDK/inc
+        - ../Startup/mdk
+        - ../../../Caven-MCU_Lib/API
+        - ../../../Caven-MCU_Lib/GUI
+        - ../../../Caven-MCU_Lib/Mode
+        - ../../../Caven-MCU_Lib/Base_AT32F415
+        - ../../../Caven-MCU_Lib/Base_AT32F415/usb_drivers/inc
+        - ../../../Caven-MCU_Lib/Base_AT32F415/composite_HID
+        - .cmsis/include
+        - RTE/_Default
+      libList: []
+    excludeList: []
+    toolchain: AC5
+    toolchainConfigMap:
+      AC5:
+        archExtensions: ""
+        cpuType: Cortex-M4
+        floatingPointHardware: none
+        options:
+          version: 4
+          afterBuildTasks:
+            - name: "[Copy linker output for Keil User Commands]"
+              abortAfterFailed: true
+              command: mkdir ${KEIL_OUTPUT_DIR} & copy "${OutDir}\${ProjectName}.axf" "${KEIL_OUTPUT_DIR}\${KEIL_OUTPUT_NAME}.axf"
+              disable: true
+            - name: D:\MDK\ARM\ARMCLANG\bin\fromelf.exe --bin --output ../OBJ/Cavendish.bin ../OBJ/Cavendish.axf
+              abortAfterFailed: true
+              command: D:\MDK\ARM\ARMCLANG\bin\fromelf.exe --bin --output ../OBJ/Cavendish.bin ../OBJ/Cavendish.axf
+              disable: true
+          asm-compiler: {}
+          beforeBuildTasks: []
+          c/cpp-compiler:
+            CXX_FLAGS: --diag_suppress=1 --diag_suppress=1295
+            C_FLAGS: --diag_suppress=1 --diag_suppress=1295
+            c99-mode: true
+            one-elf-section-per-function: true
+            optimization: level-0
+            plain-char-is-signed: true
+            warnings: all-warnings
+          global:
+            output-debug-info: enable
+            use-microLIB: true
+          linker:
+            output-format: elf
+            ro-base: "0x08000000"
+            rw-base: "0x20000000"
+            xo-base: ""
+        scatterFilePath: ""
+        storageLayout:
+          RAM:
+            - id: 1
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: RAM
+            - id: 2
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: RAM
+            - id: 3
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: RAM
+            - id: 1
+              isChecked: true
+              mem:
+                size: "0x8000"
+                startAddr: "0x20000000"
+              noInit: false
+              tag: IRAM
+            - id: 2
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: IRAM
+          ROM:
+            - id: 1
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              tag: ROM
+            - id: 2
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              tag: ROM
+            - id: 3
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              tag: ROM
+            - id: 1
+              isChecked: true
+              isStartup: true
+              mem:
+                size: "0x40000"
+                startAddr: "0x8000000"
+              tag: IROM
+            - id: 2
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              tag: IROM
+        useCustomScatterFile: false
+    uploadConfigMap:
+      JLink:
+        baseAddr: ""
+        bin: ""
+        cpuInfo:
+          cpuName: "null"
+          vendor: "null"
+        otherCmds: ""
+        proType: 1
+        speed: 8000
+    uploader: JLink
