@@ -32,8 +32,42 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 //        Mode_Use.OLED.Show_String_pFun(0,0,"oled show",0,0,16);
 //        Mode_Use.OLED.Refresh();
     }
-
+	Caven_app_State_machine(center_time);
+	zhiwen_app_State_machine(center_time);
+	
     return retval;
+}
+
+void debug_info_handle (void *data)
+{
+	uint8_t temp_data = *(uint8_t *)data;
+	int temp_num = 0;
+    temp_num = Caven_app_Make_pack (temp_data,SYS_Link,center_time);
+#if SYS_BTLD == 0
+
+#endif
+
+	if(temp_num == 0xff)
+	{
+		g_SYS_Config.Connect_passage = SYS_Link;
+	}
+}
+
+int Center_app_Init (void)
+{
+	int retval = 0;
+	Caven_app_Init();
+	
+    Mode_Use.UART.Receive_Bind_pFun (DEBUG_OUT,debug_info_handle);
+	Mode_Use.UART.Receive_Bind_pFun (2,zhiwen_info_handle);
+	
+	zhiwen_app_Exit();
+	return retval;
+}
+
+void Center_app_Exit (void)
+{
+
 }
 
 void delay_ms(int milli_seconds)

@@ -188,7 +188,7 @@
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
-            <useUlib>1</useUlib>
+            <useUlib>0</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
             <nSecure>0</nSecure>
@@ -336,9 +336,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>AT32F415RCT7,USE_STDPERIPH_DRIVER,CAVEN,DEFAULT</Define>
+              <Define>AT32F415RCT7,USE_STDPERIPH_DRIVER,CAVEN,STB_SPRINTF_IMPLEMENTATION,DEFAULT</Define>
               <Undefine></Undefine>
-              <IncludePath>..\User;..\CMSIS;..\Config;..\SDK\inc;..\Startup\mdk;..\..\..\Caven-MCU_Lib\API;..\..\..\Caven-MCU_Lib\GUI;..\..\..\Caven-MCU_Lib\Mode;..\..\..\Caven-MCU_Lib\Base_AT32F415;..\..\..\Caven-MCU_Lib\Base_AT32F415\usb_drivers\inc;..\..\..\Caven-MCU_Lib\Base_AT32F415\usbd_class\custom_hid</IncludePath>
+              <IncludePath>..\User;..\CMSIS;..\Config;..\SDK\inc;..\Startup\mdk;..\..\..\Caven-MCU_Lib\API;..\..\..\Caven-MCU_Lib\GUI;..\..\..\Caven-MCU_Lib\Mode;..\..\..\Caven-MCU_Lib\Base_AT32F415;..\..\..\Caven-MCU_Lib\Base_AT32F415\usb_drivers\inc;..\..\..\Caven-MCU_Lib\Base_AT32F415\usbd_class\custom_hid;..\..\..\Caven-MCU_Lib\API\STB</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
