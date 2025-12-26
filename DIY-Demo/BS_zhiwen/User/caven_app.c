@@ -1,5 +1,12 @@
 #include "caven_app.h"
+#include "zhiwen_app.h"
 
+/*
+0.1.0.2				2025.12.26
+    1)支持gpio操作
+    2)支持指纹操作
+
+*/
 #define Log_tag "Caven_app info"
 #define CAVEN_PACK_M	6
 static uint8_t info_packet_array[10][BUFF_MAX];
@@ -248,6 +255,66 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
                 }
 				pack.dSize = temp_run;
             }
+            retval = 1;
+        }
+        break;
+    case m_CAVEN_CMD1_RS232Cfg_Order:
+        {
+            rw_info = pack.p_Data[temp_num++];
+            if(rw_info == 0)
+            {
+                temp_array[temp_run++] = (g_SYS_Config.RS232_UART_Cfg >> ( 8 * 3)) & 0xFF;
+                temp_array[temp_run++] = (g_SYS_Config.RS232_UART_Cfg >> ( 8 * 2)) & 0xFF;
+                temp_array[temp_run++] = (g_SYS_Config.RS232_UART_Cfg >> ( 8 * 1)) & 0xFF;
+                temp_array[temp_run++] = (g_SYS_Config.RS232_UART_Cfg >> ( 8 * 0)) & 0xFF;
+                pack.Result = 0;
+                memcpy(pack.p_Data,temp_array,temp_run);
+            }
+            else
+            {
+				temp_val = pack.p_Data[temp_num++];
+                temp_val <<= 8;
+                temp_val |= pack.p_Data[temp_num++];
+                temp_val <<= 8;
+                temp_val |= pack.p_Data[temp_num++];
+                temp_val <<= 8;
+                temp_val |= pack.p_Data[temp_num++];
+                g_SYS_Config.RS232_UART_Cfg = temp_val;
+				
+                pack.Result = 0;
+				pack.p_Data[temp_run++] = 0;
+            }
+			pack.dSize = temp_run;
+            retval = 1;
+        }
+        break;
+    case m_CAVEN_CMD1_RS485Cfg_Order:
+        {
+            rw_info = pack.p_Data[temp_num++];
+            if(rw_info == 0)
+            {
+                temp_array[temp_run++] = (g_SYS_Config.RS485_UART_Cfg >> ( 8 * 3)) & 0xFF;
+                temp_array[temp_run++] = (g_SYS_Config.RS485_UART_Cfg >> ( 8 * 2)) & 0xFF;
+                temp_array[temp_run++] = (g_SYS_Config.RS485_UART_Cfg >> ( 8 * 1)) & 0xFF;
+                temp_array[temp_run++] = (g_SYS_Config.RS485_UART_Cfg >> ( 8 * 0)) & 0xFF;
+                pack.Result = 0;
+                memcpy(pack.p_Data,temp_array,temp_run);
+            }
+            else
+            {
+				temp_val = pack.p_Data[temp_num++];
+                temp_val <<= 8;
+                temp_val |= pack.p_Data[temp_num++];
+                temp_val <<= 8;
+                temp_val |= pack.p_Data[temp_num++];
+                temp_val <<= 8;
+                temp_val |= pack.p_Data[temp_num++];
+                g_SYS_Config.RS485_UART_Cfg = temp_val;
+				
+                pack.Result = 0;
+				pack.p_Data[temp_run++] = 0;
+            }
+			pack.dSize = temp_run;
             retval = 1;
         }
         break;
@@ -514,11 +581,11 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
 	{
 		retval = 0;
 	}
-	if (retval && (pack.Result == 0 || pack.Result == 4 || pack.Result == 5 || pack.Result == 6 || pack.Result == 9 || pack.Result == 0x0A))
+	if (retval && (pack.Result == 0 || pack.Result == 4 || pack.Result == 5 || pack.Result == 6 || 		\
+		pack.Result == m_Result_Fail_Spoil || pack.Result == m_Result_Fail_ERROR || pack.Result == m_Result_Back_Other))
     {
-		Caven_app_send_packet(pack);
-	}
-	
+        Caven_app_send_packet(pack);
+    }
     else if (retval == 2)
     {
 		Caven_app_send_packet(pack);
@@ -535,7 +602,7 @@ retval = 0，不做返回
 retval = 1，返回消息
 retval = 2，完全返回
 */
-u32 BT_val = 0,BT_addr = 0;
+u32 BT_val = 0xff,BT_addr = 0;
 int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 {
     int retval = 0;
@@ -561,8 +628,11 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 			rw_info = pack.p_Data[temp_num++];
             if(rw_info == 0)
             {
-				pack.Result = 0;
-				pack.p_Data[temp_run++] = g_SYS_Config.Bt_mode;
+		#if SYS_BTLD
+				pack.p_Data[temp_run++] = 0;
+		#else
+				pack.p_Data[temp_run++] = 1;
+		#endif
 			}
 			else
 			{
@@ -574,87 +644,112 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 				temp_val <<= 8;
 				temp_val |= pack.p_Data[temp_num++];
 				
-				if (g_SYS_Config.Bt_mode)		// app
+		#if SYS_BTLD == 0
+			{
+				if(temp_val == 0)
 				{
-					if(temp_val == 0)
-					{
-						temp_rt = 0x00;		// 跳转到boot
-						g_SYS_Config.Bt_mode = 0;
-						System_app_SYS_Config_Save ();
-						g_SYS_Config.Reset_falg = 1;
-					}
-					else
-					{
-						temp_rt = 0x02;		// 不符合条件
-					}
-					pack.p_Data[temp_run++] = (temp_val >> (8 * 3)) & 0xff;
-					pack.p_Data[temp_run++] = (temp_val >> (8 * 2)) & 0xff;
-					pack.p_Data[temp_run++] = (temp_val >> (8 * 1)) & 0xff;
-					pack.p_Data[temp_run++] = (temp_val >> (8 * 0)) & 0xff;
-					pack.p_Data[temp_run++] = temp_rt;
+					temp_rt = 0x00;		// 跳转到boot
+					g_SYS_Config.Bt_mode = 0;
+					System_app_SYS_Config_Save ();
+					g_SYS_Config.Reset_falg = 1;
 				}
 				else
 				{
-					if (temp_val == 0)
+					temp_rt = 0x02;		// 不符合条件
+				}
+				pack.p_Data[temp_run++] = (temp_val >> (8 * 3)) & 0xff;
+				pack.p_Data[temp_run++] = (temp_val >> (8 * 2)) & 0xff;
+				pack.p_Data[temp_run++] = (temp_val >> (8 * 1)) & 0xff;
+				pack.p_Data[temp_run++] = (temp_val >> (8 * 0)) & 0xff;
+				pack.p_Data[temp_run++] = temp_rt;
+			}
+		#else
+			{
+				if (temp_val == 0)
+				{
+					temp_rt = 0x00;
+					BT_val = 0;
+					g_SYS_Config.app_crc = 0;
+					g_SYS_Config.app_crc = pack.p_Data[temp_num++];
+					g_SYS_Config.app_crc <<= 8;
+					g_SYS_Config.app_crc |= pack.p_Data[temp_num++];
+					
+					Base_Flash_Erase (SYS_APP_ADDR,SYS_APP_SIZE);
+				}
+				else if (temp_val == 0xFFFFFFFF)						// 完成
+				{
+					temp_num = BT_addr - SYS_APP_ADDR;
+					if(temp_num > 0)
 					{
-						temp_rt = 0x00;
-						BT_val = 0;
-						Base_Flash_Erase (SYS_APP_ADDR,SYS_APP_SIZE);
-					}
-					else if (temp_val == 0xFFFFFFFF)						// 完成
-					{
-						temp_rt = 0x00;
-						BT_val = 0;
-						g_SYS_Config.Bt_mode = 1;
-						System_app_SYS_Config_Save ();
-						g_SYS_Config.Reset_falg = 1;
-					}
-					else if (BT_val == temp_val || (BT_val + 1) == temp_val)		// 正常情况
-					{
-						temp_sum = pack.dSize - temp_num;
-						if (temp_sum > sizeof(temp_array))
+						uint8_t * addr_p = (uint8_t *)SYS_APP_ADDR;
+						temp_sum = Encrypt_XMODEM_CRC16_Fun(addr_p, temp_num);
+						if(g_SYS_Config.app_crc == temp_sum)
 						{
-							temp_rt = 0x01;
+							g_SYS_Config.AppEnd_addr = BT_addr;
+							temp_rt = 0x00;
+							BT_val = 0;
+							g_SYS_Config.Bt_mode = 1;
+							System_app_SYS_Config_Save ();
+							g_SYS_Config.Reset_falg = 1;
 						}
 						else
 						{
-							memcpy(temp_array,&pack.p_Data[temp_num],temp_sum);
-							temp_num += temp_sum;
-							BT_val = temp_val;
-							// flash
-							if (BT_addr < SYS_APP_ADDR)
-							{
-								BT_addr = SYS_APP_ADDR;
-							}
-							if (temp_sum)
-							{
-								temp_num = Base_Flash_Write (temp_array,BT_addr,temp_sum);
-							}
-							else
-							{
-								temp_num = 0;
-							}
-							if(temp_num == 0)
-							{
-								temp_rt = 0;
-								BT_addr += temp_sum;
-							}
-							else
-							{
-								temp_rt = 1;
-							}
+							BT_val = 0;
+							temp_rt = 0x01;
 						}
 					}
 					else
 					{
-						temp_rt = 0x02;
+						BT_val = 0;
+						temp_rt = 0x01;
 					}
-					pack.p_Data[temp_run++] = (temp_val >> (8 * 3)) & 0xff;
-					pack.p_Data[temp_run++] = (temp_val >> (8 * 2)) & 0xff;
-					pack.p_Data[temp_run++] = (temp_val >> (8 * 1)) & 0xff;
-					pack.p_Data[temp_run++] = (temp_val >> (8 * 0)) & 0xff;
-					pack.p_Data[temp_run++] = temp_rt;
 				}
+				else if (BT_val == temp_val || (BT_val + 1) == temp_val)		// 正常情况
+				{
+					temp_sum = pack.dSize - temp_num;
+					if (temp_sum > sizeof(temp_array))
+					{
+						temp_rt = 0x01;
+					}
+					else
+					{
+						memcpy(temp_array,&pack.p_Data[temp_num],temp_sum);
+						BT_val = temp_val;
+						// flash
+						if (BT_addr < SYS_APP_ADDR)
+						{
+							BT_addr = SYS_APP_ADDR;
+						}
+						if (temp_sum)
+						{
+							temp_num = Base_Flash_Write (temp_array,BT_addr,temp_sum);
+						}
+						else
+						{
+							temp_num = 1;
+						}
+						if(temp_num == 0)
+						{
+							temp_rt = 0;
+							BT_addr += temp_sum;
+						}
+						else
+						{
+							temp_rt = 1;
+						}
+					}
+				}
+				else
+				{
+					temp_rt = 0x02;
+				}
+				pack.p_Data[temp_run++] = (temp_val >> (8 * 3)) & 0xff;
+				pack.p_Data[temp_run++] = (temp_val >> (8 * 2)) & 0xff;
+				pack.p_Data[temp_run++] = (temp_val >> (8 * 1)) & 0xff;
+				pack.p_Data[temp_run++] = (temp_val >> (8 * 0)) & 0xff;
+				pack.p_Data[temp_run++] = temp_rt;
+			}
+		#endif
 			}
 			pack.dSize = temp_run;
 			pack.Result = 0;
@@ -802,7 +897,8 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 	{
 		retval = 0;
 	}
-	if (retval && (pack.Result == 0 || pack.Result == 4 || pack.Result == 5 || pack.Result == 6 || pack.Result == 9 || pack.Result == 0x0A))
+	if (retval && (pack.Result == 0 || pack.Result == 4 || pack.Result == 5 || pack.Result == 6 || 		\
+		pack.Result == m_Result_Fail_Spoil || pack.Result == m_Result_Fail_ERROR || pack.Result == m_Result_Back_Other))
     {
         Caven_app_send_packet(pack);
     }
@@ -826,8 +922,8 @@ retval = 2，完全返回
 int Caven_app_cmd3_handle (Caven_info_packet_Type pack)
 {
     int retval = 0;
-    int Result = 0,temp_run = 0;
-
+    int Result = 0,temp_num = 0,temp_run = 0,temp_data = 0,temp_data_sun;
+	uint8_t rw_info = 0;
 	if (pack.p_AllData == NULL || pack.p_Data == NULL)
 	{
 		return retval = -1;
@@ -841,7 +937,70 @@ int Caven_app_cmd3_handle (Caven_info_packet_Type pack)
     case 0:
         Caven_app_send_packet(pack);
         break;
-    
+	case m_CAVEN_CMD3_BEEP_Order:
+	{
+		rw_info = pack.p_Data[temp_num++];
+		if(rw_info)
+		{
+			pack.Result = m_Result_Back_Succ;
+			temp_data = pack.p_Data[temp_num++];
+			sys_set_bzz_fun (temp_data);
+		}
+		else
+		{
+			pack.Result = m_Result_Fail_ERROR;
+		}
+		pack.p_Data[temp_run++] = 0;
+		pack.dSize = temp_run;
+		retval = 1;
+	}
+	break;
+	case m_CAVEN_CMD3_GPOCfg_Order:
+	{
+		rw_info = pack.p_Data[temp_num++];
+		if(rw_info)
+		{
+			int temp_io = 0;
+			temp_data_sun = pack.dSize - temp_num;
+			for(int i = 0;i < temp_data_sun;)
+			{
+				temp_io = pack.p_Data[temp_num++];
+				temp_data = pack.p_Data[temp_num++];
+				line_gpo_set(temp_io,!temp_data);
+				i += 2;
+			}
+			pack.Result = m_Result_Back_Succ;
+		}
+		else
+		{
+			pack.Result = m_Result_Fail_ERROR;
+		}
+		pack.p_Data[temp_run++] = 0;
+		pack.dSize = temp_run;
+		retval = 1;
+	}
+	break;
+	case m_CAVEN_CMD3_GPIGet_Order:
+        pack.Result = m_Result_Back_Succ;
+		pack.p_Data[temp_run++] = 0;
+		pack.p_Data[temp_run++] = 0;
+		pack.dSize = temp_run;
+		retval = 1;
+        break;
+    case m_CAVEN_CMD3_zhiwen_Order:
+        temp_data = pack.p_Data[temp_num++];
+		temp_run = pack.p_Data[temp_num++];
+		temp_run <<= 8;
+		temp_run |= pack.p_Data[temp_num++];
+		temp_run <<= 8;
+		temp_run |= pack.p_Data[temp_num++];
+		temp_run <<= 8;
+		temp_run |= pack.p_Data[temp_num++];
+	
+        zhiwen_app_mode (temp_data,1,temp_run);
+        Result = 1;
+		retval = 1;
+        break;
     default:
 		{
 			pack.Result = m_Result_Fail_CMDS;
@@ -854,7 +1013,8 @@ int Caven_app_cmd3_handle (Caven_info_packet_Type pack)
 	{
 		retval = 0;
 	}
-	if (retval && (pack.Result == 0 || pack.Result == 4 || pack.Result == 5 || pack.Result == 6 || pack.Result == 9 || pack.Result == 0x0A))
+	if (retval && (pack.Result == 0 || pack.Result == 4 || pack.Result == 5 || pack.Result == 6 ||
+		pack.Result == m_Result_Fail_Spoil || pack.Result == m_Result_Fail_ERROR || pack.Result == m_Result_Back_Other))
     {
         Caven_app_send_packet(pack);
     }
@@ -885,7 +1045,7 @@ int Caven_app_send_packet(Caven_info_packet_Type pack)
     {
     case SYS_Link:
         {
-            Mode_Use.UART.Send_Data_pFun(DEBUG_OUT,temp_array,temp_num);
+            Mode_Use.UART.Send_Data_pFun(DEBUG_CH,temp_array,temp_num);
 //            debug_log (LOG_Info,Log_tag,"sys link send");
 //            debug_log_hex (temp_array,temp_num);
         }
@@ -907,7 +1067,9 @@ int Caven_app_send_packet(Caven_info_packet_Type pack)
         break;
     case USB_Link:
         {
-//            Mode_Use.USB_HID.Send_Data(temp_array,temp_num);
+#if Exist_USB
+            Mode_Use.USB_HID.Send_Data(temp_array,temp_num);
+#endif
         }
         break;
     default:

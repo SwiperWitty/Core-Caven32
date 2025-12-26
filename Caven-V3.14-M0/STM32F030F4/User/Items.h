@@ -126,7 +126,7 @@
 #endif
 
 /*****  冲突      *****/
-#if DEBUG_OUT == 1
+#if DEBUG_CH == 1
     #ifdef Exist_USB
         #warning (UART1 And USB Clash !!!)
     #endif

@@ -13,6 +13,9 @@ virtualFolder:
         - path: center_app.c
         - path: Main.c
         - path: Items.h
+        - path: caven_app.c
+        - path: system_app.c
+        - path: zhiwen_app.c
       folders: []
     - name: Base
       files:
@@ -56,6 +59,7 @@ virtualFolder:
         - path: ../../../Caven-MCU_Lib/Mode/MODE_Button.c
         - path: ../../../Caven-MCU_Lib/Mode/MODE_st7789_dever.c
         - path: ../../../Caven-MCU_Lib/Mode/MODE_OLED.c
+        - path: ../../../Caven-MCU_Lib/Mode/IC_AS608.c
       folders: []
     - name: API
       files:

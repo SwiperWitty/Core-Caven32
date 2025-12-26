@@ -58,7 +58,7 @@ int Center_app_Init (void)
 	int retval = 0;
 	Caven_app_Init();
 	
-    Mode_Use.UART.Receive_Bind_pFun (DEBUG_OUT,debug_info_handle);
+    Mode_Use.UART.Receive_Bind_pFun (DEBUG_CH,debug_info_handle);
 	Mode_Use.UART.Receive_Bind_pFun (2,zhiwen_info_handle);
 	
 	zhiwen_app_Exit();

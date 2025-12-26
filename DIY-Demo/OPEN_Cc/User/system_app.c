@@ -307,7 +307,7 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
 		temp_val = 1;
 		cg_rs232_cfg = g_SYS_Config.RS232_UART_Cfg;
 		Mode_Use.TIME.Delay_Ms(100);
-		Mode_Init.UART(DEBUG_OUT,g_SYS_Config.RS232_UART_Cfg,ENABLE);
+		Mode_Init.UART(DEBUG_CH,g_SYS_Config.RS232_UART_Cfg,ENABLE);
 	}
 	if(cg_rs485_cfg == 0)
 	{
@@ -358,7 +358,7 @@ void System_app_Init (void)
 		__enable_irq();
 		Mode_Init.TIME(ENABLE);
 		Mode_Use.TIME.Delay_Ms(10);
-		Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
+		Mode_Init.UART(DEBUG_CH,115200,ENABLE);
 		Mode_Init.USB(ENABLE);
 	}
 #else
@@ -367,7 +367,7 @@ void System_app_Init (void)
 	
 	Mode_Init.TIME(ENABLE);
     Mode_Use.TIME.Delay_Ms(10);
-	Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
+	Mode_Init.UART(DEBUG_CH,115200,ENABLE);
 	Mode_Init.UART(m_UART_CH2,g_SYS_Config.RS232_UART_Cfg,ENABLE);
 	
 	#ifdef MCU_SYS_FREQ 

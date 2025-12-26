@@ -117,7 +117,7 @@ void Main_Init(void)
 	
 //	LCD_Set_TargetModel(m_LCD_TYPE_1_30);
     Mode_Init.TIME(ENABLE);
-    Mode_Init.UART(DEBUG_OUT, 115200, ENABLE);
+    Mode_Init.UART(DEBUG_CH, 115200, ENABLE);
 	Mode_Use.TIME.Delay_Ms(200);
     Mode_Init.LCD(ENABLE);
     
@@ -128,7 +128,7 @@ void Main_Init(void)
     reverse |= Games_app_init(ENABLE);
     reverse |= Steer_app_init(ENABLE);
 	Mode_Use.TIME.Delay_Ms(500);
-    Mode_Use.UART.Send_String_pFun(DEBUG_OUT, "Hello world ! \n");
+    Mode_Use.UART.Send_String_pFun(DEBUG_CH, "Hello world ! \n");
 
 #ifdef PICTURE
     Mode_Use.LCD.Show_Picture_pFun(0, 0, 240, 240, Photo2); // Photo

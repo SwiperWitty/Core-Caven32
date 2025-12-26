@@ -42,7 +42,7 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 
 void Center_app_Init (void)
 {
-	Mode_Use.UART.Receive_Bind_pFun (DEBUG_OUT,debug_info_handle);
+	Mode_Use.UART.Receive_Bind_pFun (DEBUG_CH,debug_info_handle);
 	
 	TIMx_Capture_Callback_pFunBind(1,Capture1_pwm_handle);
     TIMx_Capture_Callback_pFunBind(2,Capture2_pwm_handle);

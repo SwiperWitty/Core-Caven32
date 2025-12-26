@@ -80,7 +80,7 @@ void System_app_Init (void)
 	/* 
 	初始化debug串口
 	*/
-	Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
+	Mode_Init.UART(DEBUG_CH,115200,ENABLE);
 	/* LED PA11 ,初始化配置
 	第一个参数1，代表的是PA
 	第二个参数11代表的是11pin,组合起来就是选择PA11,如果是PB12,那么他的初始化配置应该是 User_GPIO_config(2,12,1);

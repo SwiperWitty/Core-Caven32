@@ -98,7 +98,7 @@ void Main_Init(void)
     Mode_Index();
     Mode_Init.TIME(ENABLE);
     Mode_Use.TIME.Delay_Ms(10);
-    Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
+    Mode_Init.UART(DEBUG_CH,115200,ENABLE);
     Mode_Init.OLED(ENABLE);
     Mode_Init.Steering_Engine(ENABLE);
     Mode_Init.USB(ENABLE);

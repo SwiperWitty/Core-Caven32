@@ -55,7 +55,7 @@
 #define OPEN_11110  0x1E
 #define OPEN_11111  0x1f
 
-#define DEBUG_OUT	3   		// Debug 通道(Caved 3.14是串口3)
+#define DEBUG_CH	3   		// Debug 通道(Caved 3.14是串口3)
 
 #ifndef Exist_SYS_TIME
     #define Exist_SYS_TIME  OPEN_0001 // 一定存在
@@ -150,7 +150,7 @@
 #endif
 
 /*****  冲突      *****/
-#if DEBUG_OUT == 1
+#if DEBUG_CH == 1
     #if Exist_USB
         #warning (UART1 And USB Clash !!!)
         #undef Exist_USB

@@ -246,7 +246,7 @@ void Main_Init(void)
     Mode_Index();
 	//
     Mode_Init.TIME(ENABLE);
-    Mode_Init.UART(DEBUG_OUT, 115200, ENABLE);
+    Mode_Init.UART(DEBUG_CH, 115200, ENABLE);
 
     Mode_Init.Base_ADC(ENABLE);
 	Mode_Use.Base_ADC.Receive_Bind_pFun(ADC_Data_Handle);

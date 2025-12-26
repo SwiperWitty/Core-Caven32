@@ -1,13 +1,15 @@
 #include "zhiwen_app.h"
+#include "Caven_info_frame.h"
 #include "IC_AS608.h"
 
 u8 zhiwen_state = 0;
 u8 zhiwen_state_sub = 0;
 
-u8 zhiwen_flag = 1;
+u8 zhiwen_flag = 0;
 u8 zhiwen_id = 1;
 int zhiwen_id_get = 0;
 int zhiwen_num = 0;
+int del_id = 0;
 AS608_Packet zhiwen_pack;
 
 int zhiwen_img (u8 *data)
@@ -160,20 +162,37 @@ int zhiwen_del_num (int start,int num,u8 *data)
     return retval;
 }
 
-void zhiwen_app_flag_set (u8 flag)
-{
-    zhiwen_flag = flag;
-}
-
 /*
+    mode = 0 读指纹数
 	mode = 1 录指纹
 	mode = 2 检索指纹
-	mode = 3 读指纹数
+	mode = 3 删指纹
 */
-void zhiwen_app_mode (u8 mode)
+void zhiwen_app_mode (u8 mode,u8 sub,int id)
 {
-	zhiwen_state_sub = 0;
-	zhiwen_state = mode;
+	zhiwen_state_sub = sub;
+    switch (mode)
+    {
+    case 0:
+        zhiwen_state = 3;
+        break;
+    case 1:
+        zhiwen_state = 1;
+        break;
+    case 2:
+        zhiwen_state = 2;
+        break;
+    case 3:
+        zhiwen_state = 4;
+        break;
+    default:
+        break;
+    }
+	
+    if (zhiwen_state == 4)
+    {
+        del_id = id;
+    }
 }
 
 int zhiwen_check_able (AS608_Packet pack)
@@ -189,8 +208,10 @@ int zhiwen_check_able (AS608_Packet pack)
 
 int zhiwen_app_State_machine (Caven_BaseTIME_Type time)
 {
+	int retval = 0;
     u8 temp_array[100];
-    int temp_num = 0;
+    u8 temp_buff[100];
+    int temp_num = 0,temp_run = 0;
 	AS608_Packet temp_pack;
 	
 	if(zhiwen_pack.Run_status & 0x40)
@@ -201,7 +222,18 @@ int zhiwen_app_State_machine (Caven_BaseTIME_Type time)
         {
         case 1:     // 录入
             {
-                if (zhiwen_check_able (temp_pack) == 0)
+				if (zhiwen_state_sub == 1 || zhiwen_state_sub == 4)
+				{
+					if (zhiwen_check_able (temp_pack) == 2)
+					{
+						// wait
+					}
+					else
+					{
+						zhiwen_flag = 1;
+					}
+				}
+				else if (zhiwen_check_able (temp_pack) == 0)
                 {
                     zhiwen_flag = 1;
                 }
@@ -213,20 +245,40 @@ int zhiwen_app_State_machine (Caven_BaseTIME_Type time)
             break;
         case 2:     // 识别
             {
-                if (zhiwen_check_able (temp_pack) == 0)
+                if (zhiwen_state_sub == 5)
                 {
-                    zhiwen_flag = 1;
-					if (zhiwen_state_sub == 5)
+                    if (zhiwen_check_able (temp_pack) == 0)				
 					{
 						zhiwen_id_get = temp_pack.data[1];
 						zhiwen_id_get <<= 8;
 						zhiwen_id_get |= temp_pack.data[2];
+						zhiwen_flag = 1;
 						// EF 01 FF FF FF FF 07 00 07 [00] [00 01] [00 AA] 00 B9
 					}
+                    else
+                    {
+                        zhiwen_id_get = 0;
+						zhiwen_flag = 1;
+                    }
+                }
+				else if (zhiwen_state_sub == 1)
+				{
+					if (zhiwen_check_able (temp_pack) == 2)
+					{
+						// wait
+					}
+					else
+					{
+						zhiwen_flag = 1;
+					}
+				}
+                else if (zhiwen_check_able (temp_pack) == 0)
+                {
+                    zhiwen_flag = 1;
                 }
                 else
                 {
-                    zhiwen_flag = 1;
+                    zhiwen_flag = 0xff;
 					zhiwen_id_get = 0;
                 }
             }
@@ -241,11 +293,12 @@ int zhiwen_app_State_machine (Caven_BaseTIME_Type time)
 						zhiwen_num = temp_pack.data[1];
 						zhiwen_num <<= 8;
 						zhiwen_num |= temp_pack.data[2];
+						zhiwen_id = zhiwen_num + 1;
 					}
                 }
                 else
                 {
-                    zhiwen_flag = 1;
+                    zhiwen_flag = 0xff;
 					zhiwen_id_get = 0;
                 }
             }
@@ -257,20 +310,26 @@ int zhiwen_app_State_machine (Caven_BaseTIME_Type time)
 		stb_printf("type: %d\n",temp_pack.type);
 		stb_printf("code: %d\n \n",temp_pack.data[0]);
 	}
+	
+	if (zhiwen_flag == 1)
+	{
+		stb_printf("AS608 app [%d][%d] secc\n",zhiwen_state,zhiwen_state_sub);
+		zhiwen_state_sub ++;
+		zhiwen_flag = 0;
+	}
+	else if(zhiwen_flag == 0xff)
+	{
+		temp_buff[temp_run++] = 0;
+		temp_num = Caven_info_return_Fun (0x01,0,0x01,3,m_CAVEN_CMD3_zhiwen_Order,temp_run,temp_buff,0,temp_array);
+		Mode_Use.UART.Send_Data_pFun(DEBUG_CH,temp_array,temp_num);
+		zhiwen_flag = 0;
+		zhiwen_state = 0;
+		zhiwen_state_sub = 0;
+	}
     switch (zhiwen_state)
     {
     case 1:     // 录入
         {
-            if(zhiwen_flag == 1)
-            {
-				stb_printf("AS608 app [%d][%d] secc\n",zhiwen_state,zhiwen_state_sub);
-				zhiwen_state_sub ++;
-                zhiwen_flag = 0;
-            }
-            else
-            {
-                Mode_Use.TIME.Delay_Ms (10);
-            }
             switch (zhiwen_state_sub)
             {
             case 1:
@@ -284,8 +343,8 @@ int zhiwen_app_State_machine (Caven_BaseTIME_Type time)
                 break;
             case 2:
                 temp_num = zhiwen_add_buff (1,temp_array);
+				Mode_Use.TIME.Delay_Ms (100);
                 Mode_Use.UART.Send_Data_pFun(2,temp_array,temp_num);
-                Mode_Use.TIME.Delay_Ms (100);
 				zhiwen_state_sub++;
                 break;
 			case 3:
@@ -298,12 +357,12 @@ int zhiwen_app_State_machine (Caven_BaseTIME_Type time)
 				}
                 temp_num = zhiwen_img(temp_array);
                 Mode_Use.UART.Send_Data_pFun(2,temp_array,temp_num);
-                Mode_Use.TIME.Delay_Ms (1000);
+				Mode_Use.TIME.Delay_Ms (1000);
                 break;
             case 5:
                 temp_num = zhiwen_add_buff (2,temp_array);
+				Mode_Use.TIME.Delay_Ms (100);
                 Mode_Use.UART.Send_Data_pFun(2,temp_array,temp_num);
-                Mode_Use.TIME.Delay_Ms (100);
 				zhiwen_state_sub++;
                 break;
 			case 6:
@@ -311,8 +370,8 @@ int zhiwen_app_State_machine (Caven_BaseTIME_Type time)
                 break;
             case 7:
                 temp_num = zhiwen_reg_model (temp_array);
+				Mode_Use.TIME.Delay_Ms (100);
                 Mode_Use.UART.Send_Data_pFun(2,temp_array,temp_num);
-                Mode_Use.TIME.Delay_Ms (100);
 				zhiwen_state_sub++;
                 break;
 			case 8:
@@ -320,8 +379,8 @@ int zhiwen_app_State_machine (Caven_BaseTIME_Type time)
                 break;
             case 9:
                 temp_num = zhiwen_save_id (zhiwen_id,temp_array);
+				Mode_Use.TIME.Delay_Ms (100);
                 Mode_Use.UART.Send_Data_pFun(2,temp_array,temp_num);
-                Mode_Use.TIME.Delay_Ms (100);
 				zhiwen_state_sub++;
                 break;
 			case 10:
@@ -329,6 +388,13 @@ int zhiwen_app_State_machine (Caven_BaseTIME_Type time)
                 break;
             case 11:
                 // updata zhiwen_id
+				temp_buff[temp_run++] = 0;
+                temp_buff[temp_run++] = (zhiwen_id >> 24) & 0xff;
+                temp_buff[temp_run++] = (zhiwen_id >> 16) & 0xff;
+                temp_buff[temp_run++] = (zhiwen_id >> 8) & 0xff;
+                temp_buff[temp_run++] = (zhiwen_id >> 0) & 0xff;
+                temp_num = Caven_info_return_Fun (0x01,0,0x01,3,m_CAVEN_CMD3_zhiwen_Order,temp_run,temp_buff,0,temp_array);
+                Mode_Use.UART.Send_Data_pFun(DEBUG_CH,temp_array,temp_num);
                 stb_printf("zhiwen over id [%d]",zhiwen_id);
                 zhiwen_id ++;
                 zhiwen_state = 0;
@@ -344,16 +410,6 @@ int zhiwen_app_State_machine (Caven_BaseTIME_Type time)
         break;
     case 2:     // 识别
         {
-            if(zhiwen_flag == 1)
-            {
-				stb_printf("AS608 app [%d][%d] secc\n",zhiwen_state,zhiwen_state_sub);
-				zhiwen_state_sub ++;
-                zhiwen_flag = 0;
-            }
-            else
-            {
-                Mode_Use.TIME.Delay_Ms (10);
-            }
             switch (zhiwen_state_sub)
             {
             case 1:
@@ -367,8 +423,8 @@ int zhiwen_app_State_machine (Caven_BaseTIME_Type time)
                 break;
             case 2:
                 temp_num = zhiwen_add_buff (1,temp_array);
+				Mode_Use.TIME.Delay_Ms (100);
                 Mode_Use.UART.Send_Data_pFun(2,temp_array,temp_num);
-                Mode_Use.TIME.Delay_Ms (100);
 				zhiwen_state_sub++;
                 break;
             case 3:
@@ -376,8 +432,8 @@ int zhiwen_app_State_machine (Caven_BaseTIME_Type time)
                 break;
             case 4:
                 temp_num = zhiwen_ask_search (20,temp_array);
+				Mode_Use.TIME.Delay_Ms (100);
                 Mode_Use.UART.Send_Data_pFun(2,temp_array,temp_num);
-                Mode_Use.TIME.Delay_Ms (100);
                 zhiwen_state_sub ++;
                 break;
             case 5:
@@ -385,6 +441,20 @@ int zhiwen_app_State_machine (Caven_BaseTIME_Type time)
                 break;
             case 6:
                 // updata id
+                if(zhiwen_id_get > 0)
+                {
+                    temp_buff[temp_run++] = 0;
+                }
+                else
+                {
+                    temp_buff[temp_run++] = 1;
+                }
+                temp_buff[temp_run++] = (zhiwen_id_get >> 24) & 0xff;
+                temp_buff[temp_run++] = (zhiwen_id_get >> 16) & 0xff;
+                temp_buff[temp_run++] = (zhiwen_id_get >> 8) & 0xff;
+                temp_buff[temp_run++] = (zhiwen_id_get >> 0) & 0xff;
+                temp_num = Caven_info_return_Fun (0x01,0,0x01,3,m_CAVEN_CMD3_zhiwen_Order,temp_run,temp_buff,0,temp_array);
+                Mode_Use.UART.Send_Data_pFun(DEBUG_CH,temp_array,temp_num);
                 stb_printf("zhiwen get id [%d]",zhiwen_id_get);
                 zhiwen_id_get = 0;
                 zhiwen_state = 0;
@@ -397,18 +467,8 @@ int zhiwen_app_State_machine (Caven_BaseTIME_Type time)
             }
         }
         break;
-	case 3:
+	case 3:     // 查指纹数
         {
-			if(zhiwen_flag == 1)
-            {
-				stb_printf("AS608 app [%d][%d] secc\n",zhiwen_state,zhiwen_state_sub);
-				zhiwen_state_sub ++;
-                zhiwen_flag = 0;
-            }
-            else
-            {
-                Mode_Use.TIME.Delay_Ms (10);
-            }
 			switch (zhiwen_state_sub)
             {
             case 1:
@@ -421,11 +481,44 @@ int zhiwen_app_State_machine (Caven_BaseTIME_Type time)
                 break;
 			case 3:
 				// updata id
+                temp_buff[temp_run++] = (zhiwen_num >> 24) & 0xff;
+                temp_buff[temp_run++] = (zhiwen_num >> 16) & 0xff;
+                temp_buff[temp_run++] = (zhiwen_num >> 8) & 0xff;
+                temp_buff[temp_run++] = (zhiwen_num >> 0) & 0xff;
+                temp_num = Caven_info_return_Fun (0x01,0,0x01,3,m_CAVEN_CMD3_zhiwen_Order,temp_run,temp_buff,0,temp_array);
+                Mode_Use.UART.Send_Data_pFun(DEBUG_CH,temp_array,temp_num);
                 stb_printf("zhiwen get num [%d]",zhiwen_num);
 				zhiwen_num = 0;
                 zhiwen_state = 0;
                 zhiwen_state_sub = 0;
                 break;
+			default:
+				Mode_Use.TIME.Delay_Ms (500);
+                zhiwen_state_sub = 0;
+				break;
+			}
+		}
+	case 4:     // del指纹
+        {
+			switch (zhiwen_state_sub)
+            {
+            case 1:
+                temp_num = zhiwen_del_num (del_id,1,temp_array);
+                Mode_Use.UART.Send_Data_pFun(2,temp_array,temp_num);
+                Mode_Use.TIME.Delay_Ms (100);
+				zhiwen_state_sub++;
+                break;
+            case 2:
+                break;
+            case 3:
+				// del id
+                temp_buff[temp_run++] = 0;
+                temp_num = Caven_info_return_Fun (0x01,0,0x01,3,m_CAVEN_CMD3_zhiwen_Order,temp_run,temp_buff,0,temp_array);
+                Mode_Use.UART.Send_Data_pFun(DEBUG_CH,temp_array,temp_num);
+                stb_printf("zhiwen del num [%d]",del_id);
+				del_id = 0;
+                zhiwen_state = 0;
+                zhiwen_state_sub = 0;
                 break;
 			default:
 				Mode_Use.TIME.Delay_Ms (500);
@@ -436,6 +529,7 @@ int zhiwen_app_State_machine (Caven_BaseTIME_Type time)
     default:
         break;
     }
+	return retval;
 }
 
 void zhiwen_info_handle (void *data)

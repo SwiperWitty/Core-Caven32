@@ -52,13 +52,13 @@ void Main_Init(void)
     Mode_Index();
     
     Mode_Init.TIME(ENABLE);
-	Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
+	Mode_Init.UART(DEBUG_CH,115200,ENABLE);
 
 	Mode_Use.TIME.Delay_Ms(500);
     Mode_Init.LCD(ENABLE);
     
-	Mode_Use.UART.Send_String_pFun(DEBUG_OUT,"Hello world ! \n");
-    Base_UART_DMA_Send_Data(DEBUG_OUT,"debug dma send \n",strlen("debug dma send \n"));
+	Mode_Use.UART.Send_String_pFun(DEBUG_CH,"Hello world ! \n");
+    Base_UART_DMA_Send_Data(DEBUG_CH,"debug dma send \n",strlen("debug dma send \n"));
     
         
 #ifdef PICTURE

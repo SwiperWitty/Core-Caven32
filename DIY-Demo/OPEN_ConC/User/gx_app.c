@@ -208,7 +208,7 @@ int GX_app_send_packet(GX_info_packet_Type pack)
     {
     case SYS_Link:
         {
-			MODE_UART_DMA_Send_Data_Fun(DEBUG_OUT,temp_array,temp_num);
+			MODE_UART_DMA_Send_Data_Fun(DEBUG_CH,temp_array,temp_num);
 //            Mode_Use.UART.Send_Data_pFun(m_UART_CH1,temp_array,temp_num);
 //            debug_log (LOG_Info,Log_tag,"sys link send");
 //            debug_log_hex (temp_array,temp_num);

@@ -198,11 +198,11 @@ void UART_TXD_Send(char Channel,uint16_t Data)
 #ifdef UART_pf
 int fputc(int ch, FILE *f)      //printf
 {
-#ifdef DEBUG_OUT
+#ifdef DEBUG_CH
     #ifdef Exist_UART
 //    USART_SendData(USART1,(uint8_t)ch);
 //    while (!USART_GetFlagStatus(USART1, TXD_Falg));
-    UART_TXD_Send(DEBUG_OUT,(uint8_t)ch);
+    UART_TXD_Send(DEBUG_CH,(uint8_t)ch);
     #endif
 #endif // DEBUG
     return (ch);

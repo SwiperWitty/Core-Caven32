@@ -50,12 +50,12 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 		}
 		if (RFIDBK_len >= (sizeof(RFID_array) - 10))
 		{
-			Mode_Use.UART.Send_Data_pFun (DEBUG_OUT,(uint8_t *)RFID_array,RFIDBK_len);
+			Mode_Use.UART.Send_Data_pFun (DEBUG_CH,(uint8_t *)RFID_array,RFIDBK_len);
 			RFIDBK_len = 0;
 		}
 		else if(temp_num > 2000)
 		{
-			Mode_Use.UART.Send_Data_pFun (DEBUG_OUT,(uint8_t *)RFID_array,RFIDBK_len);
+			Mode_Use.UART.Send_Data_pFun (DEBUG_CH,(uint8_t *)RFID_array,RFIDBK_len);
 			RFIDBK_len = 0;
 		}
 	}
@@ -73,7 +73,7 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 
 void Center_app_Init (void)
 {
-	Mode_Use.UART.Receive_Bind_pFun (DEBUG_OUT,debug_info_handle);
+	Mode_Use.UART.Receive_Bind_pFun (DEBUG_CH,debug_info_handle);
 	Mode_Use.UART.Receive_Bind_pFun (m_UART_CH2,RFID_info_handle);
 	Base_TCP_Server_Receive_Bind_Fun (server_info_handle);
 	Base_TCP_Client_Receive_Bind_Fun (client_info_handle);

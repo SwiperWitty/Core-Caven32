@@ -170,9 +170,9 @@ void System_app_Init (void)
 	__enable_irq();
     Mode_Init.TIME(ENABLE);
     Mode_Use.TIME.Delay_Ms(10);
-	Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
+	Mode_Init.UART(DEBUG_CH,115200,ENABLE);
 	
-    Mode_Use.UART.Send_String_pFun(DEBUG_OUT,"hello !\n");
+    Mode_Use.UART.Send_String_pFun(DEBUG_CH,"hello !\n");
 
 #ifdef MCU_SYS_FREQ 
 	printf("MCU Init,MCU_SYS_FREQ: %d Hz \n",MCU_SYS_FREQ);

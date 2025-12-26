@@ -179,7 +179,7 @@ void System_app_Init (void)
 		__enable_irq();
 		Mode_Init.TIME(ENABLE);
 		Mode_Use.TIME.Delay_Ms(10);
-		Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
+		Mode_Init.UART(DEBUG_CH,115200,ENABLE);
 		Mode_Init.USB(ENABLE);
 	}
 #else
@@ -188,7 +188,7 @@ void System_app_Init (void)
 	
 	Mode_Init.TIME(ENABLE);
     Mode_Use.TIME.Delay_Ms(10);
-	Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
+	Mode_Init.UART(DEBUG_CH,115200,ENABLE);
 	Mode_Init.UART(m_UART_CH2,115200,ENABLE);
 	Mode_Init.USB(ENABLE);
 	

@@ -41,7 +41,7 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 
 void Center_app_Init (void)
 {
-	Mode_Use.UART.Receive_Bind_pFun (DEBUG_OUT,debug_info_handle);
+	Mode_Use.UART.Receive_Bind_pFun (DEBUG_CH,debug_info_handle);
 
 	Caven_app_Init ();
 #if SYS_BTLD == 0

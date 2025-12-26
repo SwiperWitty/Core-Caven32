@@ -145,7 +145,7 @@ void Main_Init(void)
     Mode_Init.TIME(ENABLE);
     Mode_Init.LED(ENABLE);
     Mode_Init.UART(m_UART_CH1, 115200, ENABLE);
-    Mode_Init.UART(DEBUG_OUT, 115200, ENABLE);
+    Mode_Init.UART(DEBUG_CH, 115200, ENABLE);
     Mode_Init.LCD(ENABLE);
 	
 	User_GPIO_config(3,13,0);	//

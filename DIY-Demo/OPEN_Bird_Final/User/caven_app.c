@@ -866,7 +866,7 @@ int Caven_app_send_packet(Caven_info_packet_Type pack)
     {
     case SYS_Link:
         {
-            Mode_Use.UART.Send_Data_pFun(DEBUG_OUT,temp_array,temp_num);
+            Mode_Use.UART.Send_Data_pFun(DEBUG_CH,temp_array,temp_num);
 
 //            debug_log (LOG_Info,Log_tag,"sys link send");
 //            debug_log_hex (temp_array,temp_num);

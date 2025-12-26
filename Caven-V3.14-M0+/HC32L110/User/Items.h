@@ -15,7 +15,7 @@
 
 */
 #define TURE   TRUE
-#define DEBUG_OUT   1           //Debug 通道(Caved 3.14是串口3)->MODE
+#define DEBUG_CH   1           //Debug 通道(Caved 3.14是串口3)->MODE
 #define MCU_SYS_Freq SystemCoreClock        //刚启动是xM，经过配置文件之后就是144（system_clock_config()之后）
 
 
@@ -59,7 +59,7 @@
 #define GPIO_Pin_15 GPIO_PINS_15
 
 /*  冲突  */
-#if DEBUG_OUT == 1
+#if DEBUG_CH == 1
     #ifdef Exist_USB
         #warning (UART1 And USB Clash !!!)
     #endif

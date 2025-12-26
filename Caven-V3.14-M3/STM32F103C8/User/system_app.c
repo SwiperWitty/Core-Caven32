@@ -74,7 +74,7 @@ void System_app_Init (void)
 {
     Mode_Init.TIME(ENABLE);
     Mode_Use.TIME.Delay_Ms(10);
-	Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
+	Mode_Init.UART(DEBUG_CH,115200,ENABLE);
 	
 	Mode_Use.OLED.Set_Direction_pFun(0,0x3c);
 	Mode_Init.OLED(ENABLE);
@@ -85,7 +85,7 @@ void System_app_Init (void)
 	User_GPIO_set(1,11,1);
 	User_GPIO_set(1,12,0);
 	
-    Mode_Use.UART.Send_String_pFun(DEBUG_OUT,"hello 2!\n");
+    Mode_Use.UART.Send_String_pFun(DEBUG_CH,"hello 2!\n");
     
     TIM1_Capture_Start_Init(0xffff,72-1,0x01|0x02|0x04|0x08,0,ENABLE);				// a8,a9
     TIM2_Capture_Start_Init(0xffff,72-1,0x01|0x02,0,ENABLE);

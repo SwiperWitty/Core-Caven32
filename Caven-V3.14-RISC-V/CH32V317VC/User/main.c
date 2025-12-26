@@ -25,7 +25,7 @@ int main(void)
     SystemCoreClockUpdate();
     Mode_Index();
     Mode_Init.TIME(ENABLE);
-    Mode_Init.UART(DEBUG_OUT,115200,ENABLE);
+    Mode_Init.UART(DEBUG_CH,115200,ENABLE);
 
     now_time.SYS_Sec = 1762236074;
     Mode_Use.TIME.Set_BaseTIME_pFun (now_time);
