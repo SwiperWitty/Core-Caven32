@@ -97,6 +97,7 @@ void System_app_Init (void)
 	/* 
 	初始化OLED,其中的IIC会自动初始化
 	*/
+	OLED_Set_Horizontal_addr(0,0x3c);
 	Mode_Init.OLED (ENABLE);
 	
 #ifdef MCU_SYS_FREQ 
