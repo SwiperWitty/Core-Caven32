@@ -303,6 +303,23 @@ int zhiwen_app_State_machine (Caven_BaseTIME_Type time)
                 }
             }
             break;
+		case 4:
+            {
+                if (zhiwen_check_able (temp_pack) == 0)
+                {
+                    zhiwen_flag = 1;
+					if (zhiwen_state_sub == 2)
+					{
+						
+					}
+                }
+                else
+                {
+                    zhiwen_flag = 0xff;
+					del_id = 0;
+                }
+            }
+            break;
         default:
             break;
         }
