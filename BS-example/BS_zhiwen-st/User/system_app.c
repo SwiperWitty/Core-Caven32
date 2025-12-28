@@ -151,9 +151,6 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
     {
         System_start_Time = g_SYS_Config.Now_time;
         g_SYS_Config.Work_sec ++;
-		
-		User_GPIO_set(1,11,1);
-		User_GPIO_set(1,12,0);
     }
 	/*
 	ota自动升级
@@ -210,6 +207,7 @@ void System_app_Init (void)
 	User_GPIO_set(1,11,1);		// led
 	User_GPIO_set(1,12,0);		// bzz
 	
+	Mode_Use.TIME.Delay_Ms(200);
 	OLED_Set_Horizontal_addr(0,0x3c);
 	Mode_Init.OLED(ENABLE);
 	

@@ -27,7 +27,7 @@ int main(void)
     {
         now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
         API_Task_Timer (&LED_Task,now_time);        // LED任务
-        User_GPIO_set(2,4,LED_Task.Flip_falg);
+
 //        if(LED_Task.Trigger_Flag)
 //        {
 //            printf("utc %d",now_time.SYS_Sec);

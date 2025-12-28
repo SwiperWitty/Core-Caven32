@@ -284,11 +284,15 @@ int zhiwen_app_State_machine (Caven_BaseTIME_Type time)
 						{
 							User_GPIO_set(1,11,0);
 							User_GPIO_set(1,12,0);
+							Mode_Use.TIME.Delay_Ms(500);
+							User_GPIO_set(1,11,1);
 						}
 						else
 						{
 							User_GPIO_set(1,11,1);
 							User_GPIO_set(1,12,1);
+							Mode_Use.TIME.Delay_Ms(500);
+							User_GPIO_set(1,12,0);
 						}
 						// EF 01 FF FF FF FF 07 00 07 [00] [00 01] [00 AA] 00 B9
 					}
@@ -456,7 +460,7 @@ int zhiwen_app_State_machine (Caven_BaseTIME_Type time)
 				memset (oled_array,0,sizeof(oled_array));
 				sprintf (oled_array,"wait Task ...    ");
 				zhiwen_num ++;
-				sprintf (oled_array_num,"ID num [%d] ",zhiwen_num);
+				sprintf (oled_array_num,"ID num:%d get:%d",zhiwen_num,zhiwen_id_get);
                 zhiwen_id ++;
                 zhiwen_state = 0;
                 zhiwen_state_sub = 0;
@@ -522,6 +526,7 @@ int zhiwen_app_State_machine (Caven_BaseTIME_Type time)
                 stb_printf("zhiwen get id [%d]",zhiwen_id_get);
 				memset (oled_array,0,sizeof(oled_array));
 				sprintf (oled_array,"wait Task ...    ");
+				sprintf (oled_array_num,"ID num:%d get:%d",zhiwen_num,zhiwen_id_get);
                 zhiwen_id_get = 0;
                 zhiwen_state = 0;
                 zhiwen_state_sub = 0;
@@ -555,7 +560,7 @@ int zhiwen_app_State_machine (Caven_BaseTIME_Type time)
                 Mode_Use.UART.Send_Data_pFun(DEBUG_CH,temp_array,temp_num);
 				Mode_Use.TIME.Delay_Ms (100);
                 stb_printf("zhiwen get num [%d]",zhiwen_num);
-				sprintf (oled_array_num,"ID num [%d] ",zhiwen_num);
+				sprintf (oled_array_num,"ID num:%d get:%d",zhiwen_num,zhiwen_id_get);
 				zhiwen_num = 0;
                 zhiwen_state = 0;
                 zhiwen_state_sub = 0;
@@ -598,7 +603,7 @@ int zhiwen_app_State_machine (Caven_BaseTIME_Type time)
     default:
         break;
     }
-	Mode_Use.OLED.Show_String_pFun (2,2,oled_array_num,0,0,16);
+	Mode_Use.OLED.Show_String_pFun (0,2,oled_array_num,0,0,16);
 	Mode_Use.OLED.Show_String_pFun (0,3,oled_array,0,0,16);
 	return retval;
 }
@@ -611,7 +616,7 @@ void zhiwen_info_handle (void *data)
 
 void zhiwen_app_Init (void)
 {
-	sprintf (oled_array_num,"ID num [%d] ",zhiwen_num);
+	sprintf (oled_array_num,"ID num:%d get:%d",zhiwen_num,zhiwen_id_get);
 	sprintf (oled_array,"wait Task ...  ");
 }
 
