@@ -71,7 +71,7 @@
 
 #define Exist_UART      OPEN_11110
 #define Exist_IIC       OPEN_NULL
-#define Exist_SPI       OPEN_0100
+#define Exist_SPI       OPEN_NULL
 #define Exist_USB       OPEN_NULL
 #define Exist_CAN       OPEN_NULL
 

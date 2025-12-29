@@ -942,9 +942,10 @@ int Caven_app_cmd3_handle (Caven_info_packet_Type pack)
 		rw_info = pack.p_Data[temp_num++];
 		if(rw_info)
 		{
-			pack.Result = m_Result_Back_Succ;
 			temp_data = pack.p_Data[temp_num++];
+			// User_GPIO_set(1,12,temp_data);
 			sys_set_bzz_fun (temp_data);
+			pack.Result = m_Result_Back_Succ;
 		}
 		else
 		{

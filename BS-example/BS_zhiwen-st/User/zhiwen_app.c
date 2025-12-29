@@ -335,7 +335,7 @@ int zhiwen_app_State_machine (Caven_BaseTIME_Type time)
 						zhiwen_num <<= 8;
 						zhiwen_num |= temp_pack.data[2];
 						zhiwen_id = zhiwen_num + 1;
-						Mode_Use.OLED.Show_String_pFun (0,3,"ID num ",0,0,16);
+						sprintf (oled_array_num,"ID num:%d get:%d",zhiwen_num,zhiwen_id_get);
 					}
                 }
                 else

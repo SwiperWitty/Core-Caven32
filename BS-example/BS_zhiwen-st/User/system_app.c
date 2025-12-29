@@ -199,8 +199,10 @@ void System_app_Init (void)
 	
 	Mode_Init.TIME(ENABLE);
     Mode_Use.TIME.Delay_Ms(10);
-	Mode_Init.UART(DEBUG_CH,115200,ENABLE);
+	
 	Mode_Init.UART(m_UART_CH1,57600,ENABLE);
+	Mode_Init.UART(DEBUG_CH,115200,ENABLE);
+
 	User_GPIO_config(1,11,ENABLE);
 	User_GPIO_config(1,12,ENABLE);
 	
