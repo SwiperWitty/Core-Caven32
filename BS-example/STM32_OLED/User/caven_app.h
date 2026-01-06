@@ -6,7 +6,9 @@
 
 int Caven_app_State_machine(Caven_BaseTIME_Type time);
 int Caven_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time);
+int Caven_app_JSON_Make_pack (char *data,int way);
 
+int Caven_app_BOOT_check (void);
 void Caven_app_Init (void);
 void Caven_app_Exit (void);
 
