@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>AT32F415RCT7,USE_STDPERIPH_DRIVER,CAVEN,STB_SPRINTF_IMPLEMENTATION,DEFAULT</Define>
               <Undefine></Undefine>
-              <IncludePath>..\User;..\CMSIS;..\Config;..\SDK\inc;..\Startup\mdk;..\..\..\Caven-MCU_Lib\API;..\..\..\Caven-MCU_Lib\GUI;..\..\..\Caven-MCU_Lib\Mode;..\..\..\Caven-MCU_Lib\Base_AT32F415;..\..\..\Caven-MCU_Lib\Base_AT32F415\usb_drivers\inc;..\..\..\Caven-MCU_Lib\Base_AT32F415\composite_HID;..\..\..\Caven-MCU_Lib\API\STB;..\..\..\Caven-MCU_Lib\Base_AT32F415\usbd_class\cdc;..\..\..\Caven-MCU_Lib\Base_AT32F415\usbd_class\custom_hid</IncludePath>
+              <IncludePath>..\User;..\CMSIS;..\Config;..\SDK\inc;..\Startup\mdk;..\..\..\Caven-MCU_Lib\API;..\..\..\Caven-MCU_Lib\GUI;..\..\..\Caven-MCU_Lib\Mode;..\..\..\Caven-MCU_Lib\API\STB;..\..\..\Caven-MCU_Lib\Base_AT32F415;..\..\..\Caven-MCU_Lib\Base_AT32F415\usb_drivers\inc;..\..\..\Caven-MCU_Lib\Base_AT32F415\composite_HID;..\..\..\Caven-MCU_Lib\Base_AT32F415\usbd_class\cdc;..\..\..\Caven-MCU_Lib\Base_AT32F415\usbd_class\custom_hid</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -633,11 +633,6 @@
               <FilePath>..\..\..\Caven-MCU_Lib\API\API.c</FilePath>
             </File>
             <File>
-              <FileName>caven_at_info_frame.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\API\caven_at_info_frame.c</FilePath>
-            </File>
-            <File>
               <FileName>Caven_event_frame.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\API\Caven_event_frame.c</FilePath>
@@ -646,11 +641,6 @@
               <FileName>Caven_info_frame.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\API\Caven_info_frame.c</FilePath>
-            </File>
-            <File>
-              <FileName>DATA_Handle.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Caven-MCU_Lib\API\DATA_Handle.c</FilePath>
             </File>
             <File>
               <FileName>Encrypt_crc.c</FileName>
@@ -676,6 +666,16 @@
               <FileName>GX_info_frame.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\API\GX_info_frame.c</FilePath>
+            </File>
+            <File>
+              <FileName>Caven_at_info_frame.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Caven_at_info_frame.c</FilePath>
+            </File>
+            <File>
+              <FileName>Data_Handle.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\API\Data_Handle.c</FilePath>
             </File>
           </Files>
         </Group>

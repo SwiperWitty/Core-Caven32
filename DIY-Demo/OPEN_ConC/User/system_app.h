@@ -112,7 +112,6 @@ typedef struct
 }SYS_cfg_Type;
 
 extern SYS_cfg_Type g_SYS_Config;
-extern Caven_event_Type g_Events_buff;
 extern Caven_event_Type g_SYS_events;
 
 extern int bzz_event;

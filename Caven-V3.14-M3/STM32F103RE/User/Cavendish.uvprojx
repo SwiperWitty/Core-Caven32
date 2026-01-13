@@ -337,9 +337,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>STM32F10X_HD,USE_STDPERIPH_DRIVER,CAVEN,DEFAULT</Define>
+              <Define>STM32F10X_HD,USE_STDPERIPH_DRIVER,CAVEN,STB_SPRINTF_IMPLEMENTATION,DEFAULT</Define>
               <Undefine></Undefine>
-              <IncludePath>..\User;..\CMSIS;..\Startup;..\SDK\inc;..\Config;..\..\..\Caven-MCU_Lib\API;..\..\..\Caven-MCU_Lib\Mode;..\..\..\Caven-MCU_Lib\Base_STM32F103</IncludePath>
+              <IncludePath>..\User;..\CMSIS;..\Startup;..\SDK\inc;..\Config;..\..\..\Caven-MCU_Lib\API;..\..\..\Caven-MCU_Lib\Mode;..\..\..\Caven-MCU_Lib\API\STB;..\..\..\Caven-MCU_Lib\Base_STM32F103</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>

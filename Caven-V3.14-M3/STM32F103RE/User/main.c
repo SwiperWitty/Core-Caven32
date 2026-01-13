@@ -15,7 +15,7 @@ int main(void)
 
     Task_Overtime_Type LED_Task = {
             .Switch = 1,
-            .Begin_time = now_time,
+            .Begin_time = {0},
             .Set_time.SYS_Sec = 1,
             .Set_time.SYS_Us = 500000,
             .Flip_falg = 0,
@@ -42,5 +42,5 @@ void Main_Init(void)
     Mode_Use.TIME.Delay_Ms(10);
 
     Mode_Init.UART(1,115200,ENABLE);
-    printf("SystemClk:%d \r\n", MCU_SYS_FREQ);
+    stb_printf("MCU Init,MCU_SYS_FREQ: %d Hz \n",MCU_SYS_FREQ);
 }

@@ -21,16 +21,8 @@ int Center_State_machine(Caven_BaseTIME_Type time)
     int temp_num = 0;
 
     center_time = time;
-    center_time = Mode_Use.TIME.Get_BaseTIME_pFun();
     center_date = Mode_Use.TIME.Get_Date_pFun(8*60*60);
 
-    if ((center_time.SYS_Sec % 2) && (center_time.SYS_Sec != last_time.SYS_Sec)) {
-        last_time = center_time;
-        printf("date %d/%d/%d %02d:%02d:%02d  utc [%d] [%d]\n",
-                center_date.tm_year,center_date.tm_mon,center_date.tm_mday,
-                center_date.tm_hour,center_date.tm_min,center_date.tm_sec,
-                center_time.SYS_Sec,center_time.SYS_Us);
-    }
 
     return retval;
 }
