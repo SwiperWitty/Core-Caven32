@@ -1,91 +1,65 @@
+/*
+ * center_app.c
+ *
+ *  Created on: 2023年11月29日
+ */
+
 #include "center_app.h"
 
-Caven_BaseTIME_Type Center_time;
-Caven_BaseTIME_Type show_time;
 
-TIM_Capture_Type time1_Capture_val;
-TIM_Capture_Type time2_Capture_val;
+/*
+ *
+ */
 
-void debug_info_handle (void *data);
-void Capture1_pwm_handle (void *data);
-void Capture2_pwm_handle (void *data);
+Caven_BaseTIME_Type center_time;
+Caven_BaseTIME_Type last_time = {0};
+struct tm center_date;
 
-Task_Overtime_Type Vofa_JustFloat_Show_Task = {
-		.Switch = 1,
-		.Begin_time = {0},
-		.Set_time.SYS_Sec = 0,
-		.Set_time.SYS_Us = 50000,
-		.Flip_falg = 0,
-};
-
-char Capture_flag = 0;
-int period = 0,temp_val = 0,Freq = 0,Freq_last = 0xff;
-float period_t,temp_f = 0.00f,cycle = 0;
-float show_buff[10];
-char str_array[100];
-int time_one = 0;
 int Center_State_machine(Caven_BaseTIME_Type time)
 {
-	int retval = 0,get_State = 0;
-	
-    Center_time = time;
-	get_State |= Caven_app_State_machine (Center_time);
-	get_State |= GX_app_State_machine (Center_time);
-	get_State |= System_app_State_machine (Center_time);
-	
-	if(g_SYS_Config.Reset_falg)
-	{
-		retval |= 1;
-	}
-	return retval;
+    int retval = 0;
+    int temp_num = 0;
+
+    center_time = time;
+    center_date = Mode_Use.TIME.Get_Date_pFun(8*60*60);
+
+
+    return retval;
 }
 
-void Center_app_Init (void)
+#if GUI_LVGL
+// Transfer GuiLite 32 bits color to your LCD color
+#define GL_RGB_32_to_16(rgb) (((((unsigned int)(rgb)) & 0xFF) >> 3) | ((((unsigned int)(rgb)) & 0xFC00) >> 5) | ((((unsigned int)(rgb)) & 0xF80000) >> 8))
+// Encapsulate your LCD driver:
+void gfx_draw_pixel(int x, int y, unsigned int rgb)
 {
-	Mode_Use.UART.Receive_Bind_pFun (DEBUG_CH,debug_info_handle);
-	
-	TIMx_Capture_Callback_pFunBind(1,Capture1_pwm_handle);
-    TIMx_Capture_Callback_pFunBind(2,Capture2_pwm_handle);
-
-	Caven_app_Init ();
-	GX_app_Init ();
+    #if Exist_OLED || Exist_LCD
+    // LCD_Fast_DrawPoint(x, y, GL_RGB_32_to_16(rgb));
+    Mode_Use.LCD.Draw_Point_pFun(x, y, GL_RGB_32_to_16(rgb));
+    #endif
 }
+// Implement it, if you have more fast solution than drawing pixels one by one.
+// void gfx_fill_rect(int x0, int y0, int x1, int y1, unsigned int rgb){}
 
-int get_debug_data_num = 0,get_debug_pack_num = 0;
-void debug_info_handle (void *data)
+// UI entry
+struct DISPLAY_DRIVER
 {
-	uint8_t temp_data = *(uint8_t *)data;
-	int temp_num = 0;
-    temp_num |= Caven_app_Make_pack (temp_data,SYS_Link,Center_time);
-	if (temp_num <= 0)
-	{
-		temp_num |= GX_app_Make_pack (temp_data,SYS_Link,Center_time);
-	}
-	if(temp_num == 0xff)
-	{
-		get_debug_pack_num ++;
-	}
-	get_debug_data_num ++;
-}
+    void (*draw_pixel)(int x, int y, unsigned int rgb);
+    void (*fill_rect)(int x0, int y0, int x1, int y1, unsigned int rgb);
+}my_driver;
+extern void startHelloStar(void* phy_fb, int width, int height, int color_bytes, struct DISPLAY_DRIVER* driver);
 
-void Capture1_pwm_handle (void *data)
+int start_ui(void)
 {
-	TIM_Capture_Type temp_Capture_val;
-	if(data != NULL)
-	{
-		memcpy(&temp_Capture_val,data,sizeof(TIM_Capture_Type));
-		memcpy(&time1_Capture_val,data,sizeof(TIM_Capture_Type));
-
-	}
+    //Link your LCD driver & start UI:
+    my_driver.draw_pixel = gfx_draw_pixel;
+    my_driver.fill_rect = NULL;//gfx_fill_rect;
+    startHelloStar(NULL, 240, 240, 2, &my_driver);
+    return 0;
 }
 
-void Capture2_pwm_handle (void *data)
+void delay_ms(int milli_seconds)
 {
-	TIM_Capture_Type temp_Capture_val;
-	if(data != NULL)
-	{
-		memcpy(&temp_Capture_val,data,sizeof(TIM_Capture_Type));
-		memcpy(&time2_Capture_val,data,sizeof(TIM_Capture_Type));
-
-	}
+    SYS_Delay_ms(milli_seconds);
 }
+#endif

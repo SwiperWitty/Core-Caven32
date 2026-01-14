@@ -1,30 +1,41 @@
 #include "center_app.h"
-#include "pic.h"
-
 
 void Main_Init(void);
 
-void tim4_pwm_period_switch (char num);
+u8 send_array[64];
+int run_num;
 
 int main(void)
 {
-    int temp_num = 0;
     Caven_BaseTIME_Type now_time;
-	
     Main_Init();
-    
-    now_time.SYS_Sec = 1742299486;
+    now_time.SYS_Sec = 1742200000;
     Mode_Use.TIME.Set_BaseTIME_pFun(now_time);
     now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
-		
+
+    Task_Overtime_Type LED_Task = {
+            .Switch = 1,
+            .Begin_time = {0},
+            .Set_time.SYS_Sec = 1,
+            .Set_time.SYS_Us = 500000,
+            .Flip_falg = 0,
+    };
+    User_GPIO_config(2,4,1);
     while(1)
     {
-		now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
-
-		if(Center_State_machine(now_time))          // 状态机入口
+        now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
+        API_Task_Timer (&LED_Task,now_time);        // LED任务
+        if(LED_Task.Trigger_Flag)
 		{
-			break;									// 状态机退出,程序重启
+			User_GPIO_set(2,4,LED_Task.Flip_falg);
+			stb_printf("->UTC %ds:%d us \n",now_time.SYS_Sec,now_time.SYS_Us);
+//			stb_printf("begin time %ds:%d us \n",LED_Task.Begin_time.SYS_Sec,LED_Task.Begin_time.SYS_Us);
 		}
+
+        if(Center_State_machine(now_time))          // 状态机入口
+        {
+            break;                                  // 状态机退出,程序重启
+        }
     }
     SYS_RESET();
 }
@@ -32,39 +43,9 @@ int main(void)
 void Main_Init(void)
 {
     Mode_Index();
+    Mode_Init.TIME(ENABLE);
+    Mode_Use.TIME.Delay_Ms(10);
 
-	Center_app_Init ();
-	System_app_Init ();
-	
-    tim4_pwm_period_switch (2);
-    int temp_num = 100;
-    TIM4_PWMx_SetValue(1,&temp_num);
-    temp_num = 500;
-    TIM4_PWMx_SetValue(2,&temp_num);
-    temp_num = 1000;
-    TIM4_PWMx_SetValue(3,&temp_num);
-    temp_num = 1500;
-    TIM4_PWMx_SetValue(4,&temp_num);
-}
-
-void tim4_pwm_period_switch (char num)
-{
-	switch (num)
-	{
-		case (0):
-		{
-			TIM4_PWM_Start_Init(2000-1,(MCU_SYS_FREQ / 18000000)-1,ENABLE);	// b6-b9
-		}
-		break;
-		case (1):
-		{
-			TIM4_PWM_Start_Init(2000-1,(MCU_SYS_FREQ / 1000000)-1,ENABLE);	// b6-b9
-		}
-		break;
-		case (2):
-		{
-			TIM4_PWM_Start_Init(2000-1,(MCU_SYS_FREQ / 100000)-1,ENABLE);	// b6-b9
-		}
-		break;
-	}
+    Mode_Init.UART(1,115200,ENABLE);
+    stb_printf("MCU Init,MCU_SYS_FREQ: %d Hz \n",MCU_SYS_FREQ);
 }

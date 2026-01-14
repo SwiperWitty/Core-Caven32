@@ -1,14 +1,16 @@
-#ifndef _CENTER__APP_H_
-#define _CENTER__APP_H_
+/*
+ * center_app.h
+ *
+ *  Created on: 2023
+ */
 
-#include "Mode.h"
-#include "API.h"
+#ifndef USER_CENTER_APP_H_
+#define USER_CENTER_APP_H_
 
-#include "system_app.h"
-#include "caven_app.h"
-#include "gx_app.h"
+#include "mode.h"
 
-void Center_app_Init (void);
-int Center_State_machine(Caven_BaseTIME_Type time);
+int start_ui(void);
+int Center_Init(void);
+int Center_State_machine (Caven_BaseTIME_Type time);
 
-#endif
+#endif /* USER_CENTER_APP_H_ */

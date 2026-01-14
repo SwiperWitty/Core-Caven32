@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../Caven-MCU_Lib"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"adc.h": "c",
+			"base.h": "c"
+		}
+	}
+}

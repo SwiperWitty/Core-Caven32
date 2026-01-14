@@ -9,7 +9,7 @@ int main(void)
 {
     Caven_BaseTIME_Type now_time;
     Main_Init();
-    now_time.SYS_Sec = 1742299486;
+    now_time.SYS_Sec = 1742200000;
     Mode_Use.TIME.Set_BaseTIME_pFun(now_time);
     now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
 
@@ -25,7 +25,12 @@ int main(void)
     {
         now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
         API_Task_Timer (&LED_Task,now_time);        // LED任务
-        User_GPIO_set(2,4,LED_Task.Flip_falg);
+        if(LED_Task.Trigger_Flag)
+		{
+			User_GPIO_set(2,4,LED_Task.Flip_falg);
+			stb_printf("->UTC %ds:%d us \n",now_time.SYS_Sec,now_time.SYS_Us);
+//			stb_printf("begin time %ds:%d us \n",LED_Task.Begin_time.SYS_Sec,LED_Task.Begin_time.SYS_Us);
+		}
 
         if(Center_State_machine(now_time))          // 状态机入口
         {

@@ -54,17 +54,17 @@
 #define OPEN_11110  0x1E
 #define OPEN_11111  0x1f
 
-#define DEBUG_CH	2   		// Debug 通道(Caved 3.14是串口3)
+#define DEBUG_CH	1   		// Debug 通道(Caved 3.14是串口3)
 
 #ifndef Exist_SYS_TIME
     #define Exist_SYS_TIME  OPEN_0001 // 一定存在
 #endif
-#define Exist_PWM       OPEN_0001
-#define Exist_CAPTURE   OPEN_0001
+#define Exist_PWM       OPEN_NULL
+#define Exist_CAPTURE   OPEN_NULL
 
 #define Exist_BUTTON    OPEN_0001
 #define Exist_LED       OPEN_0001
-#define Exist_BZZ       OPEN_0001
+#define Exist_BZZ       OPEN_NULL
 
 #define Exist_ADC		OPEN_NULL
 #define Exist_DAC       OPEN_NULL
@@ -75,17 +75,17 @@
 #define Exist_USB       OPEN_NULL
 #define Exist_CAN       OPEN_NULL
 
-#define Exist_FLASH     OPEN_NULL
+#define Exist_FLASH     OPEN_0001
 
 #define GUI_LVGL        OPEN_NULL
 
 /***    需要加上逻辑才能的功能     ***/
 #define Exist_LCD	            OPEN_NULL
-#define Exist_OLED              OPEN_0001
+#define Exist_OLED              OPEN_NULL
 
 #define Exist_HC138             OPEN_NULL
 #define Exist_HC595             OPEN_NULL
-#define Exist_DS18B20           OPEN_0001
+#define Exist_DS18B20           OPEN_NULL
 #define Exist_MLX90614          OPEN_NULL
 #define Exist_RTC8564           OPEN_NULL   // 时钟
 
@@ -94,7 +94,7 @@
 #define Exist_Voice             OPEN_NULL   // 语音播报(MP3)
 
 #define Exist_Motor_Engine      OPEN_NULL   // 电机
-#define Exist_Steering_Engine   OPEN_0001   // 舵机
+#define Exist_Steering_Engine   OPEN_NULL   // 舵机
 #define Exist_STEP_Motor        OPEN_NULL
 #define Exist_Motor_BYJ         OPEN_NULL
 
@@ -178,9 +178,19 @@
 #endif
 
 // boot
-#define GO_TO_APP() do{     \
-                            \
-}while(0);
+typedef void (*pFunction)(void); /* 跳转函数类型声明 */
+#define GO_TO_APP(addr) \
+do { \
+	__set_PRIMASK(1);	\
+    __set_MSP(*(__IO uint32_t*)(addr)); \
+    SCB->VTOR = FLASH_BASE | ((addr) & 0x1FFFFF); \
+    pFunction jump = (pFunction)(*(__IO uint32_t*)(addr + 4)); \
+	__set_PRIMASK(0);	\
+    jump(); \
+} while(0);
+
+#define NVIC_VECTOR_SET(addr);  NVIC_SetVectorTable(NVIC_VectTab_FLASH, addr);
+
 
 #define IO_H_REG    BSRR
 #define IO_L_REG    BRR
