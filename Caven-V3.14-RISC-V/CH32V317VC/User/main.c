@@ -29,7 +29,7 @@ int main(void)
         if (old_sec != now_time.SYS_Sec)
         {
             old_sec = now_time.SYS_Sec;
-            // stb_printf("sys time utc: %d s \n",old_sec);
+            stb_printf("sys time utc: %d s \n",old_sec);
         }
         sys_gpio_State_machine (now_time);
         Base_ETH_Task ();

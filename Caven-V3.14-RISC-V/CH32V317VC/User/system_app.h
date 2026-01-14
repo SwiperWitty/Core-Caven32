@@ -13,15 +13,18 @@
 
 typedef enum {
     m_Connect_SYS = 0,
-    m_Connect_Server,
-    m_Connect_Client,
-    m_Connect_UDP,
-    m_Connect_BLE,
-    m_Connect_4G,
-    m_Connect_RS232,
-    m_Connect_RS485,
-    m_Connect_USB,
-} Connect_mType;
+    m_RS232_Link,
+    m_RS485_Link,
+    m_CAN_Link,
+    m_NET4G_Link,
+    m_Server_Link,
+    m_Client_Link,
+    m_HTTP_Link,
+    m_MQTT_Link,
+    m_UDP_Link,
+    m_BLE_Link,
+    m_USB_Link,
+} Link_mType;
 
 #define SYS_Link        0
 #define RS232_Link      1
@@ -37,19 +40,15 @@ typedef enum {
 #define USB_Link        11
 
 //
-#define DEMO_VER          1L
+#define Device_VER      1
+#define Device_TYPE     1
+//
+#define DEMO_Build_str __DATE__
+#define DEMO_Serial     0x0101011900123456
+#define DEMO_Name_str       "L1004"
+#define DEMO_VER          2L
 #define DEMO_VER_sub      0L
 #define DEMO_VER_sub_bit  1L
-//
-#define Device_VER          1
-//
-#define Device_TYPE         1
-//
-#define DEMO_Build_UTC 1752226212
-//
-#define DEMO_Serial 0x0101011900123456
-//
-#define DEMO_Name_str		"E1205_Linux_4G"
 //
 #define NETWORK     1
 //
@@ -67,7 +66,7 @@ typedef struct
     uint8_t Version[10];		// 固件版本
     uint64_t Serial;			// 设备序号
     char Hostname[30];			// 设备名称
-    uint32_t Bdtime;			// 固件日期
+    char* Bddate;			    // 固件日期
     uint8_t MAC[6];
 #if NETWORK
     int eth_mode;           // 1:dhcp   0:static
@@ -102,19 +101,23 @@ typedef struct
     int Heartbeat_Run;
     int Heartbeat_MAX;
 
-    int TCPHBT_En;
+    int TCPHBT_En;      // DEMO_Serial + UTC + Run
     int Server_break_off;
     char TCPServer_port[100];
     char TCPClient_url[100];
     
-    int HTTPHBT_En;
+    int HTTPHBT_En;     // DEMO_Serial + UTC + Run
     int HTTP_cycle;     // ms
     char HTTP_url[160];
 
-    char MQTTCfg[160];
+    char TCPMqtt_url[100];
+    char TCPMqtt_User[32];
+    char TCPMqtt_Passwd[32];
+    char TCPMqtt_TX_Topic[64];
+    char TCPMqtt_RX_Topic[64];
 
     char UDPCfg[160];
-    char tcp_udp_multicast_str[160];
+    char UDP_multicast_str[160];
 #endif
     char Reset_falg;
     char Work_falg;

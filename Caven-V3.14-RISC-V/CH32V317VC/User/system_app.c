@@ -8,6 +8,7 @@ SYS_cfg_Type g_SYS_Config = {
     .RS485_UART_Cfg = 115200,
     .SYS_UART_Cfg = 115200,
     .Addr = 1,
+    .Bddate = DEMO_Build_str,
     .debug = 0,
 
     .wifi_En = 0,
@@ -84,6 +85,7 @@ void system_app_init(void)
     Mode_Init.UART(DEBUG_CH,g_SYS_Config.SYS_UART_Cfg,ENABLE);
 
     stb_printf("MCU Init,MCU_SYS_FREQ: %d Hz \n",MCU_SYS_FREQ);
+    stb_printf("MCU build date %s \n",g_SYS_Config.Bddate);
 
     Base_ETH_config_local_ip (g_SYS_Config.eth_mode,
                     g_SYS_Config.eth_ip_str,
