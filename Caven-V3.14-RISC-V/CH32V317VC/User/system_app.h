@@ -11,6 +11,13 @@
 
 */
 
+#define	SYS_BTLD	0
+#define	SYS_STR_ADDR		0x08000000
+#define	SYS_APP_ADDR		0x08000000		// 0x08000000\0x08008000
+#define	SYS_CFG_ADDR		0x08038000
+
+#define	SYS_APP_SIZE		(SYS_CFG_ADDR - SYS_APP_ADDR)
+
 typedef enum {
     m_Connect_SYS = 0,
     m_RS232_Link,
@@ -103,7 +110,7 @@ typedef struct
 
     int TCPHBT_En;      // DEMO_Serial + UTC + Run
     int Server_break_off;
-    char TCPServer_port[100];
+    char TCPServer_port[10];
     char TCPClient_url[100];
     
     int HTTPHBT_En;     // DEMO_Serial + UTC + Run
@@ -140,13 +147,17 @@ extern SYS_cfg_Type g_SYS_Config;
 extern Caven_event_Type g_SYS_events;
 /*-----------------------------------*/
 
-void system_app_init(void);
+void System_app_Init (void);
 void system_rst(void);
 
 void System_app_Restore (void);
 int System_app_SYS_Config_Save (void);
 int System_app_SYS_Config_Gain (void);
+int System_app_State_machine (Caven_BaseTIME_Type time);
 
+void line_gpo_set(int num,int val);
+int sys_set_gpo_fun (int gpo,int state);
+int sys_set_bzz_fun (int state);
 int sys_gpio_State_machine (Caven_BaseTIME_Type time);
 
-#endif
+#endif 

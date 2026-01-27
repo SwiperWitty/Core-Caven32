@@ -7,7 +7,7 @@
 			"toolchain": "RISC-V",
 			"series": "CH32V317",
 			"rtos": "NoneOS",
-			"mcu": "CH32V317WCU",
+			"mcu": "CH32V317VCT",
 			"description": "ROM(byte): 256K, SRAM(byte): 64K, CHIP PINS: 64, GPIO PORTS: 51.\\nWCH CH32V3 series of mainstream MCUs covers the needs of a large variety of applications in the industrial,medical and consumer markets. High performance with first-class peripherals and low-power,low-voltage operation is paired with a high level of integration at accessible prices with a simple architecture and easy-to-use tools.",
 			"artifactType": "executable",
 			"link": "WCH-Link",
@@ -80,7 +80,7 @@
 					"${project}/Debug/debug.c"
 				],
 				"optimization": {
-					"level": "size",
+					"level": "none",
 					"message_length": true,
 					"char_is_signed": true,
 					"function_sections": true,
@@ -171,7 +171,9 @@
 							"${project}/Base_CH32V317",
 							"${project}/Mode",
 							"${project}/API/STB",
-							"${project}/IQmath_RV32IMACXW"
+							"${project}/IQmath_RV32IMACXW",
+							"${project}/Startup",
+							"${project}/Ld"
 						],
 						"include_system_paths": [],
 						"include_files": []
@@ -385,7 +387,7 @@
 		"sdiPrintf": false,
 		"disablepowerout": false,
 		"clearcodeflash": false,
-		"disablecodeprotect": true,
+		"disablecodeprotect": false,
 		"exepath": "",
 		"exearguments": ""
 	},

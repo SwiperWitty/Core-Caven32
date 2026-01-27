@@ -18,8 +18,10 @@
 int main(void)
 {
     Caven_BaseTIME_Type now_time;
+    SystemCoreClockUpdate();
+
     Mode_Index();
-    system_app_init();
+    System_app_Init();
     now_time.SYS_Sec = 1762236074;
     Mode_Use.TIME.Set_BaseTIME_pFun (now_time);
     int old_sec = 0;
@@ -29,11 +31,9 @@ int main(void)
         if (old_sec != now_time.SYS_Sec)
         {
             old_sec = now_time.SYS_Sec;
-            stb_printf("sys time utc: %d s \n",old_sec);
+            // stb_printf("sys time utc: %d s \n",old_sec);
         }
         sys_gpio_State_machine (now_time);
         Base_ETH_Task ();
     }
 }
-
-

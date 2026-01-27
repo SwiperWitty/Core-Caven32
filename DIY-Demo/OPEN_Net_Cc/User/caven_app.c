@@ -42,6 +42,7 @@ int Caven_app_State_machine(Caven_BaseTIME_Type time)
     Caven_Circular_queue_output (&handle_pack,Caven_packet_buff,CAVEN_PACK_M);     // 从队列中提取
 	if (handle_pack.Result & m_Result_SUCC)
     {
+        User_GPIO_set(1,1,0);       // info
         switch (handle_pack.Comm_way)
         {
         case SYS_Link:
@@ -175,10 +176,11 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
             rw_info = pack.p_Data[temp_num++];
             if(rw_info == 0)
             {
-                temp_array[temp_run++] = (DEMO_Build_UTC >> ( 8 * 3)) & 0xFF;
-                temp_array[temp_run++] = (DEMO_Build_UTC >> ( 8 * 2)) & 0xFF;
-                temp_array[temp_run++] = (DEMO_Build_UTC >> ( 8 * 1)) & 0xFF;
-                temp_array[temp_run++] = (DEMO_Build_UTC >> ( 8 * 0)) & 0xFF;
+                temp_run = strlen(g_SYS_Config.Bddate);
+                if(temp_run)
+                {
+                    memcpy(temp_array,g_SYS_Config.Bddate,temp_run);
+                }
                 pack.dSize = temp_run;
                 pack.Result = 0;
                 memcpy(pack.p_Data,temp_array,temp_run);
@@ -487,8 +489,8 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
 				}
                 memcpy(&temp_array[temp_run],"port[",strlen("port["));
 				temp_run += strlen("port[");
-                temp_val = strlen(g_SYS_Config.TCPServer_post);
-                memcpy(&temp_array[temp_run],g_SYS_Config.TCPServer_post,temp_val);
+                temp_val = strlen(g_SYS_Config.TCPServer_port);
+                memcpy(&temp_array[temp_run],g_SYS_Config.TCPServer_port,temp_val);
                 temp_run += temp_val;
                 memcpy(&temp_array[temp_run],"]",1);
 				temp_run += 1;

@@ -3,13 +3,15 @@
 /*
  * SYS
  */
+static const char *TAG = "SYS app";
+
 Caven_event_Type g_SYS_events;
 SYS_cfg_Type g_SYS_Config;
 Caven_BaseTIME_Type System_start_Time = {0};
 
-int bzz_event = 0;
-int gpo_event = 0;
-int rs232_event = 0;
+int sys_bzz_event = 0;
+int sys_gpo_event = 0;
+int sys_rs232_event = 0;
 
 void bzz_event_fun (void *data);
 void gpo_event_fun (void *data);
@@ -25,13 +27,12 @@ void System_app_Restore (void)
     g_SYS_Config.Board_ID = 0;
     g_SYS_Config.debug = 1;
 	memcpy(g_SYS_Config.Hostname,DEMO_Name_str,strlen(DEMO_Name_str));
-//	g_SYS_Config.Serial = DEMO_Serial;
+	g_SYS_Config.Bddate = DEMO_Build_str;
 	g_SYS_Config.Version[0] = DEMO_VER;
 	g_SYS_Config.Version[1] = DEMO_VER_sub;
 	g_SYS_Config.Version[2] = DEMO_VER_sub_bit;
 	
     g_SYS_Config.Addr = 1;
-    g_SYS_Config.Bdtime = DEMO_Build_UTC;
 	
     g_SYS_Config.SYS_UART_Cfg = 115200;
     g_SYS_Config.RS232_UART_Cfg = 115200;
@@ -40,10 +41,10 @@ void System_app_Restore (void)
     g_SYS_Config.BLECfg = 0;
 	
 #if NETWORK
-	memset(g_SYS_Config.MAC,0,sizeof(g_SYS_Config.MAC));
-    g_SYS_Config.eth_mode = 1;		// 静态
-    g_SYS_Config.wifi_mode = 0;		// 自动
-    g_SYS_Config.wifi_En = 1;
+    g_SYS_Config.eth_mode = 0;		// 静态
+    g_SYS_Config.wifi_mode = 1;		// 自动
+	g_SYS_Config.eth_En = 1;
+    g_SYS_Config.wifi_En = 0;
     g_SYS_Config.NetCardCfg = 0;	// 物联网卡
 	
 	memset(g_SYS_Config.eth_ip_str,0,sizeof(g_SYS_Config.eth_ip_str));
@@ -51,7 +52,7 @@ void System_app_Restore (void)
 	memset(g_SYS_Config.eth_netmask_str,0,sizeof(g_SYS_Config.eth_netmask_str));
 	memset(g_SYS_Config.eth_DNS1_str,0,sizeof(g_SYS_Config.eth_DNS1_str));
 	memset(g_SYS_Config.eth_DNS2_str,0,sizeof(g_SYS_Config.eth_DNS2_str));
-	strcpy(g_SYS_Config.eth_ip_str,"192.168.1.100");
+	strcpy(g_SYS_Config.eth_ip_str,"192.168.1.168");
 	strcpy(g_SYS_Config.eth_gw_str,"192.168.1.1");
 	strcpy(g_SYS_Config.eth_netmask_str,"255.255.255.0");
 	strcpy(g_SYS_Config.eth_DNS1_str,"114.114.114.114");
@@ -63,28 +64,22 @@ void System_app_Restore (void)
     g_SYS_Config.tcp_mqtt_enable = 0;
     g_SYS_Config.tcp_udp_enable = 0;
 
-    g_SYS_Config.Heartbeat_nun = 0;
+    g_SYS_Config.Heartbeat_num = 0;
     g_SYS_Config.Heartbeat_Run = 0;
     g_SYS_Config.Heartbeat_MAX = 5;
-	
+
     g_SYS_Config.TCPHBT_En = 1;
-	memset(g_SYS_Config.TCPServer_post,0,sizeof(g_SYS_Config.TCPServer_post));
-	strcpy(g_SYS_Config.TCPServer_post,"8160");
+	g_SYS_Config.Server_break_off = 0;
+	memset(g_SYS_Config.TCPServer_port,0,sizeof(g_SYS_Config.TCPServer_port));
+	strcpy(g_SYS_Config.TCPServer_port,"8160");
 	memset(g_SYS_Config.TCPClient_url,0,sizeof(g_SYS_Config.TCPClient_url));
-	strcpy(g_SYS_Config.TCPClient_url,"192.168.1.128");
-	memset(g_SYS_Config.TCPClient_post,0,sizeof(g_SYS_Config.TCPClient_post));
-	strcpy(g_SYS_Config.TCPClient_post,"8080");
+	strcpy(g_SYS_Config.TCPClient_url,"192.168.1.128:9090");
 
     g_SYS_Config.HTTPHBT_En = 1;
     g_SYS_Config.HTTP_cycle = 5;
-	memset(g_SYS_Config.HTTPCfg,0,sizeof(g_SYS_Config.HTTPCfg));
-	strcpy(g_SYS_Config.HTTPCfg,"http://192.168.1.128:8080");
-	memset(g_SYS_Config.MQTTCfg,0,sizeof(g_SYS_Config.HTTPCfg));
-	strcpy(g_SYS_Config.MQTTCfg,"null");
-	memset(g_SYS_Config.UDPCfg,0,sizeof(g_SYS_Config.HTTPCfg));
-	strcpy(g_SYS_Config.UDPCfg,"null");
-	memset(g_SYS_Config.tcp_udp_multicast_str,0,sizeof(g_SYS_Config.tcp_udp_multicast_str));
-	strcpy(g_SYS_Config.tcp_udp_multicast_str,"null");
+	memset(g_SYS_Config.HTTP_url,0,sizeof(g_SYS_Config.HTTP_url));
+	strcpy(g_SYS_Config.HTTP_url,"http://192.168.1.128:8080");
+
 #endif
     g_SYS_Config.Reset_falg = 0;
     g_SYS_Config.Work_falg = 0;
@@ -94,7 +89,7 @@ void System_app_Restore (void)
     g_SYS_Config.Connect_passage = SYS_Link;
     g_SYS_Config.Work_sec = 0;
 	memset(&g_SYS_Config.Now_time,0,sizeof(g_SYS_Config.Now_time));
-	System_app_SYS_Config_Save ();
+	// System_app_SYS_Config_Save ();
 }
 
 /*
@@ -273,18 +268,14 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
     {
         System_start_Time = g_SYS_Config.Now_time;
         g_SYS_Config.Work_sec ++;
-		User_GPIO_set(2,15,1);
-		if(System_start_Time.SYS_Sec % 2)
-		{
-			User_GPIO_set(2,0,0);
-		}
-		else
-		{
-			User_GPIO_set(2,0,1);
-		}
+		User_GPIO_set(2,15,1);	// rfid
+		User_GPIO_set(1,1,1);	// info
+		User_GPIO_set(2,0,System_start_Time.SYS_Sec % 2);
     }
 
 	Base_ETH_Task ();
+	g_SYS_Config.Net_falg = Base_ETH_get_status ();
+	User_GPIO_set(1,0,!g_SYS_Config.Net_falg);
 	/*
 	ota自动升级
 	*/
@@ -335,6 +326,8 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
 
 void System_app_Init (void)
 {
+	int temp_num;
+	char array_ip[100],array_port[20];
 	System_app_SYS_Config_Gain ();
 
 #if SYS_BTLD == 1
@@ -369,17 +362,29 @@ void System_app_Init (void)
     Mode_Use.TIME.Delay_Ms(10);
 	Mode_Init.UART(DEBUG_CH,115200,ENABLE);
 	Mode_Init.UART(m_UART_CH2,g_SYS_Config.RS232_UART_Cfg,ENABLE);
-	
+	Mode_Init.UART(m_UART_CH3,g_SYS_Config.RS232_UART_Cfg,ENABLE);
+
 	#ifdef MCU_SYS_FREQ 
-	printf("MCU Init,MCU_SYS_FREQ: %d Hz \n",MCU_SYS_FREQ);
+	stb_printf("MCU Init,MCU_SYS_FREQ: %d Hz \n",MCU_SYS_FREQ);
 	#endif
+	stb_printf("MCU build date %s \n",g_SYS_Config.Bddate);
 
-	Base_ETH_config_local_ip (g_SYS_Config.eth_mode,g_SYS_Config.eth_ip_str,g_SYS_Config.eth_gw_str,g_SYS_Config.eth_netmask_str);
-	Base_ETH_Init(1,ENABLE);
+    Base_ETH_config_local_ip (g_SYS_Config.eth_mode,
+                    g_SYS_Config.eth_ip_str,
+                    g_SYS_Config.eth_gw_str,
+                    g_SYS_Config.eth_netmask_str);
+    Base_ETH_Init(0x02,g_SYS_Config.eth_En);
 
-	Base_TCP_Server_Config (g_SYS_Config.TCPServer_post,g_SYS_Config.tcp_server_enable);
-	// Base_TCP_Client_Config (g_SYS_Config.TCPClient_url,g_SYS_Config.TCPClient_post,g_SYS_Config.tcp_client_enable);
-
+    Mode_Use.TIME.Delay_S(2);
+    Base_TCP_Server_Config (g_SYS_Config.TCPServer_port,g_SYS_Config.Server_break_off,g_SYS_Config.tcp_server_enable);
+    memset(array_ip,0,sizeof(array_ip));
+    memset(array_port,0,sizeof(array_port));
+    temp_num = Base_ETH_IPprot (g_SYS_Config.TCPClient_url,array_ip,array_port);
+    if (temp_num >= 0)
+    {
+        stb_printf("TCPClient_url to ip: %s,port:%s \n",array_ip,array_port);
+        Base_TCP_Client_Config (array_ip,array_port,g_SYS_Config.tcp_client_enable);
+    }
 	// Mode_Init.USB(ENABLE);
 
 	User_GPIO_config(1,4,1);
@@ -389,19 +394,21 @@ void System_app_Init (void)
 	User_GPIO_config(1,8,1);
 	User_GPIO_config(2,15,1);
 	User_GPIO_config(2,0,1);
+	User_GPIO_config(1,0,1);
+	User_GPIO_config(1,1,1);
 	
 	User_GPIO_set(1,4,1);		// GPOA
 	User_GPIO_set(1,5,1);		// GPOB
 	User_GPIO_set(1,6,1);		// GPOC
 	User_GPIO_set(1,8,1);		// BZZ
-	User_GPIO_set(2,15,1);		// LED
-	User_GPIO_set(2,0,1);
-	
-	Caven_new_event_Fun(&g_SYS_events,bzz_event_fun,&bzz_event);
-	Caven_new_event_Fun(&g_SYS_events,gpo_event_fun,&gpo_event);
+	User_GPIO_set(2,15,1);		// rfid_LED
+	User_GPIO_set(2,0,1);		// run
+	User_GPIO_set(1,0,1);		// net
+	User_GPIO_set(1,1,1);		// info
+
+	Caven_new_event_Fun(&g_SYS_events,bzz_event_fun,&sys_bzz_event);
+	Caven_new_event_Fun(&g_SYS_events,gpo_event_fun,&sys_gpo_event);
 #endif
-
-
 	if(g_SYS_Config.Bt_mode == 0)
 	{
 		printf("MCU running bootloard ...\n");

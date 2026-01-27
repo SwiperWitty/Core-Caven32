@@ -61,7 +61,7 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 	}
 	get_State |= Caven_app_State_machine (Center_time);
 #if SYS_BTLD == 0
-	// get_State |= GX_app_State_machine (Center_time);
+	get_State |= GX_app_State_machine (Center_time);
 #endif
 	get_State |= System_app_State_machine (Center_time);
 	if(g_SYS_Config.Reset_falg)
@@ -80,7 +80,7 @@ void Center_app_Init (void)
 	// Mode_Use.USB_HID.RX_Callback_Bind(usb_info_handle);
 	Caven_app_Init ();
 #if SYS_BTLD == 0
-	// GX_app_Init ();
+	GX_app_Init ();
 #endif
 }
 
@@ -91,10 +91,10 @@ void debug_info_handle (void *data)
 	int temp_num = 0;
     temp_num = Caven_app_Make_pack (temp_data,SYS_Link,Center_time);
 #if SYS_BTLD == 0
-	// if (temp_num <= 0)
-	// {
-	// 	temp_num = GX_app_Make_pack (temp_data,SYS_Link,Center_time);
-	// }
+	if (temp_num <= 0)
+	{
+		temp_num = GX_app_Make_pack (temp_data,SYS_Link,Center_time);
+	}
 #endif
 	if (temp_num <= 0 && JSON_len < sizeof(JSON_array))
 	{
@@ -120,10 +120,10 @@ void usb_info_handle (void *data)
 	int temp_num = 0;
     temp_num = Caven_app_Make_pack (temp_data,USB_Link,Center_time);
 #if SYS_BTLD == 0
-	// if (temp_num <= 0)
-	// {
-	// 	temp_num = GX_app_Make_pack (temp_data,USB_Link,Center_time);
-	// }
+	if (temp_num <= 0)
+	{
+		temp_num = GX_app_Make_pack (temp_data,USB_Link,Center_time);
+	}
 	if(temp_num == 0xff)
 	{
 		g_SYS_Config.Connect_passage = USB_Link;
@@ -138,10 +138,10 @@ void server_info_handle (void *data)
 	int temp_num = 0;
     temp_num = Caven_app_Make_pack (temp_data,TCP_Server_Link,Center_time);
 #if SYS_BTLD == 0
-	// if (temp_num <= 0)
-	// {
-	// 	temp_num = GX_app_Make_pack (temp_data,USB_Link,Center_time);
-	// }
+	if (temp_num <= 0)
+	{
+		temp_num = GX_app_Make_pack (temp_data,TCP_Server_Link,Center_time);
+	}
 	if(temp_num == 0xff)
 	{
 		g_SYS_Config.Connect_passage = TCP_Server_Link;
@@ -156,10 +156,10 @@ void client_info_handle (void *data)
 	int temp_num = 0;
     temp_num = Caven_app_Make_pack (temp_data,TCP_Client_Link,Center_time);
 #if SYS_BTLD == 0
-	// if (temp_num <= 0)
-	// {
-	// 	temp_num = GX_app_Make_pack (temp_data,USB_Link,Center_time);
-	// }
+	if (temp_num <= 0)
+	{
+		temp_num = GX_app_Make_pack (temp_data,TCP_Client_Link,Center_time);
+	}
 	if(temp_num == 0xff)
 	{
 		g_SYS_Config.Connect_passage = TCP_Client_Link;
@@ -175,7 +175,7 @@ void RFID_info_handle (void *data)
 	uint8_t temp_data = *(uint8_t *)data;
 	int temp_num = 0;
 	
-	// temp_num = GX_app_Make_pack (temp_data,RS232_Link,Center_time);
+	temp_num = GX_app_Make_pack (temp_data,RS232_Link,Center_time);
 	if (temp_num <= 0 && RFIDBK_len < sizeof(RFID_array))
 	{
 		RFID_array[RFIDBK_len++] = temp_data;
