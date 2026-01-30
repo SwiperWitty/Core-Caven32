@@ -171,6 +171,28 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
             retval = 1;
         }
         break;
+	case m_CAVEN_CMD1_Model_Order:
+        {
+            rw_info = pack.p_Data[temp_num++];
+            if(rw_info == 0)
+            {
+				temp_run = strlen(g_SYS_Config.Hostname);
+                if(temp_run)
+                {
+                    memcpy(temp_array,g_SYS_Config.Hostname,temp_run);
+                }
+                pack.dSize = temp_run;
+                pack.Result = 0;
+                memcpy(pack.p_Data,temp_array,temp_run);
+            }
+            else
+            {
+                pack.Result = m_Result_Fail_ERROR;
+                pack.dSize = 0;
+            }
+            retval = 1;
+        }
+        break;
     case m_CAVEN_CMD1_Bdtime_Order:
         {
             rw_info = pack.p_Data[temp_num++];
@@ -383,79 +405,59 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
         }
         break;
 #if NETWORK
-    case m_CAVEN_CMD1_TCPHBT_Order:
-        {
-            rw_info = pack.p_Data[temp_num++];
-            if(rw_info == 0)
-            {
-                temp_array[temp_run++] = g_SYS_Config.TCPHBT_En;
-                pack.dSize = temp_run;
-                pack.Result = 0;
-                memcpy(pack.p_Data,temp_array,temp_run);
-            }
-            else
-            {
-                g_SYS_Config.TCPHBT_En = pack.p_Data[temp_num++];
-				pack.p_Data[0] = 0;
-                pack.Result = 0;
-                pack.dSize = 1;
-            }
-            retval = 1;
-        }
-        break;
     case m_CAVEN_CMD1_IPv4Cfg_Order:
         {
             rw_info = pack.p_Data[temp_num++];
             if(rw_info == 0)
             {
-				if(g_SYS_Config.eth_mode)
+				if(g_SYS_Config.eth_mode == 0)
 				{
-					memcpy(&temp_array[temp_run],"mode[static]",strlen("mode[static]"));
-					temp_run += strlen("mode[static]");
+					memcpy(&temp_array[temp_run],"mode<static>",strlen("mode<static>"));
+					temp_run += strlen("mode<static>");
 				}
 				else
 				{
-					memcpy(&temp_array[temp_run],"mode[dhcp]",strlen("mode[dhcp]"));
-					temp_run += strlen("mode[dhcp]");
+					memcpy(&temp_array[temp_run],"mode<dhcp>",strlen("mode<dhcp>"));
+					temp_run += strlen("mode<dhcp>");
 				}
-                memcpy(&temp_array[temp_run],"ip[",3);
+                memcpy(&temp_array[temp_run],"ip<",3);
 				temp_run += 3;
                 temp_val = strlen(g_SYS_Config.eth_ip_str);
                 memcpy(&temp_array[temp_run],g_SYS_Config.eth_ip_str,temp_val);
                 temp_run += temp_val;
-                memcpy(&temp_array[temp_run],"]",1);
+                memcpy(&temp_array[temp_run],">",1);
 				temp_run += 1;
                 //
-                memcpy(&temp_array[temp_run],"gw[",3);
+                memcpy(&temp_array[temp_run],"gw<",3);
 				temp_run += 3;
                 temp_val = strlen(g_SYS_Config.eth_gw_str);
                 memcpy(&temp_array[temp_run],g_SYS_Config.eth_gw_str,temp_val);
                 temp_run += temp_val;
-                memcpy(&temp_array[temp_run],"]",1);
+                memcpy(&temp_array[temp_run],">",1);
 				temp_run += 1;
                 //
-                memcpy(&temp_array[temp_run],"netmask[",strlen("netmask["));
-				temp_run += strlen("netmask[");
+                memcpy(&temp_array[temp_run],"netmask<",strlen("netmask<"));
+				temp_run += strlen("netmask<");
                 temp_val = strlen(g_SYS_Config.eth_netmask_str);
                 memcpy(&temp_array[temp_run],g_SYS_Config.eth_netmask_str,temp_val);
                 temp_run += temp_val;
-                memcpy(&temp_array[temp_run],"]",1);
+                memcpy(&temp_array[temp_run],">",1);
 				temp_run += 1;
                 //
-                memcpy(&temp_array[temp_run],"DNS1[",strlen("DNS1["));
-				temp_run += strlen("DNS1[");
+                memcpy(&temp_array[temp_run],"DNS1<",strlen("DNS1<"));
+				temp_run += strlen("DNS1<");
                 temp_val = strlen(g_SYS_Config.eth_DNS1_str);
                 memcpy(&temp_array[temp_run],g_SYS_Config.eth_DNS1_str,temp_val);
                 temp_run += temp_val;
-                memcpy(&temp_array[temp_run],"]",1);
+                memcpy(&temp_array[temp_run],">",1);
 				temp_run += 1;
                 //
-                memcpy(&temp_array[temp_run],"DNS2[",strlen("DNS2["));
-				temp_run += strlen("DNS2[");
+                memcpy(&temp_array[temp_run],"DNS2<",strlen("DNS2<"));
+				temp_run += strlen("DNS2<");
                 temp_val = strlen(g_SYS_Config.eth_DNS2_str);
                 memcpy(&temp_array[temp_run],g_SYS_Config.eth_DNS2_str,temp_val);
                 temp_run += temp_val;
-                memcpy(&temp_array[temp_run],"]",1);
+                memcpy(&temp_array[temp_run],">",1);
 				temp_run += 1;
 				//
                 pack.dSize = temp_run;
@@ -464,7 +466,81 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
             }
             else
             {
-//                g_SYS_Config.HTTPHBT_En = pack.p_Data[temp_num++];
+				memset(temp_array,0,sizeof(temp_array));
+				temp_val = Caven_gain_str_by_sign((char*)pack.p_Data,pack.dSize,(char*)temp_array,"mode",'<');
+				if(temp_val)
+				{
+					if(memcmp(temp_array,"static",sizeof("static")) == 0)
+					{
+						g_SYS_Config.eth_mode = 0;
+					}
+					else
+					{
+						g_SYS_Config.eth_mode = 1;
+					}
+				}
+				memset(temp_array,0,sizeof(temp_array));
+				temp_val = Caven_gain_str_by_sign((char*)pack.p_Data,pack.dSize,(char*)temp_array,"ip",'<');
+				if(temp_val)
+				{
+					memset(g_SYS_Config.eth_ip_str,0,sizeof(g_SYS_Config.eth_ip_str));
+					strcpy(g_SYS_Config.eth_ip_str,(char*)temp_array);
+				}
+				memset(temp_array,0,sizeof(temp_array));
+				temp_val = Caven_gain_str_by_sign((char*)pack.p_Data,pack.dSize,(char*)temp_array,"gw",'<');
+				if(temp_val)
+				{
+					memset(g_SYS_Config.eth_gw_str,0,sizeof(g_SYS_Config.eth_gw_str));
+					strcpy(g_SYS_Config.eth_gw_str,(char*)temp_array);
+				}
+				memset(temp_array,0,sizeof(temp_array));
+				temp_val = Caven_gain_str_by_sign((char*)pack.p_Data,pack.dSize,(char*)temp_array,"netmask",'<');
+				if(temp_val)
+				{
+					memset(g_SYS_Config.eth_netmask_str,0,sizeof(g_SYS_Config.eth_netmask_str));
+					strcpy(g_SYS_Config.eth_netmask_str,(char*)temp_array);
+				}
+				memset(temp_array,0,sizeof(temp_array));
+				temp_val = Caven_gain_str_by_sign((char*)pack.p_Data,pack.dSize,(char*)temp_array,"DNS1",'<');
+				if(temp_val)
+				{
+					memset(g_SYS_Config.eth_DNS1_str,0,sizeof(g_SYS_Config.eth_DNS1_str));
+					strcpy(g_SYS_Config.eth_DNS1_str,(char*)temp_array);
+				}
+				memset(temp_array,0,sizeof(temp_array));
+				temp_val = Caven_gain_str_by_sign((char*)pack.p_Data,pack.dSize,(char*)temp_array,"DNS2",'<');
+				if(temp_val)
+				{
+					memset(g_SYS_Config.eth_DNS2_str,0,sizeof(g_SYS_Config.eth_DNS2_str));
+					strcpy(g_SYS_Config.eth_DNS2_str,(char*)temp_array);
+				}
+				pack.p_Data[0] = 0;
+                pack.Result = 0;
+                pack.dSize = 1;
+            }
+            retval = 1;
+        }
+        break;
+	case m_CAVEN_CMD1_TCPHBT_Order:
+        {
+            rw_info = pack.p_Data[temp_num++];
+            if(rw_info == 0)
+            {
+                temp_array[temp_run++] = g_SYS_Config.TCPHBT_En;
+				temp_array[temp_run++] = 0;
+				temp_array[temp_run++] = (g_SYS_Config.Heartbeat_cycle >> ( 8 * 1)) & 0xFF;
+                temp_array[temp_run++] = (g_SYS_Config.Heartbeat_cycle >> ( 8 * 0)) & 0xFF;
+                pack.dSize = temp_run;
+                pack.Result = 0;
+                memcpy(pack.p_Data,temp_array,temp_run);
+            }
+            else
+            {
+                g_SYS_Config.TCPHBT_En = pack.p_Data[temp_num++];
+				temp_num ++;
+				g_SYS_Config.Heartbeat_cycle = pack.p_Data[temp_num++];
+				g_SYS_Config.Heartbeat_cycle <<= 8;
+				g_SYS_Config.Heartbeat_cycle |= pack.p_Data[temp_num++];
 				pack.p_Data[0] = 0;
                 pack.Result = 0;
                 pack.dSize = 1;
@@ -479,20 +555,30 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
             {
 				if(g_SYS_Config.tcp_server_enable)
 				{
-					memcpy(&temp_array[temp_run],"server[on]",strlen("server[on]"));
-					temp_run += strlen("server[on]");
+					memcpy(&temp_array[temp_run],"server<on>",strlen("server<on>"));
+					temp_run += strlen("server<on>");
 				}
 				else
 				{
-					memcpy(&temp_array[temp_run],"server[off]",strlen("server[off]"));
-					temp_run += strlen("server[off]");
+					memcpy(&temp_array[temp_run],"server<off>",strlen("server<off>"));
+					temp_run += strlen("server<off>");
 				}
-                memcpy(&temp_array[temp_run],"port[",strlen("port["));
-				temp_run += strlen("port[");
+				if(g_SYS_Config.Server_break_off)
+				{
+					memcpy(&temp_array[temp_run],"break_off<on>",strlen("break_off<on>"));
+					temp_run += strlen("break_off<on>");
+				}
+				else
+				{
+					memcpy(&temp_array[temp_run],"break_off<off>",strlen("break_off<off>"));
+					temp_run += strlen("break_off<off>");
+				}
+                memcpy(&temp_array[temp_run],"port<",strlen("port<"));
+				temp_run += strlen("port<");
                 temp_val = strlen(g_SYS_Config.TCPServer_port);
                 memcpy(&temp_array[temp_run],g_SYS_Config.TCPServer_port,temp_val);
                 temp_run += temp_val;
-                memcpy(&temp_array[temp_run],"]",1);
+                memcpy(&temp_array[temp_run],">",1);
 				temp_run += 1;
                 //
 				pack.dSize = temp_run;
@@ -501,7 +587,39 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
             }
             else
             {
-                
+				memset(temp_array,0,sizeof(temp_array));
+				temp_val = Caven_gain_str_by_sign((char*)pack.p_Data,pack.dSize,(char*)temp_array,"server",'<');
+				if(temp_val)
+				{
+					if(memcmp(temp_array,"on",sizeof("on")) == 0)
+					{
+						g_SYS_Config.tcp_server_enable = 1;
+					}
+					else
+					{
+						g_SYS_Config.tcp_server_enable = 0;
+					}
+				}
+				memset(temp_array,0,sizeof(temp_array));
+				temp_val = Caven_gain_str_by_sign((char*)pack.p_Data,pack.dSize,(char*)temp_array,"break_off",'<');
+				if(temp_val)
+				{
+					if(memcmp(temp_array,"on",sizeof("on")) == 0)
+					{
+						g_SYS_Config.Server_break_off = 1;
+					}
+					else
+					{
+						g_SYS_Config.Server_break_off = 0;
+					}
+				}
+				memset(temp_array,0,sizeof(temp_array));
+				temp_val = Caven_gain_str_by_sign((char*)pack.p_Data,pack.dSize,(char*)temp_array,"port",'<');
+				if(temp_val)
+				{
+					memset(g_SYS_Config.TCPServer_port,0,sizeof(g_SYS_Config.eth_ip_str));
+					strcpy(g_SYS_Config.TCPServer_port,(char*)temp_array);
+				}
 				pack.p_Data[0] = 0;
                 pack.Result = 0;
                 pack.dSize = 1;
@@ -516,20 +634,20 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
             {
 				if(g_SYS_Config.tcp_client_enable)
 				{
-					memcpy(&temp_array[temp_run],"client[on]",strlen("client[on]"));
-					temp_run += strlen("client[on]");
+					memcpy(&temp_array[temp_run],"client<on>",strlen("client<on>"));
+					temp_run += strlen("client<on>");
 				}
 				else
 				{
-					memcpy(&temp_array[temp_run],"client[off]",strlen("client[off]"));
-					temp_run += strlen("client[off]");
+					memcpy(&temp_array[temp_run],"client<off>",strlen("client<off>"));
+					temp_run += strlen("client<off>");
 				}
-                memcpy(&temp_array[temp_run],"url[",strlen("url["));
-				temp_run += strlen("url[");
+                memcpy(&temp_array[temp_run],"url<",strlen("url<"));
+				temp_run += strlen("url<");
                 temp_val = strlen(g_SYS_Config.TCPClient_url);
                 memcpy(&temp_array[temp_run],g_SYS_Config.TCPClient_url,temp_val);
                 temp_run += temp_val;
-                memcpy(&temp_array[temp_run],"]",1);
+                memcpy(&temp_array[temp_run],">",1);
 				temp_run += 1;
                 //
 				pack.dSize = temp_run;
@@ -542,6 +660,108 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
                 pack.Result = 0;
                 pack.dSize = 1;
             }
+            retval = 1;
+        }
+        break;
+	case m_CAVEN_CMD1_HTTPHBT_Order:
+        {
+            rw_info = pack.p_Data[temp_num++];
+            if(rw_info == 0)
+            {
+                temp_array[temp_run++] = g_SYS_Config.HTTPHBT_En;
+                pack.dSize = temp_run;
+                pack.Result = 0;
+                memcpy(pack.p_Data,temp_array,temp_run);
+            }
+            else
+            {
+                g_SYS_Config.HTTPHBT_En = pack.p_Data[temp_num++];
+				pack.p_Data[0] = 0;
+                pack.Result = 0;
+                pack.dSize = 1;
+            }
+            retval = 1;
+        }
+        break;
+    case m_CAVEN_CMD1_HTTPCfg_Order:
+        {
+            rw_info = pack.p_Data[temp_num++];
+            if(rw_info == 0)
+            {
+				memset(temp_array,0,sizeof(temp_array));
+				if(g_SYS_Config.tcp_http_enable)
+				{
+					memcpy(&temp_array[temp_run],"HTTP<on>",strlen("HTTP<on>"));
+					temp_run += strlen("HTTP<on>");
+				}
+				else
+				{
+					memcpy(&temp_array[temp_run],"HTTP<off>",strlen("HTTP<off>"));
+					temp_run += strlen("HTTP<off>");
+				}
+				if(g_SYS_Config.HTTP_cycle > 0)
+				{
+					memcpy(&temp_array[temp_run],"cycle<",strlen("cycle<"));
+					temp_run += strlen("cycle<");
+					sprintf((char*)&temp_array[temp_run],"%04ds>",g_SYS_Config.HTTP_cycle);
+					temp_run = strlen((char*)temp_array);
+				}
+				sprintf((char*)&temp_array[temp_run],"url<%s>",g_SYS_Config.HTTP_url);
+				temp_run = strlen((char*)temp_array);
+                //
+				pack.dSize = temp_run;
+                pack.Result = 0;
+                memcpy(pack.p_Data,temp_array,temp_run);
+            }
+            else
+            {
+				memset(temp_array,0,sizeof(temp_array));
+				temp_val = Caven_gain_str_by_sign((char*)pack.p_Data,pack.dSize,(char*)temp_array,"HTTP",'<');
+				if(temp_val)
+				{
+					if(memcmp(temp_array,"on",sizeof("on")) == 0)
+					{
+						g_SYS_Config.tcp_http_enable = 1;
+					}
+					else
+					{
+						g_SYS_Config.tcp_http_enable = 0;
+					}
+				}
+				memset(temp_array,0,sizeof(temp_array));
+				temp_val = Caven_gain_str_by_sign((char*)pack.p_Data,pack.dSize,(char*)temp_array,"cycle",'<');
+				if(temp_val)
+				{
+					temp_val = atoi((char*)temp_array);
+					g_SYS_Config.HTTP_cycle = MAX(1,temp_val);
+				}
+				memset(temp_array,0,sizeof(temp_array));
+				temp_val = Caven_gain_str_by_sign((char*)pack.p_Data,pack.dSize,(char*)temp_array,"url",'<');
+				if(temp_val)
+				{
+					memset(g_SYS_Config.HTTP_url,0,sizeof(g_SYS_Config.HTTP_url));
+					strcpy(g_SYS_Config.HTTP_url,(char*)temp_array);
+				}
+				pack.p_Data[0] = 0;
+                pack.Result = 0;
+                pack.dSize = 1;
+            }
+            retval = 1;
+        }
+        break;
+    case m_CAVEN_CMD1_MQTTCfg_Order:
+        {
+            rw_info = pack.p_Data[temp_num++];
+            if(rw_info == 0)
+            {
+                pack.Result = 0;
+                memcpy(pack.p_Data,temp_array,temp_run);
+            }
+            else
+            {
+                pack.Result = 0;
+            }
+			pack.dSize = temp_run;
             retval = 1;
         }
         break;
@@ -1043,12 +1263,16 @@ int Caven_app_send_packet(Caven_info_packet_Type pack)
         break;
     case TCP_Server_Link:
         {
+        #if NETWORK
             Base_TCP_Server_Send (temp_array,temp_num);
+        #endif
         }
         break;
     case TCP_Client_Link:
         {
+        #if NETWORK
             Base_TCP_Client_Send (temp_array,temp_num);
+        #endif
         }
         break;
     case USB_Link:

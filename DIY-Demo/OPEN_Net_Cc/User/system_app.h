@@ -76,15 +76,15 @@ typedef struct
     char* Bddate;			    // 固件日期
     uint8_t MAC[6];
 #if NETWORK
-    int eth_mode;           // 1:dhcp   0:static
-    int eth_En;
+    char eth_mode;           // 1:dhcp   0:static
+    char eth_En;
     char eth_ip_str[30];
     char eth_gw_str[30];
     char eth_netmask_str[30];
     char eth_DNS1_str[30];
     char eth_DNS2_str[30];
-    int wifi_mode;           // 1:dhcp   0:static
-    int wifi_En;
+    char wifi_mode;           // 1:dhcp   0:static
+    char wifi_En;
     char wifi_ip_str[30];
     char wifi_gw_str[30];
     char wifi_netmask_str[30];
@@ -98,22 +98,23 @@ typedef struct
     char NetCard_DNS1_str[30];
     char NetCard_DNS2_str[30];
 
-    int tcp_server_enable;
-    int tcp_client_enable;
-    int tcp_http_enable;
-    int tcp_mqtt_enable;
-    int tcp_udp_enable;
+    char tcp_server_enable;
+    char tcp_client_enable;
+    char tcp_http_enable;
+    char tcp_mqtt_enable;
+    char tcp_udp_enable;
 
     int Heartbeat_num;
     int Heartbeat_Run;
+	int Heartbeat_cycle;	// s
     int Heartbeat_MAX;
 
-    int TCPHBT_En;      // DEMO_Serial + UTC + Run
-    int Server_break_off;
+    char TCPHBT_En;      // DEMO_Serial + UTC + Run
+    char Server_break_off;
     char TCPServer_port[10];
     char TCPClient_url[100];
     
-    int HTTPHBT_En;     // DEMO_Serial + UTC + Run
+    char HTTPHBT_En;     // DEMO_Serial + UTC + Run
     int HTTP_cycle;     // ms
     char HTTP_url[160];
 
@@ -126,6 +127,7 @@ typedef struct
     char UDPCfg[160];
     char UDP_multicast_str[160];
 #endif
+	// 以下无需保存
     char Reset_falg;
     char Work_falg;
     char Net_falg;

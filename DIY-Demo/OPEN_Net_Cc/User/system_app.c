@@ -66,6 +66,7 @@ void System_app_Restore (void)
 
     g_SYS_Config.Heartbeat_num = 0;
     g_SYS_Config.Heartbeat_Run = 0;
+	g_SYS_Config.Heartbeat_cycle = 3;
     g_SYS_Config.Heartbeat_MAX = 5;
 
     g_SYS_Config.TCPHBT_En = 1;
@@ -110,6 +111,7 @@ int System_app_SYS_Config_Gain (void)
 {
 	int retval = 0;
 	Base_Flash_Read (&g_SYS_Config,SYS_CFG_ADDR,sizeof(g_SYS_Config));
+	// g_SYS_Config.debug = 0;
 	if(g_SYS_Config.debug > 0X0F || g_SYS_Config.debug == 0)
 	{
 		System_app_Restore ();
