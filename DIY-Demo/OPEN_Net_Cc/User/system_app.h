@@ -13,10 +13,14 @@
 
 #define	SYS_BTLD	0
 #define	SYS_STR_ADDR		0x08000000
-#define	SYS_APP_ADDR		0x08000000		// 0x08000000\0x08008000
-#define	SYS_CFG_ADDR		0x08038000
+#define	SYS_APP_ADDR		0x08008000		// 0x08000000\0x08008000
+#ifdef AT32F415CBT7
+#define	SYS_APP_SIZE		0x08010000
+#else
+#define	SYS_APP_SIZE		0x08030000
+#endif
+#define	SYS_CFG_ADDR		(SYS_APP_ADDR + SYS_APP_SIZE)
 
-#define	SYS_APP_SIZE		(SYS_CFG_ADDR - SYS_APP_ADDR)
 
 typedef enum {
     m_Connect_SYS = 0,
@@ -69,6 +73,7 @@ typedef struct
 	uint16_t Bt_mode;
 	uint16_t Addr;
     int Board_ID;     // 0(default)
+	int app_crc;
     uint16_t debug;
     uint8_t Version[10];		// 固件版本
     uint64_t Serial;			// 设备序号
@@ -117,12 +122,7 @@ typedef struct
     char HTTPHBT_En;     // DEMO_Serial + UTC + Run
     int HTTP_cycle;     // ms
     char HTTP_url[160];
-
-    char TCPMqtt_url[100];
-    char TCPMqtt_User[32];
-    char TCPMqtt_Passwd[32];
-    char TCPMqtt_TX_Topic[64];
-    char TCPMqtt_RX_Topic[64];
+    char MQTTCfg[256];
 
     char UDPCfg[160];
     char UDP_multicast_str[160];
