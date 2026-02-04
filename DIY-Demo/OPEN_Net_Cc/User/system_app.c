@@ -212,7 +212,7 @@ void System_app_Restore (void)
 	memset(g_SYS_Config.HTTP_url,0,sizeof(g_SYS_Config.HTTP_url));
 	strcpy(g_SYS_Config.HTTP_url,"http://192.168.1.128:8080");
 	memset(g_SYS_Config.MQTTCfg,0,sizeof(g_SYS_Config.MQTTCfg));
-	strcpy(g_SYS_Config.MQTTCfg,"mqtt<off>url<dianjixz.online:1883>U<nihao>P<nihao3.14>Ptopic<send>Stopic<reace>Id<caven_test>");
+	strcpy(g_SYS_Config.MQTTCfg,"url<dianjixz.online:1883>U<nihao>P<nihao3.14>Ptopic<send>Stopic<reace>Id<caven_test>");
 	memset(g_SYS_Config.UDPCfg,0,sizeof(g_SYS_Config.UDPCfg));
 	strcpy(g_SYS_Config.UDPCfg,"null");
 	memset(g_SYS_Config.UDP_multicast_str,0,sizeof(g_SYS_Config.UDP_multicast_str));

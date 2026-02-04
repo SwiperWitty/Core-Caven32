@@ -1,8 +1,8 @@
 #include "caven_app.h"
 
 #define Log_tag "Caven_app info"
-#define CAVEN_PACK_M	6
-static uint8_t info_packet_array[6][BUFF_MAX];
+#define CAVEN_PACK_M	7
+static uint8_t info_packet_array[7][BUFF_MAX];
 static uint8_t info_packet_buff_array[CAVEN_PACK_M][BUFF_MAX];
 static Caven_info_packet_Type Caven_packet_buff[CAVEN_PACK_M];
 static Caven_info_packet_Type Caven_packet_debug;
@@ -111,7 +111,7 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
     int retval = 0;		// 0 不回复，1 回复，2 完全转发
     int Result = 0,temp_num = 0,temp_run = 0,temp_val = 0;
     uint8_t rw_info = 0;
-    uint8_t temp_array[100];
+    uint8_t temp_array[500];
 	if (pack.p_AllData == NULL || pack.p_Data == NULL)
 	{
 		return retval = -1;
@@ -553,33 +553,27 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
             rw_info = pack.p_Data[temp_num++];
             if(rw_info == 0)
             {
+                memset(temp_array,0,sizeof(temp_array));
 				if(g_SYS_Config.tcp_server_enable)
 				{
-					memcpy(&temp_array[temp_run],"server<on>",strlen("server<on>"));
-					temp_run += strlen("server<on>");
+					strcat((char *)temp_array,"server<on>");
 				}
 				else
 				{
-					memcpy(&temp_array[temp_run],"server<off>",strlen("server<off>"));
-					temp_run += strlen("server<off>");
+					strcat((char *)temp_array,"server<off>");
 				}
 				if(g_SYS_Config.Server_break_off)
 				{
-					memcpy(&temp_array[temp_run],"break_off<on>",strlen("break_off<on>"));
-					temp_run += strlen("break_off<on>");
+                    strcat((char *)temp_array,"break_off<on>");
 				}
 				else
 				{
-					memcpy(&temp_array[temp_run],"break_off<off>",strlen("break_off<off>"));
-					temp_run += strlen("break_off<off>");
+					strcat((char *)temp_array,"break_off<off>");
 				}
-                memcpy(&temp_array[temp_run],"port<",strlen("port<"));
-				temp_run += strlen("port<");
-                temp_val = strlen(g_SYS_Config.TCPServer_port);
-                memcpy(&temp_array[temp_run],g_SYS_Config.TCPServer_port,temp_val);
-                temp_run += temp_val;
-                memcpy(&temp_array[temp_run],">",1);
-				temp_run += 1;
+                strcat((char *)temp_array,"port<");
+                strcat((char *)temp_array,g_SYS_Config.TCPServer_port);
+                strcat((char *)temp_array,">");
+				temp_run = strlen((char *)temp_array);
                 //
 				pack.dSize = temp_run;
                 pack.Result = 0;
@@ -632,23 +626,19 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
             rw_info = pack.p_Data[temp_num++];
             if(rw_info == 0)
             {
+                memset(temp_array,0,sizeof(temp_array));
 				if(g_SYS_Config.tcp_client_enable)
 				{
-					memcpy(&temp_array[temp_run],"client<on>",strlen("client<on>"));
-					temp_run += strlen("client<on>");
+                    strcat((char *)temp_array,"client<on>");
 				}
 				else
 				{
-					memcpy(&temp_array[temp_run],"client<off>",strlen("client<off>"));
-					temp_run += strlen("client<off>");
+					strcat((char *)temp_array,"client<off>");
 				}
-                memcpy(&temp_array[temp_run],"url<",strlen("url<"));
-				temp_run += strlen("url<");
-                temp_val = strlen(g_SYS_Config.TCPClient_url);
-                memcpy(&temp_array[temp_run],g_SYS_Config.TCPClient_url,temp_val);
-                temp_run += temp_val;
-                memcpy(&temp_array[temp_run],">",1);
-				temp_run += 1;
+                strcat((char *)temp_array,"url<");
+                strcat((char *)temp_array,g_SYS_Config.TCPClient_url);
+                strcat((char *)temp_array,">");
+				temp_run = strlen((char *)temp_array);
                 //
 				pack.dSize = temp_run;
                 pack.Result = 0;
@@ -656,6 +646,26 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
             }
             else
             {
+                memset(temp_array,0,sizeof(temp_array));
+				temp_val = Caven_gain_str_by_sign((char*)pack.p_Data,pack.dSize,(char*)temp_array,"client",'<');
+				if(temp_val)
+				{
+					if(memcmp(temp_array,"on",sizeof("on")) == 0)
+					{
+						g_SYS_Config.tcp_client_enable = 1;
+					}
+					else
+					{
+						g_SYS_Config.tcp_client_enable = 0;
+					}
+				}
+				memset(temp_array,0,sizeof(temp_array));
+                temp_val = Caven_gain_str_by_sign((char*)pack.p_Data,pack.dSize,(char*)temp_array,"url",'<');
+				if(temp_val)
+				{
+                    memset(g_SYS_Config.TCPClient_url,0,sizeof(g_SYS_Config.TCPClient_url));
+					strcpy(g_SYS_Config.TCPClient_url,(char*)temp_array);
+				}
 				pack.p_Data[0] = 0;
                 pack.Result = 0;
                 pack.dSize = 1;
@@ -755,11 +765,46 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
             if(rw_info == 0)
             {
                 pack.Result = 0;
+                memset(temp_array,0,sizeof(temp_array));
+                if(g_SYS_Config.tcp_mqtt_enable)
+                {
+                    sprintf((char *)temp_array,"MQTT<%s>","on");
+                }
+                else
+                {
+                    sprintf((char *)temp_array,"MQTT<%s>","off");
+                }
+                strcat((char *)temp_array, g_SYS_Config.MQTTCfg);
+                temp_run = strlen((char *)temp_array);
                 memcpy(pack.p_Data,temp_array,temp_run);
             }
             else
             {
                 pack.Result = 0;
+                memset(temp_array,0,sizeof(temp_array));
+				temp_val = Caven_gain_str_by_sign((char*)pack.p_Data,pack.dSize,(char*)temp_array,"MQTT",'<');
+				if(temp_val)
+				{
+					if(memcmp(temp_array,"on",sizeof("on")) == 0)
+					{
+						g_SYS_Config.tcp_mqtt_enable = 1;
+					}
+					else
+					{
+						g_SYS_Config.tcp_mqtt_enable = 0;
+					}
+                    memset(temp_array,0,sizeof(temp_array));
+                    char *temp_pointer = NULL;
+                    temp_pointer = memstr(pack.p_Data,"url<",pack.dSize);
+                    if(temp_pointer)
+                    {
+                        temp_val = MIN(strlen(temp_pointer),pack.dSize);
+                        if(temp_val <= sizeof(g_SYS_Config.MQTTCfg))
+                        {
+                            memcpy(g_SYS_Config.MQTTCfg,temp_pointer,temp_val);
+                        }
+                    }
+				}
             }
 			pack.dSize = temp_run;
             retval = 1;
@@ -1263,14 +1308,14 @@ int Caven_app_send_packet(Caven_info_packet_Type pack)
         break;
     case TCP_Server_Link:
         {
-        #if NETWORK
+        #if NETWORK == 1
             Base_TCP_Server_Send (temp_array,temp_num);
         #endif
         }
         break;
     case TCP_Client_Link:
         {
-        #if NETWORK
+        #if NETWORK == 1
             Base_TCP_Client_Send (temp_array,temp_num);
         #endif
         }
@@ -1286,7 +1331,7 @@ int Caven_app_send_packet(Caven_info_packet_Type pack)
     return retval;
 }
 
-static Caven_BaseTIME_Type debug_time,rs232_time,rs485_time,server_time,client_time,net4g_time,udp_time,Other_time;
+static Caven_BaseTIME_Type debug_time,rs232_time,rs485_time,server_time,client_time,mqtt_time,net4g_time,udp_time,Other_time;
 int Caven_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time)
 {
     int retval = 0;
@@ -1339,6 +1384,13 @@ int Caven_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time)
             temp_pack = &Caven_packet_client;
             temp_num = time.SYS_Sec - client_time.SYS_Sec;
 			client_time = time;
+        }
+        break;
+    case TCP_MQTT_Link:
+        {
+            temp_pack = &Caven_packet_mqtt;
+            temp_num = time.SYS_Sec - mqtt_time.SYS_Sec;
+			mqtt_time = time;
         }
         break;
     case TCP_UDP_Link:
@@ -1484,6 +1536,7 @@ void Caven_app_Init (void)
     Caven_info_packet_index_Fun(&Caven_packet_rs232, info_packet_array[temp_run++]);
     Caven_info_packet_index_Fun(&Caven_packet_server, info_packet_array[temp_run++]);
     Caven_info_packet_index_Fun(&Caven_packet_client, info_packet_array[temp_run++]);
+    Caven_info_packet_index_Fun(&Caven_packet_mqtt, info_packet_array[temp_run++]);
 	Caven_info_packet_index_Fun(&Caven_packet_Other, info_packet_array[temp_run++]);
     for (int i = 0; i < CAVEN_PACK_M; i++)
     {
