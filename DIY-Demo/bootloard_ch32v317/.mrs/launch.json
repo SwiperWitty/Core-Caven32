@@ -1,0 +1,67 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "mrs-debugger",
+			"request": "launch",
+			"name": "boot_317",
+			"cwd": "e:\\work\\soft-work\\Core-Caven32\\DIY-Demo\\bootloard_ch32v317",
+			"openOCDCfg": {
+				"useLocalOpenOCD": true,
+				"executable": "c:/Users/ZhuanZ/MounRiver_Studio2/resources/app/resources/win32/components/WCH/OpenOCD/OpenOCD/bin/openocd.exe",
+				"configOptions": [
+					"-f \"c:/Users/ZhuanZ/MounRiver_Studio2/resources/app/resources/win32/components/WCH/OpenOCD/OpenOCD/bin/wch-riscv.cfg\" -c \"chip_id CH32V317\""
+				],
+				"gdbport": 3333,
+				"telnetport": 4444,
+				"tclport": 6666,
+				"host": "localhost",
+				"port": 3333,
+				"skipDownloadBeforeDebug": false,
+				"enablePageEraser": false,
+				"enableNoZeroWaitingAreaFlash": false
+			},
+			"gdbCfg": {
+				"executable": "c:/Users/ZhuanZ/MounRiver_Studio2/resources/app/resources/win32/components/WCH/Toolchain/RISC-V Embedded GCC/bin/riscv-none-embed-gdb.exe",
+				"commands": [
+					"set mem inaccessible-by-default off",
+					"set architecture riscv:rv32",
+					"set remotetimeout unlimited"
+				],
+				"options": []
+			},
+			"startup": {
+				"initCommands": {
+					"initReset": true,
+					"initResetType": "init",
+					"armSemihosting": false,
+					"additionalCommands": []
+				},
+				"loadedFiles": {
+					"executableFile": "e:\\work\\soft-work\\Core-Caven32\\DIY-Demo\\bootloard_ch32v317\\obj\\boot_317.elf",
+					"symbolFile": "e:\\work\\soft-work\\Core-Caven32\\DIY-Demo\\bootloard_ch32v317\\obj\\boot_317.elf",
+					"executableFileOffset": 0,
+					"symbolFileOffset": 0
+				},
+				"runCommands": {
+					"runReset": true,
+					"runResetType": "halt",
+					"additionalCommands": [],
+					"setBreakAt": "handle_reset",
+					"continue": true,
+					"setProgramCounterAt": 0
+				},
+				"debugInRAM": false
+			},
+			"svdpath": "c:\\Users\\ZhuanZ\\MounRiver_Studio2\\resources\\app\\resources\\win32\\components\\WCH\\SDK\\default/RISC-V/CH32V307/NoneOS/CH32V307xx.svd",
+			"output": {
+				"showDebugGDBTrace": true,
+				"saveDebugOutputToFile": false,
+				"showDebugOutputTimestamps": true
+			},
+			"isDualCoreDebug": false,
+			"dualCoreDebugRole": null,
+			"architecture": "RISC-V"
+		}
+	]
+}
