@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>AT32F415RCT7,USE_STDPERIPH_DRIVER,CAVEN,STB_SPRINTF_IMPLEMENTATION,DEFAULT</Define>
               <Undefine></Undefine>
-              <IncludePath>..\User;..\CMSIS;..\Config;..\SDK\inc;..\Startup\mdk;..\..\..\Caven-MCU_Lib\API;..\..\..\Caven-MCU_Lib\GUI;..\..\..\Caven-MCU_Lib\Mode;..\..\..\Caven-MCU_Lib\Base_AT32F415;..\..\..\Caven-MCU_Lib\Base_AT32F415\usb_drivers\inc;..\..\..\Caven-MCU_Lib\Base_AT32F415\usbd_class\custom_hid</IncludePath>
+              <IncludePath>..\User;..\CMSIS;..\Config;..\SDK\inc;..\Startup\mdk;..\..\..\Caven-MCU_Lib\API;..\..\..\Caven-MCU_Lib\GUI;..\..\..\Caven-MCU_Lib\Mode;..\..\..\Caven-MCU_Lib\Base_AT32F415;..\..\..\Caven-MCU_Lib\Base_AT32F415\usb_drivers\inc;..\..\..\Caven-MCU_Lib\Base_AT32F415\usbd_class\custom_hid;..\..\..\Caven-MCU_Lib\API\STB</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>

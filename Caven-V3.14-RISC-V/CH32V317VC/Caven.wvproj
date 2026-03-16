@@ -172,7 +172,8 @@
 							"${project}/Mode",
 							"${project}/API/STB",
 							"${project}/IQmath_RV32IMACXW",
-							"${project}/Startup"
+							"${project}/Startup",
+							"${project}/Base_CH32V317/USBLIB/USB-Driver"
 						],
 						"include_system_paths": [],
 						"include_files": []

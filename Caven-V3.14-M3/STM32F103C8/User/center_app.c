@@ -21,7 +21,7 @@ int Center_State_machine(Caven_BaseTIME_Type time)
     int temp_num = 0;
 
     center_time = time;
-    center_date = Mode_Use.TIME.Get_Date_pFun(8*60*60);
+    center_date = API_UTC_Get_Date(time.SYS_Sec,8*60*60);
 
 
     return retval;

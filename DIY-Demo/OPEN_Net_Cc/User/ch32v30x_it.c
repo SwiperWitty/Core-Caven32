@@ -10,9 +10,11 @@
 * microcontroller manufactured by Nanjing Qinheng Microelectronics.
 *******************************************************************************/
 #include "ch32v30x_it.h"
+#include "Mode.h"
 
 void NMI_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 void HardFault_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+void SW_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 
 /*********************************************************************
  * @fn      NMI_Handler
@@ -43,5 +45,20 @@ void HardFault_Handler(void)
     // printf("mcause:%08x\r\n", __get_MCAUSE());
     // printf("mtval :%08x\r\n", __get_MTVAL());
     NVIC_SystemReset();
+    while(1);
+}
+
+/*********************************************************************
+ * @fn      SW_Handler
+ *
+ * @brief   This function handles Software exception.
+ *
+ * @return  none
+ */
+void SW_Handler(void) {
+    Debug_OutStr("SW ...\n");
+    SYS_Base_Delay(10,1000);
+    __asm("li  a6, 0x8000");
+    __asm("jr  a6");
     while(1);
 }
