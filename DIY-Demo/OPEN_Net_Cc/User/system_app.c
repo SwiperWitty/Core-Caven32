@@ -288,7 +288,7 @@ void System_app_Restore (void)
     g_SYS_Config.tcp_server_enable = 1;
     g_SYS_Config.tcp_client_enable = 0;
     g_SYS_Config.tcp_http_enable = 1;
-    g_SYS_Config.tcp_mqtt_enable = 0;
+    g_SYS_Config.tcp_mqtt_enable = 1;
     g_SYS_Config.tcp_udp_enable = 0;
 
     g_SYS_Config.TCPHBT_En = 1;
@@ -299,8 +299,9 @@ void System_app_Restore (void)
 
     g_SYS_Config.HTTPHBT_En = 1;
     g_SYS_Config.HTTP_cycle = 10;
-	strcpy(g_SYS_Config.HTTP_url,"http://192.168.1.128:8080");
-	strcpy(g_SYS_Config.MQTTCfg,"url<dianjixz.online:1883>U<nihao>P<nihao3.14>Ptopic<send>Stopic<reace>Id<caven_test>");
+	strcpy(g_SYS_Config.HTTP_url,"http://192.168.1.128:8080/topic");
+	strcpy(g_SYS_Config.MQTTCfg,"URL<tcp://192.168.1.128:1883/topic>User<nihao>Pass<nihao3.14>Ptopic<send>Stopic<reace>Id<caven_test>");
+	//"URL<tcp://dianjixz.online:1883>User<nihao>Pass<nihao3.14>Ptopic<send>Stopic<reace>Id<caven_test>"
 	strcpy(g_SYS_Config.UDPCfg,"null");
 	strcpy(g_SYS_Config.UDP_multicast_str,"null");
 #endif
@@ -375,7 +376,7 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
 	Base_ETH_Task ();
 	g_SYS_Config.temp_val->Net_falg = Base_ETH_get_status ();
 	User_GPIO_set(1,0,!g_SYS_Config.temp_val->Net_falg);
-	if(g_SYS_Config.HTTPHBT_En)
+	if(g_SYS_Config.HTTPHBT_En && Base_TCP_HTTP_Config (NULL,1) > 0)
 	{
 		httpHBT_task.Switch = g_SYS_Config.HTTPHBT_En;
 		httpHBT_task.Set_time.SYS_Us = 0;
@@ -585,8 +586,17 @@ void System_app_Init (void)
     Base_ETH_Init(0x02,g_SYS_Config.eth_En);
 
     Mode_Use.TIME.Delay_S(2);
+	if(g_SYS_Config.tcp_client_enable)
+	{
+		g_SYS_Config.tcp_http_enable = 0;
+		g_SYS_Config.tcp_mqtt_enable = 0;
+	}
+	else if(g_SYS_Config.tcp_http_enable)
+	{
+		g_SYS_Config.tcp_mqtt_enable = 0;
+	}
 	Base_TCP_HTTP_Config (g_SYS_Config.HTTP_url,g_SYS_Config.tcp_http_enable);
-
+	Base_TCP_MQTT_Config (g_SYS_Config.MQTTCfg,g_SYS_Config.tcp_mqtt_enable);
     Base_TCP_Server_Config (g_SYS_Config.TCPServer_port,g_SYS_Config.Server_break_off,g_SYS_Config.tcp_server_enable);
 
     memset(array_ip,0,sizeof(array_ip));

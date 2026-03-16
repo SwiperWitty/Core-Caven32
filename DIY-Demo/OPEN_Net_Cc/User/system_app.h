@@ -151,7 +151,7 @@ typedef struct
     char HTTPHBT_En;    // DEMO_Serial + UTC + Run
     int HTTP_cycle;     // s
     char HTTP_url[160];
-    char MQTTCfg[256];
+    char MQTTCfg[160];
 
     char UDPCfg[160];
     char UDP_multicast_str[160];
