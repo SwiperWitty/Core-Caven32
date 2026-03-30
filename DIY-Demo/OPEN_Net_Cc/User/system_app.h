@@ -25,7 +25,7 @@
 #define	SYS_RUN_ADDR    SYS_STR_ADDR
 #define	SYS_CMD_RESULT   9
 #else 
-#define	SYS_RUN_ADDR    SYS_STR_ADDR    //(SYS_APP_ADDR - SYS_STR_ADDR)
+#define	SYS_RUN_ADDR    (SYS_APP_ADDR - SYS_STR_ADDR)    //(SYS_APP_ADDR - SYS_STR_ADDR)
 #define	SYS_CMD_RESULT   0
 #endif
 
@@ -56,7 +56,7 @@ typedef enum {
 #define TCP_UDP_Link    9
 #define BLE_Link        10
 #define USB_Link        11
-
+#define Other_Link      12
 //
 #define Device_VER      1
 #define Device_TYPE     1

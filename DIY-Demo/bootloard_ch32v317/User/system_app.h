@@ -25,7 +25,7 @@
 #define	SYS_RUN_ADDR    SYS_STR_ADDR
 #define	SYS_CMD_RESULT   9
 #else 
-#define	SYS_RUN_ADDR    SYS_APP_ADDR
+#define	SYS_RUN_ADDR    (SYS_APP_ADDR - SYS_STR_ADDR)
 #define	SYS_CMD_RESULT   0
 #endif
 
@@ -56,7 +56,7 @@ typedef enum {
 #define TCP_UDP_Link    9
 #define BLE_Link        10
 #define USB_Link        11
-
+#define Other_Link      12
 //
 #define Device_VER      1
 #define Device_TYPE     1
@@ -73,13 +73,18 @@ typedef enum {
 
 /*-----------------------------------*/
 
-
 /*  [SYS_val]     */
 typedef struct
 {
     char Reset_falg;
     char Work_falg;
     char Net_falg;
+    
+    char Net_HBT_max;
+    int TCPHBT_num;     // 编号
+    int TCPHBT_Run;
+    int HTTPHBT_num;    // 编号
+    int HTTPHBT_Run;
     //
     int init_finish_state;
     int Connect_passage;    // 连接管理,从SYS来的回答消息不会变更此数据
@@ -137,20 +142,16 @@ typedef struct
     char tcp_mqtt_enable;
     char tcp_udp_enable;
 
-    int Heartbeat_num;
-    int Heartbeat_Run;
-	int Heartbeat_cycle;	// s
-    int Heartbeat_MAX;
-
     char TCPHBT_En;      // DEMO_Serial + UTC + Run
+    int TCPHBT_cycle;	// s
     char Server_break_off;
     char TCPServer_port[10];
     char TCPClient_url[100];
     
-    char HTTPHBT_En;     // DEMO_Serial + UTC + Run
-    int HTTP_cycle;     // ms
+    char HTTPHBT_En;    // DEMO_Serial + UTC + Run
+    int HTTP_cycle;     // s
     char HTTP_url[160];
-    char MQTTCfg[256];
+    char MQTTCfg[160];
 
     char UDPCfg[160];
     char UDP_multicast_str[160];
@@ -179,6 +180,7 @@ int System_app_State_machine (Caven_BaseTIME_Type time);
 void line_gpo_set(int num,int val);
 int sys_set_gpo_fun (int gpo,int state);
 int sys_set_bzz_fun (int state);
+void Sys_TCP_send_Heartbeat_Bind_Fun (iD_pFun Fun);
 
 int System_app_save_UTCtime (void);
 int System_app_save_Addr (void);

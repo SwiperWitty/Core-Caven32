@@ -22,7 +22,7 @@ extern "C" {
  */
 #define WCHNET_NUM_IPRAW              0  /* Number of IPRAW connections */
 
-#define WCHNET_NUM_UDP                1  /* The number of UDP connections */
+#define WCHNET_NUM_UDP                2  /* The number of UDP connections */
 
 #define WCHNET_NUM_TCP                3  /* Number of TCP connections */
 

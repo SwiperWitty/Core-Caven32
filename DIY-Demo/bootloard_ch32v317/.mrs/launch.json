@@ -5,7 +5,7 @@
 			"type": "mrs-debugger",
 			"request": "launch",
 			"name": "boot_317",
-			"cwd": "e:\\work\\soft-work\\Core-Caven32\\DIY-Demo\\bootloard_ch32v317",
+			"cwd": "e:\\work\\soft-work\\Caven_RTOS\\ch32\\bootloard_ch32v317",
 			"openOCDCfg": {
 				"useLocalOpenOCD": true,
 				"executable": "c:/Users/ZhuanZ/MounRiver_Studio2/resources/app/resources/win32/components/WCH/OpenOCD/OpenOCD/bin/openocd.exe",
@@ -38,8 +38,8 @@
 					"additionalCommands": []
 				},
 				"loadedFiles": {
-					"executableFile": "e:\\work\\soft-work\\Core-Caven32\\DIY-Demo\\bootloard_ch32v317\\obj\\boot_317.elf",
-					"symbolFile": "e:\\work\\soft-work\\Core-Caven32\\DIY-Demo\\bootloard_ch32v317\\obj\\boot_317.elf",
+					"executableFile": "e:\\work\\soft-work\\Caven_RTOS\\ch32\\bootloard_ch32v317\\obj\\boot_317.elf",
+					"symbolFile": "e:\\work\\soft-work\\Caven_RTOS\\ch32\\bootloard_ch32v317\\obj\\boot_317.elf",
 					"executableFileOffset": 0,
 					"symbolFileOffset": 0
 				},

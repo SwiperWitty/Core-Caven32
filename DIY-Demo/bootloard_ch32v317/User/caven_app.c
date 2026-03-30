@@ -16,15 +16,14 @@ static uint8_t info_packet_array[7][BUFF_MAX];
 static uint8_t info_packet_array[3][BUFF_MAX];
 #endif
 static Caven_info_packet_Type Caven_packet_debug;       // uart boot
-static Caven_info_packet_Type Caven_packet_Other;       // usb/ble boot
+static Caven_info_packet_Type Caven_packet_Other;       // at
 static Caven_info_packet_Type Caven_packet_rs232;
-static Caven_info_packet_Type Caven_packet_rs485;
+static Caven_info_packet_Type Caven_packet_usb;
 static Caven_info_packet_Type Caven_packet_server;
 static Caven_info_packet_Type Caven_packet_client;
 static Caven_info_packet_Type Caven_packet_http;
 static Caven_info_packet_Type Caven_packet_mqtt;
 static Caven_info_packet_Type Caven_packet_udp;
-static Caven_info_packet_Type Caven_packet_net4g;
 
 // 消息队列
 #if SYS_BTLD == 0
@@ -63,6 +62,30 @@ int Caven_app_State_machine(Caven_BaseTIME_Type time)
     Caven_Circular_queue_output (&handle_pack,Caven_packet_buff,CAVEN_PACK_M);     // 从队列中提取
 	if (handle_pack.Result & m_Result_SUCC)
     {
+        if(handle_pack.Type == Caven_standard.Type || handle_pack.Type == 0)
+        {
+        }
+        else
+        {
+            // other pack
+            if(handle_pack.Comm_way == Other_Link)
+            {
+                handle_pack.Comm_way = g_SYS_Config.temp_val->Connect_passage;
+                Caven_app_send_packet(handle_pack);
+            }
+            else
+            {
+                Mode_Use.UART.Send_Data_pFun(m_UART_CH3,handle_pack.p_AllData,handle_pack.Get_num);
+            }
+            return retval;
+        }
+        if(handle_pack.Addr == g_SYS_Config.Addr || handle_pack.Addr == 0)
+        {
+        }
+        else
+        {
+            return retval;
+        }
         User_GPIO_set(1,1,0);       // info
         switch (handle_pack.Comm_way)
         {
@@ -558,8 +581,8 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
             {
                 temp_array[temp_run++] = g_SYS_Config.TCPHBT_En;
 				temp_array[temp_run++] = 0;
-				temp_array[temp_run++] = (g_SYS_Config.Heartbeat_cycle >> ( 8 * 1)) & 0xFF;
-                temp_array[temp_run++] = (g_SYS_Config.Heartbeat_cycle >> ( 8 * 0)) & 0xFF;
+				temp_array[temp_run++] = (g_SYS_Config.TCPHBT_cycle >> ( 8 * 1)) & 0xFF;
+                temp_array[temp_run++] = (g_SYS_Config.TCPHBT_cycle >> ( 8 * 0)) & 0xFF;
                 pack.dSize = temp_run;
                 pack.Result = 0;
                 memcpy(pack.p_Data,temp_array,temp_run);
@@ -574,9 +597,9 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
                 }
                 g_SYS_Config.TCPHBT_En = pack.p_Data[temp_num++];
 				temp_num ++;
-				g_SYS_Config.Heartbeat_cycle = pack.p_Data[temp_num++];
-				g_SYS_Config.Heartbeat_cycle <<= 8;
-				g_SYS_Config.Heartbeat_cycle |= pack.p_Data[temp_num++];
+				g_SYS_Config.TCPHBT_cycle = pack.p_Data[temp_num++];
+				g_SYS_Config.TCPHBT_cycle <<= 8;
+				g_SYS_Config.TCPHBT_cycle |= pack.p_Data[temp_num++];
 				pack.p_Data[0] = 0;
                 pack.dSize = 1;
                 System_app_save_TCPHBT();
@@ -878,6 +901,26 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
                 System_app_save_MQTTCfg();
             }
 			pack.dSize = temp_run;
+        }
+        break;
+        case m_CAVEN_CMD1_TCPUpHtdata_Order:
+        {
+            Result = 1;
+            temp_num = 4;
+            temp_val = pack.p_Data[temp_num++];
+            temp_val <<= 8;
+            temp_val |= pack.p_Data[temp_num++];
+            temp_val <<= 8;
+            temp_val |= pack.p_Data[temp_num++];
+            temp_val <<= 8;
+            temp_val |= pack.p_Data[temp_num++];
+            if(temp_val > 0x69B3E5F5)
+            {
+                g_SYS_Config.temp_val->Now_time.SYS_Sec = temp_val;
+                g_SYS_Config.temp_val->TCPHBT_num ++;
+                g_SYS_Config.temp_val->TCPHBT_Run = 0;
+                // Mode_Use.TIME.Set_BaseTIME_pFun(g_SYS_Config.temp_val->Now_time);
+            }
         }
         break;
 #endif
@@ -1375,7 +1418,7 @@ int Caven_app_send_packet(Caven_info_packet_Type pack)
     {
     case SYS_Link:
         {
-            Mode_Use.UART.Send_Data_pFun(DEBUG_CH,temp_array,temp_num);
+            Mode_Use.UART.Send_Data_pFun(m_UART_CH1,temp_array,temp_num);
 //            debug_log (LOG_Info,Log_tag,"sys link send");
 //            debug_log_hex (temp_array,temp_num);
         }
@@ -1417,7 +1460,7 @@ int Caven_app_send_packet(Caven_info_packet_Type pack)
     return retval;
 }
 
-static Caven_BaseTIME_Type debug_time,rs232_time,rs485_time,server_time,client_time,mqtt_time,net4g_time,udp_time,Other_time;
+static Caven_BaseTIME_Type debug_time,rs232_time,usb_time,server_time,client_time,mqtt_time,udp_time,Other_time;
 int Caven_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time)
 {
     int retval = 0;
@@ -1439,23 +1482,11 @@ int Caven_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time)
 			rs232_time = time;
         }
         break;
-    case RS485_Link:
+    case USB_Link:
         {
-            temp_pack = &Caven_packet_rs485;
-            temp_num = time.SYS_Sec - rs485_time.SYS_Sec;
-			rs485_time = time;
-            if(temp_pack->Addr != g_SYS_Config.Addr)
-            {
-                temp_num = 0xee;
-                retval = 0xee;
-            }
-        }
-        break;
-    case NET4G_Link:
-        {
-            temp_pack = &Caven_packet_net4g;
-            temp_num = time.SYS_Sec - net4g_time.SYS_Sec;
-			net4g_time = time;
+            temp_pack = &Caven_packet_usb;
+            temp_num = time.SYS_Sec - usb_time.SYS_Sec;
+			usb_time = time;
         }
         break;
     case TCP_Server_Link:
@@ -1614,11 +1645,32 @@ int Caven_app_JSON_Make_pack (char *data,int way)
 	return retval;
 }
 
+int Caven_send_Heartbeat_Fun (void *data)
+{
+    int retval = 0;
+    uint8_t temp_array[10];
+    int temp_num = 0;
+    memcpy(temp_array,&g_SYS_Config.Serial,sizeof(g_SYS_Config.Serial));
+    temp_num += sizeof(g_SYS_Config.Serial);
+    temp_array[temp_num ++] = (g_SYS_Config.temp_val->TCPHBT_num >> (8 * 3)) & 0xff;
+    temp_array[temp_num ++] = (g_SYS_Config.temp_val->TCPHBT_num >> (8 * 2)) & 0xff;
+    temp_array[temp_num ++] = (g_SYS_Config.temp_val->TCPHBT_num >> (8 * 1)) & 0xff;
+    temp_array[temp_num ++] = (g_SYS_Config.temp_val->TCPHBT_num >> (8 * 0)) & 0xff;
+    temp_array[temp_num ++] = (g_SYS_Config.temp_val->Now_time.SYS_Sec >> (8 * 3)) & 0xff;
+    temp_array[temp_num ++] = (g_SYS_Config.temp_val->Now_time.SYS_Sec >> (8 * 2)) & 0xff;
+    temp_array[temp_num ++] = (g_SYS_Config.temp_val->Now_time.SYS_Sec >> (8 * 1)) & 0xff;
+    temp_array[temp_num ++] = (g_SYS_Config.temp_val->Now_time.SYS_Sec >> (8 * 0)) & 0xff;
+    retval = Caven_info_return_Fun (Caven_standard.Versions,Caven_standard.Type,g_SYS_Config.Addr,  \
+    1,m_CAVEN_CMD1_TCPUpHtdata_Order,temp_num,temp_array,0,(uint8_t *)data);
+    return retval;
+}
+
 void Caven_app_Init (void)
 {
     int temp_run = 0;
 #if SYS_BTLD == 0
     Caven_info_packet_index_Fun(&Caven_packet_debug, info_packet_array[temp_run++]);
+    Caven_info_packet_index_Fun(&Caven_packet_usb, info_packet_array[temp_run++]);
     Caven_info_packet_index_Fun(&Caven_packet_rs232, info_packet_array[temp_run++]);
     Caven_info_packet_index_Fun(&Caven_packet_server, info_packet_array[temp_run++]);
     Caven_info_packet_index_Fun(&Caven_packet_client, info_packet_array[temp_run++]);
@@ -1634,6 +1686,7 @@ void Caven_app_Init (void)
         Caven_info_packet_index_Fun(&Caven_packet_buff[i], info_packet_buff_array[i]);
 		Caven_info_packet_fast_clean_Fun(&Caven_packet_buff[i]);
     }
+    Sys_TCP_send_Heartbeat_Bind_Fun (Caven_send_Heartbeat_Fun);
 }
 
 void Caven_app_Exit (void)

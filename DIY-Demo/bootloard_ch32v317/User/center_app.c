@@ -1,8 +1,8 @@
 #include "center_app.h"
 
 /*
-    Ö§³Ö2¸öÐ­Òé
-    ¡ª¡ª¡ª¡ª26.2.6
+    Ö§ï¿½ï¿½2ï¿½ï¿½Ð­ï¿½ï¿½
+    ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½26.2.6
 
 */
 
@@ -13,9 +13,11 @@ void RFID_info_handle (void *data);
 void usb_info_handle (void *data);
 void server_info_handle (void *data);
 void client_info_handle (void *data);
+void Other_info_handle (void *data);
 
 char JSON_array[500];
-int JSON_len = 0;
+int JSON_len = 0,http_json = 0;
+int JSON_way = SYS_Link;
 uint8_t RFID_array[500];
 int RFIDBK_len = 0;
 Caven_BaseTIME_Type JSON_time = {0},RFIDBK_time = {0};
@@ -25,24 +27,29 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 {
 	int retval = 0,get_State = 0,temp_num = 0;
     Center_time = time;
-	if (JSON_len)
+#if NETWORK == 1
+	http_json = Base_TCP_HTTP_cache_Read_Fun (JSON_array,sizeof(JSON_array));
+#endif
+	if (JSON_len || http_json)
 	{
+		if(http_json)
+		{
+			Caven_app_JSON_Make_pack (JSON_array,TCP_HTTP_Link);
+			g_SYS_Config.temp_val->HTTPHBT_num ++;
+			g_SYS_Config.temp_val->HTTPHBT_Run = 0;
+			// Debug_printf("%s \r\n",JSON_array);
+		}
 		temp_num = Center_time.SYS_Sec - JSON_time.SYS_Sec;
 		if (temp_num >= 0)
 		{
 			temp_num *= 1000000;
 			temp_num += Center_time.SYS_Us - JSON_time.SYS_Us;
 		}
-		if (JSON_len >= (sizeof(JSON_array) - 10))
+		if (JSON_len >= (sizeof(JSON_array) - 10) || temp_num > 2000)
 		{
-			Caven_app_JSON_Make_pack (JSON_array,TCP_HTTP_Link);
+		#if SYS_BTLD == 0
 			Mode_Use.UART.Send_Data_pFun (m_UART_CH2,(uint8_t *)JSON_array,JSON_len);
-			JSON_len = 0;
-		}
-		else if(temp_num > 2000)
-		{
-			Caven_app_JSON_Make_pack (JSON_array,TCP_HTTP_Link);
-			Mode_Use.UART.Send_Data_pFun (m_UART_CH2,(uint8_t *)JSON_array,JSON_len);
+		#endif
 			JSON_len = 0;
 		}
 	}
@@ -54,14 +61,35 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 			temp_num *= 1000000;
 			temp_num += Center_time.SYS_Us - RFIDBK_time.SYS_Us;
 		}
-		if (RFIDBK_len >= (sizeof(RFID_array) - 10))
+		if ((RFIDBK_len >= (sizeof(RFID_array) - 10)) || temp_num > 2000)
 		{
-			Mode_Use.UART.Send_Data_pFun (DEBUG_CH,(uint8_t *)RFID_array,RFIDBK_len);
-			RFIDBK_len = 0;
-		}
-		else if(temp_num > 2000)
-		{
-			Mode_Use.UART.Send_Data_pFun (DEBUG_CH,(uint8_t *)RFID_array,RFIDBK_len);
+			switch (JSON_way) 
+			{
+				case TCP_Server_Link:
+					{
+				#if NETWORK == 1
+						Base_TCP_Server_Send ((uint8_t *)RFID_array,RFIDBK_len);
+				#endif
+					}
+					break;
+				case TCP_Client_Link:
+					{
+				#if NETWORK == 1
+						Base_TCP_Client_Send ((uint8_t *)RFID_array,RFIDBK_len);
+				#endif
+					}
+					break;
+				case USB_Link:
+					{
+				#if Exist_USB
+					Mode_Use.USB_HID.Send_Data_pFun((uint8_t *)RFID_array,RFIDBK_len);
+				#endif
+					}
+					break;
+				default:
+					Mode_Use.UART.Send_Data_pFun (DEBUG_CH,(uint8_t *)RFID_array,RFIDBK_len);
+        			break;
+			}
 			RFIDBK_len = 0;
 		}
 	}
@@ -79,8 +107,9 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 
 void Center_app_Init (void)
 {
-	Mode_Use.UART.Receive_Bind_pFun (DEBUG_CH,debug_info_handle);
+	Mode_Use.UART.Receive_Bind_pFun (m_UART_CH1,debug_info_handle);
 	Mode_Use.UART.Receive_Bind_pFun (m_UART_CH2,RFID_info_handle);
+	Mode_Use.UART.Receive_Bind_pFun (m_UART_CH3,Other_info_handle);
 #if NETWORK == 1
 	Base_TCP_Server_Receive_Bind_Fun (server_info_handle);
 	Base_TCP_Client_Receive_Bind_Fun (client_info_handle);
@@ -110,6 +139,7 @@ void debug_info_handle (void *data)
 	{
 		JSON_array[JSON_len++] = temp_data;
 		JSON_time = Center_time;
+		JSON_way = SYS_Link;
 	}
 	if(temp_num == 0xff)
 	{
@@ -134,12 +164,18 @@ void usb_info_handle (void *data)
 	{
 		temp_num = GX_app_Make_pack (temp_data,USB_Link,Center_time);
 	}
+#endif
 	if(temp_num == 0xff)
 	{
 		g_SYS_Config.temp_val->Connect_passage = USB_Link;
 	}
 
-#endif
+	if (temp_num <= 0 && JSON_len < sizeof(JSON_array))
+	{
+		JSON_array[JSON_len++] = temp_data;
+		JSON_time = Center_time;
+		JSON_way = USB_Link;
+	}
 	(void)temp_num;
 }
 
@@ -153,12 +189,18 @@ void server_info_handle (void *data)
 	{
 		temp_num = GX_app_Make_pack (temp_data,TCP_Server_Link,Center_time);
 	}
+
+#endif
 	if(temp_num == 0xff)
 	{
 		g_SYS_Config.temp_val->Connect_passage = TCP_Server_Link;
 	}
-
-#endif
+	if (temp_num <= 0 && JSON_len < sizeof(JSON_array))
+	{
+		JSON_array[JSON_len++] = temp_data;
+		JSON_time = Center_time;
+		JSON_way = TCP_Server_Link;
+	}
 	(void)temp_num;
 }
 
@@ -172,13 +214,35 @@ void client_info_handle (void *data)
 	{
 		temp_num = GX_app_Make_pack (temp_data,TCP_Client_Link,Center_time);
 	}
+
+#endif
 	if(temp_num == 0xff)
 	{
 		g_SYS_Config.temp_val->Connect_passage = TCP_Client_Link;
 	}
-
-#endif
+	if (temp_num <= 0 && JSON_len < sizeof(JSON_array))
+	{
+		JSON_array[JSON_len++] = temp_data;
+		JSON_time = Center_time;
+		JSON_way = TCP_Client_Link;
+	}
 	(void)temp_num;
+}
+
+void Other_info_handle (void *data)
+{
+	uint8_t temp_data = *(uint8_t *)data;
+
+	int temp_num = 0;
+    temp_num = Caven_app_Make_pack (temp_data,Other_Link,Center_time);
+
+	if (temp_num <= 0)
+	{
+		// AT
+	}
+	if(temp_num == 0xff)
+	{
+	}
 }
 
 int get_RFID_data_num = 0,get_RFID_pack_num = 0,get_RFID_pack_error1 = 0;

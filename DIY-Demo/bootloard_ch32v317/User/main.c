@@ -26,7 +26,6 @@ int main(void)
 
 void Main_Init(void)
 {
-	SystemCoreClockUpdate();
     Mode_Index();
 	
 	Center_app_Init ();		// 6300 b

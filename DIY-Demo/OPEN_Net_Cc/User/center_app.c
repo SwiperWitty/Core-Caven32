@@ -1,18 +1,18 @@
 #include "center_app.h"
 
 /*
-    Ö§³Ö2¸öÐ­Òé
-    ¡ª¡ª¡ª¡ª26.2.6
+    Ö§ï¿½ï¿½2ï¿½ï¿½Ð­ï¿½ï¿½
+    ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½26.2.6
 
 */
 
 Caven_BaseTIME_Type Center_time;
 
 void debug_info_handle (void *data);
-void RFID_info_handle (void *data);
 void usb_info_handle (void *data);
 void server_info_handle (void *data);
 void client_info_handle (void *data);
+void Other_info_handle (void *data);
 
 char JSON_array[500];
 int JSON_len = 0,http_json = 0;
@@ -26,7 +26,9 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 {
 	int retval = 0,get_State = 0,temp_num = 0;
     Center_time = time;
+#if NETWORK == 1
 	http_json = Base_TCP_HTTP_cache_Read_Fun (JSON_array,sizeof(JSON_array));
+#endif
 	if (JSON_len || http_json)
 	{
 		if(http_json)
@@ -34,7 +36,7 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 			Caven_app_JSON_Make_pack (JSON_array,TCP_HTTP_Link);
 			g_SYS_Config.temp_val->HTTPHBT_num ++;
 			g_SYS_Config.temp_val->HTTPHBT_Run = 0;
-			// printf("%s \r\n",JSON_array);
+			// Debug_printf("%s \r\n",JSON_array);
 		}
 		temp_num = Center_time.SYS_Sec - JSON_time.SYS_Sec;
 		if (temp_num >= 0)
@@ -92,7 +94,7 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 	}
 	get_State |= Caven_app_State_machine (Center_time);		// 5000 b
 #if SYS_BTLD == 0
-	// get_State |= GX_app_State_machine (Center_time);
+//
 #endif
 	get_State |= System_app_State_machine (Center_time);
 	if(g_SYS_Config.temp_val->Reset_falg)
@@ -104,8 +106,8 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 
 void Center_app_Init (void)
 {
-	Mode_Use.UART.Receive_Bind_pFun (DEBUG_CH,debug_info_handle);
-	Mode_Use.UART.Receive_Bind_pFun (m_UART_CH2,RFID_info_handle);
+	Mode_Use.UART.Receive_Bind_pFun (m_UART_CH1,debug_info_handle);
+	Mode_Use.UART.Receive_Bind_pFun (m_UART_CH3,Other_info_handle);
 #if NETWORK == 1
 	Base_TCP_Server_Receive_Bind_Fun (server_info_handle);
 	Base_TCP_Client_Receive_Bind_Fun (client_info_handle);
@@ -115,7 +117,7 @@ void Center_app_Init (void)
 #endif
 	Caven_app_Init ();
 #if SYS_BTLD == 0
-	// GX_app_Init ();
+//
 #endif
 }
 
@@ -128,7 +130,7 @@ void debug_info_handle (void *data)
 #if SYS_BTLD == 0
 	if (temp_num <= 0)
 	{
-		// temp_num = GX_app_Make_pack (temp_data,SYS_Link,Center_time);
+
 	}
 #endif
 	if (temp_num <= 0 && JSON_len < sizeof(JSON_array))
@@ -158,14 +160,14 @@ void usb_info_handle (void *data)
 #if SYS_BTLD == 0
 	if (temp_num <= 0)
 	{
-		// temp_num = GX_app_Make_pack (temp_data,USB_Link,Center_time);
+
 	}
+#endif
 	if(temp_num == 0xff)
 	{
 		g_SYS_Config.temp_val->Connect_passage = USB_Link;
 	}
 
-#endif
 	if (temp_num <= 0 && JSON_len < sizeof(JSON_array))
 	{
 		JSON_array[JSON_len++] = temp_data;
@@ -183,14 +185,14 @@ void server_info_handle (void *data)
 #if SYS_BTLD == 0
 	if (temp_num <= 0)
 	{
-		// temp_num = GX_app_Make_pack (temp_data,TCP_Server_Link,Center_time);
+
 	}
+
+#endif
 	if(temp_num == 0xff)
 	{
 		g_SYS_Config.temp_val->Connect_passage = TCP_Server_Link;
 	}
-
-#endif
 	if (temp_num <= 0 && JSON_len < sizeof(JSON_array))
 	{
 		JSON_array[JSON_len++] = temp_data;
@@ -208,14 +210,14 @@ void client_info_handle (void *data)
 #if SYS_BTLD == 0
 	if (temp_num <= 0)
 	{
-		// temp_num = GX_app_Make_pack (temp_data,TCP_Client_Link,Center_time);
+
 	}
+
+#endif
 	if(temp_num == 0xff)
 	{
 		g_SYS_Config.temp_val->Connect_passage = TCP_Client_Link;
 	}
-
-#endif
 	if (temp_num <= 0 && JSON_len < sizeof(JSON_array))
 	{
 		JSON_array[JSON_len++] = temp_data;
@@ -225,27 +227,25 @@ void client_info_handle (void *data)
 	(void)temp_num;
 }
 
-int get_RFID_data_num = 0,get_RFID_pack_num = 0,get_RFID_pack_error1 = 0;
-void RFID_info_handle (void *data)
+void Other_info_handle (void *data)
 {
-#if SYS_BTLD == 0
 	uint8_t temp_data = *(uint8_t *)data;
+
 	int temp_num = 0;
-	
-	// temp_num = GX_app_Make_pack (temp_data,RS232_Link,Center_time);
-	if (temp_num <= 0 && RFIDBK_len < sizeof(RFID_array))
+    temp_num = Caven_app_Make_pack (temp_data,Other_Link,Center_time);
+
+#if SYS_BTLD == 0
+	if (temp_num <= 0)
 	{
-		RFID_array[RFIDBK_len++] = temp_data;
-		RFIDBK_time = Center_time;
+		if(temp_num <= 0)
+		{
+			// at
+		}
 	}
+#endif
 	if(temp_num == 0xff)
 	{
-		get_RFID_pack_num ++;
+		g_SYS_Config.temp_val->Connect_passage = Other_Link;
 	}
-	else if (temp_num == -1)
-	{
-		get_RFID_pack_error1 ++;
-	}
-	get_RFID_data_num ++;
-#endif
 }
+

@@ -7,7 +7,7 @@
 			"toolchain": "RISC-V",
 			"series": "CH32V317",
 			"rtos": "NoneOS",
-			"mcu": "CH32V317WCU",
+			"mcu": "CH32V317VCT",
 			"description": "ROM(byte): 256K, SRAM(byte): 64K, CHIP PINS: 64, GPIO PORTS: 51.\\nWCH CH32V3 series of mainstream MCUs covers the needs of a large variety of applications in the industrial,medical and consumer markets. High performance with first-class peripherals and low-power,low-voltage operation is paired with a high level of integration at accessible prices with a simple architecture and easy-to-use tools.",
 			"artifactType": "executable",
 			"link": "WCH-Link",
@@ -17,16 +17,16 @@
 		},
 		"linkedFolders": [
 			{
-				"name": "API",
-				"location": "../../Caven-MCU_Lib/API"
+				"name": "Base_CH32V317",
+				"location": "../../caven-mcu_-lib/Base_CH32V317"
 			},
 			{
-				"name": "Base_CH32V317",
-				"location": "../../Caven-MCU_Lib/Base_CH32V317"
+				"name": "API",
+				"location": "../../caven-mcu_-lib/API"
 			},
 			{
 				"name": "Mode",
-				"location": "../../Caven-MCU_Lib/Mode"
+				"location": "../../caven-mcu_-lib/Mode"
 			}
 		],
 		"removedResources": [
@@ -383,7 +383,7 @@
 		"address": "0x08000000",
 		"target_path": "obj\\boot_317.hex",
 		"clkSpeed": "High",
-		"debug_interface_mode": "1-wire serial",
+		"debug_interface_mode": "",
 		"erase": true,
 		"program": true,
 		"verify": true,
