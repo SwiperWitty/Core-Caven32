@@ -82,19 +82,19 @@
 #define Exist_ADC		OPEN_NULL
 #define Exist_DAC       OPEN_NULL
 
-#define Exist_UART      OPEN_11110
+#define Exist_UART      OPEN_1110
 #define Exist_IIC       OPEN_NULL
 #define Exist_SPI       OPEN_NULL
-#define Exist_USB       OPEN_NULL
+#define Exist_USB       OPEN_0001
 #define Exist_CAN       OPEN_NULL
-#define Exist_ETH       OPEN_0001
+#define Exist_ETH       OPEN_NULL
 
 #define Exist_FLASH     OPEN_0001
 
 #define GUI_LVGL        OPEN_NULL
 
 /***    需要加上逻辑才能的功能     ***/
-#define Exist_LCD	            OPEN_NULL
+#define Exist_LCD	            OPEN_0001
 #define Exist_OLED              OPEN_NULL
 
 #define Exist_HC138             OPEN_NULL
@@ -111,7 +111,6 @@
 #define Exist_Steering_Engine   OPEN_NULL   // 舵机
 #define Exist_STEP_Motor        OPEN_NULL
 #define Exist_Motor_BYJ         OPEN_NULL
-
 
 /****   进一步的逻辑关系    ****/
 #if Exist_UART
@@ -188,20 +187,22 @@
 #endif
 
 // boot
-typedef void (*pFunction)(void); /* 跳转函数类型声明 */
+#define NVIC_VECTOR_SET(addr)	(void)addr;
+
 #define GO_TO_APP(addr) do{     \
-	pFunction jump_to_app;						\
-	nvic_irq_disable(SysTick_IRQn);			\
-	__NVIC_ClearPendingIRQ(SysTick_IRQn);	\
-	jump_to_app = (pFunction)*(uint32_t*)(addr + 4);	\
-	__set_MSP(*(uint32_t*)addr);			\
-	jump_to_app();							\
+    NVIC_DisableIRQ(USBHS_IRQn);       \
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,DISABLE);   \
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,DISABLE);   \
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC,DISABLE);   \
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD,DISABLE);   \
+    NVIC_EnableIRQ(Software_IRQn);      \
+    NVIC_SetPendingIRQ(Software_IRQn);  \
+    while(1);   \
+    NVIC_VECTOR_SET(addr);  \
 }while(0);
 
-#define NVIC_VECTOR_SET(addr)	nvic_vector_table_set(NVIC_VECTTAB_FLASH,addr)
-
-#define IO_H_REG    scr
-#define IO_L_REG    clr
+#define IO_H_REG    BSHR
+#define IO_L_REG    BCR
 
 #ifdef GPIO_PINS_0
 	#define GPIO_Pin_0  GPIO_PINS_0

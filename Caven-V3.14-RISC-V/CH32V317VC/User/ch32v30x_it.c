@@ -10,9 +10,11 @@
 * microcontroller manufactured by Nanjing Qinheng Microelectronics.
 *******************************************************************************/
 #include "ch32v30x_it.h"
+#include "Mode.h"
 
 void NMI_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 void HardFault_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+void SW_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 
 /*********************************************************************
  * @fn      NMI_Handler
@@ -37,11 +39,27 @@ void NMI_Handler(void)
  */
 void HardFault_Handler(void)
 {
-    // printf("HardFault_Handler\r\n");
+    Debug_printf("HardFault_Handler\r\n");
 
-    // printf("mepc  :%08x\r\n", __get_MEPC());
-    // printf("mcause:%08x\r\n", __get_MCAUSE());
-    // printf("mtval :%08x\r\n", __get_MTVAL());
+    Debug_printf("mepc  :%08x\r\n", __get_MEPC());
+    Debug_printf("mcause:%08x\r\n", __get_MCAUSE());
+    Debug_printf("mtval :%08x\r\n", __get_MTVAL());
+    SYS_Base_Delay(1000,10000);
     NVIC_SystemReset();
+    while(1);
+}
+
+/*********************************************************************
+ * @fn      SW_Handler
+ *
+ * @brief   This function handles Software exception.
+ *
+ * @return  none
+ */
+void SW_Handler(void) {
+    Debug_OutStr("SW ...\n");
+    SYS_Base_Delay(10,1000);
+    __asm("li  a6, 0x8000");
+    __asm("jr  a6");
     while(1);
 }
