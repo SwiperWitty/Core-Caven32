@@ -215,6 +215,13 @@ int System_app_save_MACCfg (void)
 	return retval;
 }
 
+int System_app_save_ip (void)
+{
+	int retval = 0;
+	retval = System_app_SYS_Config_Save ();
+	return retval;
+}
+
 void System_app_Restore (void)
 {
 	int app_crc = g_SYS_Config.app_crc;
@@ -299,25 +306,21 @@ int System_app_SYS_Config_Gain (void)
 	g_SYS_Config.Version[2] = DEMO_VER_sub_bit;
 	g_SYS_Config.Version[3] = 0;
 	memcpy(g_SYS_Config.Hostname,DEMO_Name_str,sizeof(DEMO_Name_str));
-	if(g_SYS_Config.debug > 0X0F || g_SYS_Config.debug == 0)
-	{
-		System_app_Restore ();
-	}
-	g_SYS_Config.temp_val->Reset_falg = 0;
 #if SYS_BTLD == 0
+	Base_Flash_Demarcation (SYS_CFG_ADDR);		// app only CFG_ADDR
 	// 在app层发现bt不在app，需要重置bt
 	if (g_SYS_Config.Bt_mode == 0)
 	{
 		System_app_Restore ();
 	}
+#else
+	Base_Flash_Demarcation (SYS_APP_ADDR);		// boot APP_ADDR + CFG_ADDR
 #endif
-	return retval;
-}
-
-int System_app_save_ip (void)
-{
-	int retval = 0;
-	retval = System_app_SYS_Config_Save ();
+	if(g_SYS_Config.debug > 0X0F || g_SYS_Config.debug == 0)
+	{
+		System_app_Restore ();
+	}
+	g_SYS_Config.temp_val->Reset_falg = 0;
 	return retval;
 }
 
@@ -337,7 +340,7 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
         System_start_Time = g_SYS_Config.temp_val->Now_time;
         g_SYS_Config.temp_val->Work_sec ++;
 
-		// User_GPIO_set(2,0,System_start_Time.SYS_Sec % 2);
+		User_GPIO_set(5,0,System_start_Time.SYS_Sec % 2);
     }
 #if NETWORK == 1
 	char heart_array[200];
@@ -485,8 +488,7 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
     return retval;
 }
 
-#include "cv_log.h"
-#include "clock_pic.h"
+#include "cv_log_160.h"
 void System_app_Init (void)
 {
 	int temp_num;
@@ -524,10 +526,11 @@ void System_app_Init (void)
 	#ifdef MCU_SYS_FREQ 
 	Debug_printf("MCU Init,MCU_SYS_FREQ: %d Hz \n",MCU_SYS_FREQ);
 	#endif
-	Debug_printf("MCU build date %s \n",g_SYS_Config.Bddate);
+	Debug_printf("MCU build date %s \n",g_SYS_Config.Bddate); 
 	
 	User_GPIO_config(5,0,1);
-	// Mode_Use.LCD.Show_Picture_pFun(0,0,LCD_W_Max,LCD_H_Max,gImage_cv_log);
+	Mode_Use.LCD.Show_Picture_pFun(40,40,160,160,gImage_cv_log_160);
+
 	Caven_new_event_Fun(&g_SYS_events,bzz_event_fun,&sys_bzz_event);
 	Caven_new_event_Fun(&g_SYS_events,gpo_event_fun,&sys_gpo_event);
 #endif
@@ -566,6 +569,8 @@ void System_app_Init (void)
         Debug_printf("TCPClient_url to ip: %s,port:%s ,en:%d\n",array_ip,array_port,g_SYS_Config.tcp_client_enable);
         Base_TCP_Client_Config (array_ip,array_port,g_SYS_Config.tcp_client_enable);
     }
+	// Mode_Use.LCD.Show_String_pFun(4,12,g_SYS_Config.eth_ip_str,LCD_Word_Color,LCD_Back_Color,16);
+	// Mode_Use.LCD.Show_String_pFun(4,13,g_SYS_Config.TCPServer_port,LCD_Word_Color,LCD_Back_Color,16);
 #endif
 	if(g_SYS_Config.Bt_mode == 0)
 	{

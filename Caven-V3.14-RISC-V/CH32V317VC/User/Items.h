@@ -87,7 +87,7 @@
 #define Exist_SPI       OPEN_NULL
 #define Exist_USB       OPEN_0001
 #define Exist_CAN       OPEN_NULL
-#define Exist_ETH       OPEN_NULL
+#define Exist_ETH       OPEN_0001
 
 #define Exist_FLASH     OPEN_0001
 
@@ -201,6 +201,31 @@
     NVIC_VECTOR_SET(addr);  \
 }while(0);
 
+// 内存信息
+// ch32v317 192k-rom/128k-ram
+#define	SYS_BTLD	0
+#define	SYS_STR_ADDR		0x08000000
+#define	SYS_APP_ADDR		0x08008000		// 0x08000000\0x08008000
+
+#ifdef AT32F415CBT7
+#define	SYS_APP_SIZE		0x00010000
+#elif AT32F415RCT7
+#define	SYS_APP_SIZE		0x00020000
+#else
+#define	SYS_APP_SIZE		0x00026000
+#endif
+
+#define	SYS_CFG_ADDR		(SYS_APP_ADDR + SYS_APP_SIZE)
+
+#if SYS_BTLD
+#define	SYS_RUN_ADDR    SYS_STR_ADDR - SYS_STR_ADDR
+#define	SYS_CMD_RESULT   9
+#else 
+#define	SYS_RUN_ADDR    (SYS_APP_ADDR - SYS_STR_ADDR)
+#define	SYS_CMD_RESULT   0
+#endif
+
+// 寄存器
 #define IO_H_REG    BSHR
 #define IO_L_REG    BCR
 

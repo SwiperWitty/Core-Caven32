@@ -11,24 +11,6 @@
 
 */
 
-#define	SYS_BTLD	0
-#define	SYS_STR_ADDR		0x08000000
-#define	SYS_APP_ADDR		0x08008000		// 0x08000000\0x08008000
-#ifdef AT32F415CBT7
-#define	SYS_APP_SIZE		0x00010000
-#else
-#define	SYS_APP_SIZE		0x00020000
-#endif
-#define	SYS_CFG_ADDR		(SYS_APP_ADDR + SYS_APP_SIZE)
-
-#if SYS_BTLD
-#define	SYS_RUN_ADDR    SYS_STR_ADDR
-#define	SYS_CMD_RESULT   9
-#else 
-#define	SYS_RUN_ADDR    (SYS_APP_ADDR - SYS_STR_ADDR)    //(SYS_APP_ADDR - SYS_STR_ADDR)
-#define	SYS_CMD_RESULT   0
-#endif
-
 typedef enum {
     m_Connect_SYS = 0,
     m_RS232_Link,
