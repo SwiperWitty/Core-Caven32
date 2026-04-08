@@ -314,6 +314,13 @@ void System_app_Restore (void)
 	System_app_SYS_Config_Save ();
 }
 
+int System_app_save_ip (void)
+{
+	int retval = 0;
+	retval = System_app_SYS_Config_Save ();
+	return retval;
+}
+
 /*
 	gain SYS_Config
 */
@@ -328,25 +335,21 @@ int System_app_SYS_Config_Gain (void)
 	g_SYS_Config.Version[2] = DEMO_VER_sub_bit;
 	g_SYS_Config.Version[3] = 0;
 	memcpy(g_SYS_Config.Hostname,DEMO_Name_str,sizeof(DEMO_Name_str));
-	if(g_SYS_Config.debug > 0X0F || g_SYS_Config.debug == 0)
-	{
-		System_app_Restore ();
-	}
-	g_SYS_Config.temp_val->Reset_falg = 0;
 #if SYS_BTLD == 0
+	Base_Flash_Demarcation (SYS_CFG_ADDR);		// app only CFG_ADDR
 	// 在app层发现bt不在app，需要重置bt
 	if (g_SYS_Config.Bt_mode == 0)
 	{
 		System_app_Restore ();
 	}
+#else
+	Base_Flash_Demarcation (SYS_APP_ADDR);		// boot APP_ADDR + CFG_ADDR
 #endif
-	return retval;
-}
-
-int System_app_save_ip (void)
-{
-	int retval = 0;
-	retval = System_app_SYS_Config_Save ();
+	if(g_SYS_Config.debug > 0X0F || g_SYS_Config.debug == 0)
+	{
+		System_app_Restore ();
+	}
+	g_SYS_Config.temp_val->Reset_falg = 0;
 	return retval;
 }
 

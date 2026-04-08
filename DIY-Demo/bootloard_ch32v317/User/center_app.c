@@ -1,8 +1,6 @@
 #include "center_app.h"
 
 /*
-    ֧��2��Э��
-    ��������26.2.6
 
 */
 
@@ -236,12 +234,19 @@ void Other_info_handle (void *data)
 	int temp_num = 0;
     temp_num = Caven_app_Make_pack (temp_data,Other_Link,Center_time);
 
+#if SYS_BTLD == 0
 	if (temp_num <= 0)
 	{
-		// AT
+		temp_num = GX_app_Make_pack (temp_data,Other_Link,Center_time);
+		if(temp_num <= 0)
+		{
+			// at
+		}
 	}
+#endif
 	if(temp_num == 0xff)
 	{
+		g_SYS_Config.temp_val->Connect_passage = Other_Link;
 	}
 }
 

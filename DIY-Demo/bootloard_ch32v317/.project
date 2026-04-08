@@ -24,17 +24,17 @@
     <link>
       <name>Base_CH32V317</name>
       <type>2</type>
-      <location>PARENT-2-PROJECT_LOC/caven-mcu_-lib/Base_CH32V317</location>
+      <location>PARENT-2-PROJECT_LOC/Caven-MCU_Lib/Base_CH32V317</location>
     </link>
     <link>
       <name>API</name>
       <type>2</type>
-      <location>PARENT-2-PROJECT_LOC/caven-mcu_-lib/API</location>
+      <location>PARENT-2-PROJECT_LOC/Caven-MCU_Lib/API</location>
     </link>
     <link>
       <name>Mode</name>
       <type>2</type>
-      <location>PARENT-2-PROJECT_LOC/caven-mcu_-lib/Mode</location>
+      <location>PARENT-2-PROJECT_LOC/Caven-MCU_Lib/Mode</location>
     </link>
   </linkedResources>
   <filteredResources>

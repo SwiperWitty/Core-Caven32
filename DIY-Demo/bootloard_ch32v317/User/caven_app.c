@@ -1416,21 +1416,14 @@ int Caven_app_send_packet(Caven_info_packet_Type pack)
     temp_num = Caven_info_Split_packet_Fun(pack,temp_array);
     switch (pack.Comm_way)
     {
-    case SYS_Link:
-        {
-            Mode_Use.UART.Send_Data_pFun(m_UART_CH1,temp_array,temp_num);
-//            debug_log (LOG_Info,Log_tag,"sys link send");
-//            debug_log_hex (temp_array,temp_num);
-        }
-        break;
     case RS232_Link:
         {
-            
+            // rfid
         }
         break;
     case RS485_Link:
         {
-            
+            // sys
         }
         break;
     case TCP_Server_Link:
@@ -1454,7 +1447,15 @@ int Caven_app_send_packet(Caven_info_packet_Type pack)
     #endif
         }
         break;
+    case Other_Link:
+        {
+            Mode_Use.UART.Send_Data_pFun(m_UART_CH3,temp_array,temp_num);
+        }
+        break;
     default:
+        {
+            Mode_Use.UART.Send_Data_pFun(m_UART_CH1,temp_array,temp_num);
+        }
         break;
     }
     return retval;

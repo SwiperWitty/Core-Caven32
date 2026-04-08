@@ -15,7 +15,7 @@ int main(void)
     {
 		now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
 
-		if(Center_State_machine(now_time))          // 状态机入口 11000 b
+		if(Center_State_machine(now_time))          // 状态机入口
 		{
 			break;									// 状态机退出,程序重启
 		}
@@ -28,8 +28,8 @@ void Main_Init(void)
 {
     Mode_Index();
 	
-	Center_app_Init ();		// 6300 b
-	System_app_Init ();		// 2000	b
+	Center_app_Init ();
+	System_app_Init ();
 }
 
 
