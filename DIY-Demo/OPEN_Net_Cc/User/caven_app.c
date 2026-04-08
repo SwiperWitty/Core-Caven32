@@ -1072,6 +1072,7 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 						else
 						{
                             Debug_OutStr("bootld crc error \n");
+                            Debug_printf("pack date %x,check data %x\n",g_SYS_Config.app_crc,temp_sum);
 							BT_val = 0;
 							temp_rt = 0x01;
                             pack.Result = m_Result_Fail_ERROR;

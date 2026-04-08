@@ -82,7 +82,7 @@
 					"${project}/Debug/debug.c"
 				],
 				"optimization": {
-					"level": "none",
+					"level": "size",
 					"message_length": true,
 					"char_is_signed": true,
 					"function_sections": true,

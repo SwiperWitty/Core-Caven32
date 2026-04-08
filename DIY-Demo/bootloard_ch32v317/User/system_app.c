@@ -148,6 +148,19 @@ Caven_BaseTIME_Type sys_get_time_fun (void)
 	return g_SYS_Config.temp_val->Now_time;
 }
 
+int sys_get_mac_fun (uint8_t *mac)
+{
+	if(mac != NULL)
+	{
+		if (g_SYS_Config.MAC[0] == 0) {
+			Base_ETH_get_MAC (mac);
+		}
+		else {
+			memcpy(mac,g_SYS_Config.MAC,sizeof(g_SYS_Config.MAC));
+		}
+	}
+}
+
 iD_pFun tcp_hbt_pFun = NULL;
 void Sys_TCP_send_Heartbeat_Bind_Fun (iD_pFun Fun)
 {
@@ -244,6 +257,13 @@ int System_app_save_MACCfg (void)
 	return retval;
 }
 
+int System_app_save_ip (void)
+{
+	int retval = 0;
+	retval = System_app_SYS_Config_Save ();
+	return retval;
+}
+
 void System_app_Restore (void)
 {
 	int app_crc = g_SYS_Config.app_crc;
@@ -295,7 +315,7 @@ void System_app_Restore (void)
 	strcpy(g_SYS_Config.TCPServer_port,"8160");
 	strcpy(g_SYS_Config.TCPClient_url,"192.168.1.128:9090");
 
-    g_SYS_Config.HTTPHBT_En = 0;
+    g_SYS_Config.HTTPHBT_En = 1;
     g_SYS_Config.HTTP_cycle = 5;
 	strcpy(g_SYS_Config.HTTP_url,"http://192.168.1.128:8080");
 	// test1:http://192.168.1.128:8080 test2:http://localhost
@@ -304,22 +324,10 @@ void System_app_Restore (void)
 	strcpy(g_SYS_Config.UDPCfg,"null");
 	strcpy(g_SYS_Config.UDP_multicast_str,"null");
 #endif
-	g_SYS_Config.temp_val->Connect_passage = SYS_Link;
-	g_SYS_Config.temp_val->TCPHBT_num = 0;
-	g_SYS_Config.temp_val->TCPHBT_Run = 0;
-	g_SYS_Config.temp_val->HTTPHBT_num = 0;
-	g_SYS_Config.temp_val->HTTPHBT_Run = 0;
-	g_SYS_Config.temp_val->Net_HBT_max = 3;
 	g_SYS_Config.app_crc = app_crc;
 	System_app_SYS_Config_Save ();
 }
 
-int System_app_save_ip (void)
-{
-	int retval = 0;
-	retval = System_app_SYS_Config_Save ();
-	return retval;
-}
 
 /*
 	gain SYS_Config
@@ -327,6 +335,7 @@ int System_app_save_ip (void)
 int System_app_SYS_Config_Gain (void)
 {
 	int retval = 0;
+	g_SYS_Config.temp_val = &s_SYS_val;
 	Base_Flash_Read (&g_SYS_Config,SYS_CFG_ADDR,sizeof(g_SYS_Config));
 	// g_SYS_Config.debug = 0;
 	g_SYS_Config.Bddate = DEMO_Build_str;
@@ -349,7 +358,16 @@ int System_app_SYS_Config_Gain (void)
 	{
 		System_app_Restore ();
 	}
-	g_SYS_Config.temp_val->Reset_falg = 0;
+	if(g_SYS_Config.temp_val)
+	{
+		g_SYS_Config.temp_val->Reset_falg = 0;
+		g_SYS_Config.temp_val->Connect_passage = SYS_Link;
+		g_SYS_Config.temp_val->TCPHBT_num = 0;
+		g_SYS_Config.temp_val->TCPHBT_Run = 0;
+		g_SYS_Config.temp_val->HTTPHBT_num = 0;
+		g_SYS_Config.temp_val->HTTPHBT_Run = 0;
+		g_SYS_Config.temp_val->Net_HBT_max = 3;
+	}
 	return retval;
 }
 
@@ -522,7 +540,6 @@ void System_app_Init (void)
 {
 	int temp_num;
 	NVIC_VECTOR_SET(SYS_RUN_ADDR);
-	g_SYS_Config.temp_val = &s_SYS_val;
 	System_app_SYS_Config_Gain ();
 
 #if SYS_BTLD == 1
@@ -552,6 +569,7 @@ void System_app_Init (void)
 	Debug_printf("MCU Init,MCU_SYS_FREQ: %d Hz \n",MCU_SYS_FREQ);
 	#endif
 	Debug_printf("MCU build date %s \n",g_SYS_Config.Bddate);
+	Debug_printf("MCU CFG_file 0x%x \n",sizeof(g_SYS_Config));
 	
 	User_GPIO_config(1,4,1);
 	User_GPIO_config(1,5,1);

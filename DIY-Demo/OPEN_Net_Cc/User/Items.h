@@ -187,7 +187,7 @@
 #endif
 
 // boot
-#define NVIC_VECTOR_SET(addr)	(void)addr;
+#define NVIC_VECTOR_SET(addr) (void)(addr);
 
 #define GO_TO_APP(addr) do{     \
     NVIC_DisableIRQ(USBHS_IRQn);       \
@@ -201,8 +201,32 @@
     NVIC_VECTOR_SET(addr);  \
 }while(0);
 
-#define IO_H_REG    scr
-#define IO_L_REG    clr
+// 内存信息
+// ch32v317 192k-rom/128k-ram
+#define SYS_BTLD    0
+#define SYS_STR_ADDR    0x08000000
+#define SYS_APP_ADDR    0x08008000  // 0x08000000\0x08008000
+
+#ifdef AT32F415CBT7
+#define SYS_APP_SIZE    0x00010000
+#elif AT32F415RCT7
+#define SYS_APP_SIZE    0x00020000
+#else
+#define SYS_APP_SIZE    0x00026000  // 0x00030000
+#endif
+
+#define SYS_CFG_ADDR    (SYS_APP_ADDR + SYS_APP_SIZE)
+
+#if SYS_BTLD
+#define SYS_RUN_ADDR    (SYS_STR_ADDR - SYS_STR_ADDR)
+#define SYS_CMD_RESULT  9
+#else
+#define SYS_RUN_ADDR    (SYS_APP_ADDR - SYS_STR_ADDR)
+#define SYS_CMD_RESULT  0
+#endif
+
+#define IO_H_REG    BSHR
+#define IO_L_REG    BCR
 
 #ifdef GPIO_PINS_0
 	#define GPIO_Pin_0  GPIO_PINS_0
