@@ -28,8 +28,8 @@ int main(void)
         if(LED_Task.Trigger_Flag)
 		{
 			User_GPIO_set(2,4,LED_Task.Flip_falg);
-			stb_printf("->UTC %ds:%d us \n",now_time.SYS_Sec,now_time.SYS_Us);
-//			stb_printf("begin time %ds:%d us \n",LED_Task.Begin_time.SYS_Sec,LED_Task.Begin_time.SYS_Us);
+			Debug_printf("->UTC %ds:%d us \n",now_time.SYS_Sec,now_time.SYS_Us);
+//			Debug_printf("begin time %ds:%d us \n",LED_Task.Begin_time.SYS_Sec,LED_Task.Begin_time.SYS_Us);
 		}
 
         if(Center_State_machine(now_time))          // 状态机入口
@@ -47,5 +47,5 @@ void Main_Init(void)
     Mode_Use.TIME.Delay_Ms(10);
 
     Mode_Init.UART(1,115200,ENABLE);
-    stb_printf("MCU Init,MCU_SYS_FREQ: %d Hz \n",MCU_SYS_FREQ);
+    Debug_printf("MCU Init,MCU_SYS_FREQ: %d Hz \n",MCU_SYS_FREQ);
 }
