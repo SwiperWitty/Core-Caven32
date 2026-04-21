@@ -1044,12 +1044,12 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 				if (temp_val == 0)
 				{
 					temp_rt = 0x00;
-					BT_val = 0;
 					g_SYS_Config.app_crc = 0;
 					g_SYS_Config.app_crc = pack.p_Data[temp_num++];
 					g_SYS_Config.app_crc <<= 8;
 					g_SYS_Config.app_crc |= pack.p_Data[temp_num++];
-					
+					BT_val = 0;
+                    BT_addr = 0;
 					Base_Flash_Erase (SYS_APP_ADDR,SYS_APP_SIZE);
 				}
 				else if (temp_val == 0xFFFFFFFF)						// 完成
@@ -1062,7 +1062,6 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 						if(g_SYS_Config.app_crc == temp_sum)
 						{
 							temp_rt = 0x00;
-							BT_val = 0;
 							g_SYS_Config.Bt_mode = 1;
                             g_SYS_Config.app_crc = Encrypt_XMODEM_CRC16_Fun(addr_p, SYS_APP_SIZE);
 							System_app_save_boot ();
@@ -1073,21 +1072,21 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 						{
                             Debug_OutStr("bootld crc error \n");
                             Debug_printf("pack date %x,check data %x\n",g_SYS_Config.app_crc,temp_sum);
-							BT_val = 0;
 							temp_rt = 0x01;
                             pack.Result = m_Result_Fail_ERROR;
 						}
 					}
 					else
 					{
-						BT_val = 0;
 						temp_rt = 0x01;
                         pack.Result = m_Result_Fail_ERROR;
 					}
+                    BT_val = 0;
+                    BT_addr = 0;
 				}
 				else if (BT_val == temp_val || (BT_val + 1) == temp_val)		// 正常情况
 				{
-					temp_sum = pack.dSize - temp_num;
+					temp_sum = pack.dSize - temp_num;   // 这一帧，bin包大小
 					if (temp_sum > sizeof(temp_array))
 					{
 						temp_rt = 0x01;
@@ -1108,23 +1107,23 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 						}
 						else
 						{
-							temp_num = 1;
+							temp_num = 1;       // bin包大小异常
 						}
 						if(temp_num == 0)
 						{
 							temp_rt = 0;
 							BT_addr += temp_sum;
 						}
-						else
+						else                    // 写入失败
 						{
-							temp_rt = 1;
+							temp_rt ++;
                             pack.Result = m_Result_Fail_ERROR;
 						}
 					}
 				}
 				else
 				{
-					temp_rt = 0x02;
+					temp_rt = 0x02;             // 包序错误
                     pack.Result = m_Result_Fail_ERROR;
 				}
 				pack.p_Data[temp_run++] = (temp_val >> (8 * 3)) & 0xff;
@@ -1650,7 +1649,6 @@ int Caven_app_JSON_Make_pack (char *data,int way)
 int Caven_send_Heartbeat_Fun (void *data)
 {
     int retval = 0;
-#if NETWORK == 1
     uint8_t temp_array[10];
     int temp_num = 0;
     memcpy(temp_array,&g_SYS_Config.Serial,sizeof(g_SYS_Config.Serial));
@@ -1665,7 +1663,6 @@ int Caven_send_Heartbeat_Fun (void *data)
     temp_array[temp_num ++] = (g_SYS_Config.temp_val->Now_time.SYS_Sec >> (8 * 0)) & 0xff;
     retval = Caven_info_return_Fun (Caven_standard.Versions,Caven_standard.Type,g_SYS_Config.Addr,  \
     1,m_CAVEN_CMD1_TCPUpHtdata_Order,temp_num,temp_array,0,(uint8_t *)data);
-#endif
     return retval;
 }
 
