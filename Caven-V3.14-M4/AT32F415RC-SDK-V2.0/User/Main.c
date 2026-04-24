@@ -18,16 +18,20 @@ int main(void)
             .Begin_time = {0},
             .Set_time.SYS_Sec = 1,
             .Set_time.SYS_Us = 500000,
-            .Flip_falg = 0,
+            .Flip_flag = 0,
     };
     User_GPIO_config(2,4,1);
+	uint8_t iic_buf[10] = {0xff,6,7};
+	uint8_t iic_array[10];
     while(1)
     {
         now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
         API_Task_Timer (&LED_Task,now_time);        // LED任务
-        if(LED_Task.Trigger_Flag)
+        if(LED_Task.Trigger_flag)
 		{
-			User_GPIO_set(2,4,LED_Task.Flip_falg);
+			Base_IIC_Send_DATA(0x5a,iic_buf,1,1,10,1);
+			Base_IIC_Receive_DATA(0x5a,iic_array,1,1,10);
+			User_GPIO_set(2,4,LED_Task.Flip_flag);
 			Debug_printf("->UTC %ds:%d us \n",now_time.SYS_Sec,now_time.SYS_Us);
 //			Debug_printf("begin time %ds:%d us \n",LED_Task.Begin_time.SYS_Sec,LED_Task.Begin_time.SYS_Us);
 		}
@@ -46,6 +50,7 @@ void Main_Init(void)
     Mode_Init.TIME(ENABLE);
     Mode_Use.TIME.Delay_Ms(10);
 
-    Mode_Init.UART(1,115200,ENABLE);
+    Mode_Init.UART(DEBUG_CH,115200,ENABLE);
     Debug_printf("MCU Init,MCU_SYS_FREQ: %d Hz \n",MCU_SYS_FREQ);
+	Base_IIC_Init(ENABLE);
 }
