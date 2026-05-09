@@ -154,10 +154,8 @@ int sys_get_mac_fun (uint8_t *mac)
 	if(mac != NULL)
 	{
 		if (g_SYS_Config.MAC[0] == 0) {
-	#if Exist_ETH
+	#if NETWORK
 			Base_ETH_get_MAC (mac);
-	#else
-			memcpy(mac,g_SYS_Config.MAC,sizeof(g_SYS_Config.MAC));
 	#endif
 		}
 		else {
@@ -392,7 +390,7 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
     {
         System_start_Time = g_SYS_Config.temp_val->Now_time;
         g_SYS_Config.temp_val->Work_sec ++;
-		User_GPIO_set(2,15,1);	// rfid
+		User_GPIO_set(2,14,0);	// rfid
 		User_GPIO_set(1,1,1);	// info
 		User_GPIO_set(2,0,System_start_Time.SYS_Sec % 2);
     }
@@ -412,9 +410,9 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
 			httpHBT_task.Set_time.SYS_Sec = 1;
 		}
 		API_Task_Timer (&httpHBT_task,g_SYS_Config.temp_val->Now_time);
-		if(httpHBT_task.Trigger_Flag)
+		if(httpHBT_task.Trigger_flag)
 		{
-			httpHBT_task.Trigger_Flag = 0;
+			httpHBT_task.Trigger_flag = 0;
 			g_SYS_Config.temp_val->HTTPHBT_Run ++;
 			if(g_SYS_Config.temp_val->HTTPHBT_Run > g_SYS_Config.temp_val->Net_HBT_max)
 			{
@@ -440,9 +438,9 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
 			tcpHBT_task.Set_time.SYS_Sec = 1;
 		}
 		API_Task_Timer (&tcpHBT_task,g_SYS_Config.temp_val->Now_time);
-		if(tcpHBT_task.Trigger_Flag)
+		if(tcpHBT_task.Trigger_flag)
 		{
-			tcpHBT_task.Trigger_Flag = 0;
+			tcpHBT_task.Trigger_flag = 0;
 			g_SYS_Config.temp_val->TCPHBT_Run ++;
 			if(g_SYS_Config.temp_val->TCPHBT_Run > g_SYS_Config.temp_val->Net_HBT_max)
 			{
@@ -581,8 +579,9 @@ void System_app_Init (void)
 	User_GPIO_config(1,5,1);
 	User_GPIO_config(1,6,1);
 	User_GPIO_config(1,8,1);
-
+	User_GPIO_config(2,14,1);
 	
+	User_GPIO_set(2,14,0);		// rfid_LED
 	User_GPIO_set(1,4,1);		// GPOA
 	User_GPIO_set(1,5,1);		// GPOB
 	User_GPIO_set(1,6,1);		// GPOC
@@ -591,12 +590,10 @@ void System_app_Init (void)
 	Caven_new_event_Fun(&g_SYS_events,bzz_event_fun,&sys_bzz_event);
 	Caven_new_event_Fun(&g_SYS_events,gpo_event_fun,&sys_gpo_event);
 #endif
-	User_GPIO_config(2,15,1);
 	User_GPIO_config(2,0,1);
 	User_GPIO_config(1,0,1);
 	User_GPIO_config(1,1,1);
 
-	User_GPIO_set(2,15,1);		// rfid_LED
 	User_GPIO_set(2,0,1);		// run
 	User_GPIO_set(1,0,1);		// net
 	User_GPIO_set(1,1,1);		// info
