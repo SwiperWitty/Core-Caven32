@@ -44,7 +44,7 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 		}
 		if (JSON_len >= (sizeof(JSON_array) - 10) || temp_num > 2000)
 		{
-		#if SYS_BTLD == 0
+		#if SYS_BTLD != 1
 			Mode_Use.UART.Send_Data_pFun (m_UART_CH2,(uint8_t *)JSON_array,JSON_len);
 		#endif
 			JSON_len = 0;
@@ -91,7 +91,7 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 		}
 	}
 	get_State |= Caven_app_State_machine (Center_time);		// 5000 b
-#if SYS_BTLD == 0
+#if SYS_BTLD != 1
 //
 #endif
 	get_State |= System_app_State_machine (Center_time);
@@ -114,7 +114,7 @@ void Center_app_Init (void)
 	Mode_Use.USB_HID.Receive_Bind_pFun(usb_info_handle);
 #endif
 	Caven_app_Init ();
-#if SYS_BTLD == 0
+#if SYS_BTLD != 1
 //
 #endif
 }
@@ -125,7 +125,7 @@ void debug_info_handle (void *data)
 	uint8_t temp_data = *(uint8_t *)data;
 	int temp_num = 0;
     temp_num = Caven_app_Make_pack (temp_data,SYS_Link,Center_time);
-#if SYS_BTLD == 0
+#if SYS_BTLD != 1
 	if (temp_num <= 0)
 	{
 
@@ -155,7 +155,7 @@ void usb_info_handle (void *data)
 	uint8_t temp_data = *(uint8_t *)data;
 	int temp_num = 0;
     temp_num = Caven_app_Make_pack (temp_data,USB_Link,Center_time);
-#if SYS_BTLD == 0
+#if SYS_BTLD != 1
 	if (temp_num <= 0)
 	{
 
@@ -180,7 +180,7 @@ void server_info_handle (void *data)
 	uint8_t temp_data = *(uint8_t *)data;
 	int temp_num = 0;
     temp_num = Caven_app_Make_pack (temp_data,TCP_Server_Link,Center_time);
-#if SYS_BTLD == 0
+#if SYS_BTLD != 1
 	if (temp_num <= 0)
 	{
 
@@ -205,7 +205,7 @@ void client_info_handle (void *data)
 	uint8_t temp_data = *(uint8_t *)data;
 	int temp_num = 0;
     temp_num = Caven_app_Make_pack (temp_data,TCP_Client_Link,Center_time);
-#if SYS_BTLD == 0
+#if SYS_BTLD != 1
 	if (temp_num <= 0)
 	{
 
@@ -232,7 +232,7 @@ void Other_info_handle (void *data)
 	int temp_num = 0;
     temp_num = Caven_app_Make_pack (temp_data,Other_Link,Center_time);
 
-#if SYS_BTLD == 0
+#if SYS_BTLD != 1
 	if (temp_num <= 0)
 	{
 		if(temp_num <= 0)

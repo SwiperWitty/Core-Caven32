@@ -67,6 +67,7 @@ int GX_app_cmd1_handle (GX_info_packet_Type pack);
 int GX_app_cmd2_handle (GX_info_packet_Type pack);
 int GX_app_cmd3_handle (GX_info_packet_Type pack);
 int GX_app_send_packet(GX_info_packet_Type pack);
+int GX_app_forward_packet(GX_info_packet_Type pack);
 
 int GX_app_SYS_info_handle (GX_info_packet_Type pack)
 {
@@ -103,11 +104,15 @@ int GX_app_RFID_info_handle (GX_info_packet_Type pack)
 		{
 			if(pack.Prot_W_DFlag && pack.Prot_W_MID == 0)	// tag data
 			{
-				User_GPIO_set(2,15,0);
-				GX_tag_data_handle(pack);
+				User_GPIO_set(2,14,1);
+				if(g_SYS_Config.tcp_http_enable || g_SYS_Config.tcp_mqtt_enable)
+				{
+					GX_tag_data_handle(pack);
+				}
 			}
 		}
-		retval = GX_app_send_packet(pack);
+		retval = GX_app_forward_packet(pack);		// 快速转发
+		// retval = GX_app_send_packet(pack);
 		break;
 	default:
 		retval = GX_app_send_packet(pack);
@@ -473,6 +478,57 @@ int GX_app_cmd3_handle (GX_info_packet_Type pack)
     return retval;
 }
 
+int GX_app_forward_packet(GX_info_packet_Type pack)
+{
+	int retval = 0;
+    switch (pack.Comm_way)
+    {
+    case RS232_Link:
+        {
+			MODE_UART_DMA_Send_Data_Fun(m_UART_CH2,pack.p_AllData,pack.Get_num);
+//            Mode_Use.UART.Send_Data_pFun(m_UART_CH2,temp_array,temp_num);
+        }
+        break;
+    case RS485_Link:
+        {
+            
+        }
+        break;
+    case TCP_Server_Link:
+        {
+    #if NETWORK == 1
+            Base_TCP_Server_Send (pack.p_AllData,pack.Get_num);
+    #endif
+        }
+        break;
+    case TCP_Client_Link:
+        {
+    #if NETWORK == 1
+            Base_TCP_Client_Send (pack.p_AllData,pack.Get_num);
+    #endif
+        }
+        break;
+    case USB_Link:
+        {
+    #if Exist_USB
+        Mode_Use.USB_HID.Send_Data_pFun(pack.p_AllData,pack.Get_num);
+    #endif
+        }
+        break;
+    case Other_Link:
+        {
+            Mode_Use.UART.Send_Data_pFun(m_UART_CH3,pack.p_AllData,pack.Get_num);
+        }
+        break;
+    default:
+		{
+			MODE_UART_DMA_Send_Data_Fun(m_UART_CH1,pack.p_AllData,pack.Get_num);
+		}
+        break;
+    }
+	return retval;
+}
+
 int GX_app_send_packet(GX_info_packet_Type pack)
 {
     uint8_t temp_array[BUFF_MAX];
@@ -697,7 +753,7 @@ void GX_tag_data_updata_http (void)
 {
 	static Task_Overtime_Type http_tag = 
 	{
-		.Trigger_Flag = 0,
+		.Trigger_flag = 0,
 		.Begin_time = {0},
 	};
 	RFID_Tag_Type *temp_tag;;
@@ -711,14 +767,17 @@ void GX_tag_data_updata_http (void)
 		http_tag.Set_time.SYS_Sec = g_SYS_Config.HTTP_cycle;
 		API_Task_Timer(&http_tag,GX_app_time);	// 接管http_tag，由此函数填充
 
-		if(http_tag.Trigger_Flag)
+		if(http_tag.Trigger_flag)
 		{
-			http_tag.Trigger_Flag = 0;
+			http_tag.Trigger_flag = 0;
 			temp_num = MIN(10, Tags_num - Tags_run);
 			memset(p_temp,0,10);
 
 			strcat(p_temp,"{\r\n");
-			sprintf(temp_array,"\"deviceSerial\":\"%s\",\r\n","123");
+			sprintf(temp_array,"\"deviceSerial\":\"%s\",\r\n","null");
+			strcat(p_temp,temp_array);
+			sprintf(temp_array,"\"MAC\":\"%02x-%02x-%02x-%02x-%02x-%02x\",\r\n",
+			g_SYS_Config.MAC[0],g_SYS_Config.MAC[1],g_SYS_Config.MAC[2],g_SYS_Config.MAC[3],g_SYS_Config.MAC[4],g_SYS_Config.MAC[5]);
 			strcat(p_temp,temp_array);
 			sprintf(temp_array,"\"size\":\"%d\",\r\n",temp_num);
 			strcat(p_temp,temp_array);

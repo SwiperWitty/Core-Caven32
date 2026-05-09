@@ -10,7 +10,7 @@
 #define Log_tag "Caven_app info"
 
 // 消息通道
-#if SYS_BTLD == 0
+#if SYS_BTLD != 1
 static uint8_t info_packet_array[7][BUFF_MAX];
 #else
 static uint8_t info_packet_array[3][BUFF_MAX];
@@ -26,7 +26,7 @@ static Caven_info_packet_Type Caven_packet_mqtt;
 static Caven_info_packet_Type Caven_packet_udp;
 
 // 消息队列
-#if SYS_BTLD == 0
+#if SSYS_BTLD != 1
 #define CAVEN_PACK_M	5       // 列数
 #else
 #define CAVEN_PACK_M	3       // 列数
@@ -46,7 +46,7 @@ Caven_BaseTIME_Type Caven_app_time;
 
 int Caven_app_cmd1_handle (Caven_info_packet_Type pack);
 int Caven_app_cmd2_handle (Caven_info_packet_Type pack);
-#if SYS_BTLD == 0
+#if SYS_BTLD != 1
 int Caven_app_cmd3_handle (Caven_info_packet_Type pack);
 #endif
 int Caven_app_send_packet (Caven_info_packet_Type pack);
@@ -99,7 +99,7 @@ int Caven_app_State_machine(Caven_BaseTIME_Type time)
                 case 2:
                     retval = Caven_app_cmd2_handle (handle_pack);
                     break;
-#if SYS_BTLD == 0
+#if SYS_BTLD != 1
                 case 3:
                     retval = Caven_app_cmd3_handle (handle_pack);
                     break;
@@ -124,7 +124,7 @@ int Caven_app_State_machine(Caven_BaseTIME_Type time)
                 case 2:
                     retval = Caven_app_cmd2_handle (handle_pack);
                     break;
-#if SYS_BTLD == 0
+#if SYS_BTLD != 1
                 case 3:
                     retval = Caven_app_cmd3_handle (handle_pack);
                     break;
@@ -1003,7 +1003,7 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
             pack.Result = 0;
             if(rw_info == 0)
             {
-		#if SYS_BTLD
+		#if SYS_BTLD == 1
 				pack.p_Data[temp_run++] = 0;
 		#else
 				pack.p_Data[temp_run++] = 1;
@@ -1019,7 +1019,7 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 				temp_val <<= 8;
 				temp_val |= pack.p_Data[temp_num++];
 				
-		#if SYS_BTLD == 0
+		#if SYS_BTLD != 1
 			{
 				if(temp_val == 0)
 				{
@@ -1300,7 +1300,7 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
     return retval;
 }
 
-#if SYS_BTLD == 0
+#if SYS_BTLD != 1
 /*
 retval = 0，不做返回
 retval = 1，返回消息
@@ -1669,7 +1669,7 @@ int Caven_send_Heartbeat_Fun (void *data)
 void Caven_app_Init (void)
 {
     int temp_run = 0;
-#if SYS_BTLD == 0
+#if SYS_BTLD != 1
     Caven_info_packet_index_Fun(&Caven_packet_debug, info_packet_array[temp_run++]);
     Caven_info_packet_index_Fun(&Caven_packet_usb, info_packet_array[temp_run++]);
     Caven_info_packet_index_Fun(&Caven_packet_rs232, info_packet_array[temp_run++]);

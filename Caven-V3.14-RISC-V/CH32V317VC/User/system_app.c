@@ -306,7 +306,7 @@ int System_app_SYS_Config_Gain (void)
 	g_SYS_Config.Version[2] = DEMO_VER_sub_bit;
 	g_SYS_Config.Version[3] = 0;
 	memcpy(g_SYS_Config.Hostname,DEMO_Name_str,sizeof(DEMO_Name_str));
-#if SYS_BTLD == 0
+#if SYS_BTLD != 1
 	Base_Flash_Demarcation (SYS_CFG_ADDR);		// app only CFG_ADDR
 	// 在app层发现bt不在app，需要重置bt
 	if (g_SYS_Config.Bt_mode == 0)

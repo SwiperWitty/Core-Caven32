@@ -83,7 +83,7 @@
 #define Exist_DAC       OPEN_NULL
 
 #define Exist_UART      OPEN_1110
-#define Exist_IIC       OPEN_NULL
+#define Exist_IIC       OPEN_0001
 #define Exist_SPI       OPEN_NULL
 #define Exist_USB       OPEN_0001
 #define Exist_CAN       OPEN_NULL
@@ -102,6 +102,7 @@
 #define Exist_DS18B20           OPEN_NULL
 #define Exist_MLX90614          OPEN_NULL
 #define Exist_RTC8564           OPEN_NULL   // 时钟
+#define Exist_QMI8658           OPEN_0001
 
 #define Exist_Ultrasonic        OPEN_NULL   // 超声波测距
 
@@ -203,7 +204,7 @@
 
 // 内存信息
 // ch32v317 192k-rom/128k-ram
-#define SYS_BTLD    0
+#define SYS_BTLD    2
 #define SYS_STR_ADDR    0x08000000
 #define SYS_APP_ADDR    0x08008000  // 0x08000000\0x08008000
 
@@ -217,10 +218,13 @@
 
 #define SYS_CFG_ADDR    (SYS_APP_ADDR + SYS_APP_SIZE)
 
-#if SYS_BTLD
+#if SYS_BTLD == 1
 #define SYS_RUN_ADDR    (SYS_STR_ADDR - SYS_STR_ADDR)
 #define SYS_CMD_RESULT  9
-#else
+#elif SYS_BTLD == 0
+#define SYS_RUN_ADDR    (SYS_APP_ADDR - SYS_STR_ADDR)
+#define SYS_CMD_RESULT  0
+#elif SYS_BTLD == 2
 #define SYS_RUN_ADDR    (SYS_APP_ADDR - SYS_STR_ADDR)
 #define SYS_CMD_RESULT  0
 #endif

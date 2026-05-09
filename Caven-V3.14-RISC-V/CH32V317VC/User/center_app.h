@@ -6,7 +6,7 @@
 
 #include "system_app.h"
 #include "caven_app.h"
-#if SYS_BTLD == 0
+#if SYS_BTLD != 1
 
 #endif
 

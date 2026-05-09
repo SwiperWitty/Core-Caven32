@@ -143,6 +143,7 @@ void debug_info_handle (void *data)
 	{
 		g_SYS_Config.temp_val->Connect_passage = SYS_Link;
 		get_debug_pack_num ++;
+		JSON_len = 0;
 	}
 	else if (temp_num == -1)
 	{
@@ -166,6 +167,7 @@ void usb_info_handle (void *data)
 	if(temp_num == 0xff)
 	{
 		g_SYS_Config.temp_val->Connect_passage = USB_Link;
+		JSON_len = 0;
 	}
 
 	if (temp_num <= 0 && JSON_len < sizeof(JSON_array))
@@ -192,6 +194,7 @@ void server_info_handle (void *data)
 	if(temp_num == 0xff)
 	{
 		g_SYS_Config.temp_val->Connect_passage = TCP_Server_Link;
+		JSON_len = 0;
 	}
 	if (temp_num <= 0 && JSON_len < sizeof(JSON_array))
 	{
@@ -217,6 +220,7 @@ void client_info_handle (void *data)
 	if(temp_num == 0xff)
 	{
 		g_SYS_Config.temp_val->Connect_passage = TCP_Client_Link;
+		JSON_len = 0;
 	}
 	if (temp_num <= 0 && JSON_len < sizeof(JSON_array))
 	{
@@ -266,6 +270,7 @@ void RFID_info_handle (void *data)
 	if(temp_num == 0xff)
 	{
 		get_RFID_pack_num ++;
+		RFIDBK_len = 0;
 	}
 	else if (temp_num == -1)
 	{
