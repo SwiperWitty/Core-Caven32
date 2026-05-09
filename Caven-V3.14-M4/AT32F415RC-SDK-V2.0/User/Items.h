@@ -1,11 +1,24 @@
 #ifndef _ITEMS__H_
 #define _ITEMS__H_
-
+#if defined (AT32F415RCT7) || defined (AT32F415CBT7)
 #include "at32f415.h"
 // 软件配置的 基于内部48Mhz晶振  (48 / 6 / 2) * 36      APB 144M、APB1 72M、APB2 72M、（TIM All 144M）（ADC All 18M）（UART All 18M）
 #include "at32f415_clock.h"
 #include "stdio.h"
+#endif
+#if defined (STM32F10X_MD) || defined (STM32F10X_HD)
+#include "stm32f10x.h"
+// 软件配置的 基于xx晶振  
+#include "system_stm32f10x.h"
+#include "stdio.h"
+#endif
+#if defined (CH32V203)
 
+#include "stdio.h"
+#elif defined (CH32V317)
+#include "ch32v30x.h"
+#include "stdio.h"
+#endif
 /*
  *          SDK->Items
  *                      \\
@@ -59,21 +72,22 @@
 #ifndef Exist_SYS_TIME
     #define Exist_SYS_TIME  OPEN_0001 // 一定存在
 #endif
-#define Exist_PWM       OPEN_0001
-#define Exist_CAPTURE   OPEN_0001
+#define Exist_PWM       OPEN_NULL
+#define Exist_CAPTURE   OPEN_NULL
 
-#define Exist_BUTTON    OPEN_0001
-#define Exist_LED       OPEN_0001
+#define Exist_BUTTON    OPEN_NULL
+#define Exist_LED       OPEN_NULL
 #define Exist_BZZ       OPEN_NULL
 
 #define Exist_ADC		OPEN_NULL
 #define Exist_DAC       OPEN_NULL
 
-#define Exist_UART      OPEN_11110
-#define Exist_IIC       OPEN_NULL
-#define Exist_SPI       OPEN_0100
-#define Exist_USB       OPEN_0001
+#define Exist_UART      OPEN_1110
+#define Exist_IIC       OPEN_0001
+#define Exist_SPI       OPEN_NULL
+#define Exist_USB       OPEN_NULL
 #define Exist_CAN       OPEN_NULL
+#define Exist_ETH       OPEN_NULL
 
 #define Exist_FLASH     OPEN_0001
 
@@ -81,7 +95,7 @@
 
 /***    需要加上逻辑才能的功能     ***/
 #define Exist_LCD	            OPEN_NULL
-#define Exist_OLED              OPEN_0001
+#define Exist_OLED              OPEN_NULL
 
 #define Exist_HC138             OPEN_NULL
 #define Exist_HC595             OPEN_NULL
@@ -94,17 +108,19 @@
 #define Exist_Voice             OPEN_NULL   // 语音播报(MP3)
 
 #define Exist_Motor_Engine      OPEN_NULL   // 电机
-#define Exist_Steering_Engine   OPEN_0001   // 舵机
+#define Exist_Steering_Engine   OPEN_NULL   // 舵机
 #define Exist_STEP_Motor        OPEN_NULL
 #define Exist_Motor_BYJ         OPEN_NULL
 
-
 /****   进一步的逻辑关系    ****/
 #if Exist_UART
-    #define UART1_REMAP OPEN_0000
-    #define UART2_REMAP OPEN_0000
+    #define UART1_REMAP OPEN_0000		// OPEN_0000:PA9 10,OPEN_0001:PB6 7
+    #define UART2_REMAP OPEN_0000		// OPEN_0000:PA2 3
     #define UART3_REMAP OPEN_0001       // OPEN_0000:PB10 11,OPEN_0001:PC10 11
-    #define UART4_REMAP OPEN_0000
+    #define UART4_REMAP OPEN_0000		// OPEN_0000:PC10 11
+#endif
+#if Exist_USB
+    #define USB_MODE	OPEN_0000		// OPEN_0000:HID OPEN_0001:CDC OPEN_0010:HID+KB
 #endif
 #if Exist_CAPTURE
     #define TIM1_REMAP  OPEN_0000
@@ -149,13 +165,6 @@
 #endif
 
 /*****  冲突      *****/
-#if DEBUG_CH == 1
-    #if Exist_USB
-        #warning (UART1 And USB Clash !!!)
-        #undef Exist_USB
-        #define Exist_USB   OPEN_0000
-    #endif
-#endif
 
 #if Exist_LCD
     #if Exist_OLED
@@ -178,6 +187,8 @@
 #endif
 
 // boot
+#define NVIC_VECTOR_SET(addr)	nvic_vector_table_set(NVIC_VECTTAB_FLASH,addr)
+
 typedef void (*pFunction)(void); /* 跳转函数类型声明 */
 #define GO_TO_APP(addr) do{     \
 	pFunction jump_to_app;						\
@@ -188,7 +199,29 @@ typedef void (*pFunction)(void); /* 跳转函数类型声明 */
 	jump_to_app();							\
 }while(0);
 
-#define NVIC_VECTOR_SET(addr)	nvic_vector_table_set(NVIC_VECTTAB_FLASH,addr)
+// 内存信息
+// ch32v317 192k-rom/128k-ram
+#define SYS_BTLD    1
+#define SYS_STR_ADDR    0x08000000
+#define SYS_APP_ADDR    0x08008000  // 0x08000000\0x08008000
+
+#ifdef AT32F415CBT7
+#define SYS_APP_SIZE    0x00010000
+#elif AT32F415RCT7
+#define SYS_APP_SIZE    0x00020000
+#else
+#define SYS_APP_SIZE    0x00026000  // 0x00030000
+#endif
+
+#define SYS_CFG_ADDR    (SYS_APP_ADDR + SYS_APP_SIZE)
+
+#if SYS_BTLD
+#define SYS_RUN_ADDR    (SYS_STR_ADDR - SYS_STR_ADDR)
+#define SYS_CMD_RESULT  9
+#else
+#define SYS_RUN_ADDR    (SYS_APP_ADDR - SYS_STR_ADDR)
+#define SYS_CMD_RESULT  0
+#endif
 
 #define IO_H_REG    scr
 #define IO_L_REG    clr
@@ -236,3 +269,4 @@ typedef void (*pFunction)(void); /* 跳转函数类型声明 */
 #endif
 
 #endif
+
