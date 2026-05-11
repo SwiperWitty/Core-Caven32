@@ -392,7 +392,7 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
         g_SYS_Config.temp_val->Work_sec ++;
 		User_GPIO_set(2,14,0);	// rfid
 		User_GPIO_set(1,1,1);	// info
-		User_GPIO_set(2,0,System_start_Time.SYS_Sec % 2);
+		User_GPIO_set(5,0,System_start_Time.SYS_Sec % 2);
     }
 #if NETWORK == 1
 	char heart_array[200];
@@ -593,6 +593,7 @@ void System_app_Init (void)
 	User_GPIO_config(2,0,1);
 	User_GPIO_config(1,0,1);
 	User_GPIO_config(1,1,1);
+	User_GPIO_config(5,0,1);
 
 	User_GPIO_set(2,0,1);		// run
 	User_GPIO_set(1,0,1);		// net

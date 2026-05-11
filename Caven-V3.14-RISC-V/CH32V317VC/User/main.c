@@ -18,7 +18,6 @@ int main (void) {
     Base_IIC_Init(ENABLE);
 
     while (1) {
-        retval = MODE_QMI8658_Init (ENABLE);
         now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
         if(Center_State_machine(now_time) == 1)
         {

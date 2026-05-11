@@ -10,7 +10,7 @@
 #define Log_tag "Caven_app info"
 
 // 消息通道
-#if SYS_BTLD != 1
+#if SYS_BTLD == 0
 static uint8_t info_packet_array[7][BUFF_MAX];
 #else
 static uint8_t info_packet_array[3][BUFF_MAX];
@@ -26,7 +26,7 @@ static Caven_info_packet_Type Caven_packet_mqtt;
 static Caven_info_packet_Type Caven_packet_udp;
 
 // 消息队列
-#if SSYS_BTLD != 1
+#if SYS_BTLD == 0
 #define CAVEN_PACK_M	5       // 列数
 #else
 #define CAVEN_PACK_M	3       // 列数
@@ -46,7 +46,7 @@ Caven_BaseTIME_Type Caven_app_time;
 
 int Caven_app_cmd1_handle (Caven_info_packet_Type pack);
 int Caven_app_cmd2_handle (Caven_info_packet_Type pack);
-#if SYS_BTLD != 1
+#if SYS_BTLD == 0
 int Caven_app_cmd3_handle (Caven_info_packet_Type pack);
 #endif
 int Caven_app_send_packet (Caven_info_packet_Type pack);
@@ -86,7 +86,7 @@ int Caven_app_State_machine(Caven_BaseTIME_Type time)
         {
             return retval;
         }
-        
+        User_GPIO_set(1,1,0);       // info
         switch (handle_pack.Comm_way)
         {
         case SYS_Link:
@@ -99,7 +99,7 @@ int Caven_app_State_machine(Caven_BaseTIME_Type time)
                 case 2:
                     retval = Caven_app_cmd2_handle (handle_pack);
                     break;
-#if SYS_BTLD != 1
+#if SYS_BTLD == 0
                 case 3:
                     retval = Caven_app_cmd3_handle (handle_pack);
                     break;
@@ -124,7 +124,7 @@ int Caven_app_State_machine(Caven_BaseTIME_Type time)
                 case 2:
                     retval = Caven_app_cmd2_handle (handle_pack);
                     break;
-#if SYS_BTLD != 1
+#if SYS_BTLD == 0
                 case 3:
                     retval = Caven_app_cmd3_handle (handle_pack);
                     break;
@@ -1003,7 +1003,7 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
             pack.Result = 0;
             if(rw_info == 0)
             {
-		#if SYS_BTLD == 1
+		#if SYS_BTLD
 				pack.p_Data[temp_run++] = 0;
 		#else
 				pack.p_Data[temp_run++] = 1;
@@ -1019,7 +1019,7 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 				temp_val <<= 8;
 				temp_val |= pack.p_Data[temp_num++];
 				
-		#if SYS_BTLD != 1
+		#if SYS_BTLD == 0
 			{
 				if(temp_val == 0)
 				{
@@ -1044,12 +1044,12 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 				if (temp_val == 0)
 				{
 					temp_rt = 0x00;
-					BT_val = 0;
 					g_SYS_Config.app_crc = 0;
 					g_SYS_Config.app_crc = pack.p_Data[temp_num++];
 					g_SYS_Config.app_crc <<= 8;
 					g_SYS_Config.app_crc |= pack.p_Data[temp_num++];
-					
+					BT_val = 0;
+                    BT_addr = 0;
 					Base_Flash_Erase (SYS_APP_ADDR,SYS_APP_SIZE);
 				}
 				else if (temp_val == 0xFFFFFFFF)						// 完成
@@ -1062,7 +1062,6 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 						if(g_SYS_Config.app_crc == temp_sum)
 						{
 							temp_rt = 0x00;
-							BT_val = 0;
 							g_SYS_Config.Bt_mode = 1;
                             g_SYS_Config.app_crc = Encrypt_XMODEM_CRC16_Fun(addr_p, SYS_APP_SIZE);
 							System_app_save_boot ();
@@ -1072,21 +1071,22 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 						else
 						{
                             Debug_OutStr("bootld crc error \n");
-							BT_val = 0;
+                            Debug_printf("pack date %x,check data %x\n",g_SYS_Config.app_crc,temp_sum);
 							temp_rt = 0x01;
                             pack.Result = m_Result_Fail_ERROR;
 						}
 					}
 					else
 					{
-						BT_val = 0;
 						temp_rt = 0x01;
                         pack.Result = m_Result_Fail_ERROR;
 					}
+                    BT_val = 0;
+                    BT_addr = 0;
 				}
 				else if (BT_val == temp_val || (BT_val + 1) == temp_val)		// 正常情况
 				{
-					temp_sum = pack.dSize - temp_num;
+					temp_sum = pack.dSize - temp_num;   // 这一帧，bin包大小
 					if (temp_sum > sizeof(temp_array))
 					{
 						temp_rt = 0x01;
@@ -1107,23 +1107,23 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 						}
 						else
 						{
-							temp_num = 1;
+							temp_num = 1;       // bin包大小异常
 						}
 						if(temp_num == 0)
 						{
 							temp_rt = 0;
 							BT_addr += temp_sum;
 						}
-						else
+						else                    // 写入失败
 						{
-							temp_rt = 1;
+							temp_rt ++;
                             pack.Result = m_Result_Fail_ERROR;
 						}
 					}
 				}
 				else
 				{
-					temp_rt = 0x02;
+					temp_rt = 0x02;             // 包序错误
                     pack.Result = m_Result_Fail_ERROR;
 				}
 				pack.p_Data[temp_run++] = (temp_val >> (8 * 3)) & 0xff;
@@ -1300,7 +1300,7 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
     return retval;
 }
 
-#if SYS_BTLD != 1
+#if SYS_BTLD == 0
 /*
 retval = 0，不做返回
 retval = 1，返回消息
@@ -1669,7 +1669,7 @@ int Caven_send_Heartbeat_Fun (void *data)
 void Caven_app_Init (void)
 {
     int temp_run = 0;
-#if SYS_BTLD != 1
+#if SYS_BTLD == 0
     Caven_info_packet_index_Fun(&Caven_packet_debug, info_packet_array[temp_run++]);
     Caven_info_packet_index_Fun(&Caven_packet_usb, info_packet_array[temp_run++]);
     Caven_info_packet_index_Fun(&Caven_packet_rs232, info_packet_array[temp_run++]);

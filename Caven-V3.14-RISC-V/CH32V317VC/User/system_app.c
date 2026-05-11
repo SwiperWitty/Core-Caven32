@@ -71,7 +71,25 @@ int sys_set_time_fun (Caven_BaseTIME_Type time)
 
 void line_gpo_set(int num,int val)
 {
-
+	switch (num)
+	{
+		case 1:
+			User_GPIO_set(1,(3+num),val);
+			break;
+		case 2:
+			User_GPIO_set(1,(3+num),val);
+			break;
+		case 3:
+			User_GPIO_set(1,(3+num),val);
+			break;
+		case 4:
+			break;
+		case 5:
+			break;
+		default:
+			
+			break;
+	}
 }
 
 static int gpos_state = -1;
@@ -110,13 +128,37 @@ int sys_set_bzz_fun (int state)
 {
 	int retval = 0;
 	bzz_state = state;
-
+	if (bzz_old != bzz_state)
+	{
+		bzz_old = bzz_state;
+		if (bzz_state == 0)
+		{
+			User_GPIO_set(1,8,1);		// BZZ
+		}
+		else
+		{
+			User_GPIO_set(1,8,0);		// BZZ
+		}
+	}
 	return retval;
 }
 
 Caven_BaseTIME_Type sys_get_time_fun (void)
 {
 	return g_SYS_Config.temp_val->Now_time;
+}
+
+int sys_get_mac_fun (uint8_t *mac)
+{
+	if(mac != NULL)
+	{
+		if (g_SYS_Config.MAC[0] == 0) {
+			Base_ETH_get_MAC (mac);
+		}
+		else {
+			memcpy(mac,g_SYS_Config.MAC,sizeof(g_SYS_Config.MAC));
+		}
+	}
 }
 
 iD_pFun tcp_hbt_pFun = NULL;
@@ -273,7 +315,7 @@ void System_app_Restore (void)
 	strcpy(g_SYS_Config.TCPServer_port,"8160");
 	strcpy(g_SYS_Config.TCPClient_url,"192.168.1.128:9090");
 
-    g_SYS_Config.HTTPHBT_En = 0;
+    g_SYS_Config.HTTPHBT_En = 1;
     g_SYS_Config.HTTP_cycle = 5;
 	strcpy(g_SYS_Config.HTTP_url,"http://192.168.1.128:8080");
 	// test1:http://192.168.1.128:8080 test2:http://localhost
@@ -282,15 +324,10 @@ void System_app_Restore (void)
 	strcpy(g_SYS_Config.UDPCfg,"null");
 	strcpy(g_SYS_Config.UDP_multicast_str,"null");
 #endif
-	g_SYS_Config.temp_val->Connect_passage = SYS_Link;
-	g_SYS_Config.temp_val->TCPHBT_num = 0;
-	g_SYS_Config.temp_val->TCPHBT_Run = 0;
-	g_SYS_Config.temp_val->HTTPHBT_num = 0;
-	g_SYS_Config.temp_val->HTTPHBT_Run = 0;
-	g_SYS_Config.temp_val->Net_HBT_max = 3;
 	g_SYS_Config.app_crc = app_crc;
 	System_app_SYS_Config_Save ();
 }
+
 
 /*
 	gain SYS_Config
@@ -298,6 +335,7 @@ void System_app_Restore (void)
 int System_app_SYS_Config_Gain (void)
 {
 	int retval = 0;
+	g_SYS_Config.temp_val = &s_SYS_val;
 	Base_Flash_Read (&g_SYS_Config,SYS_CFG_ADDR,sizeof(g_SYS_Config));
 	// g_SYS_Config.debug = 0;
 	g_SYS_Config.Bddate = DEMO_Build_str;
@@ -306,7 +344,7 @@ int System_app_SYS_Config_Gain (void)
 	g_SYS_Config.Version[2] = DEMO_VER_sub_bit;
 	g_SYS_Config.Version[3] = 0;
 	memcpy(g_SYS_Config.Hostname,DEMO_Name_str,sizeof(DEMO_Name_str));
-#if SYS_BTLD != 1
+#if SYS_BTLD == 0
 	Base_Flash_Demarcation (SYS_CFG_ADDR);		// app only CFG_ADDR
 	// 在app层发现bt不在app，需要重置bt
 	if (g_SYS_Config.Bt_mode == 0)
@@ -320,7 +358,16 @@ int System_app_SYS_Config_Gain (void)
 	{
 		System_app_Restore ();
 	}
-	g_SYS_Config.temp_val->Reset_falg = 0;
+	if(g_SYS_Config.temp_val)
+	{
+		g_SYS_Config.temp_val->Reset_falg = 0;
+		g_SYS_Config.temp_val->Connect_passage = SYS_Link;
+		g_SYS_Config.temp_val->TCPHBT_num = 0;
+		g_SYS_Config.temp_val->TCPHBT_Run = 0;
+		g_SYS_Config.temp_val->HTTPHBT_num = 0;
+		g_SYS_Config.temp_val->HTTPHBT_Run = 0;
+		g_SYS_Config.temp_val->Net_HBT_max = 3;
+	}
 	return retval;
 }
 
@@ -339,15 +386,18 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
     {
         System_start_Time = g_SYS_Config.temp_val->Now_time;
         g_SYS_Config.temp_val->Work_sec ++;
-
-		User_GPIO_set(5,0,System_start_Time.SYS_Sec % 2);
+		User_GPIO_set(2,14,0);	// rfid
+		User_GPIO_set(1,1,1);	// info
+		User_GPIO_set(2,0,System_start_Time.SYS_Sec % 2);
+		retval = MODE_QMI8658_Init (ENABLE);
+		Debug_printf("utc [%d:%d],qmi %d \n",System_start_Time.SYS_Sec,System_start_Time.SYS_Us,retval);
     }
 #if NETWORK == 1
 	char heart_array[200];
 	int	net_temp = 0;
 	Base_ETH_Task ();
 	g_SYS_Config.temp_val->Net_falg = Base_ETH_get_status ();
-	
+	User_GPIO_set(1,0,!g_SYS_Config.temp_val->Net_falg);
 	if(g_SYS_Config.HTTPHBT_En && Base_TCP_HTTP_Config (NULL,1) > 0)
 	{
 		httpHBT_task.Switch = g_SYS_Config.HTTPHBT_En;
@@ -358,9 +408,9 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
 			httpHBT_task.Set_time.SYS_Sec = 1;
 		}
 		API_Task_Timer (&httpHBT_task,g_SYS_Config.temp_val->Now_time);
-		if(httpHBT_task.Trigger_Flag)
+		if(httpHBT_task.Trigger_flag)
 		{
-			httpHBT_task.Trigger_Flag = 0;
+			httpHBT_task.Trigger_flag = 0;
 			g_SYS_Config.temp_val->HTTPHBT_Run ++;
 			if(g_SYS_Config.temp_val->HTTPHBT_Run > g_SYS_Config.temp_val->Net_HBT_max)
 			{
@@ -369,8 +419,10 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
 			else
 			{
 				memset(heart_array,0,sizeof(heart_array));
-				sprintf(heart_array,"{\"deviceSerial\":\"%s\",\"heartbeatTime\":\"%d\",\"deviceUTC:\":\"%ds\",\"upTime\":\"%ds\"}",
-				"test",g_SYS_Config.temp_val->HTTPHBT_num,g_SYS_Config.temp_val->Now_time.SYS_Sec,g_SYS_Config.temp_val->Work_sec);
+				sprintf(heart_array,"{\"deviceSerial\":\"%s\",\"MAC\":\"%02x-%02x-%02x-%02x-%02x-%02x\",\"heartbeatTime\":\"%d\",\"deviceUTC:\":\"%ds\",\"upTime\":\"%ds\"}",
+				"null",g_SYS_Config.MAC[0],g_SYS_Config.MAC[1],g_SYS_Config.MAC[2],g_SYS_Config.MAC[3],g_SYS_Config.MAC[4],g_SYS_Config.MAC[5],
+				g_SYS_Config.temp_val->HTTPHBT_num,g_SYS_Config.temp_val->Now_time.SYS_Sec,g_SYS_Config.temp_val->Work_sec);
+
 				Base_TCP_HTTP_cache_Send_Fun (heart_array, strlen(heart_array));
 			}
 		}
@@ -386,9 +438,9 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
 			tcpHBT_task.Set_time.SYS_Sec = 1;
 		}
 		API_Task_Timer (&tcpHBT_task,g_SYS_Config.temp_val->Now_time);
-		if(tcpHBT_task.Trigger_Flag)
+		if(tcpHBT_task.Trigger_flag)
 		{
-			tcpHBT_task.Trigger_Flag = 0;
+			tcpHBT_task.Trigger_flag = 0;
 			g_SYS_Config.temp_val->TCPHBT_Run ++;
 			if(g_SYS_Config.temp_val->TCPHBT_Run > g_SYS_Config.temp_val->Net_HBT_max)
 			{
@@ -488,12 +540,10 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
     return retval;
 }
 
-#include "cv_log_160.h"
 void System_app_Init (void)
 {
 	int temp_num;
 	NVIC_VECTOR_SET(SYS_RUN_ADDR);
-	g_SYS_Config.temp_val = &s_SYS_val;
 	System_app_SYS_Config_Gain ();
 
 #if SYS_BTLD == 1
@@ -519,26 +569,38 @@ void System_app_Init (void)
 	Mode_Init.UART(m_UART_CH1,g_SYS_Config.RS232_UART_Cfg,ENABLE);
 	Mode_Init.UART(m_UART_CH2,g_SYS_Config.RS232_UART_Cfg,ENABLE);
 	Mode_Init.UART(m_UART_CH3,115200,ENABLE);
-
-	Mode_Use.LCD.Set_TargetModel_pFun(m_LCD_TYPE_1_30);
-	Mode_Use.LCD.Set_Direction_pFun(2);
-	Mode_Init.LCD(ENABLE);
 	#ifdef MCU_SYS_FREQ 
 	Debug_printf("MCU Init,MCU_SYS_FREQ: %d Hz \n",MCU_SYS_FREQ);
 	#endif
-	Debug_printf("MCU build date %s \n",g_SYS_Config.Bddate); 
+	Debug_printf("MCU build date %s \n",g_SYS_Config.Bddate);
+	Debug_printf("MCU CFG_file 0x%x \n",sizeof(g_SYS_Config));
 	
-	User_GPIO_config(5,0,1);
-	Mode_Use.LCD.Show_Picture_pFun(40,40,160,160,gImage_cv_log_160);
+	User_GPIO_config(1,4,1);
+	User_GPIO_config(1,5,1);
+	User_GPIO_config(1,6,1);
+	User_GPIO_config(1,8,1);
+	User_GPIO_config(2,14,1);
+	
+	User_GPIO_set(2,14,0);		// rfid_LED
+	User_GPIO_set(1,4,1);		// GPOA
+	User_GPIO_set(1,5,1);		// GPOB
+	User_GPIO_set(1,6,1);		// GPOC
+	User_GPIO_set(1,8,1);		// BZZ
 
 	Caven_new_event_Fun(&g_SYS_events,bzz_event_fun,&sys_bzz_event);
 	Caven_new_event_Fun(&g_SYS_events,gpo_event_fun,&sys_gpo_event);
 #endif
+	User_GPIO_config(2,0,1);
+	User_GPIO_config(1,0,1);
+	User_GPIO_config(1,1,1);
 
+	User_GPIO_set(2,0,1);		// run
+	User_GPIO_set(1,0,1);		// net
+	User_GPIO_set(1,1,1);		// info
 #if Exist_USB
 	Mode_Init.USB(ENABLE);
 #endif
-#if (NETWORK && Exist_ETH)
+#if (NETWORK == 1)
 	char array_ip[100],array_port[20];
     Base_ETH_config_local_ip (g_SYS_Config.eth_mode,
                     g_SYS_Config.eth_ip_str,
@@ -557,6 +619,7 @@ void System_app_Init (void)
 	{
 		g_SYS_Config.tcp_mqtt_enable = 0;
 	}
+	sys_get_mac_fun (g_SYS_Config.MAC);
 	Base_TCP_HTTP_Config (g_SYS_Config.HTTP_url,g_SYS_Config.tcp_http_enable);
 	// Base_TCP_MQTT_Config (g_SYS_Config.MQTTCfg,g_SYS_Config.tcp_mqtt_enable);
     Base_TCP_Server_Config (g_SYS_Config.TCPServer_port,g_SYS_Config.Server_break_off,g_SYS_Config.tcp_server_enable);
@@ -569,8 +632,6 @@ void System_app_Init (void)
         Debug_printf("TCPClient_url to ip: %s,port:%s ,en:%d\n",array_ip,array_port,g_SYS_Config.tcp_client_enable);
         Base_TCP_Client_Config (array_ip,array_port,g_SYS_Config.tcp_client_enable);
     }
-	// Mode_Use.LCD.Show_String_pFun(4,12,g_SYS_Config.eth_ip_str,LCD_Word_Color,LCD_Back_Color,16);
-	// Mode_Use.LCD.Show_String_pFun(4,13,g_SYS_Config.TCPServer_port,LCD_Word_Color,LCD_Back_Color,16);
 #endif
 	if(g_SYS_Config.Bt_mode == 0)
 	{

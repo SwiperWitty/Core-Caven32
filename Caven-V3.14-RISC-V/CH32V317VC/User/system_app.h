@@ -8,7 +8,7 @@
 /* 
 -试一下
 2023.11.8
-
+2026.5.7
 */
 
 typedef enum {
@@ -162,6 +162,8 @@ int System_app_State_machine (Caven_BaseTIME_Type time);
 void line_gpo_set(int num,int val);
 int sys_set_gpo_fun (int gpo,int state);
 int sys_set_bzz_fun (int state);
+int sys_get_mac_fun (uint8_t *mac);
+
 void Sys_TCP_send_Heartbeat_Bind_Fun (iD_pFun Fun);
 
 int System_app_save_UTCtime (void);

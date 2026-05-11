@@ -6,8 +6,8 @@
 
 #include "system_app.h"
 #include "caven_app.h"
-#if SYS_BTLD != 1
-
+#if SYS_BTLD == 0
+#include "gx_app.h"
 #endif
 
 void Center_app_Init (void);

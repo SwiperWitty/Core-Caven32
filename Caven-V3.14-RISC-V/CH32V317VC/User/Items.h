@@ -225,7 +225,7 @@
 #define SYS_RUN_ADDR    (SYS_APP_ADDR - SYS_STR_ADDR)
 #define SYS_CMD_RESULT  0
 #elif SYS_BTLD == 2
-#define SYS_RUN_ADDR    (SYS_APP_ADDR - SYS_STR_ADDR)
+#define SYS_RUN_ADDR    (SYS_STR_ADDR - SYS_STR_ADDR)
 #define SYS_CMD_RESULT  0
 #endif
 
