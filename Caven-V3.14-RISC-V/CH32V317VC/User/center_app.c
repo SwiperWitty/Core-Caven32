@@ -59,7 +59,6 @@ void Center_app_Init (void)
 #endif
 }
 
-int get_debug_data_num = 0,get_debug_pack_num = 0,get_debug_pack_error1 = 0;
 void debug_info_handle (void *data)
 {
 	uint8_t temp_data = *(uint8_t *)data;
@@ -80,15 +79,8 @@ void debug_info_handle (void *data)
 	if(temp_num == 0xff)
 	{
 		g_SYS_Config.temp_val->Connect_passage = SYS_Link;
-		get_debug_pack_num ++;
 		JSON_len = 0;
 	}
-	else if (temp_num == -1)
-	{
-		get_debug_pack_error1 ++;
-	}
-	
-	get_debug_data_num ++;
 }
 
 void usb_info_handle (void *data)
@@ -114,7 +106,6 @@ void usb_info_handle (void *data)
 		JSON_time = Center_time;
 		JSON_way = USB_Link;
 	}
-	(void)temp_num;
 }
 
 void server_info_handle (void *data)
@@ -140,7 +131,6 @@ void server_info_handle (void *data)
 		JSON_time = Center_time;
 		JSON_way = TCP_Server_Link;
 	}
-	(void)temp_num;
 }
 
 void client_info_handle (void *data)
@@ -166,7 +156,6 @@ void client_info_handle (void *data)
 		JSON_time = Center_time;
 		JSON_way = TCP_Client_Link;
 	}
-	(void)temp_num;
 }
 
 void Other_info_handle (void *data)

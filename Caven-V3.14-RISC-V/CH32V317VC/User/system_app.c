@@ -373,6 +373,7 @@ int System_app_SYS_Config_Gain (void)
 
 int cg_rs232_cfg = 0,cg_rs485_cfg = 0,cg_rj45_cfg = 0;
 Task_Overtime_Type httpHBT_task,tcpHBT_task;
+uint8_t iic_array[10];
 int System_app_State_machine (Caven_BaseTIME_Type time)
 {
 	int retval = 0;
@@ -389,8 +390,10 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
 		User_GPIO_set(2,14,0);	// rfid
 		User_GPIO_set(1,1,1);	// info
 		User_GPIO_set(2,0,System_start_Time.SYS_Sec % 2);
-		retval = MODE_QMI8658_Init (ENABLE);
-		Debug_printf("utc [%d:%d],qmi %d \n",System_start_Time.SYS_Sec,System_start_Time.SYS_Us,retval);
+		
+		// Base_IIC_Send_DATA(0X6b,"12",1,2,10,1);
+		// Base_IIC_Receive_DATA(0X5A,iic_array,0,1,10);
+		// Debug_printf("utc [%d:%d],qmi %d \n",System_start_Time.SYS_Sec,System_start_Time.SYS_Us,retval);
     }
 #if NETWORK == 1
 	char heart_array[200];
@@ -597,6 +600,7 @@ void System_app_Init (void)
 	User_GPIO_set(2,0,1);		// run
 	User_GPIO_set(1,0,1);		// net
 	User_GPIO_set(1,1,1);		// info
+	// MODE_QMI8658_Init (ENABLE);
 #if Exist_USB
 	Mode_Init.USB(ENABLE);
 #endif
