@@ -9,12 +9,15 @@
 */
 #define Log_tag "Caven_app info"
 
-// 消息通道
-#if SYS_BTLD == 0
+// 消息通道&循环队列数
+#if SYS_BTLD != 1
+#define CAVEN_PACK_M	5       // 列数
 static uint8_t info_packet_array[7][BUFF_MAX];
 #else
+#define CAVEN_PACK_M	3       // 列数
 static uint8_t info_packet_array[3][BUFF_MAX];
 #endif
+
 static Caven_info_packet_Type Caven_packet_debug;       // uart boot
 static Caven_info_packet_Type Caven_packet_Other;       // at
 static Caven_info_packet_Type Caven_packet_rs232;
@@ -25,12 +28,6 @@ static Caven_info_packet_Type Caven_packet_http;
 static Caven_info_packet_Type Caven_packet_mqtt;
 static Caven_info_packet_Type Caven_packet_udp;
 
-// 消息队列
-#if SYS_BTLD == 0
-#define CAVEN_PACK_M	5       // 列数
-#else
-#define CAVEN_PACK_M	3       // 列数
-#endif
 static uint8_t info_packet_buff_array[CAVEN_PACK_M][BUFF_MAX];
 static Caven_info_packet_Type Caven_packet_buff[CAVEN_PACK_M];
 
@@ -46,10 +43,12 @@ Caven_BaseTIME_Type Caven_app_time;
 
 int Caven_app_cmd1_handle (Caven_info_packet_Type pack);
 int Caven_app_cmd2_handle (Caven_info_packet_Type pack);
-#if SYS_BTLD == 0
+#if SYS_BTLD != 1
 int Caven_app_cmd3_handle (Caven_info_packet_Type pack);
 #endif
+
 int Caven_app_send_packet (Caven_info_packet_Type pack);
+int Caven_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time);
 
 int Caven_app_State_machine(Caven_BaseTIME_Type time)
 {
@@ -99,7 +98,7 @@ int Caven_app_State_machine(Caven_BaseTIME_Type time)
                 case 2:
                     retval = Caven_app_cmd2_handle (handle_pack);
                     break;
-#if SYS_BTLD == 0
+#if SYS_BTLD != 1
                 case 3:
                     retval = Caven_app_cmd3_handle (handle_pack);
                     break;
@@ -124,7 +123,7 @@ int Caven_app_State_machine(Caven_BaseTIME_Type time)
                 case 2:
                     retval = Caven_app_cmd2_handle (handle_pack);
                     break;
-#if SYS_BTLD == 0
+#if SYS_BTLD != 1
                 case 3:
                     retval = Caven_app_cmd3_handle (handle_pack);
                     break;
@@ -1300,7 +1299,7 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
     return retval;
 }
 
-#if SYS_BTLD == 0
+#if SYS_BTLD != 1
 /*
 retval = 0，不做返回
 retval = 1，返回消息
@@ -1548,6 +1547,82 @@ int Caven_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time)
 }
 
 /*
+Caven_app_Dual_cache_Make_pack
+p_flag:接收缓存区0->a,1->b;
+p_Collect_d: break Collect data;
+p_Collect_n: break Collect num;
+Collect_max: Collect max num;
+way：link way;
+retval:0    nop;
+retval:1    CV succ;
+retval:2    Collect succ;
+*/
+int Caven_app_Dual_cache_Make_pack 
+(uint8_t *cache_a,int *p_len_a,uint8_t *cache_b,int *p_len_b,char *p_flag,uint8_t *p_Collect_d,int *p_Collect_n,int Collect_max,int way,Caven_BaseTIME_Type time)
+{
+    int retval = 0;
+    uint8_t *cache_p = NULL;
+    int *len_p = NULL;
+	int get_len = 0,temp_num = 0,temp_run = 0;
+    if(cache_a == NULL || cache_b == NULL || p_flag == NULL)
+    {
+        return retval;
+    }
+	if(*p_flag == 0)
+	{
+		get_len = *p_len_a;
+		if(get_len > 0)
+		{
+			*p_flag = 1;
+			cache_p = cache_a;
+            len_p = p_len_a;
+            temp_run = 1;
+		}
+	}
+	if(temp_run == 0)
+	{
+		get_len = *p_len_b;
+		if(get_len > 0)
+		{
+			*p_flag = 0;
+			cache_p = cache_b;
+            len_p = p_len_b;
+            temp_run = 2;
+		}
+	}
+    if(temp_run)
+	{
+		uint8_t temp_data;
+		for(int i = 0; i < get_len; i++)
+		{
+			temp_data = *(cache_p + i);
+			temp_num = Caven_app_Make_pack (temp_data,way,time);
+			if(temp_num <= 0)	
+			{
+				// other info
+
+			}
+			if(temp_num == 0xff)
+			{
+                retval = 1;
+				*p_Collect_n = 0;
+			}
+		}
+        if (retval == 0 && p_Collect_d != NULL) 
+        {
+            if ((*p_Collect_n + get_len) < Collect_max)
+			{
+                memcpy(&p_Collect_d[*p_Collect_n],cache_p,get_len);
+                *p_Collect_n += get_len;
+                retval = 2;
+			}
+        }
+        *len_p = 0;
+	}
+    return retval;
+}
+
+/*
 retval < 0 失败
 
 */
@@ -1669,7 +1744,7 @@ int Caven_send_Heartbeat_Fun (void *data)
 void Caven_app_Init (void)
 {
     int temp_run = 0;
-#if SYS_BTLD == 0
+#if SYS_BTLD != 1
     Caven_info_packet_index_Fun(&Caven_packet_debug, info_packet_array[temp_run++]);
     Caven_info_packet_index_Fun(&Caven_packet_usb, info_packet_array[temp_run++]);
     Caven_info_packet_index_Fun(&Caven_packet_rs232, info_packet_array[temp_run++]);

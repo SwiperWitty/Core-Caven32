@@ -50,7 +50,11 @@ typedef enum {
 #define DEMO_VER_sub      0L
 #define DEMO_VER_sub_bit  1L
 //
+#if Exist_ETH
 #define NETWORK     1       // 1 使用功能，2 保留数据区，但不使用功能
+#else 
+#define NETWORK     2
+#endif
 //
 
 /*-----------------------------------*/

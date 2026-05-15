@@ -153,7 +153,9 @@ int sys_get_mac_fun (uint8_t *mac)
 	if(mac != NULL)
 	{
 		if (g_SYS_Config.MAC[0] == 0) {
+	#if NETWORK == 1
 			Base_ETH_get_MAC (mac);
+	#endif
 		}
 		else {
 			memcpy(mac,g_SYS_Config.MAC,sizeof(g_SYS_Config.MAC));
