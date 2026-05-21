@@ -79,7 +79,9 @@
 					"${project}/API/debug_log.c",
 					"${project}/API/debug_log.h",
 					"${project}/Debug/debug.h",
-					"${project}/Debug/debug.c"
+					"${project}/Debug/debug.c",
+					"${project}/Mode/IC_QMI8658.h",
+					"${project}/Mode/IC_QMI8658.c"
 				],
 				"optimization": {
 					"level": "size",

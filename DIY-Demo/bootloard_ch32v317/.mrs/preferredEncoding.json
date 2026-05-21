@@ -1,0 +1,24 @@
+{
+	"details": [
+		{
+			"file": "Base_CH32V317/Base_SPI.c",
+			"encoding": "utf8"
+		},
+		{
+			"file": "User/center_app.h",
+			"encoding": "utf8"
+		},
+		{
+			"file": "User/main.c",
+			"encoding": "utf8"
+		},
+		{
+			"file": "Base_CH32V317/Base_ETH.c",
+			"encoding": "utf8"
+		},
+		{
+			"file": "Base_CH32V317/Base_SPI.h",
+			"encoding": "utf8"
+		}
+	]
+}

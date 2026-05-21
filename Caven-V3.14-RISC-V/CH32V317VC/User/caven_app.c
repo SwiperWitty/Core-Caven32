@@ -11,22 +11,17 @@
 
 // 消息通道&循环队列数
 #if SYS_BTLD != 1
-#define CAVEN_PACK_M	5       // 列数
-static uint8_t info_packet_array[7][BUFF_MAX];
+#define CAVEN_PACK_M	6       // 列数
 #else
 #define CAVEN_PACK_M	3       // 列数
-static uint8_t info_packet_array[3][BUFF_MAX];
 #endif
 
-static Caven_info_packet_Type Caven_packet_debug;       // uart boot
-static Caven_info_packet_Type Caven_packet_Other;       // at
-static Caven_info_packet_Type Caven_packet_rs232;
-static Caven_info_packet_Type Caven_packet_usb;
-static Caven_info_packet_Type Caven_packet_server;
-static Caven_info_packet_Type Caven_packet_client;
-static Caven_info_packet_Type Caven_packet_http;
-static Caven_info_packet_Type Caven_packet_mqtt;
-static Caven_info_packet_Type Caven_packet_udp;
+static Caven_info_packet_Type *p_sys_pack = NULL;
+static Caven_info_packet_Type *p_usb_pack = NULL;
+static Caven_info_packet_Type *p_server_pack = NULL;
+static Caven_info_packet_Type *p_client_pack = NULL;
+static Caven_info_packet_Type *p_mqtt_pack = NULL;
+static Caven_info_packet_Type *p_other_pack = NULL;
 
 static uint8_t info_packet_buff_array[CAVEN_PACK_M][BUFF_MAX];
 static Caven_info_packet_Type Caven_packet_buff[CAVEN_PACK_M];
@@ -36,7 +31,7 @@ static Caven_info_packet_Type Caven_standard = {
 	.Head = 0xFA55,
     .Versions = 0x01,		// 版本
 	.Type = 1,
-    .dSize = BUFF_MAX,		// 最大长度
+    .dSize = 300,		    // 最大长度
 };
 
 Caven_BaseTIME_Type Caven_app_time;
@@ -45,6 +40,7 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack);
 int Caven_app_cmd2_handle (Caven_info_packet_Type pack);
 #if SYS_BTLD != 1
 int Caven_app_cmd3_handle (Caven_info_packet_Type pack);
+
 #endif
 
 int Caven_app_send_packet (Caven_info_packet_Type pack);
@@ -56,15 +52,15 @@ int Caven_app_State_machine(Caven_BaseTIME_Type time)
 	uint8_t temp_array[BUFF_MAX];
     Caven_app_time = time;
     Caven_info_packet_Type handle_pack;
-	Caven_info_packet_fast_clean_Fun(&handle_pack);
+	Caven_info_packet_clean_Fun(&handle_pack);
 	Caven_info_packet_index_Fun(&handle_pack, temp_array);
     Caven_Circular_queue_output (&handle_pack,Caven_packet_buff,CAVEN_PACK_M);     // 从队列中提取
-	if (handle_pack.Result & m_Result_SUCC)
+	if (handle_pack.Run_status == 0xff)
     {
-        if(handle_pack.Type == Caven_standard.Type || handle_pack.Type == 0)
+        if(handle_pack.Type == Caven_standard.Type || handle_pack.Type == 0)    // 白名单
         {
         }
-        else
+        else        // other type
         {
             // other pack
             if(handle_pack.Comm_way == Other_Link)
@@ -78,67 +74,36 @@ int Caven_app_State_machine(Caven_BaseTIME_Type time)
             }
             return retval;
         }
-        if(handle_pack.Addr == g_SYS_Config.Addr || handle_pack.Addr == 0)
+        if(handle_pack.Addr == g_SYS_Config.Addr || handle_pack.Addr == 0)    // 白名单
         {
+            switch (handle_pack.Cmd)
+            {
+            case 1:
+                retval = Caven_app_cmd1_handle (handle_pack);
+                break;
+            case 2:
+                retval = Caven_app_cmd2_handle (handle_pack);
+                break;
+    #if SYS_BTLD != 1
+            case 3:
+                retval = Caven_app_cmd3_handle (handle_pack);
+                break;
+    #endif
+            default:		// 不支持的CMD
+                {
+                    handle_pack.Result = m_Result_Fail_CMD;
+                    handle_pack.dSize = 0;
+                    retval = Caven_app_send_packet(handle_pack);
+                }
+                break;
+            }
         }
         else
         {
             return retval;
         }
-        User_GPIO_set(1,1,0);       // info
-        switch (handle_pack.Comm_way)
-        {
-        case SYS_Link:
-            {
-                switch (handle_pack.Cmd)
-                {
-                case 1:
-                    retval = Caven_app_cmd1_handle (handle_pack);
-                    break;
-                case 2:
-                    retval = Caven_app_cmd2_handle (handle_pack);
-                    break;
-#if SYS_BTLD != 1
-                case 3:
-                    retval = Caven_app_cmd3_handle (handle_pack);
-                    break;
-#endif
-                default:		// 不支持的CMD
-					{
-						handle_pack.Result = m_Result_Fail_CMD;
-						handle_pack.dSize = 0;
-						retval = Caven_app_send_packet(handle_pack);
-					}
-					break;
-                }
-            }
-            break;
-        default:
-            {
-                switch (handle_pack.Cmd)
-                {
-                case 1:
-                    retval = Caven_app_cmd1_handle (handle_pack);
-                    break;
-                case 2:
-                    retval = Caven_app_cmd2_handle (handle_pack);
-                    break;
-#if SYS_BTLD != 1
-                case 3:
-                    retval = Caven_app_cmd3_handle (handle_pack);
-                    break;
-#endif
-                default:		// 不支持的CMD
-					{
-						handle_pack.Result = m_Result_Fail_CMD;
-						handle_pack.dSize = 0;
-						retval = Caven_app_send_packet(handle_pack);
-					}
-					break;
-                }
-            }
-            break;
-        }
+
+
     }
 	return retval;
 }
@@ -1460,87 +1425,123 @@ int Caven_app_send_packet(Caven_info_packet_Type pack)
     return retval;
 }
 
-static Caven_BaseTIME_Type debug_time,rs232_time,usb_time,server_time,client_time,mqtt_time,udp_time,Other_time;
 int Caven_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time)
 {
     int retval = 0;
     int temp_num = 0;
-    Caven_info_packet_Type * temp_pack = NULL;
+    Caven_info_packet_Type *temp_pack = NULL;
+    Caven_info_packet_Type **pp_temp_pack = NULL;
     switch (way)
     {
     case SYS_Link:
         {
-            temp_pack = &Caven_packet_debug;
-            temp_num = time.SYS_Sec - debug_time.SYS_Sec;
-			debug_time = time;
+            if (p_sys_pack == NULL) {
+                p_sys_pack = Caven_Buff_Request_Occupy_Data (Caven_packet_buff,CAVEN_PACK_M);
+            }
+            temp_pack = p_sys_pack;
+            if (temp_pack != NULL) {
+                pp_temp_pack = &p_sys_pack;
+            }
+            else {
+                retval = -1;
+            }
         }
         break;
     case RS232_Link:
         {
-            temp_pack = &Caven_packet_rs232;
-            temp_num = time.SYS_Sec - rs232_time.SYS_Sec;
-			rs232_time = time;
         }
         break;
     case USB_Link:
         {
-            temp_pack = &Caven_packet_usb;
-            temp_num = time.SYS_Sec - usb_time.SYS_Sec;
-			usb_time = time;
+            if (p_usb_pack == NULL) {
+                p_usb_pack = Caven_Buff_Request_Occupy_Data (Caven_packet_buff,CAVEN_PACK_M);
+            }
+            temp_pack = p_usb_pack;
+            if (temp_pack != NULL) {
+                pp_temp_pack = &p_usb_pack;
+            }
+            else {
+                retval = -1;
+            }
         }
         break;
     case TCP_Server_Link:
         {
-            temp_pack = &Caven_packet_server;
-            temp_num = time.SYS_Sec - server_time.SYS_Sec;
-			server_time = time;
+            if (p_server_pack == NULL) {
+                p_server_pack = Caven_Buff_Request_Occupy_Data (Caven_packet_buff,CAVEN_PACK_M);
+            }
+            temp_pack = p_server_pack;
+            if (temp_pack != NULL) {
+                pp_temp_pack = &p_server_pack;
+            }
+            else {
+                retval = -1;
+            }
         }
         break;
     case TCP_Client_Link:
         {
-            temp_pack = &Caven_packet_client;
-            temp_num = time.SYS_Sec - client_time.SYS_Sec;
-			client_time = time;
+            if (p_client_pack == NULL) {
+                p_client_pack = Caven_Buff_Request_Occupy_Data (Caven_packet_buff,CAVEN_PACK_M);
+            }
+            temp_pack = p_client_pack;
+            if (temp_pack != NULL) {
+                pp_temp_pack = &p_client_pack;
+            }
+            else {
+                retval = -1;
+            }
         }
         break;
     case TCP_MQTT_Link:
         {
-            temp_pack = &Caven_packet_mqtt;
-            temp_num = time.SYS_Sec - mqtt_time.SYS_Sec;
-			mqtt_time = time;
         }
         break;
     case TCP_UDP_Link:
         {
-            temp_pack = &Caven_packet_udp;
-            temp_num = time.SYS_Sec - udp_time.SYS_Sec;
-			udp_time = time;
         }
         break;
     default:
         {
-            temp_pack = &Caven_packet_Other;
-            temp_num = time.SYS_Sec - Other_time.SYS_Sec;
-			Other_time = time;
+            if (p_other_pack == NULL) {
+                p_other_pack = Caven_Buff_Request_Occupy_Data (Caven_packet_buff,CAVEN_PACK_M);
+            }
+            temp_pack = p_other_pack;
+            if (temp_pack != NULL) {
+                pp_temp_pack = &p_other_pack;
+            }
+            else {
+                retval = -1;
+            }
         }
         break;
     }
+    if(temp_pack != NULL)
+    {
+        temp_pack->Occupy = 1;
+        if (temp_pack->Time.SYS_Sec > 0) {
+            temp_num = time.SYS_Sec - temp_pack->Time.SYS_Sec;
+        }
+        temp_pack->Time = time;
+    }
     if (temp_num > 1)   // 去掉数据包 
     {
-        Caven_info_packet_fast_clean_Fun(temp_pack);
+        Caven_info_packet_clean_Fun(temp_pack);
     }
-    if (temp_pack != NULL && retval == 0)
+    if (retval == 0)
     {
         retval = Caven_info_Make_packet_Fun(Caven_standard, temp_pack, data);
         if (retval == 0xFF)
         {
+            *pp_temp_pack = NULL;
             temp_pack->Comm_way = way;
-            Caven_Circular_queue_input (*temp_pack,Caven_packet_buff,CAVEN_PACK_M);   // 常规入队 
-            Caven_info_packet_fast_clean_Fun(temp_pack);
+            // Caven_Circular_queue_input (*temp_pack,Caven_packet_buff,CAVEN_PACK_M);   // 常规入队 
+            // Caven_info_packet_clean_Fun(temp_pack);
         }
         else if (retval < 0)
         {
-            Caven_info_packet_fast_clean_Fun(temp_pack);
+            *pp_temp_pack = NULL;
+            Caven_info_packet_clean_Fun(temp_pack);
         }
     }
     return retval;
@@ -1636,25 +1637,16 @@ int Caven_app_JSON_Make_pack (char *data,int way)
 	
 	temp_len = strlen(data);
 	temp_str = memstr(data, "\"Caven_pack\"",temp_len);
+    temp_pack = Caven_Buff_Request_Occupy_Data (Caven_packet_buff,CAVEN_PACK_M);
+    if (temp_pack == NULL)
+    {
+        return retval;
+    }
 	if(temp_str != NULL)
 	{
 		memset(array,0,sizeof(array));
 		temp_len = strlen(temp_str);
-		switch (way)
-		{
-		case TCP_HTTP_Link:
-			temp_pack = &Caven_packet_http;
-			break;
-		case TCP_MQTT_Link:
-			temp_pack = &Caven_packet_mqtt;
-			break;
-		default:
-			break;
-		}
-		if (temp_pack == NULL)
-		{
-			return retval;
-		}
+
 		if (temp_pack->p_AllData != NULL)
 		{
 			temp_pack->p_Data = temp_pack->p_AllData + 2 + 5 + 2;
@@ -1711,11 +1703,12 @@ int Caven_app_JSON_Make_pack (char *data,int way)
 			temp_pack->Comm_way = way;
 			temp_pack->dSize = temp_len;
 			temp_pack->Get_num = temp_len + 2 + 5 + 2;
-			temp_pack->Result = 0x50;
+			temp_pack->Result = 0;
 			temp_pack->Type = 0;
 			temp_pack->Versions = 1;
+            temp_pack->Run_status = 0xff;
 			Caven_Circular_queue_input (*temp_pack,Caven_packet_buff,CAVEN_PACK_M);   // JSON入队 
-            Caven_info_packet_fast_clean_Fun(temp_pack);
+            Caven_info_packet_clean_Fun(temp_pack);
 		}
 	}
 	return retval;
@@ -1743,24 +1736,10 @@ int Caven_send_Heartbeat_Fun (void *data)
 
 void Caven_app_Init (void)
 {
-    int temp_run = 0;
-#if SYS_BTLD != 1
-    Caven_info_packet_index_Fun(&Caven_packet_debug, info_packet_array[temp_run++]);
-    Caven_info_packet_index_Fun(&Caven_packet_usb, info_packet_array[temp_run++]);
-    Caven_info_packet_index_Fun(&Caven_packet_rs232, info_packet_array[temp_run++]);
-    Caven_info_packet_index_Fun(&Caven_packet_server, info_packet_array[temp_run++]);
-    Caven_info_packet_index_Fun(&Caven_packet_client, info_packet_array[temp_run++]);
-    Caven_info_packet_index_Fun(&Caven_packet_mqtt, info_packet_array[temp_run++]);
-	Caven_info_packet_index_Fun(&Caven_packet_Other, info_packet_array[temp_run++]);
-#else 
-    Caven_info_packet_index_Fun(&Caven_packet_debug, info_packet_array[temp_run++]);
-    Caven_info_packet_index_Fun(&Caven_packet_Other, info_packet_array[temp_run++]);
-    Caven_info_packet_index_Fun(&Caven_packet_server, info_packet_array[temp_run]);     // net网络公用内存
-#endif
     for (int i = 0; i < CAVEN_PACK_M; i++)
     {
         Caven_info_packet_index_Fun(&Caven_packet_buff[i], info_packet_buff_array[i]);
-		Caven_info_packet_fast_clean_Fun(&Caven_packet_buff[i]);
+		Caven_info_packet_clean_Fun(&Caven_packet_buff[i]);
     }
     Sys_TCP_send_Heartbeat_Bind_Fun (Caven_send_Heartbeat_Fun);
 }

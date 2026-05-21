@@ -14,8 +14,6 @@ int main (void) {
     Main_Init();
     now_time.SYS_Sec = 1742299486;
     Mode_Use.TIME.Set_BaseTIME_pFun (now_time);
-    // SPI2_FullDuplex_Init();
-    Base_IIC_Init(ENABLE);
 
     while (1) {
         now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
@@ -31,6 +29,6 @@ int main (void) {
 void Main_Init (void) {
     Mode_Index();
 
-    Center_app_Init();  // 6300 b
-    System_app_Init();  // 2000	b
+    Center_app_Init();
+    System_app_Init();
 }

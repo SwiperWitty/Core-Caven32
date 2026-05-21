@@ -8,7 +8,7 @@
 /* 
 -试一下
 2023.11.8
-
+2026.5.7
 */
 
 typedef enum {
@@ -45,12 +45,23 @@ typedef enum {
 //
 #define DEMO_Build_str __DATE__
 #define DEMO_Serial     0x0101011900123456
-#define DEMO_Name_str       "bootld\0"
+#if SYS_BTLD == 1
+#define DEMO_Name_str   "bootld\0"
 #define DEMO_VER          1L
 #define DEMO_VER_sub      0L
+#define DEMO_VER_sub_bit  2L
+#else
+#define DEMO_Name_str   "L1004 v2.0\0"
+#define DEMO_VER          2L
+#define DEMO_VER_sub      0L
 #define DEMO_VER_sub_bit  1L
+#endif
 //
-#define NETWORK     2       // 1 使用功能，2 保留数据区，但不使用功能
+#if Exist_ETH
+#define NETWORK     1       // 1 使用功能，2 保留数据区，但不使用功能
+#else 
+#define NETWORK     2
+#endif
 //
 
 /*-----------------------------------*/

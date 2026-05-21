@@ -4,8 +4,8 @@
 			"path": "."
 		},
 		{
-			"name": "boot_317",
-			"path": "E:\\work\\soft-work\\Caven_RTOS\\ch32\\bootloard_ch32v317"
+			"name": "Caven",
+			"path": "E:\\work\\soft-work\\Core-Caven32\\Caven-V3.14-RISC-V\\CH32V317VC"
 		}
 	],
 	"settings": {

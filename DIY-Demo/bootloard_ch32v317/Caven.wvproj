@@ -48,7 +48,7 @@
 				"name": "Debug"
 			}
 		],
-		"projectName": "boot_317",
+		"projectName": "Caven",
 		"architecture": "RISC-V",
 		"projectType": "c"
 	},
@@ -79,7 +79,9 @@
 					"${project}/API/debug_log.c",
 					"${project}/API/debug_log.h",
 					"${project}/Debug/debug.h",
-					"${project}/Debug/debug.c"
+					"${project}/Debug/debug.c",
+					"${project}/Mode/IC_QMI8658.h",
+					"${project}/Mode/IC_QMI8658.c"
 				],
 				"optimization": {
 					"level": "size",
@@ -175,14 +177,10 @@
 							"${project}/Mode",
 							"${project}/API/STB",
 							"${project}/IQmath_RV32IMACXW",
-							"${project}/Base_CH32V317/USBLIB",
+							"${project}/Startup",
 							"${project}/Base_CH32V317/USBLIB/USB-Driver"
 						],
-						"include_system_paths": [
-							"${project}/Base_CH32V317/USBLIB/CONFIG",
-							"${project}/Base_CH32V317/USBLIB/USB-Driver/inc",
-							"${project}/Base_CH32V317/USBLIB/USB-Driver/src"
-						],
+						"include_system_paths": [],
 						"include_files": []
 					},
 					"optimization": {
@@ -386,7 +384,7 @@
 	"flashConfig": {
 		"mcutype": "CH32V317",
 		"address": "0x08000000",
-		"target_path": "obj\\boot_317.hex",
+		"target_path": "obj\\Caven.hex",
 		"clkSpeed": "High",
 		"debug_interface_mode": "1-wire serial",
 		"erase": true,
@@ -396,7 +394,7 @@
 		"sdiPrintf": false,
 		"disablepowerout": false,
 		"clearcodeflash": false,
-		"disablecodeprotect": true,
+		"disablecodeprotect": false,
 		"exepath": "",
 		"exearguments": ""
 	},
@@ -464,8 +462,8 @@
 			"showDebugOutputTimestamps": true
 		},
 		"reserve": {
-			"PROGRAM_NAME": "obj/boot_317.elf",
-			"PROJECT_ATTR": "boot_317",
+			"PROGRAM_NAME": "obj/Caven.elf",
+			"PROJECT_ATTR": "Caven",
 			"PROJECT_BUILD_CONFIG_AUTO_ATTR": true,
 			"PROJECT_BUILD_CONFIG_ID_ATTR": "",
 			"ATTR_BUILD_BEFORE_LAUNCH_ATTR": 2,

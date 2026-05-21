@@ -94,7 +94,7 @@
 #define GUI_LVGL        OPEN_NULL
 
 /***    需要加上逻辑才能的功能     ***/
-#define Exist_LCD	            OPEN_0001
+#define Exist_LCD	            OPEN_NULL
 #define Exist_OLED              OPEN_NULL
 
 #define Exist_HC138             OPEN_NULL
@@ -102,7 +102,7 @@
 #define Exist_DS18B20           OPEN_NULL
 #define Exist_MLX90614          OPEN_NULL
 #define Exist_RTC8564           OPEN_NULL   // 时钟
-#define Exist_QMI8658           OPEN_0001
+#define Exist_QMI8658           OPEN_NULL
 
 #define Exist_Ultrasonic        OPEN_NULL   // 超声波测距
 
@@ -204,7 +204,7 @@
 
 // 内存信息
 // ch32v317 192k-rom/128k-ram
-#define SYS_BTLD    2
+#define SYS_BTLD    1
 #define SYS_STR_ADDR    0x08000000
 #define SYS_APP_ADDR    0x08008000  // 0x08000000\0x08008000
 

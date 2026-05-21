@@ -154,7 +154,7 @@ int sys_get_mac_fun (uint8_t *mac)
 	if(mac != NULL)
 	{
 		if (g_SYS_Config.MAC[0] == 0) {
-	#if NETWORK
+	#if NETWORK == 1
 			Base_ETH_get_MAC (mac);
 	#endif
 		}
@@ -377,6 +377,7 @@ int System_app_SYS_Config_Gain (void)
 
 int cg_rs232_cfg = 0,cg_rs485_cfg = 0,cg_rj45_cfg = 0;
 Task_Overtime_Type httpHBT_task,tcpHBT_task;
+
 int System_app_State_machine (Caven_BaseTIME_Type time)
 {
 	int retval = 0;
@@ -393,6 +394,7 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
 		User_GPIO_set(2,14,0);	// rfid
 		User_GPIO_set(1,1,1);	// info
 		User_GPIO_set(5,0,System_start_Time.SYS_Sec % 2);
+		
     }
 #if NETWORK == 1
 	char heart_array[200];
@@ -421,8 +423,10 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
 			else
 			{
 				memset(heart_array,0,sizeof(heart_array));
-				sprintf(heart_array,"{\"deviceSerial\":\"%s\",\"heartbeatTime\":\"%d\",\"deviceUTC:\":\"%ds\",\"upTime\":\"%ds\"}",
-				"test",g_SYS_Config.temp_val->HTTPHBT_num,g_SYS_Config.temp_val->Now_time.SYS_Sec,g_SYS_Config.temp_val->Work_sec);
+				sprintf(heart_array,"{\"deviceSerial\":\"%s\",\"MAC\":\"%02x-%02x-%02x-%02x-%02x-%02x\",\"heartbeatTime\":\"%d\",\"deviceUTC:\":\"%ds\",\"upTime\":\"%ds\"}",
+				"null",g_SYS_Config.MAC[0],g_SYS_Config.MAC[1],g_SYS_Config.MAC[2],g_SYS_Config.MAC[3],g_SYS_Config.MAC[4],g_SYS_Config.MAC[5],
+				g_SYS_Config.temp_val->HTTPHBT_num,g_SYS_Config.temp_val->Now_time.SYS_Sec,g_SYS_Config.temp_val->Work_sec);
+
 				Base_TCP_HTTP_cache_Send_Fun (heart_array, strlen(heart_array));
 			}
 		}
@@ -503,7 +507,7 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
 	if (g_SYS_Config.temp_val->Reset_falg)
 	{
 		Mode_Use.TIME.Delay_Ms (100);
-		// Debug_printf("RST SYS UTC %ds,work %ds \n",g_SYS_Config.Now_time.SYS_Sec,g_SYS_Config.Work_sec);
+		Debug_printf("RST SYS UTC %ds,work %ds \n",g_SYS_Config.temp_val->Now_time.SYS_Sec,g_SYS_Config.temp_val->Work_sec);
 	}
 	if(cg_rs232_cfg == 0)
 	{
@@ -620,6 +624,7 @@ void System_app_Init (void)
 	{
 		g_SYS_Config.tcp_mqtt_enable = 0;
 	}
+	sys_get_mac_fun (g_SYS_Config.MAC);
 	Base_TCP_HTTP_Config (g_SYS_Config.HTTP_url,g_SYS_Config.tcp_http_enable);
 	// Base_TCP_MQTT_Config (g_SYS_Config.MQTTCfg,g_SYS_Config.tcp_mqtt_enable);
     Base_TCP_Server_Config (g_SYS_Config.TCPServer_port,g_SYS_Config.Server_break_off,g_SYS_Config.tcp_server_enable);
