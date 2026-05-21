@@ -39,11 +39,12 @@ void NMI_Handler(void)
  */
 void HardFault_Handler(void)
 {
-    // printf("HardFault_Handler\r\n");
+    Debug_printf("HardFault_Handler\r\n");
 
-    // printf("mepc  :%08x\r\n", __get_MEPC());
-    // printf("mcause:%08x\r\n", __get_MCAUSE());
-    // printf("mtval :%08x\r\n", __get_MTVAL());
+    Debug_printf("mepc  :%08x\r\n", __get_MEPC());
+    Debug_printf("mcause:%08x\r\n", __get_MCAUSE());
+    Debug_printf("mtval :%08x\r\n", __get_MTVAL());
+    SYS_Base_Delay(1000,10000);
     NVIC_SystemReset();
     while(1);
 }

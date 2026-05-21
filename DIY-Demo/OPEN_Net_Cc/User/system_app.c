@@ -150,15 +150,19 @@ Caven_BaseTIME_Type sys_get_time_fun (void)
 
 int sys_get_mac_fun (uint8_t *mac)
 {
+	int retval = 0;
 	if(mac != NULL)
 	{
 		if (g_SYS_Config.MAC[0] == 0) {
+	#if NETWORK == 1
 			Base_ETH_get_MAC (mac);
+	#endif
 		}
 		else {
 			memcpy(mac,g_SYS_Config.MAC,sizeof(g_SYS_Config.MAC));
 		}
 	}
+	return retval;
 }
 
 iD_pFun tcp_hbt_pFun = NULL;
@@ -373,6 +377,7 @@ int System_app_SYS_Config_Gain (void)
 
 int cg_rs232_cfg = 0,cg_rs485_cfg = 0,cg_rj45_cfg = 0;
 Task_Overtime_Type httpHBT_task,tcpHBT_task;
+
 int System_app_State_machine (Caven_BaseTIME_Type time)
 {
 	int retval = 0;
@@ -388,7 +393,8 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
         g_SYS_Config.temp_val->Work_sec ++;
 		User_GPIO_set(2,14,0);	// rfid
 		User_GPIO_set(1,1,1);	// info
-		User_GPIO_set(2,0,System_start_Time.SYS_Sec % 2);
+		User_GPIO_set(5,0,System_start_Time.SYS_Sec % 2);
+		
     }
 #if NETWORK == 1
 	char heart_array[200];
@@ -501,7 +507,7 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
 	if (g_SYS_Config.temp_val->Reset_falg)
 	{
 		Mode_Use.TIME.Delay_Ms (100);
-		// Debug_printf("RST SYS UTC %ds,work %ds \n",g_SYS_Config.Now_time.SYS_Sec,g_SYS_Config.Work_sec);
+		Debug_printf("RST SYS UTC %ds,work %ds \n",g_SYS_Config.temp_val->Now_time.SYS_Sec,g_SYS_Config.temp_val->Work_sec);
 	}
 	if(cg_rs232_cfg == 0)
 	{
@@ -591,6 +597,7 @@ void System_app_Init (void)
 	User_GPIO_config(2,0,1);
 	User_GPIO_config(1,0,1);
 	User_GPIO_config(1,1,1);
+	User_GPIO_config(5,0,1);
 
 	User_GPIO_set(2,0,1);		// run
 	User_GPIO_set(1,0,1);		// net

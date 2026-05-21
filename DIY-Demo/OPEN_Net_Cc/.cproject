@@ -288,7 +288,7 @@
             </toolChain>
           </folderInfo>
           <sourceEntries>
-            <entry excluding="NetLib/libwchnet_float.a|NetLib/eth_driver_RMII.c|NetLib/eth_driver_RGMII.c|NetLib/eth_driver_MII.c|ETH_driver|Startup/startup_ch32v30x_D8.S|Startup/startup_ch32v30x.S|NetLib/eth_driver_10M.c|API/debug_log.c|API/debug_log.h|Debug/debug.h|Debug/debug.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+            <entry excluding="NetLib/libwchnet_float.a|NetLib/eth_driver_RMII.c|NetLib/eth_driver_RGMII.c|NetLib/eth_driver_MII.c|ETH_driver|Startup/startup_ch32v30x_D8.S|Startup/startup_ch32v30x.S|NetLib/eth_driver_10M.c|API/debug_log.c|API/debug_log.h|Debug/debug.h|Debug/debug.c|Mode/IC_QMI8658.h|Mode/IC_QMI8658.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
           </sourceEntries>
         </configuration>
       </storageModule>

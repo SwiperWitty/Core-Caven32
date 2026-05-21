@@ -79,7 +79,9 @@
 					"${project}/API/debug_log.c",
 					"${project}/API/debug_log.h",
 					"${project}/Debug/debug.h",
-					"${project}/Debug/debug.c"
+					"${project}/Debug/debug.c",
+					"${project}/Mode/IC_QMI8658.h",
+					"${project}/Mode/IC_QMI8658.c"
 				],
 				"optimization": {
 					"level": "size",
@@ -384,7 +386,7 @@
 		"address": "0x08000000",
 		"target_path": "obj\\Caven.hex",
 		"clkSpeed": "High",
-		"debug_interface_mode": "",
+		"debug_interface_mode": "1-wire serial",
 		"erase": true,
 		"program": true,
 		"verify": true,

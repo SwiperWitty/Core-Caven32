@@ -38,10 +38,17 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 	http_json = Base_TCP_HTTP_cache_Read_Fun (JSON_array,sizeof(JSON_array));
 #endif                                        
 
-	if(JSON_len)
+	if (JSON_len || http_json)
 	{
 		int diff_time = 0;
 		diff_time = Caven_BaseTIME_Diff (Center_time,JSON_time);
+		if(http_json)
+		{
+			Caven_app_JSON_Make_pack (JSON_array,TCP_HTTP_Link);
+			g_SYS_Config.temp_val->HTTPHBT_num ++;
+			g_SYS_Config.temp_val->HTTPHBT_Run = 0;
+			// Debug_printf("%s \r\n",JSON_array);
+		}
 		if(diff_time < 0)
 		{
 			diff_time = 0xffff;
@@ -52,13 +59,59 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 		}
 		if(JSON_len > (sizeof(JSON_array) >> 1) || diff_time >= 0xffff)
 		{
-			Mode_Use.UART.Send_Data_pFun(m_UART_CH1,(uint8_t *)JSON_array,JSON_len);
+			Mode_Use.UART.Send_Data_pFun (m_UART_CH2,(uint8_t *)JSON_array,JSON_len);
 			JSON_len = 0;
 		}
 	}
+#if SYS_BTLD != 1
+	if (RFIDBK_len)
+	{
+		int diff_time = 0;
+		diff_time = Caven_BaseTIME_Diff (Center_time,RFIDBK_time);
+		if(diff_time < 0)
+		{
+			diff_time = 0xffff;
+		}
+		else if(diff_time > 5000)
+		{
+			diff_time = 0xffff;
+		}
+		if(RFIDBK_len > (sizeof(RFID_array) >> 1) || diff_time >= 0xffff)
+		{
+			switch (JSON_way) 
+			{
+				case TCP_Server_Link:
+					{
+				#if NETWORK == 1
+						Base_TCP_Server_Send ((uint8_t *)RFID_array,RFIDBK_len);
+				#endif
+					}
+					break;
+				case TCP_Client_Link:
+					{
+				#if NETWORK == 1
+						Base_TCP_Client_Send ((uint8_t *)RFID_array,RFIDBK_len);
+				#endif
+					}
+					break;
+				case USB_Link:
+					{
+				#if Exist_USB
+					Mode_Use.USB_HID.Send_Data_pFun((uint8_t *)RFID_array,RFIDBK_len);
+				#endif
+					}
+					break;
+				default:
+					Mode_Use.UART.Send_Data_pFun (DEBUG_CH,(uint8_t *)RFID_array,RFIDBK_len);
+        			break;
+			}
+			RFIDBK_len = 0;
+		}
+	}
+#endif
 
-	get_State |= Caven_app_State_machine (Center_time);		// 5000 b
-#if SYS_BTLD == 0
+	get_State |= Caven_app_State_machine (Center_time);
+#if SYS_BTLD != 1
 	get_State |= GX_app_State_machine (Center_time);
 #endif
 	get_State |= System_app_State_machine (Center_time);
@@ -300,7 +353,7 @@ void RFID_info_handle (void *data)
 	int temp_num = 0;
 	
 	temp_num = GX_app_Make_pack (temp_data,RS232_Link,Center_time);
-	if (temp_num != 0XFF 0 && RFIDBK_len < sizeof(RFID_array))
+	if (temp_num != 0XFF && RFIDBK_len < sizeof(RFID_array))
 	{
 		RFID_array[RFIDBK_len++] = temp_data;
 		RFIDBK_time = Center_time;

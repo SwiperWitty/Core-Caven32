@@ -1,27 +1,27 @@
 #include "gx_app.h"
 
 #define Log_tag "GX_app info"
-#define GX_PACK_M 6
+
+// 消息通道&循环队列数
+
+#define GX_PACK_M	6       // 列数
 #define GX_TAG_MAX 100
 
 static RFID_Tag_Type RFID_Tag_Buff[GX_TAG_MAX];
 static int Tags_num = 0,Tags_run = 0;
-static uint8_t info_packet_array[6][BUFF_MAX];
+static GX_info_packet_Type *p_sys_pack = NULL;
+static GX_info_packet_Type *p_usb_pack = NULL;
+static GX_info_packet_Type *p_server_pack = NULL;
+static GX_info_packet_Type *p_client_pack = NULL;
+static GX_info_packet_Type *p_mqtt_pack = NULL;
+static GX_info_packet_Type *p_other_pack = NULL;
+
 static uint8_t info_packet_buff_array[GX_PACK_M][BUFF_MAX];
 static GX_info_packet_Type GX_packet_buff[GX_PACK_M];
-static GX_info_packet_Type GX_packet_debug;
-static GX_info_packet_Type GX_packet_rs232;
-static GX_info_packet_Type GX_packet_USB;
-static GX_info_packet_Type GX_packet_server;
-static GX_info_packet_Type GX_packet_client;
-static GX_info_packet_Type GX_packet_other;
-//static GX_info_packet_Type GX_packet_mqtt;
-//static GX_info_packet_Type GX_packet_udp;
-//static GX_info_packet_Type GX_packet_BLE;
 static GX_info_packet_Type GX_standard = {
 	.Head = 0x5A,
     .Prot_W_Versions = 0x01,    // 版本
-    .dSize = BUFF_MAX,		    // 最大长度
+    .dSize = 300,		    // 最大长度
 };
 static uint8_t gx_temp_array[0x1000];
 
@@ -37,10 +37,10 @@ int GX_app_State_machine(Caven_BaseTIME_Type time)
 	int retval = 0;
     GX_app_time = time;
     GX_info_packet_Type handle_pack;
-	GX_info_packet_fast_clean_Fun(&handle_pack);
+	GX_info_packet_clean_Fun(&handle_pack);
 	GX_info_packet_index_Fun(&handle_pack, gx_temp_array);
     GX_Circular_queue_output (&handle_pack,GX_packet_buff,GX_PACK_M);     // 从队列中提取
-    if (handle_pack.Result & m_Result_SUCC)
+    if (handle_pack.Run_status == 0XFF)
     {
         User_GPIO_set(1,1,0);       // info
         switch (handle_pack.Comm_way)
@@ -587,7 +587,6 @@ int GX_app_send_packet(GX_info_packet_Type pack)
     return retval;
 }
 
-static Caven_BaseTIME_Type debug_time = {0},rs232_time = {0},USB_time = {0},server_time = {0},client_time = {0},other_time = {0};
 /*
 	retval > 0;		进行中
 	retval = 0xff;	完整
@@ -599,72 +598,117 @@ int GX_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time)
 {
     int retval = 0;
     int temp_num = 0;
-    GX_info_packet_Type * temp_pack = NULL;
+    GX_info_packet_Type *temp_pack = NULL;
+    GX_info_packet_Type **pp_temp_pack = NULL;
     switch (way)
     {
     case SYS_Link:
         {
-            temp_pack = &GX_packet_debug;
-            temp_num = time.SYS_Sec - debug_time.SYS_Sec;
-			debug_time = time;
+            if (p_sys_pack == NULL) {
+                p_sys_pack = GX_Buff_Request_Occupy_Data (GX_packet_buff,GX_PACK_M);
+            }
+            temp_pack = p_sys_pack;
+            if (temp_pack != NULL) {
+                pp_temp_pack = &p_sys_pack;
+            }
+            else {
+                retval = -1;
+            }
         }
         break;
     case RS232_Link:
         {
-            temp_pack = &GX_packet_rs232;
-            temp_num = time.SYS_Sec - rs232_time.SYS_Sec;
-			rs232_time = time;
-        }
-        break;
-    case TCP_Server_Link:
-        {
-            temp_pack = &GX_packet_server;
-            temp_num = time.SYS_Sec - server_time.SYS_Sec;
-			server_time = time;
-        }
-        break;
-    case TCP_Client_Link:
-        {
-            temp_pack = &GX_packet_client;
-            temp_num = time.SYS_Sec - client_time.SYS_Sec;
-			client_time = time;
         }
         break;
     case USB_Link:
         {
-            temp_pack = &GX_packet_USB;
-            temp_num = time.SYS_Sec - USB_time.SYS_Sec;
-			USB_time = time;
+            if (p_usb_pack == NULL) {
+                p_usb_pack = GX_Buff_Request_Occupy_Data (GX_packet_buff,GX_PACK_M);
+            }
+            temp_pack = p_usb_pack;
+            if (temp_pack != NULL) {
+                pp_temp_pack = &p_usb_pack;
+            }
+            else {
+                retval = -1;
+            }
+        }
+        break;
+    case TCP_Server_Link:
+        {
+            if (p_server_pack == NULL) {
+                p_server_pack = GX_Buff_Request_Occupy_Data (GX_packet_buff,GX_PACK_M);
+            }
+            temp_pack = p_server_pack;
+            if (temp_pack != NULL) {
+                pp_temp_pack = &p_server_pack;
+            }
+            else {
+                retval = -1;
+            }
+        }
+        break;
+    case TCP_Client_Link:
+        {
+            if (p_client_pack == NULL) {
+                p_client_pack = GX_Buff_Request_Occupy_Data (GX_packet_buff,GX_PACK_M);
+            }
+            temp_pack = p_client_pack;
+            if (temp_pack != NULL) {
+                pp_temp_pack = &p_client_pack;
+            }
+            else {
+                retval = -1;
+            }
+        }
+        break;
+    case TCP_MQTT_Link:
+        {
+        }
+        break;
+    case TCP_UDP_Link:
+        {
         }
         break;
     default:
-		{
-            temp_pack = &GX_packet_other;
-            temp_num = time.SYS_Sec - other_time.SYS_Sec;
-			other_time = time;
-		}
-		break;
+        {
+            if (p_other_pack == NULL) {
+                p_other_pack = GX_Buff_Request_Occupy_Data (GX_packet_buff,GX_PACK_M);
+            }
+            temp_pack = p_other_pack;
+            if (temp_pack != NULL) {
+                pp_temp_pack = &p_other_pack;
+            }
+            else {
+                retval = -1;
+            }
+        }
+        break;
     }
-    if (temp_num > 1)   // 去掉数据包
+    if(temp_pack != NULL)
     {
-        GX_info_packet_fast_clean_Fun(temp_pack);
+        temp_pack->Occupy = 1;
+        if (temp_pack->Time.SYS_Sec > 0) {
+            temp_num = time.SYS_Sec - temp_pack->Time.SYS_Sec;
+        }
+        temp_pack->Time = time;
     }
-    if (temp_pack != NULL && retval == 0)
+    if (temp_num > 1)   // 去掉数据包 
+    {
+        GX_info_packet_clean_Fun(temp_pack);
+    }
+    if (retval == 0)
     {
         retval = GX_info_Make_packet_Fun(GX_standard, temp_pack, data);
         if (retval == 0xFF)
         {
+            *pp_temp_pack = NULL;
             temp_pack->Comm_way = way;
-            retval = GX_Circular_queue_input (*temp_pack,GX_packet_buff,GX_PACK_M);   // 入队 
-            GX_info_packet_fast_clean_Fun(temp_pack);
-			if(retval >= 0)
-			{
-				retval = 0xff;
-			}
         }
-        if (retval < 0)
+        else if (retval < 0)
         {
-            GX_info_packet_fast_clean_Fun(temp_pack);
+            *pp_temp_pack = NULL;
+            GX_info_packet_clean_Fun(temp_pack);
         }
     }
     return retval;
@@ -831,16 +875,11 @@ void GX_tag_data_updata_http (void)
 void GX_app_Init (void)
 {
     int temp_run = 0;
-    GX_info_packet_index_Fun(&GX_packet_debug, info_packet_array[temp_run++]);
-    GX_info_packet_index_Fun(&GX_packet_rs232, info_packet_array[temp_run++]);
-    GX_info_packet_index_Fun(&GX_packet_USB, info_packet_array[temp_run++]);
-    GX_info_packet_index_Fun(&GX_packet_server, info_packet_array[temp_run++]);
-    GX_info_packet_index_Fun(&GX_packet_client, info_packet_array[temp_run++]);
-	GX_info_packet_index_Fun(&GX_packet_other, info_packet_array[temp_run++]);
+
     for (int i = 0; i < GX_PACK_M; i++)
     {
         GX_info_packet_index_Fun(&GX_packet_buff[i], info_packet_buff_array[i]);
-		GX_info_packet_fast_clean_Fun(&GX_packet_buff[i]);
+		GX_info_packet_clean_Fun(&GX_packet_buff[i]);
     }
 }
 
