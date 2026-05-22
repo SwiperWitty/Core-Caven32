@@ -204,7 +204,7 @@
 
 // 内存信息
 // ch32v317 192k-rom/128k-ram
-#define SYS_BTLD    0
+#define SYS_BTLD    2               // 0:RS app;1:bootld;2:不参与跳转&中断向量
 #define SYS_STR_ADDR    0x08000000
 #define SYS_APP_ADDR    0x08008000
 

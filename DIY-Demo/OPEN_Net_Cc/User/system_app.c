@@ -348,7 +348,7 @@ int System_app_SYS_Config_Gain (void)
 	g_SYS_Config.Version[2] = DEMO_VER_sub_bit;
 	g_SYS_Config.Version[3] = 0;
 	memcpy(g_SYS_Config.Hostname,DEMO_Name_str,sizeof(DEMO_Name_str));
-#if SYS_BTLD == 0
+#if SYS_BTLD != 1
 	Base_Flash_Demarcation (SYS_CFG_ADDR);		// app only CFG_ADDR
 	// 在app层发现bt不在app，需要重置bt
 	if (g_SYS_Config.Bt_mode == 0)
@@ -375,7 +375,7 @@ int System_app_SYS_Config_Gain (void)
 	return retval;
 }
 
-int cg_rs232_cfg = 0,cg_rs485_cfg = 0,cg_rj45_cfg = 0;
+int cg_rs232_cfg = 0,cg_rs485_cfg = 0;
 Task_Overtime_Type httpHBT_task,tcpHBT_task;
 
 int System_app_State_machine (Caven_BaseTIME_Type time)
@@ -519,6 +519,7 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
 		cg_rs232_cfg = g_SYS_Config.RS232_UART_Cfg;
 		Mode_Use.TIME.Delay_Ms(100);
 		Mode_Init.UART(m_UART_CH1,g_SYS_Config.RS232_UART_Cfg,ENABLE);
+		Mode_Init.UART(m_UART_CH2,g_SYS_Config.RS232_UART_Cfg,ENABLE);
 	}
 	if(cg_rs485_cfg == 0)
 	{
@@ -602,6 +603,7 @@ void System_app_Init (void)
 	User_GPIO_set(2,0,1);		// run
 	User_GPIO_set(1,0,1);		// net
 	User_GPIO_set(1,1,1);		// info
+	User_GPIO_set(5,0,1);
 #if Exist_USB
 	Mode_Init.USB(ENABLE);
 #endif

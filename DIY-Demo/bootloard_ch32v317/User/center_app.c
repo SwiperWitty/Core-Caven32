@@ -53,7 +53,7 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 		{
 			diff_time = 0xffff;
 		}
-		else if(diff_time > 5000)
+		else if(diff_time > 10000)
 		{
 			diff_time = 0xffff;
 		}
@@ -72,7 +72,7 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 		{
 			diff_time = 0xffff;
 		}
-		else if(diff_time > 5000)
+		else if(diff_time > 10000)
 		{
 			diff_time = 0xffff;
 		}
@@ -110,7 +110,7 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 	}
 #endif
 
-	get_State |= Caven_app_State_machine (Center_time);
+	get_State |= Caven_app_State_machine (Center_time);		// 5000 b
 #if SYS_BTLD != 1
 	get_State |= GX_app_State_machine (Center_time);
 #endif
@@ -124,7 +124,7 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 
 /*
 Center_app_Dual_cache_Make_pack
-p_flag:接收缓存区0->a,1->b;
+p_flag:接收缓存 0->a,1->b;
 p_Collect_d: break Collect data;
 p_Collect_n: break Collect num;
 Collect_max: Collect max num;
@@ -211,32 +211,54 @@ void Center_app_Init (void)
 	Mode_Use.USB_HID.Receive_Bind_pFun(usb_info_handle);
 #endif
 	Caven_app_Init ();
-#if SYS_BTLD == 0
+#if SYS_BTLD != 1
 	GX_app_Init ();
 #endif
 }
 
-// uint64_t tim_a,tim_b,tim_c = 0;
+uint64_t tim_a,tim_b,tim_c = 0,tim_d = 0;
 // call brEAK
 void debug_info_handle (void *data)
 {
+	tim_a = SYSTICK_NUM;
 	uint8_t temp_data = *(uint8_t *)data;
 	int temp_num = 0;
-	temp_num = Caven_app_Make_pack (temp_data,SYS_Link,Center_time);
-#if SYS_BTLD == 0
+	
+#if SYS_BTLD != 1
 	if (temp_num <= 0)
 	{
 		temp_num = GX_app_Make_pack (temp_data,SYS_Link,Center_time);
 	}
 #endif
+	if (temp_num <= 0)
+	{
+		temp_num = Caven_app_Make_pack (temp_data,SYS_Link,Center_time);
+	}
+
 	if (temp_num != 0XFF && JSON_len < sizeof(JSON_array))
 	{
 		JSON_array[JSON_len++] = temp_data;
-		JSON_time = Center_time;
 		JSON_way = SYS_Link;
+		JSON_time = Center_time;
+	}
+	tim_b = SYSTICK_NUM - tim_a;
+	if(tim_c < tim_b)
+	{
+		tim_c = tim_b;
+	}
+	if(tim_d == 0)
+	{
+		tim_d = tim_b;
+	}
+	else if(tim_d > tim_b)
+	{
+		tim_d = tim_b;
 	}
 	if(temp_num == 0xff)
 	{
+		temp_num = tim_c & 0xffffff;
+		tim_c = 0;
+		tim_d = 0;
 		g_SYS_Config.temp_val->Connect_passage = SYS_Link;
 		JSON_len = 0;
 	}
@@ -246,13 +268,17 @@ void usb_info_handle (void *data)
 {
 	uint8_t temp_data = *(uint8_t *)data;
 	int temp_num = 0;
-    temp_num = Caven_app_Make_pack (temp_data,USB_Link,Center_time);
-#if SYS_BTLD == 0
+	
+#if SYS_BTLD != 1
 	if (temp_num <= 0)
 	{
 		temp_num = GX_app_Make_pack (temp_data,USB_Link,Center_time);
 	}
 #endif
+	if (temp_num <= 0)
+	{
+		temp_num = Caven_app_Make_pack (temp_data,USB_Link,Center_time);
+	}
 	if (temp_num != 0XFF && JSON_len < sizeof(JSON_array))
 	{
 		JSON_array[JSON_len++] = temp_data;
@@ -270,14 +296,17 @@ void server_info_handle (void *data)
 {
 	uint8_t temp_data = *(uint8_t *)data;
 	int temp_num = 0;
-    temp_num = Caven_app_Make_pack (temp_data,TCP_Server_Link,Center_time);
-#if SYS_BTLD == 0
+	
+#if SYS_BTLD != 1
 	if (temp_num <= 0)
 	{
 		temp_num = GX_app_Make_pack (temp_data,TCP_Server_Link,Center_time);
 	}
-
 #endif
+	if (temp_num <= 0)
+	{
+		temp_num = Caven_app_Make_pack (temp_data,TCP_Server_Link,Center_time);
+	}
 	if (temp_num != 0XFF && JSON_len < sizeof(JSON_array))
 	{
 		JSON_array[JSON_len++] = temp_data;
@@ -295,14 +324,17 @@ void client_info_handle (void *data)
 {
 	uint8_t temp_data = *(uint8_t *)data;
 	int temp_num = 0;
-    temp_num = Caven_app_Make_pack (temp_data,TCP_Client_Link,Center_time);
-#if SYS_BTLD == 0
+	
+#if SYS_BTLD != 1
 	if (temp_num <= 0)
 	{
 		temp_num = GX_app_Make_pack (temp_data,TCP_Client_Link,Center_time);
 	}
-
 #endif
+	if (temp_num <= 0)
+	{
+		temp_num = Caven_app_Make_pack (temp_data,TCP_Client_Link,Center_time);
+	}
 	if (temp_num != 0XFF && JSON_len < sizeof(JSON_array))
 	{
 		JSON_array[JSON_len++] = temp_data;
@@ -319,11 +351,9 @@ void client_info_handle (void *data)
 void Other_info_handle (void *data)
 {
 	uint8_t temp_data = *(uint8_t *)data;
-
 	int temp_num = 0;
-    temp_num = Caven_app_Make_pack (temp_data,Other_Link,Center_time);
 
-#if SYS_BTLD == 0
+#if SYS_BTLD != 1
 	if (temp_num <= 0)
 	{
 		temp_num = GX_app_Make_pack (temp_data,Other_Link,Center_time);
@@ -333,6 +363,10 @@ void Other_info_handle (void *data)
 		}
 	}
 #endif
+	if (temp_num <= 0)
+	{
+		temp_num = Caven_app_Make_pack (temp_data,Other_Link,Center_time);
+	}
 	if (temp_num != 0XFF && JSON_len < sizeof(JSON_array))
 	{
 		JSON_array[JSON_len++] = temp_data;
@@ -348,7 +382,7 @@ void Other_info_handle (void *data)
 
 void RFID_info_handle (void *data)
 {
-#if SYS_BTLD == 0
+#if SYS_BTLD != 1
 	uint8_t temp_data = *(uint8_t *)data;
 	int temp_num = 0;
 	

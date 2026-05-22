@@ -204,9 +204,9 @@
 
 // 内存信息
 // ch32v317 192k-rom/128k-ram
-#define SYS_BTLD    1
+#define SYS_BTLD    1               // 0:RS app;1:bootld;2:不参与跳转&中断向量
 #define SYS_STR_ADDR    0x08000000
-#define SYS_APP_ADDR    0x08008000  // 0x08000000\0x08008000
+#define SYS_APP_ADDR    0x08008000
 
 #ifdef AT32F415CBT7
 #define SYS_APP_SIZE    0x00010000

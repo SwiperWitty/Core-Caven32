@@ -4,12 +4,13 @@
 
 // 消息通道&循环队列数
 
-#define GX_PACK_M	6       // 列数
+#define GX_PACK_M	10       // 列数
 #define GX_TAG_MAX 100
 
 static RFID_Tag_Type RFID_Tag_Buff[GX_TAG_MAX];
 static int Tags_num = 0,Tags_run = 0;
 static GX_info_packet_Type *p_sys_pack = NULL;
+static GX_info_packet_Type *p_mode_pack = NULL;
 static GX_info_packet_Type *p_usb_pack = NULL;
 static GX_info_packet_Type *p_server_pack = NULL;
 static GX_info_packet_Type *p_client_pack = NULL;
@@ -36,25 +37,24 @@ int GX_app_State_machine(Caven_BaseTIME_Type time)
 {
 	int retval = 0;
     GX_app_time = time;
-    GX_info_packet_Type handle_pack;
-	GX_info_packet_clean_Fun(&handle_pack);
-	GX_info_packet_index_Fun(&handle_pack, gx_temp_array);
-    GX_Circular_queue_output (&handle_pack,GX_packet_buff,GX_PACK_M);     // 从队列中提取
-    if (handle_pack.Run_status == 0XFF)
+	GX_info_packet_Type *handle_pack = NULL;
+	handle_pack = GX_Buff_Request_Full_Data (GX_packet_buff,GX_PACK_M);
+    if (handle_pack != NULL)
     {
         User_GPIO_set(1,1,0);       // info
-        switch (handle_pack.Comm_way)
+        switch (handle_pack->Comm_way)
         {
         case SYS_Link:
-			GX_app_SYS_info_handle (handle_pack);
+			GX_app_SYS_info_handle (*handle_pack);
             break;
         case RS232_Link:		// RFID
-			GX_app_RFID_info_handle (handle_pack);
+			GX_app_RFID_info_handle (*handle_pack);
             break;
         default:
-			GX_app_SYS_info_handle (handle_pack);
+			GX_app_SYS_info_handle (*handle_pack);
             break;
         }
+		GX_info_packet_clean_Fun(handle_pack);
     }
 	if(g_SYS_Config.tcp_http_enable)
 	{
@@ -544,7 +544,6 @@ int GX_app_send_packet(GX_info_packet_Type pack)
     case RS232_Link:
         {
 			MODE_UART_DMA_Send_Data_Fun(m_UART_CH2,temp_array,temp_num);
-//            Mode_Use.UART.Send_Data_pFun(m_UART_CH2,temp_array,temp_num);
         }
         break;
     case RS485_Link:
@@ -597,7 +596,7 @@ int GX_app_send_packet(GX_info_packet_Type pack)
 int GX_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time)
 {
     int retval = 0;
-    int temp_num = 0;
+    uint32_t temp_num = 0;
     GX_info_packet_Type *temp_pack = NULL;
     GX_info_packet_Type **pp_temp_pack = NULL;
     switch (way)
@@ -618,6 +617,16 @@ int GX_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time)
         break;
     case RS232_Link:
         {
+			if (p_mode_pack == NULL) {
+                p_mode_pack = GX_Buff_Request_Occupy_Data (GX_packet_buff,GX_PACK_M);
+            }
+            temp_pack = p_mode_pack;
+            if (temp_pack != NULL) {
+                pp_temp_pack = &p_mode_pack;
+            }
+            else {
+                retval = -1;
+            }
         }
         break;
     case USB_Link:
@@ -685,30 +694,28 @@ int GX_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time)
         }
         break;
     }
-    if(temp_pack != NULL)
+
+    if (retval == 0 && temp_pack != NULL)
     {
-        temp_pack->Occupy = 1;
-        if (temp_pack->Time.SYS_Sec > 0) {
+		if (temp_pack->Time.SYS_Sec > 0) {
             temp_num = time.SYS_Sec - temp_pack->Time.SYS_Sec;
+			if (temp_num > 1)   // 去掉数据包 
+			{
+				GX_info_packet_clean_Fun(temp_pack);
+				temp_pack->Occupy = 1;
+			}
         }
         temp_pack->Time = time;
-    }
-    if (temp_num > 1)   // 去掉数据包 
-    {
-        GX_info_packet_clean_Fun(temp_pack);
-    }
-    if (retval == 0)
-    {
         retval = GX_info_Make_packet_Fun(GX_standard, temp_pack, data);
         if (retval == 0xFF)
         {
-            *pp_temp_pack = NULL;
             temp_pack->Comm_way = way;
+			*pp_temp_pack = NULL;
         }
         else if (retval < 0)
         {
-            *pp_temp_pack = NULL;
             GX_info_packet_clean_Fun(temp_pack);
+			*pp_temp_pack = NULL;
         }
     }
     return retval;
