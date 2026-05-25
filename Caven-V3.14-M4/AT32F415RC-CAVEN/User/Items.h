@@ -227,8 +227,8 @@ typedef void (*pFunction)(void); /* 跳转函数类型声明 */
 #define SYS_CMD_RESULT  0
 #endif
 
-#define IO_H_REG    BSHR
-#define IO_L_REG    BCR
+#define IO_H_REG    scr
+#define IO_L_REG    clr
 
 #ifdef GPIO_PINS_0
 	#define GPIO_Pin_0  GPIO_PINS_0
