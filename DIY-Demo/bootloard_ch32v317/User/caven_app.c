@@ -1721,7 +1721,7 @@ int Caven_app_JSON_Make_pack (char *data,int way)
 int Caven_send_Heartbeat_Fun (void *data)
 {
     int retval = 0;
-    uint8_t temp_array[10];
+    uint8_t temp_array[100];
     int temp_num = 0;
     memcpy(temp_array,&g_SYS_Config.Serial,sizeof(g_SYS_Config.Serial));
     temp_num += sizeof(g_SYS_Config.Serial);

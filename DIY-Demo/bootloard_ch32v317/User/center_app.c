@@ -59,7 +59,7 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 		}
 		if(JSON_len > (sizeof(JSON_array) >> 1) || diff_time >= 0xffff)
 		{
-			Mode_Use.UART.Send_Data_pFun (m_UART_CH2,(uint8_t *)JSON_array,JSON_len);
+			Mode_Use.UART.Send_Data_pFun (m_UART_CH1,(uint8_t *)JSON_array,JSON_len);
 			JSON_len = 0;
 		}
 	}
@@ -112,7 +112,7 @@ int Center_State_machine(Caven_BaseTIME_Type time)
 
 	get_State |= Caven_app_State_machine (Center_time);		// 5000 b
 #if SYS_BTLD != 1
-	get_State |= GX_app_State_machine (Center_time);
+
 #endif
 	get_State |= System_app_State_machine (Center_time);
 	if(g_SYS_Config.temp_val->Reset_falg)
@@ -212,7 +212,7 @@ void Center_app_Init (void)
 #endif
 	Caven_app_Init ();
 #if SYS_BTLD != 1
-	GX_app_Init ();
+
 #endif
 }
 
@@ -227,7 +227,7 @@ void debug_info_handle (void *data)
 #if SYS_BTLD != 1
 	if (temp_num <= 0)
 	{
-		temp_num = GX_app_Make_pack (temp_data,SYS_Link,Center_time);
+
 	}
 #endif
 	if (temp_num <= 0)
@@ -272,7 +272,7 @@ void usb_info_handle (void *data)
 #if SYS_BTLD != 1
 	if (temp_num <= 0)
 	{
-		temp_num = GX_app_Make_pack (temp_data,USB_Link,Center_time);
+
 	}
 #endif
 	if (temp_num <= 0)
@@ -300,7 +300,7 @@ void server_info_handle (void *data)
 #if SYS_BTLD != 1
 	if (temp_num <= 0)
 	{
-		temp_num = GX_app_Make_pack (temp_data,TCP_Server_Link,Center_time);
+
 	}
 #endif
 	if (temp_num <= 0)
@@ -328,7 +328,7 @@ void client_info_handle (void *data)
 #if SYS_BTLD != 1
 	if (temp_num <= 0)
 	{
-		temp_num = GX_app_Make_pack (temp_data,TCP_Client_Link,Center_time);
+
 	}
 #endif
 	if (temp_num <= 0)
@@ -356,11 +356,7 @@ void Other_info_handle (void *data)
 #if SYS_BTLD != 1
 	if (temp_num <= 0)
 	{
-		temp_num = GX_app_Make_pack (temp_data,Other_Link,Center_time);
-		if(temp_num <= 0)
-		{
-			// at
-		}
+
 	}
 #endif
 	if (temp_num <= 0)
@@ -386,7 +382,7 @@ void RFID_info_handle (void *data)
 	uint8_t temp_data = *(uint8_t *)data;
 	int temp_num = 0;
 	
-	temp_num = GX_app_Make_pack (temp_data,RS232_Link,Center_time);
+	// temp_num = GX_app_Make_pack (temp_data,RS232_Link,Center_time);
 	if (temp_num != 0XFF && RFIDBK_len < sizeof(RFID_array))
 	{
 		RFID_array[RFIDBK_len++] = temp_data;
