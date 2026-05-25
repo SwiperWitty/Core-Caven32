@@ -1,6 +1,5 @@
 #include "Mode.h"
 #include "API.h"
-#include "pic.h"
 #include "caven_gui.h"
 
 #include "lvgl.h"
@@ -103,7 +102,7 @@ int main(void)
         .Begin_time = now_time,
         .Set_time.SYS_Sec = 1,
         .Set_time.SYS_Us = 5000,
-        .Flip_falg = 1,
+        .Flip_flag = 1,
     };
     Vofa_JustFloat_Init_Fun(Debug_Out);
 
@@ -112,7 +111,7 @@ int main(void)
         now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
         //        printf("sys time: %d : %d : %d , %d (us)\n",now_time.hour,now_time.minutes,now_time.second,now_time.time_us);
         API_Task_Timer(&LED_Task, now_time); // LED任务
-        Mode_Use.LED.Set_pFun(1, LED_Task.Flip_falg);
+        Mode_Use.LED.Set_pFun(1, LED_Task.Flip_flag);
 
 		f_temp_num = ADC_array[0];	// VCC
 		vcc_vol = (f_temp_num / 4096) * 3.3 * 8.5;	// 还原
