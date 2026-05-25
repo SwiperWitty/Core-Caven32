@@ -7,8 +7,6 @@
 #define GX_PACK_M	10       // 列数
 #define GX_TAG_MAX 100
 
-static RFID_Tag_Type RFID_Tag_Buff[GX_TAG_MAX];
-static int Tags_num = 0,Tags_run = 0;
 static GX_info_packet_Type *p_sys_pack = NULL;
 static GX_info_packet_Type *p_mode_pack = NULL;
 static GX_info_packet_Type *p_usb_pack = NULL;
@@ -24,7 +22,11 @@ static GX_info_packet_Type GX_standard = {
     .Prot_W_Versions = 0x01,    // 版本
     .dSize = 300,		    // 最大长度
 };
+#if NETWORK == 1
+static int Tags_num = 0,Tags_run = 0;
 static uint8_t gx_temp_array[0x1000];
+static RFID_Tag_Type RFID_Tag_Buff[GX_TAG_MAX];
+#endif
 
 Caven_BaseTIME_Type GX_app_time;
 
@@ -56,10 +58,12 @@ int GX_app_State_machine(Caven_BaseTIME_Type time)
         }
 		GX_info_packet_clean_Fun(handle_pack);
     }
+#if NETWORK == 1
 	if(g_SYS_Config.tcp_http_enable)
 	{
 		GX_tag_data_updata_http ();
 	}
+#endif
 	return retval;
 }
 
@@ -105,10 +109,12 @@ int GX_app_RFID_info_handle (GX_info_packet_Type pack)
 			if(pack.Prot_W_DFlag && pack.Prot_W_MID == 0)	// tag data
 			{
 				User_GPIO_set(2,14,1);
+	#if NETWORK == 1
 				if(g_SYS_Config.tcp_http_enable || g_SYS_Config.tcp_mqtt_enable)
 				{
 					GX_tag_data_handle(pack);
 				}
+	#endif
 			}
 		}
 		retval = GX_app_forward_packet(pack);		// 快速转发
@@ -721,6 +727,8 @@ int GX_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time)
     return retval;
 }
 
+#if NETWORK == 1
+
 void GX_tag_data_handle (GX_info_packet_Type pack)
 {
 	RFID_Tag_Type temp_tag;
@@ -878,6 +886,7 @@ void GX_tag_data_updata_http (void)
 		Tags_num = 0;
 	}
 }
+#endif
 
 void GX_app_Init (void)
 {

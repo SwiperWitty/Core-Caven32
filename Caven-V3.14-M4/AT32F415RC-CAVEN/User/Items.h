@@ -115,7 +115,7 @@
 
 /****   进一步的逻辑关系    ****/
 #if Exist_UART
-    #define UART1_REMAP OPEN_0000		// OPEN_0000:PA9 10,OPEN_0001:PB6 7
+    #define UART1_REMAP OPEN_0001		// OPEN_0000:PA9 10,OPEN_0001:PB6 7
     #define UART2_REMAP OPEN_0000		// OPEN_0000:PA2 3
     #define UART3_REMAP OPEN_0001       // OPEN_0000:PB10 11,OPEN_0001:PC10 11
     #define UART4_REMAP OPEN_0000		// OPEN_0000:PC10 11
@@ -192,17 +192,32 @@
 
 typedef void (*pFunction)(void); /* 跳转函数类型声明 */
 #define GO_TO_APP(addr) do{     \
-	pFunction jump_to_app;						\
-	nvic_irq_disable(SysTick_IRQn);			\
+	pFunction jump_to_app;					\
+	crm_periph_clock_enable(CRM_USART1_PERIPH_CLOCK, FALSE);	\
+	crm_periph_clock_enable(CRM_GPIOA_PERIPH_CLOCK, FALSE);		\
+	crm_periph_clock_enable(CRM_GPIOB_PERIPH_CLOCK, FALSE);		\
+	crm_periph_clock_enable(CRM_GPIOC_PERIPH_CLOCK, FALSE);		\
+	crm_periph_clock_enable(CRM_DMA1_PERIPH_CLOCK, FALSE);		\
+	crm_periph_clock_enable(CRM_IOMUX_PERIPH_CLOCK, FALSE);		\
 	__NVIC_ClearPendingIRQ(SysTick_IRQn);	\
-	jump_to_app = (pFunction)*(uint32_t*)(addr + 4);	\
-	__set_MSP(*(uint32_t*)addr);			\
-	jump_to_app();							\
+	__NVIC_ClearPendingIRQ(USART1_IRQn);	\
+	__NVIC_ClearPendingIRQ(USART2_IRQn);	\
+	__NVIC_ClearPendingIRQ(USART3_IRQn);	\
+	usart_enable(USART1, FALSE);			\
+	usart_enable(USART2, FALSE);			\
+	usart_enable(USART3, FALSE);			\
+    SysTick->CTRL = 0;		\
+    SysTick->LOAD = 0;		\
+    SysTick->VAL = 0;		\
+	__disable_irq();		\
+	jump_to_app = (pFunction)*(uint32_t*)(addr + 4);		\
+	__set_MSP(*(uint32_t*)addr);		\
+	jump_to_app();						\
 }while(0);
 
 // 内存信息
 // ch32v317 192k-rom/128k-ram
-#define SYS_BTLD    1               // 0:RS app;1:bootld;2:不参与跳转&中断向量
+#define SYS_BTLD    2               // 0:RS app;1:bootld;2:不参与跳转&中断向量
 #define SYS_STR_ADDR    0x08000000
 #define SYS_APP_ADDR    0x08008000
 

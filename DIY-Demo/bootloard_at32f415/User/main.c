@@ -1,6 +1,7 @@
 #include "center_app.h"
 #include "Mode.h"
 
+
 void Main_Init(void);
 
 int main(void)
