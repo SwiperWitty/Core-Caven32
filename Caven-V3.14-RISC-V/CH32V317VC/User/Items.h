@@ -83,11 +83,11 @@
 #define Exist_DAC       OPEN_NULL
 
 #define Exist_UART      OPEN_1110
-#define Exist_IIC       OPEN_0001
+#define Exist_IIC       OPEN_NULL
 #define Exist_SPI       OPEN_NULL
 #define Exist_USB       OPEN_0001
 #define Exist_CAN       OPEN_NULL
-#define Exist_ETH       OPEN_NULL
+#define Exist_ETH       OPEN_0001
 
 #define Exist_FLASH     OPEN_0001
 
@@ -204,9 +204,9 @@
 
 // 内存信息
 // ch32v317 192k-rom/128k-ram
-#define SYS_BTLD    1
+#define SYS_BTLD    2               // 0:RS app;1:bootld;2:不参与跳转&中断向量
 #define SYS_STR_ADDR    0x08000000
-#define SYS_APP_ADDR    0x08008000  // 0x08000000\0x08008000
+#define SYS_APP_ADDR    0x08008000
 
 #ifdef AT32F415CBT7
 #define SYS_APP_SIZE    0x00010000
