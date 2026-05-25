@@ -46,10 +46,10 @@ int GX_app_State_machine(Caven_BaseTIME_Type time)
         User_GPIO_set(1,1,0);       // info
         switch (handle_pack->Comm_way)
         {
-        case SYS_Link:
+        case m_Connect_SYS:
 			GX_app_SYS_info_handle (*handle_pack);
             break;
-        case RS232_Link:		// RFID
+        case m_RS232_Link:		// RFID
 			GX_app_RFID_info_handle (*handle_pack);
             break;
         default:
@@ -87,7 +87,7 @@ int GX_app_SYS_info_handle (GX_info_packet_Type pack)
 	#endif
 		break;
 	default:
-		pack.Comm_way = RS232_Link;		// 转给RFID RS232_Link SYS_Link
+		pack.Comm_way = m_RS232_Link;		// 转给RFID RS232_Link SYS_Link
 		retval = GX_app_send_packet(pack);
 		break;
 	}
@@ -133,7 +133,7 @@ int GX_app_cmd1_handle (GX_info_packet_Type pack)
 	int temp_num = 0,temp_run = 0,temp_data = 0;
 	char *str_num = NULL;
 	uint8_t temp_array[500];
-	pack.Comm_way = RS232_Link;	// SYS_Link RS232_Link
+	pack.Comm_way = m_RS232_Link;	// SYS_Link RS232_Link
 	switch (pack.Prot_W_MID)
 	{
 	case 0:
@@ -453,7 +453,7 @@ int GX_app_cmd1_handle (GX_info_packet_Type pack)
 int GX_app_cmd2_handle (GX_info_packet_Type pack)
 {
     int retval = 0;
-	pack.Comm_way = RS232_Link;
+	pack.Comm_way = m_RS232_Link;
     switch (pack.Prot_W_MID)
     {
     case 0:
@@ -470,7 +470,7 @@ int GX_app_cmd2_handle (GX_info_packet_Type pack)
 int GX_app_cmd3_handle (GX_info_packet_Type pack)
 {
     int retval = 0;
-	pack.Comm_way = RS232_Link;
+	pack.Comm_way = m_RS232_Link;
     switch (pack.Prot_W_MID)
     {
     case 0:
@@ -489,39 +489,39 @@ int GX_app_forward_packet(GX_info_packet_Type pack)
 	int retval = 0;
     switch (pack.Comm_way)
     {
-    case RS232_Link:
+    case m_RS232_Link:
         {
 			MODE_UART_DMA_Send_Data_Fun(m_UART_CH2,pack.p_AllData,pack.Get_num);
 //            Mode_Use.UART.Send_Data_pFun(m_UART_CH2,temp_array,temp_num);
         }
         break;
-    case RS485_Link:
+    case m_RS485_Link:
         {
             
         }
         break;
-    case TCP_Server_Link:
+    case m_Server_Link:
         {
     #if NETWORK == 1
             Base_TCP_Server_Send (pack.p_AllData,pack.Get_num);
     #endif
         }
         break;
-    case TCP_Client_Link:
+    case m_Client_Link:
         {
     #if NETWORK == 1
             Base_TCP_Client_Send (pack.p_AllData,pack.Get_num);
     #endif
         }
         break;
-    case USB_Link:
+    case m_USB_Link:
         {
     #if Exist_USB
         Mode_Use.USB_HID.Send_Data_pFun(pack.p_AllData,pack.Get_num);
     #endif
         }
         break;
-    case Other_Link:
+    case m_Other_Link:
         {
             Mode_Use.UART.Send_Data_pFun(m_UART_CH3,pack.p_AllData,pack.Get_num);
         }
@@ -547,38 +547,38 @@ int GX_app_send_packet(GX_info_packet_Type pack)
 	}
     switch (pack.Comm_way)
     {
-    case RS232_Link:
+    case m_RS232_Link:
         {
 			MODE_UART_DMA_Send_Data_Fun(m_UART_CH2,temp_array,temp_num);
         }
         break;
-    case RS485_Link:
+    case m_RS485_Link:
         {
             
         }
         break;
-    case TCP_Server_Link:
+    case m_Server_Link:
         {
     #if NETWORK == 1
             Base_TCP_Server_Send (temp_array,temp_num);
     #endif
         }
         break;
-    case TCP_Client_Link:
+    case m_Client_Link:
         {
     #if NETWORK == 1
             Base_TCP_Client_Send (temp_array,temp_num);
     #endif
         }
         break;
-    case USB_Link:
+    case m_USB_Link:
         {
     #if Exist_USB
         Mode_Use.USB_HID.Send_Data_pFun(temp_array,temp_num);
     #endif
         }
         break;
-    case Other_Link:
+    case m_Other_Link:
         {
             Mode_Use.UART.Send_Data_pFun(m_UART_CH3,temp_array,temp_num);
         }
@@ -607,7 +607,7 @@ int GX_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time)
     GX_info_packet_Type **pp_temp_pack = NULL;
     switch (way)
     {
-    case SYS_Link:
+    case m_Connect_SYS:
         {
             if (p_sys_pack == NULL) {
                 p_sys_pack = GX_Buff_Request_Occupy_Data (GX_packet_buff,GX_PACK_M);
@@ -621,7 +621,7 @@ int GX_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time)
             }
         }
         break;
-    case RS232_Link:
+    case m_RS232_Link:
         {
 			if (p_mode_pack == NULL) {
                 p_mode_pack = GX_Buff_Request_Occupy_Data (GX_packet_buff,GX_PACK_M);
@@ -635,7 +635,7 @@ int GX_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time)
             }
         }
         break;
-    case USB_Link:
+    case m_USB_Link:
         {
             if (p_usb_pack == NULL) {
                 p_usb_pack = GX_Buff_Request_Occupy_Data (GX_packet_buff,GX_PACK_M);
@@ -649,7 +649,7 @@ int GX_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time)
             }
         }
         break;
-    case TCP_Server_Link:
+    case m_Server_Link:
         {
             if (p_server_pack == NULL) {
                 p_server_pack = GX_Buff_Request_Occupy_Data (GX_packet_buff,GX_PACK_M);
@@ -663,7 +663,7 @@ int GX_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time)
             }
         }
         break;
-    case TCP_Client_Link:
+    case m_Client_Link:
         {
             if (p_client_pack == NULL) {
                 p_client_pack = GX_Buff_Request_Occupy_Data (GX_packet_buff,GX_PACK_M);
@@ -677,11 +677,11 @@ int GX_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time)
             }
         }
         break;
-    case TCP_MQTT_Link:
+    case m_MQTT_Link:
         {
         }
         break;
-    case TCP_UDP_Link:
+    case m_UDP_Link:
         {
         }
         break;

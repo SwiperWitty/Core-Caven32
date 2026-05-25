@@ -365,7 +365,7 @@ int System_app_SYS_Config_Gain (void)
 	if(g_SYS_Config.temp_val)
 	{
 		g_SYS_Config.temp_val->Reset_falg = 0;
-		g_SYS_Config.temp_val->Connect_passage = SYS_Link;
+		g_SYS_Config.temp_val->Connect_passage = m_Connect_SYS;
 		g_SYS_Config.temp_val->TCPHBT_num = 0;
 		g_SYS_Config.temp_val->TCPHBT_Run = 0;
 		g_SYS_Config.temp_val->HTTPHBT_num = 0;
@@ -391,9 +391,9 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
     {
         System_start_Time = g_SYS_Config.temp_val->Now_time;
         g_SYS_Config.temp_val->Work_sec ++;
-		User_GPIO_set(2,15,0);	// rfid
+		User_GPIO_set(2,14,0);	// rfid
 		User_GPIO_set(1,1,1);	// info
-		User_GPIO_set(2,0,System_start_Time.SYS_Sec % 2);
+		User_GPIO_set(5,0,System_start_Time.SYS_Sec % 2);
 		
     }
 #if NETWORK == 1
@@ -432,7 +432,7 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
 		}
 	}
 	if(g_SYS_Config.TCPHBT_En && 
-	(g_SYS_Config.temp_val->Connect_passage == TCP_Server_Link || g_SYS_Config.temp_val->Connect_passage == TCP_Client_Link))
+	(g_SYS_Config.temp_val->Connect_passage == m_Server_Link || g_SYS_Config.temp_val->Connect_passage == m_Client_Link))
 	{
 		tcpHBT_task.Switch = g_SYS_Config.TCPHBT_En;
 		tcpHBT_task.Set_time.SYS_Us = 0;
@@ -448,20 +448,20 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
 			g_SYS_Config.temp_val->TCPHBT_Run ++;
 			if(g_SYS_Config.temp_val->TCPHBT_Run > g_SYS_Config.temp_val->Net_HBT_max)
 			{
-				if(g_SYS_Config.temp_val->Connect_passage == TCP_Server_Link)
+				if(g_SYS_Config.temp_val->Connect_passage == m_Server_Link)
 				{
 					Base_TCP_Server_Config (g_SYS_Config.TCPServer_port,g_SYS_Config.Server_break_off,0);
 					Base_TCP_Server_Config (g_SYS_Config.TCPServer_port,g_SYS_Config.Server_break_off,g_SYS_Config.tcp_server_enable);
 					Debug_printf("tcpHBT_task overtime kill server sock !\n");
 
 				}
-				else if(g_SYS_Config.temp_val->Connect_passage == TCP_Client_Link)
+				else if(g_SYS_Config.temp_val->Connect_passage == m_Client_Link)
 				{
 					Base_TCP_Client_Restart();
 					Debug_printf("tcpHBT_task overtime kill clinet sock !\n");
 				}
 				g_SYS_Config.temp_val->TCPHBT_Run = 0;
-				g_SYS_Config.temp_val->Connect_passage = SYS_Link;
+				g_SYS_Config.temp_val->Connect_passage = m_Connect_SYS;
 			}
 			else
 			{
@@ -475,14 +475,14 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
 				}
 				switch (g_SYS_Config.temp_val->Connect_passage) 
 				{
-					case TCP_Server_Link:
+					case m_Server_Link:
 						{
 					#if NETWORK == 1
 							Base_TCP_Server_Send ((uint8_t *)heart_array,net_temp);
 					#endif
 						}
 						break;
-					case TCP_Client_Link:
+					case m_Client_Link:
 						{
 					#if NETWORK == 1
 							Base_TCP_Client_Send ((uint8_t *)heart_array,net_temp);
@@ -584,9 +584,9 @@ void System_app_Init (void)
 	User_GPIO_config(1,5,1);
 	User_GPIO_config(1,6,1);
 	User_GPIO_config(1,8,1);
-	User_GPIO_config(2,15,1);
+	User_GPIO_config(2,14,1);
 	
-	User_GPIO_set(2,15,0);		// rfid_LED
+	User_GPIO_set(2,14,0);		// rfid_LED
 	User_GPIO_set(1,4,1);		// GPOA
 	User_GPIO_set(1,5,1);		// GPOB
 	User_GPIO_set(1,6,1);		// GPOC
@@ -598,12 +598,12 @@ void System_app_Init (void)
 	User_GPIO_config(2,0,1);
 	User_GPIO_config(1,0,1);
 	User_GPIO_config(1,1,1);
-	// User_GPIO_config(5,0,1);
+	User_GPIO_config(5,0,1);
 
 	User_GPIO_set(2,0,1);		// run
 	User_GPIO_set(1,0,1);		// net
 	User_GPIO_set(1,1,1);		// info
-//	User_GPIO_set(5,0,1);
+	User_GPIO_set(5,0,1);
 #if Exist_USB
 	Mode_Init.USB(ENABLE);
 #endif

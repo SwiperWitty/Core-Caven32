@@ -24,21 +24,9 @@ typedef enum {
     m_UDP_Link,
     m_BLE_Link,
     m_USB_Link,
+	m_Other_Link,
 } Link_mType;
 
-#define SYS_Link        0
-#define RS232_Link      1
-#define RS485_Link      2
-#define CAN_Link        3		// CAN转译为Caven_packet
-#define NET4G_Link      4		// 本质是TCP_Client,也可以以HTTP/MQTT方式出现（HTTP可以做在线升级）
-#define TCP_Server_Link 5
-#define TCP_Client_Link 6
-#define TCP_HTTP_Link   7		// JSON转译为Caven_packet
-#define TCP_MQTT_Link   8		// JSON转译为Caven_packet
-#define TCP_UDP_Link    9
-#define BLE_Link        10
-#define USB_Link        11
-#define Other_Link      12
 //
 #define Device_VER      1
 #define Device_TYPE     1
@@ -51,7 +39,7 @@ typedef enum {
 #define DEMO_VER_sub      0L
 #define DEMO_VER_sub_bit  2L
 #else
-#define DEMO_Name_str   "L1004 v2.0\0"
+#define DEMO_Name_str   "net_cc \0"
 #define DEMO_VER          2L
 #define DEMO_VER_sub      0L
 #define DEMO_VER_sub_bit  1L

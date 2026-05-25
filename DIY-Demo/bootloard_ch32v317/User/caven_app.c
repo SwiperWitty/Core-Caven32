@@ -62,7 +62,7 @@ int Caven_app_State_machine(Caven_BaseTIME_Type time)
         else        // other type
         {
             // other pack
-            if(handle_pack->Comm_way == Other_Link)
+            if(handle_pack->Comm_way == m_Other_Link)
             {
                 handle_pack->Comm_way = g_SYS_Config.temp_val->Connect_passage;
                 Caven_app_send_packet(*handle_pack);
@@ -74,7 +74,7 @@ int Caven_app_State_machine(Caven_BaseTIME_Type time)
             Caven_info_packet_clean_Fun(handle_pack);
             return retval;
         }
-        if(handle_pack->Addr == g_SYS_Config.Addr || handle_pack->Addr == 0)    // 白名单
+        if((handle_pack->Addr == g_SYS_Config.Addr) || handle_pack->Addr == 0 || handle_pack->Comm_way > m_RS485_Link)    // 白名单
         {
             switch (handle_pack->Cmd)
             {
@@ -1379,7 +1379,7 @@ int Caven_app_send_packet(Caven_info_packet_Type pack)
     uint8_t temp_array[BUFF_MAX];
     int retval = 0;
     int temp_num = 0;
-	if (pack.Addr == 0xff && pack.Comm_way == RS485_Link)		// 广播从机不回复
+	if (pack.Addr == 0xff && pack.Comm_way == m_RS485_Link)		// 广播从机不回复
 	{
 		return retval;
 	}
@@ -1387,38 +1387,38 @@ int Caven_app_send_packet(Caven_info_packet_Type pack)
     temp_num = Caven_info_Split_packet_Fun(pack,temp_array);
     switch (pack.Comm_way)
     {
-    case RS232_Link:
+    case m_RS232_Link:
         {
             // rfid
         }
         break;
-    case RS485_Link:
+    case m_RS485_Link:
         {
             // sys
         }
         break;
-    case TCP_Server_Link:
+    case m_Server_Link:
         {
         #if NETWORK == 1
             Base_TCP_Server_Send (temp_array,temp_num);
         #endif
         }
         break;
-    case TCP_Client_Link:
+    case m_Client_Link:
         {
         #if NETWORK == 1
             Base_TCP_Client_Send (temp_array,temp_num);
         #endif
         }
         break;
-    case USB_Link:
+    case m_USB_Link:
         {
     #if Exist_USB
         Mode_Use.USB_HID.Send_Data_pFun(temp_array,temp_num);
     #endif
         }
         break;
-    case Other_Link:
+    case m_Other_Link:
         {
             Mode_Use.UART.Send_Data_pFun(m_UART_CH3,temp_array,temp_num);
         }
@@ -1440,7 +1440,7 @@ int Caven_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time)
     Caven_info_packet_Type **pp_temp_pack = NULL;
     switch (way)
     {
-    case SYS_Link:
+    case m_Connect_SYS:
         {
             if (p_sys_pack == NULL) {
                 p_sys_pack = Caven_Buff_Request_Occupy_Data (Caven_packet_buff,CAVEN_PACK_M);
@@ -1454,11 +1454,11 @@ int Caven_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time)
             }
         }
         break;
-    case RS232_Link:
+    case m_RS232_Link:
         {
         }
         break;
-    case USB_Link:
+    case m_USB_Link:
         {
             if (p_usb_pack == NULL) {
                 p_usb_pack = Caven_Buff_Request_Occupy_Data (Caven_packet_buff,CAVEN_PACK_M);
@@ -1472,7 +1472,7 @@ int Caven_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time)
             }
         }
         break;
-    case TCP_Server_Link:
+    case m_Server_Link:
         {
             if (p_server_pack == NULL) {
                 p_server_pack = Caven_Buff_Request_Occupy_Data (Caven_packet_buff,CAVEN_PACK_M);
@@ -1486,7 +1486,7 @@ int Caven_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time)
             }
         }
         break;
-    case TCP_Client_Link:
+    case m_Client_Link:
         {
             if (p_client_pack == NULL) {
                 p_client_pack = Caven_Buff_Request_Occupy_Data (Caven_packet_buff,CAVEN_PACK_M);
@@ -1500,11 +1500,11 @@ int Caven_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time)
             }
         }
         break;
-    case TCP_MQTT_Link:
+    case m_MQTT_Link:
         {
         }
         break;
-    case TCP_UDP_Link:
+    case m_UDP_Link:
         {
         }
         break;
