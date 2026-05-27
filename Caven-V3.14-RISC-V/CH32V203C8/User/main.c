@@ -1,61 +1,34 @@
-/********************************** (C) COPYRIGHT *******************************
- * File Name          : main.c
- * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2021/06/06
- * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
-/*
-   *    主频使用96mhz，这样操作flash不需要降频，同时可以使用USB。
- */
-#include "debug.h"
 #include "center_app.h"
+#include "Mode.h"
 
-void Main_Init(void);
+void Main_Init (void);
 
-u8 send_array[64];
-int run_num;
+uint64_t _LocalTime() {
+    Caven_BaseTIME_Type now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
+    return (uint64_t)(now_time.SYS_Sec * 1000 + now_time.SYS_Us / 1000);
+}
 
-int main(void)
-{
+int main (void) {
+    int retval = 0;
     Caven_BaseTIME_Type now_time;
     Main_Init();
     now_time.SYS_Sec = 1742299486;
-    Mode_Use.TIME.Set_BaseTIME_pFun(now_time);
-    now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
+    Mode_Use.TIME.Set_BaseTIME_pFun (now_time);
 
-    Task_Overtime_Type LED_Task = {
-            .Switch = 1,
-            .Begin_time = now_time,
-            .Set_time.SYS_Sec = 1,
-            .Set_time.SYS_Us = 500000,
-            .Flip_falg = 0,
-    };
-    User_GPIO_config(2,4,1);
-    while(1)
-    {
+    while (1) {
         now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
-        API_Task_Timer (&LED_Task,now_time);        // LED任务
-        User_GPIO_set(2,4,LED_Task.Flip_falg);
-
-        if(Center_State_machine(now_time))          // 状态机入口
+        if(Center_State_machine(now_time) == 1)
         {
-            break;                                  // 状态机退出,程序重启
+            break;
         }
     }
+    Mode_Use.TIME.Delay_Ms (250);
     SYS_RESET();
 }
 
-void Main_Init(void)
-{
+void Main_Init (void) {
     Mode_Index();
-    Mode_Init.TIME (ENABLE);
-    Mode_Use.TIME.Delay_Ms(10);
 
-    Mode_Init.UART(1,115200,ENABLE);
-    printf("SystemClk:%d \r\n", MCU_SYS_FREQ);
+    Center_app_Init();
+    System_app_Init();
 }

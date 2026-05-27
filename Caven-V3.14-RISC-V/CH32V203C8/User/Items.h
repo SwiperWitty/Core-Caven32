@@ -1,11 +1,24 @@
 #ifndef _ITEMS__H_
 #define _ITEMS__H_
-
-#include "ch32v20x.h"
-//软件配置的 基于内部48Mhz晶振  (48 / 6 / 2) * 36      APB 144M、APB1 72M、APB2 144M、（TIM All 144M）（ADC All 18M）（UART All 18M）
-#include "system_ch32v20x.h"
+#if defined (AT32F415RCT7) || defined (AT32F415CBT7)
+#include "at32f415.h"
+// 软件配置的 基于内部48Mhz晶振  (48 / 6 / 2) * 36      APB 144M、APB1 72M、APB2 72M、（TIM All 144M）（ADC All 18M）（UART All 18M）
+#include "at32f415_clock.h"
 #include "stdio.h"
-
+#endif
+#if defined (STM32F10X_MD) || defined (STM32F10X_HD)
+#include "stm32f10x.h"
+// 软件配置的 基于xx晶振  
+#include "system_stm32f10x.h"
+#include "stdio.h"
+#endif
+#if defined (CH32V203)
+#include "ch32v20x.h"
+#include "stdio.h"
+#elif defined (CH32V317)
+#include "ch32v30x.h"
+#include "stdio.h"
+#endif
 /*
  *          SDK->Items
  *                      \\
@@ -54,7 +67,7 @@
 #define OPEN_11110  0x1E
 #define OPEN_11111  0x1f
 
-#define DEBUG_CH	3   		// Debug 通道(Caved 3.14是串口3)
+#define DEBUG_CH	1   		// Debug 通道(Caved 3.14是串口3)
 
 #ifndef Exist_SYS_TIME
     #define Exist_SYS_TIME  OPEN_0001 // 一定存在
@@ -63,19 +76,20 @@
 #define Exist_CAPTURE   OPEN_NULL
 
 #define Exist_BUTTON    OPEN_NULL
-#define Exist_LED       OPEN_0001
+#define Exist_LED       OPEN_NULL
 #define Exist_BZZ       OPEN_NULL
 
 #define Exist_ADC		OPEN_NULL
 #define Exist_DAC       OPEN_NULL
 
-#define Exist_UART      OPEN_11110
+#define Exist_UART      OPEN_1110
 #define Exist_IIC       OPEN_NULL
-#define Exist_SPI       OPEN_0100
+#define Exist_SPI       OPEN_NULL
 #define Exist_USB       OPEN_NULL
-#define Exist_CAN       OPEN_NULL
+#define Exist_CAN       OPEN_0001
+#define Exist_ETH       OPEN_NULL
 
-#define Exist_FLASH     OPEN_NULL
+#define Exist_FLASH     OPEN_0001
 
 #define GUI_LVGL        OPEN_NULL
 
@@ -88,6 +102,7 @@
 #define Exist_DS18B20           OPEN_NULL
 #define Exist_MLX90614          OPEN_NULL
 #define Exist_RTC8564           OPEN_NULL   // 时钟
+#define Exist_QMI8658           OPEN_NULL
 
 #define Exist_Ultrasonic        OPEN_NULL   // 超声波测距
 
@@ -98,13 +113,15 @@
 #define Exist_STEP_Motor        OPEN_NULL
 #define Exist_Motor_BYJ         OPEN_NULL
 
-
 /****   进一步的逻辑关系    ****/
 #if Exist_UART
-    #define UART1_REMAP OPEN_0000
-    #define UART2_REMAP OPEN_0000
+    #define UART1_REMAP OPEN_0000		// OPEN_0000:PA9 10,OPEN_0001:PB6 7
+    #define UART2_REMAP OPEN_0000		// OPEN_0000:PA2 3
     #define UART3_REMAP OPEN_0001       // OPEN_0000:PB10 11,OPEN_0001:PC10 11
-    #define UART4_REMAP OPEN_0000
+    #define UART4_REMAP OPEN_0000		// OPEN_0000:PC10 11
+#endif
+#if Exist_USB
+    #define USB_MODE	OPEN_0000		// OPEN_0000:HID OPEN_0001:CDC OPEN_0010:HID+KB
 #endif
 #if Exist_CAPTURE
     #define TIM1_REMAP  OPEN_0000
@@ -149,13 +166,6 @@
 #endif
 
 /*****  冲突      *****/
-#if DEBUG_CH == 1
-    #if Exist_USB
-        #warning (UART1 And USB Clash !!!)
-        #undef Exist_USB
-        #define Exist_USB   OPEN_0000
-    #endif
-#endif
 
 #if Exist_LCD
     #if Exist_OLED
@@ -178,12 +188,52 @@
 #endif
 
 // boot
-#define GO_TO_APP() do{     \
-                            \
+#define NVIC_VECTOR_SET(addr) (void)(addr);
+
+#define GO_TO_APP(addr) do{     \
+    NVIC_DisableIRQ(USBHD_IRQn);       \
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,DISABLE);   \
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,DISABLE);   \
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC,DISABLE);   \
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD,DISABLE);   \
+    NVIC_EnableIRQ(Software_IRQn);      \
+    NVIC_SetPendingIRQ(Software_IRQn);  \
+    while(1);   \
+    NVIC_VECTOR_SET(addr);  \
 }while(0);
 
-// #define IO_H_REG    scr
-// #define IO_L_REG    clr
+// 内存信息
+// ch32v207 64k-rom/20k-ram
+// ch32v317 192k-rom/128k-ram
+#define SYS_BTLD    2               // 0:RS app;1:bootld;2:不参与跳转&中断向量
+#define SYS_STR_ADDR    0x08000000
+#define SYS_APP_ADDR    0x08008000
+
+#ifdef AT32F415CBT7
+#define SYS_APP_SIZE    0x00010000
+#elif AT32F415RCT7
+#define SYS_APP_SIZE    0x00020000
+#elif CH32V203
+#define SYS_APP_SIZE    0x00008000
+#else
+#define SYS_APP_SIZE    0x00026000  // 0x00030000
+#endif
+
+#define SYS_CFG_ADDR    (SYS_APP_ADDR + SYS_APP_SIZE)
+
+#if SYS_BTLD == 1
+#define SYS_RUN_ADDR    (SYS_STR_ADDR - SYS_STR_ADDR)
+#define SYS_CMD_RESULT  9
+#elif SYS_BTLD == 0
+#define SYS_RUN_ADDR    (SYS_APP_ADDR - SYS_STR_ADDR)
+#define SYS_CMD_RESULT  0
+#elif SYS_BTLD == 2
+#define SYS_RUN_ADDR    (SYS_STR_ADDR - SYS_STR_ADDR)
+#define SYS_CMD_RESULT  0
+#endif
+
+#define IO_H_REG    BSHR
+#define IO_L_REG    BCR
 
 #ifdef GPIO_PINS_0
 	#define GPIO_Pin_0  GPIO_PINS_0
@@ -228,3 +278,4 @@
 #endif
 
 #endif
+
