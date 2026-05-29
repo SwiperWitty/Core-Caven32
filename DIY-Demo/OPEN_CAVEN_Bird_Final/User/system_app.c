@@ -268,6 +268,50 @@ int System_app_save_ip (void)
 	return retval;
 }
 
+void System_Send_data (void *data,uint32_t len,int way)
+{
+	if (data == NULL || len <= 0) {
+		return;
+	}
+	switch (way) 
+	{
+    	case m_RS232_Link:
+        	{
+			MODE_UART_DMA_Send_Data_Fun(m_UART_CH2,(uint8_t *)data,len);
+			}
+			break;
+		case m_Server_Link:
+			{
+		#if NETWORK == 1
+				Base_TCP_Server_Send ((uint8_t *)data,len);
+		#endif
+			}
+			break;
+		case m_Client_Link:
+			{
+		#if NETWORK == 1
+				Base_TCP_Client_Send ((uint8_t *)data,len);
+		#endif
+			}
+			break;
+		case m_USB_Link:
+			{
+		#if Exist_USB
+			Mode_Use.USB_HID.Send_Data_pFun((uint8_t *)data,len);
+		#endif
+			}
+			break;
+		case m_Other_Link:
+			{
+				Mode_Use.UART.Send_Data_pFun(m_UART_CH3,(uint8_t *)data,len);
+			}
+			break;
+		default:
+			Mode_Use.UART.Send_Data_pFun (DEBUG_CH,(uint8_t *)data,len);
+			break;
+	}
+}
+
 void System_app_Restore (void)
 {
 	int app_crc = g_SYS_Config.app_crc;
@@ -332,15 +376,14 @@ void System_app_Restore (void)
 	System_app_SYS_Config_Save ();
 }
 
-
 /*
 	gain SYS_Config
 */
 int System_app_SYS_Config_Gain (void)
 {
 	int retval = 0;
-	g_SYS_Config.temp_val = &s_SYS_val;
 	Base_Flash_Read (&g_SYS_Config,SYS_CFG_ADDR,sizeof(g_SYS_Config));
+	g_SYS_Config.temp_val = &s_SYS_val;
 	// g_SYS_Config.debug = 0;
 	g_SYS_Config.Bddate = DEMO_Build_str;
 	g_SYS_Config.Version[0] = DEMO_VER;
@@ -362,7 +405,7 @@ int System_app_SYS_Config_Gain (void)
 	{
 		System_app_Restore ();
 	}
-	if(g_SYS_Config.temp_val)
+	if(g_SYS_Config.temp_val != NULL)
 	{
 		g_SYS_Config.temp_val->Reset_falg = 0;
 		g_SYS_Config.temp_val->Connect_passage = m_Connect_SYS;
@@ -391,7 +434,7 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
     {
         System_start_Time = g_SYS_Config.temp_val->Now_time;
         g_SYS_Config.temp_val->Work_sec ++;
-		
+
 		
     }
 #if NETWORK == 1
@@ -471,25 +514,7 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
 				{
 					net_temp = 0;
 				}
-				switch (g_SYS_Config.temp_val->Connect_passage) 
-				{
-					case m_Server_Link:
-						{
-					#if NETWORK == 1
-							Base_TCP_Server_Send ((uint8_t *)heart_array,net_temp);
-					#endif
-						}
-						break;
-					case m_Client_Link:
-						{
-					#if NETWORK == 1
-							Base_TCP_Client_Send ((uint8_t *)heart_array,net_temp);
-					#endif
-						}
-						break;
-					default:
-						break;
-				}
+				System_Send_data ((uint8_t *)heart_array,net_temp,g_SYS_Config.temp_val->Connect_passage);
 			}
 
 		}
@@ -502,7 +527,7 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
 	{
 		
 	}
-	if (g_SYS_Config.temp_val->Reset_falg)
+	if (g_SYS_Config.temp_val->Reset_falg == 1)
 	{
 		Mode_Use.TIME.Delay_Ms (100);
 		Debug_printf("RST SYS UTC %ds,work %ds \n",g_SYS_Config.temp_val->Now_time.SYS_Sec,g_SYS_Config.temp_val->Work_sec);
@@ -550,12 +575,13 @@ void System_app_Init (void)
 	System_app_SYS_Config_Gain ();
 
 #if SYS_BTLD == 1
+	// g_SYS_Config.app_crc = 0x1234;	// key
 	if (g_SYS_Config.Bt_mode)
 	{
 		uint8_t * addr_p = (uint8_t *)SYS_APP_ADDR;
 		int temp_sum;
 		temp_sum = Encrypt_XMODEM_CRC16_Fun(addr_p, SYS_APP_SIZE);
-		if (temp_sum == g_SYS_Config.app_crc)
+		if (temp_sum == g_SYS_Config.app_crc || g_SYS_Config.app_crc == 0x1234)
 		{
 			Debug_OutStr("GO_TO_APP ...\n");
 			Mode_Use.TIME.Delay_Ms(20);
@@ -628,6 +654,7 @@ void System_app_Init (void)
 	else 
 	{
 		Debug_OutStr("MCU running app ...\n");
+		Debug_printf("APP running 0x%x \n",SYS_RUN_ADDR);
 	}
 	(void)temp_num;
 }

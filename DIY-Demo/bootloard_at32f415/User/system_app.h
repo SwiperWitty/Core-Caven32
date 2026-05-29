@@ -48,7 +48,7 @@ typedef enum {
 #if Exist_ETH
 #define NETWORK     1       // 1 使用功能，2 保留数据区，但不使用功能
 #else 
-#define NETWORK     2
+#define NETWORK     0
 #endif
 //
 
@@ -158,6 +158,7 @@ int System_app_SYS_Config_Save (void);
 int System_app_SYS_Config_Gain (void);
 int System_app_State_machine (Caven_BaseTIME_Type time);
 
+void System_Send_data (void *data,uint32_t len,int way);
 void line_gpo_set(int num,int val);
 int sys_set_gpo_fun (int gpo,int state);
 int sys_set_bzz_fun (int state);

@@ -191,15 +191,18 @@
 #define NVIC_VECTOR_SET(addr) (void)(addr);
 
 #define GO_TO_APP(addr) do{     \
-    NVIC_DisableIRQ(USBHS_IRQn);       \
+    NVIC_DisableIRQ(USBHS_IRQn);        \
+    NVIC_DisableIRQ(USBFS_IRQn);       \
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,DISABLE);   \
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,DISABLE);   \
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC,DISABLE);   \
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD,DISABLE);   \
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOE,DISABLE);   \
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_USBHS, DISABLE);    \
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_USBFS, DISABLE);    \
     NVIC_EnableIRQ(Software_IRQn);      \
     NVIC_SetPendingIRQ(Software_IRQn);  \
     while(1);   \
-    NVIC_VECTOR_SET(addr);  \
 }while(0);
 
 // 内存信息

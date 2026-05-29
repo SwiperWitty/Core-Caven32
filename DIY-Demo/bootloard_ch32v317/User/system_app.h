@@ -158,6 +158,7 @@ int System_app_SYS_Config_Save (void);
 int System_app_SYS_Config_Gain (void);
 int System_app_State_machine (Caven_BaseTIME_Type time);
 
+void System_Send_data (void *data,uint32_t len,int way);
 void line_gpo_set(int num,int val);
 int sys_set_gpo_fun (int gpo,int state);
 int sys_set_bzz_fun (int state);

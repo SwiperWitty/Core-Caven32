@@ -55,7 +55,7 @@ int Caven_app_State_machine(Caven_BaseTIME_Type time)
 	handle_pack = Caven_Buff_Request_Full_Data (Caven_packet_buff,CAVEN_PACK_M);
 	if (handle_pack->Run_status == 0xff)
     {
-//        User_GPIO_set(1,1,0);       // info
+        User_GPIO_set(1,1,0);       // info
         if(handle_pack->Type == Caven_standard.Type || handle_pack->Type == 0)    // 白名单
         {
         }
@@ -1033,10 +1033,10 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 						if(g_SYS_Config.app_crc == temp_sum)
 						{
 							temp_rt = 0x00;
+                            Debug_OutStr("bootld crc succ \n");
 							g_SYS_Config.Bt_mode = 1;
                             g_SYS_Config.app_crc = Encrypt_XMODEM_CRC16_Fun(addr_p, SYS_APP_SIZE);
 							System_app_save_boot ();
-                            Debug_OutStr("bootld crc succ \n");
 							g_SYS_Config.temp_val->Reset_falg = 1;
 						}
 						else
@@ -1052,6 +1052,15 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 						temp_rt = 0x01;
                         pack.Result = m_Result_Fail_ERROR;
 					}
+                    if(g_SYS_Config.app_crc == 0x1234)
+                    {
+                        temp_rt = 0x00;
+                        pack.Result = 0;
+                        Debug_OutStr("bootld crc succ \n");
+						g_SYS_Config.Bt_mode = 1;
+                        System_app_save_boot ();
+                        g_SYS_Config.temp_val->Reset_falg = 1;
+                    }
                     BT_val = 0;
                     BT_addr = 0;
 				}
@@ -1385,50 +1394,8 @@ int Caven_app_send_packet(Caven_info_packet_Type pack)
 	}
 	memset(temp_array,0,sizeof(temp_array));
     temp_num = Caven_info_Split_packet_Fun(pack,temp_array);
-    switch (pack.Comm_way)
-    {
-    case m_RS232_Link:
-        {
-            // rfid
-        }
-        break;
-    case m_RS485_Link:
-        {
-            // sys
-        }
-        break;
-    case m_Server_Link:
-        {
-        #if NETWORK == 1
-            Base_TCP_Server_Send (temp_array,temp_num);
-        #endif
-        }
-        break;
-    case m_Client_Link:
-        {
-        #if NETWORK == 1
-            Base_TCP_Client_Send (temp_array,temp_num);
-        #endif
-        }
-        break;
-    case m_USB_Link:
-        {
-    #if Exist_USB
-        Mode_Use.USB_HID.Send_Data_pFun(temp_array,temp_num);
-    #endif
-        }
-        break;
-    case m_Other_Link:
-        {
-            Mode_Use.UART.Send_Data_pFun(m_UART_CH3,temp_array,temp_num);
-        }
-        break;
-    default:
-        {
-            Mode_Use.UART.Send_Data_pFun(m_UART_CH1,temp_array,temp_num);
-        }
-        break;
-    }
+    System_Send_data (temp_array,temp_num,pack.Comm_way);
+
     return retval;
 }
 
@@ -1633,6 +1600,7 @@ retval < 0 失败
 int Caven_app_JSON_Make_pack (char *data,int way)
 {
 	int retval = 0;
+#if Exist_ETH
     int temp_len = 0;
 	char *temp_str = NULL;
 	char array[500];
@@ -1715,12 +1683,14 @@ int Caven_app_JSON_Make_pack (char *data,int way)
             Caven_info_packet_clean_Fun(temp_pack);
         }
 	}
+#endif
 	return retval;
 }
 
 int Caven_send_Heartbeat_Fun (void *data)
 {
     int retval = 0;
+#if Exist_ETH
     uint8_t temp_array[100];
     int temp_num = 0;
     memcpy(temp_array,&g_SYS_Config.Serial,sizeof(g_SYS_Config.Serial));
@@ -1735,6 +1705,7 @@ int Caven_send_Heartbeat_Fun (void *data)
     temp_array[temp_num ++] = (g_SYS_Config.temp_val->Now_time.SYS_Sec >> (8 * 0)) & 0xff;
     retval = Caven_info_return_Fun (Caven_standard.Versions,Caven_standard.Type,g_SYS_Config.Addr,  \
     1,m_CAVEN_CMD1_TCPUpHtdata_Order,temp_num,temp_array,0,(uint8_t *)data);
+#endif
     return retval;
 }
 

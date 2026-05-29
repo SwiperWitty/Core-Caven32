@@ -1,8 +1,30 @@
 #include "center_app.h"
 #include "Mode.h"
 
+void Main_Init (void);
+
+uint64_t _LocalTime() {
+    Caven_BaseTIME_Type now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
+    return (uint64_t)(now_time.SYS_Sec * 1000 + now_time.SYS_Us / 1000);
+}
+
 #include "lvgl.h"
 #include "ui.h"
+
+/*
+            Èí¼şÎÄ¼ş¼Ğ->AT32ÎÄ¼ş¼Ğ->Keil¹¤³Ì
+ÏîÄ¿ÎÄ¼ş->
+            ÔÆ¶Ë¿âÎÄ¼ş¼Ğ...
+*/
+#ifdef PICTURE
+#define Photo1 gImage_4_caven
+#define Photo2 gImage_example
+#endif
+
+u16 ADC_array[10];			// [0] x,[1] y,[2] vin,[3] vout,[4] temp,[5] ele;
+
+void Main_Init(void);
+void ADC_Data_Handle (void * data);
 
 #define BUFF_LEN 5
 
@@ -36,6 +58,8 @@ static void hal_init(void)
 {
 
 }
+
+
 void gui_init (void)
 {
 	/*Initialize LVGL*/
@@ -52,35 +76,27 @@ void gui_init (void)
 	ui_init();
 }
 
-void Main_Init(void);
-
-int main(void)
-{
+int main (void) {
+    int retval = 0;
     Caven_BaseTIME_Type now_time;
-	
     Main_Init();
     now_time.SYS_Sec = 1742299486;
-    Mode_Use.TIME.Set_BaseTIME_pFun(now_time);
-	
-	while(1)
-    {
-		now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
+    Mode_Use.TIME.Set_BaseTIME_pFun (now_time);
 
-		if(Center_State_machine(now_time))          // çŠ¶æ€æœºå…¥å£
-		{
-			break;									// çŠ¶æ€æœºé€€å‡º,ç¨‹åºé‡å¯
-		}
+    while (1) {
+        now_time = Mode_Use.TIME.Get_BaseTIME_pFun();
+        if(Center_State_machine(now_time) == 1)
+        {
+            break;
+        }
     }
-	Mode_Use.TIME.Delay_Ms (250);
+    Mode_Use.TIME.Delay_Ms (250);
     SYS_RESET();
 }
 
-void Main_Init(void)
-{
+void Main_Init (void) {
     Mode_Index();
-	
-	Center_app_Init ();
-	System_app_Init ();
+
+    Center_app_Init();
+    System_app_Init();
 }
-
-

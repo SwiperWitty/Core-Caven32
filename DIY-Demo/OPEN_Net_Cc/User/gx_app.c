@@ -4,7 +4,7 @@
 
 // 消息通道&循环队列数
 
-#define GX_PACK_M	10       // 列数
+#define GX_PACK_M	6       // 列数
 #define GX_TAG_MAX 100
 
 static GX_info_packet_Type *p_sys_pack = NULL;
@@ -488,50 +488,7 @@ int GX_app_forward_packet(GX_info_packet_Type pack)
 {
 	int retval = 0;
     switch (pack.Comm_way)
-    {
-    case m_RS232_Link:
-        {
-			MODE_UART_DMA_Send_Data_Fun(m_UART_CH2,pack.p_AllData,pack.Get_num);
-//            Mode_Use.UART.Send_Data_pFun(m_UART_CH2,temp_array,temp_num);
-        }
-        break;
-    case m_RS485_Link:
-        {
-            
-        }
-        break;
-    case m_Server_Link:
-        {
-    #if NETWORK == 1
-            Base_TCP_Server_Send (pack.p_AllData,pack.Get_num);
-    #endif
-        }
-        break;
-    case m_Client_Link:
-        {
-    #if NETWORK == 1
-            Base_TCP_Client_Send (pack.p_AllData,pack.Get_num);
-    #endif
-        }
-        break;
-    case m_USB_Link:
-        {
-    #if Exist_USB
-        Mode_Use.USB_HID.Send_Data_pFun(pack.p_AllData,pack.Get_num);
-    #endif
-        }
-        break;
-    case m_Other_Link:
-        {
-            Mode_Use.UART.Send_Data_pFun(m_UART_CH3,pack.p_AllData,pack.Get_num);
-        }
-        break;
-    default:
-		{
-			MODE_UART_DMA_Send_Data_Fun(m_UART_CH1,pack.p_AllData,pack.Get_num);
-		}
-        break;
-    }
+	System_Send_data (pack.p_AllData,pack.Get_num,pack.Comm_way);
 	return retval;
 }
 
@@ -545,50 +502,7 @@ int GX_app_send_packet(GX_info_packet_Type pack)
 	{
 		temp_num = 0;
 	}
-    switch (pack.Comm_way)
-    {
-    case m_RS232_Link:
-        {
-			MODE_UART_DMA_Send_Data_Fun(m_UART_CH2,temp_array,temp_num);
-        }
-        break;
-    case m_RS485_Link:
-        {
-            
-        }
-        break;
-    case m_Server_Link:
-        {
-    #if NETWORK == 1
-            Base_TCP_Server_Send (temp_array,temp_num);
-    #endif
-        }
-        break;
-    case m_Client_Link:
-        {
-    #if NETWORK == 1
-            Base_TCP_Client_Send (temp_array,temp_num);
-    #endif
-        }
-        break;
-    case m_USB_Link:
-        {
-    #if Exist_USB
-        Mode_Use.USB_HID.Send_Data_pFun(temp_array,temp_num);
-    #endif
-        }
-        break;
-    case m_Other_Link:
-        {
-            Mode_Use.UART.Send_Data_pFun(m_UART_CH3,temp_array,temp_num);
-        }
-        break;
-    default:
-		{
-			MODE_UART_DMA_Send_Data_Fun(m_UART_CH1,temp_array,temp_num);
-		}
-        break;
-    }
+	System_Send_data (temp_array,temp_num,pack.Comm_way);
     return retval;
 }
 
