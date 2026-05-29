@@ -86,7 +86,7 @@
 #define Exist_IIC       OPEN_NULL
 #define Exist_SPI       OPEN_NULL
 #define Exist_USB       OPEN_NULL
-#define Exist_CAN       OPEN_0001
+#define Exist_CAN       OPEN_NULL
 #define Exist_ETH       OPEN_NULL
 
 #define Exist_FLASH     OPEN_0001

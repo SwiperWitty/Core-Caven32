@@ -39,7 +39,7 @@ typedef enum {
 #define DEMO_VER_sub      0L
 #define DEMO_VER_sub_bit  2L
 #else
-#define DEMO_Name_str   "net_cc \0"
+#define DEMO_Name_str   "ch32v207 \0"
 #define DEMO_VER          2L
 #define DEMO_VER_sub      0L
 #define DEMO_VER_sub_bit  1L
@@ -158,6 +158,7 @@ int System_app_SYS_Config_Save (void);
 int System_app_SYS_Config_Gain (void);
 int System_app_State_machine (Caven_BaseTIME_Type time);
 
+void System_Send_data (void *data,uint32_t len,int way);
 void line_gpo_set(int num,int val);
 int sys_set_gpo_fun (int gpo,int state);
 int sys_set_bzz_fun (int state);

@@ -577,7 +577,7 @@ void System_app_Init (void)
 	System_app_SYS_Config_Gain ();
 
 #if SYS_BTLD == 1
-	// g_SYS_Config.app_crc = 0x1234;	// key
+
 	if (g_SYS_Config.Bt_mode)
 	{
 		uint8_t * addr_p = (uint8_t *)SYS_APP_ADDR;
