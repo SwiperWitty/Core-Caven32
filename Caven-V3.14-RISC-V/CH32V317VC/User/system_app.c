@@ -42,6 +42,10 @@ void bzz_event_fun (void *data)
 			{
 				*(int *)data = 0;
 			}
+			else if(temp_time < 0)
+			{
+				*(int *)data = 0;
+			}
 		}
 		else
 		{
@@ -396,6 +400,7 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
 		User_GPIO_set(5,0,System_start_Time.SYS_Sec % 2);
 		
     }
+	Mode_Use.UART.Receive_Poll_Task_pFun ();
 #if NETWORK == 1
 	char heart_array[200];
 	int	net_temp = 0;

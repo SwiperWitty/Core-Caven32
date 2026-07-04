@@ -53,6 +53,10 @@ int Caven_app_State_machine(Caven_BaseTIME_Type time)
     Caven_app_time = time;
     Caven_info_packet_Type *handle_pack = NULL;
 	handle_pack = Caven_Buff_Request_Full_Data (Caven_packet_buff,CAVEN_PACK_M);
+    if(handle_pack == NULL)
+    {
+        return retval;
+    }
 	if (handle_pack->Run_status == 0xff)
     {
         User_GPIO_set(1,1,0);       // info
@@ -305,7 +309,7 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
                 temp_val |= pack.p_Data[temp_num++];
                 temp_val <<= 8;
                 temp_val |= pack.p_Data[temp_num++];
-                if(temp_val % 9600 == 0)
+                if(temp_val % 9600 == 0 && temp_val > 0)
                 {
                     g_SYS_Config.RS232_UART_Cfg = temp_val;
                     System_app_save_RS232Cfg();
