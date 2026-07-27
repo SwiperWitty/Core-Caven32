@@ -15,7 +15,9 @@
 			"link": "WCH-Link",
 			"peripheral_version": "1.4",
 			"calibrateSupport": false,
-			"calibrateCommand": ""
+			"calibrateCommand": "",
+			"UIConfigSupport": false,
+			"externalFlashSupport": false
 		},
 		"linkedFolders": [
 			{
@@ -48,7 +50,7 @@
 				"name": "Debug"
 			}
 		],
-		"projectName": "Caven",
+		"projectName": "Caven-boot",
 		"architecture": "RISC-V",
 		"projectType": "c"
 	},
@@ -333,6 +335,7 @@
 					"copy_only_section_text": false,
 					"copy_only_section_data": false,
 					"copy_only_sections": [],
+					"create_algorithm_file": false,
 					"other_flags": ""
 				},
 				"createList": {
@@ -384,9 +387,9 @@
 	"flashConfig": {
 		"mcutype": "CH32V317",
 		"address": "0x08000000",
-		"target_path": "obj\\Caven.hex",
+		"target_path": "obj\\Caven-boot.hex",
 		"clkSpeed": "High",
-		"debug_interface_mode": "1-wire serial",
+		"debug_interface_mode": "",
 		"erase": true,
 		"program": true,
 		"verify": true,
@@ -395,6 +398,8 @@
 		"disablepowerout": false,
 		"clearcodeflash": false,
 		"disablecodeprotect": false,
+		"flashType": "",
+		"asmFile_path": "",
 		"exepath": "",
 		"exearguments": ""
 	},

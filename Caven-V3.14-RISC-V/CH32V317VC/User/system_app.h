@@ -45,10 +45,12 @@ typedef enum {
 #define DEMO_VER_sub_bit  1L
 #endif
 //
-#if Exist_ETH
+#if Exist_ETH && SYS_BTLD != 1
 #define NETWORK     1       // 1 使用功能，2 保留数据区，但不使用功能
-#else 
+#elif Exist_ETH
 #define NETWORK     2
+#else 
+#define NETWORK     0
 #endif
 //
 
@@ -74,25 +76,40 @@ typedef struct
 
 }SYS_val_Type;
 
+typedef struct
+{
+    uint16_t app_crc;
+    uint16_t Bt_mode;       // 0:bootld,1:app,2:Load flash a;3:Load flash b;
+    uint8_t Encrypt[16];
+    uint32_t Load_Default;  // addr
+    uint16_t app_Default;
+    uint32_t Load_Latest;   // addr
+    uint16_t app_Latest;
+}SYS_boot_Type;
+
 /*  [SYS_config]     */
 typedef struct
 {
-	uint16_t Bt_mode;
-	uint16_t Addr;
-    int Board_ID;     // 0(default)
-	int app_crc;
-    uint16_t debug;
-    int SYS_UART_Cfg;
-    int RS232_UART_Cfg;
-    int RS485_UART_Cfg;
-    int CANCfg;
-    int BLECfg;
+	SYS_boot_Type Boot;
 
     uint8_t Version[10];		// 固件版本
     uint64_t Serial;			// 设备序号
     uint8_t MAC[6];
     char* Bddate;			    // 固件日期
-    char Hostname[30];			// 设备名称
+    char Hostname[24];			// 设备名称
+
+	uint16_t Addr;
+    int Board_ID;     // 0(default)
+    uint16_t debug;
+    int SYS_UART_Cfg;
+    int RS232_UART_Cfg;
+    int RS485_UART_Cfg;
+    int BLE_Cfg;
+    int CAN_Cfg;    // en + Bps[0-3]
+    int CAN_Id;     // 0-2024
+    int CAN_Range[2];     // 0-2024
+    int CAN_Filter;
+    uint16_t CAN_Filter_len;
 
 #if NETWORK
     char eth_mode;           // 1:dhcp   0:static
@@ -158,6 +175,7 @@ int System_app_SYS_Config_Save (void);
 int System_app_SYS_Config_Gain (void);
 int System_app_State_machine (Caven_BaseTIME_Type time);
 
+void System_Send_data (void *data,uint32_t len,int way);
 void line_gpo_set(int num,int val);
 int sys_set_gpo_fun (int gpo,int state);
 int sys_set_bzz_fun (int state);

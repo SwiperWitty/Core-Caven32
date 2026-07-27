@@ -24,11 +24,14 @@ int main (void) {
     }
     Mode_Use.TIME.Delay_Ms (250);
     SYS_RESET();
+    (void)retval;
 }
 
 void Main_Init (void) {
+    System_app_SYS_Config_Gain ();
     Mode_Index();
 
     Center_app_Init();
-    System_app_Init();
+    Bootld_app_Init ();
+	System_app_Init();
 }

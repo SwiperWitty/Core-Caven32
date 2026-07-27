@@ -31,7 +31,7 @@
 /*  基本外设就能实现的功能     */
 
 #define OPEN_NULL   0x00    // 不存在设备
-#define OPEN_0000   0x00    // 默认MAP
+#define OPEN_0000   OPEN_NULL
 #define OPEN_0001   0x01    // 存在设备0
 #define OPEN_0010   0x02    // 存在设备1
 #define OPEN_0011   0x03    // 存在设备1、0
@@ -75,10 +75,6 @@
 #define Exist_PWM       OPEN_NULL
 #define Exist_CAPTURE   OPEN_NULL
 
-#define Exist_BUTTON    OPEN_NULL
-#define Exist_LED       OPEN_NULL
-#define Exist_BZZ       OPEN_NULL
-
 #define Exist_ADC		OPEN_NULL
 #define Exist_DAC       OPEN_NULL
 
@@ -103,10 +99,12 @@
 #define Exist_MLX90614          OPEN_NULL
 #define Exist_RTC8564           OPEN_NULL   // 时钟
 #define Exist_QMI8658           OPEN_NULL
+#define Exist_W25Q_DRV          OPEN_0001
 
 #define Exist_Ultrasonic        OPEN_NULL   // 超声波测距
 
 #define Exist_Voice             OPEN_NULL   // 语音播报(MP3)
+#define Exist_AS608             OPEN_NULL
 
 #define Exist_Motor_Engine      OPEN_NULL   // 电机
 #define Exist_Steering_Engine   OPEN_NULL   // 舵机
@@ -123,6 +121,9 @@
 #if Exist_USB
     #define USB_MODE	OPEN_0000		// OPEN_0000:HID OPEN_0001:CDC OPEN_0010:HID+KB
 #endif
+#if Exist_CAN
+    #define CAN_MODE	OPEN_0001		// OPEN_0000:PA11 PA12,OPEN_0001:PB8 PB9
+#endif
 #if Exist_CAPTURE
     #define TIM1_REMAP  OPEN_0000
     #define TIM2_REMAP  OPEN_0001       // OPEN_0000:PA0-3,OPEN_0001:PA15、PB3、PB10、PB11
@@ -131,6 +132,12 @@
 #endif
 
 #if Exist_LCD
+    #if Exist_SPI == OPEN_NULL
+        #undef Exist_SPI
+        #define Exist_SPI	OPEN_0100
+    #endif
+#endif
+#if Exist_W25Q_DRV
     #if Exist_SPI == OPEN_NULL
         #undef Exist_SPI
         #define Exist_SPI	OPEN_0100
@@ -187,6 +194,10 @@
 	#define SYS_RESET() NVIC_SystemReset()
 #endif
 
+#ifndef SYS_GETCHIPID
+#define SYS_GETCHIPID ((uint8_t*)0x1FFFF7E8)
+#endif
+
 // boot
 #define NVIC_VECTOR_SET(addr) (void)(addr);
 
@@ -198,8 +209,11 @@
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC,DISABLE);   \
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD,DISABLE);   \
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOE,DISABLE);   \
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1,DISABLE);    \
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI2,DISABLE);    \
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_USBHS, DISABLE);    \
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_USBFS, DISABLE);    \
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1,DISABLE);      \
     NVIC_EnableIRQ(Software_IRQn);      \
     NVIC_SetPendingIRQ(Software_IRQn);  \
     while(1);   \
@@ -207,9 +221,13 @@
 
 // 内存信息
 // ch32v317 192k-rom/128k-ram
-#define SYS_BTLD    2               // 0:RS app;1:bootld;2:不参与跳转&中断向量
+#define SYS_BTLD    0               // 0:app;1:bootld;2:不参与跳转&中断向量
 #define SYS_STR_ADDR    0x08000000
 #define SYS_APP_ADDR    0x08008000
+#define SYS_FLASH_EA    0x00000000
+#define SYS_FLASH_EB    0x00080000
+#define SYS_FLASH_SIZE  0x00080000
+#define SYS_ETH_Config  1
 
 #ifdef AT32F415CBT7
 #define SYS_APP_SIZE    0x00010000

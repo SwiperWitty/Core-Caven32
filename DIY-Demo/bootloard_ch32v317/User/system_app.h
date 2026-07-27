@@ -9,6 +9,8 @@
 -试一下
 2023.11.8
 2026.5.7
+2026.7.16       // ota
+2026.7.21       // 全面支持外部flash操作 v2050
 */
 
 typedef enum {
@@ -35,20 +37,20 @@ typedef enum {
 #define DEMO_Serial     0x0101011900123456
 #if SYS_BTLD == 1
 #define DEMO_Name_str   "bootld\0"
-#define DEMO_VER          1L
-#define DEMO_VER_sub      0L
-#define DEMO_VER_sub_bit  2L
-#else
-#define DEMO_Name_str   "net_cc \0"
 #define DEMO_VER          2L
 #define DEMO_VER_sub      0L
-#define DEMO_VER_sub_bit  1L
+#define DEMO_VER_sub_bit  5L
+#else
+#define DEMO_Name_str   "L1004 v2.0\0"
+#define DEMO_VER          2L
+#define DEMO_VER_sub      0L
+#define DEMO_VER_sub_bit  5L
 #endif
 //
-#if Exist_ETH
-#define NETWORK     1       // 1 使用功能，2 保留数据区，但不使用功能
+#if Exist_ETH && SYS_BTLD != 1
+#define NETWORK     1       // 1 使用功能
 #else 
-#define NETWORK     2
+#define NETWORK     0
 #endif
 //
 
@@ -70,31 +72,46 @@ typedef struct
     int init_finish_state;
     int Connect_passage;    // 连接管理,从SYS来的回答消息不会变更此数据
     uint32_t Work_sec;
+    uint32_t u32_val;
     Caven_BaseTIME_Type Now_time;
 
 }SYS_val_Type;
 
+typedef struct
+{
+    uint16_t app_crc;
+    uint32_t app_size;
+    uint16_t Bt_mode;       // 0:bootld,1:app,2:Load flash a;3:Load flash b;
+    uint8_t Encrypt[16];
+    uint32_t Load_Default;  // addr
+    uint32_t Load_Latest;   // addr
+}SYS_boot_Type;
+
 /*  [SYS_config]     */
 typedef struct
 {
-	uint16_t Bt_mode;
-	uint16_t Addr;
-    int Board_ID;     // 0(default)
-	int app_crc;
-    uint16_t debug;
-    int SYS_UART_Cfg;
-    int RS232_UART_Cfg;
-    int RS485_UART_Cfg;
-    int CANCfg;
-    int BLECfg;
+	SYS_boot_Type Boot;
 
     uint8_t Version[10];		// 固件版本
     uint64_t Serial;			// 设备序号
     uint8_t MAC[6];
     char* Bddate;			    // 固件日期
-    char Hostname[30];			// 设备名称
+    char Hostname[24];			// 设备名称
 
-#if NETWORK
+	uint16_t Addr;
+    int Board_ID;     // 0(default)
+    uint16_t debug;
+    int SYS_UART_Cfg;
+    int RS232_UART_Cfg;
+    int RS485_UART_Cfg;
+    int BLE_Cfg;
+    int CAN_Cfg;    // en + Bps[0-3]
+    int CAN_Id;     // 0-2024
+    int CAN_Range[2];     // 0-2024
+    int CAN_Filter;
+    uint16_t CAN_Filter_len;
+
+#if SYS_ETH_Config
     char eth_mode;           // 1:dhcp   0:static
     char eth_En;
     char eth_ip_str[30];
@@ -158,7 +175,8 @@ int System_app_SYS_Config_Save (void);
 int System_app_SYS_Config_Gain (void);
 int System_app_State_machine (Caven_BaseTIME_Type time);
 
-void System_Send_data (void *data,uint32_t len,int way);
+void System_app_Gain_ICID (u8* bk_data);
+void System_Send_data (void *data,int len,int way);
 void line_gpo_set(int num,int val);
 int sys_set_gpo_fun (int gpo,int state);
 int sys_set_bzz_fun (int state);

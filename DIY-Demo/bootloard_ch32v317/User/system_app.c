@@ -42,6 +42,10 @@ void bzz_event_fun (void *data)
 			{
 				*(int *)data = 0;
 			}
+			else if(temp_time < 0)
+			{
+				*(int *)data = 0;
+			}
 		}
 		else
 		{
@@ -268,62 +272,18 @@ int System_app_save_ip (void)
 	return retval;
 }
 
-void System_Send_data (void *data,uint32_t len,int way)
-{
-	if (data == NULL || len <= 0) {
-		return;
-	}
-	switch (way) 
-	{
-    	case m_RS232_Link:
-        	{
-			MODE_UART_DMA_Send_Data_Fun(m_UART_CH2,(uint8_t *)data,len);
-			}
-			break;
-		case m_Server_Link:
-			{
-		#if NETWORK == 1
-				Base_TCP_Server_Send ((uint8_t *)data,len);
-		#endif
-			}
-			break;
-		case m_Client_Link:
-			{
-		#if NETWORK == 1
-				Base_TCP_Client_Send ((uint8_t *)data,len);
-		#endif
-			}
-			break;
-		case m_USB_Link:
-			{
-		#if Exist_USB
-			Mode_Use.USB_HID.Send_Data_pFun((uint8_t *)data,len);
-		#endif
-			}
-			break;
-		case m_Other_Link:
-			{
-				Mode_Use.UART.Send_Data_pFun(m_UART_CH3,(uint8_t *)data,len);
-			}
-			break;
-		default:
-			Mode_Use.UART.Send_Data_pFun (DEBUG_CH,(uint8_t *)data,len);
-			break;
-	}
-}
-
+/*
+ 恢复出厂
+*/
 void System_app_Restore (void)
 {
-	int app_crc = g_SYS_Config.app_crc;
+	SYS_boot_Type boot;
+	memcpy(&boot,&g_SYS_Config.Boot,sizeof(SYS_boot_Type));
 	Debug_OutStr("System_app_Restore ...\n");
 	memset(&g_SYS_Config,0,sizeof(g_SYS_Config));
 	g_SYS_Config.temp_val = &s_SYS_val;
-#if SYS_BTLD == 1
-	// 在bt重置会删app
-	g_SYS_Config.Bt_mode = 0;
-#else
-	g_SYS_Config.Bt_mode = 1;
-#endif
+	memcpy(&g_SYS_Config.Boot,&boot,sizeof(SYS_boot_Type));
+	// 
     g_SYS_Config.Board_ID = 0;
     g_SYS_Config.debug = 1;
 	memcpy(g_SYS_Config.Hostname,DEMO_Name_str,strlen(DEMO_Name_str));
@@ -333,12 +293,12 @@ void System_app_Restore (void)
 	g_SYS_Config.Version[2] = DEMO_VER_sub_bit;
 	
     g_SYS_Config.Addr = 1;
-	g_SYS_Config.SYS_UART_Cfg = 115200;
-    g_SYS_Config.RS232_UART_Cfg = 115200;
-    g_SYS_Config.RS485_UART_Cfg = 115200;
-    g_SYS_Config.CANCfg = 0;
-    g_SYS_Config.BLECfg = 0;
-#if NETWORK
+	g_SYS_Config.SYS_UART_Cfg = 115200 | (0x01 << 24);
+    g_SYS_Config.RS232_UART_Cfg = 115200 | (0x01 << 24);
+    g_SYS_Config.RS485_UART_Cfg = 115200 | (0x01 << 24);
+    g_SYS_Config.BLE_Cfg = 0;
+
+#if SYS_ETH_Config
     g_SYS_Config.eth_mode = 0;		// 0静态，1自动
     g_SYS_Config.wifi_mode = 1;		// 0静态，1自动
 	g_SYS_Config.eth_En = 1;
@@ -372,7 +332,6 @@ void System_app_Restore (void)
 	strcpy(g_SYS_Config.UDPCfg,"null");
 	strcpy(g_SYS_Config.UDP_multicast_str,"null");
 #endif
-	g_SYS_Config.app_crc = app_crc;
 	System_app_SYS_Config_Save ();
 }
 
@@ -382,6 +341,7 @@ void System_app_Restore (void)
 int System_app_SYS_Config_Gain (void)
 {
 	int retval = 0;
+	NVIC_VECTOR_SET(SYS_RUN_ADDR);
 	Base_Flash_Read (&g_SYS_Config,SYS_CFG_ADDR,sizeof(g_SYS_Config));
 	g_SYS_Config.temp_val = &s_SYS_val;
 	// g_SYS_Config.debug = 0;
@@ -394,8 +354,9 @@ int System_app_SYS_Config_Gain (void)
 #if SYS_BTLD != 1
 	Base_Flash_Demarcation (SYS_CFG_ADDR);		// app only CFG_ADDR
 	// 在app层发现bt不在app，需要重置bt
-	if (g_SYS_Config.Bt_mode == 0)
+	if (g_SYS_Config.Boot.Bt_mode == 0)
 	{
+		g_SYS_Config.Boot.Bt_mode = 1;
 		System_app_Restore ();
 	}
 #else
@@ -418,28 +379,69 @@ int System_app_SYS_Config_Gain (void)
 	return retval;
 }
 
-int cg_rs232_cfg = 0,cg_rs485_cfg = 0;
-Task_Overtime_Type httpHBT_task,tcpHBT_task;
-
-int System_app_State_machine (Caven_BaseTIME_Type time)
+void System_app_Gain_ICID (u8* bk_data)
 {
-	int retval = 0;
-    int	temp_val = 0;
+	if(bk_data != NULL)
+	{
+		memcpy(bk_data,SYS_GETCHIPID,8);
+	}
+}
 
-    g_SYS_Config.temp_val->Now_time = time;
-	/*
-	工作时长统计
-	*/
-    if (System_start_Time.SYS_Sec != g_SYS_Config.temp_val->Now_time.SYS_Sec)
-    {
-        System_start_Time = g_SYS_Config.temp_val->Now_time;
-        g_SYS_Config.temp_val->Work_sec ++;
-		User_GPIO_set(2,14,0);	// rfid
-		User_GPIO_set(1,1,1);	// info
-		User_GPIO_set(5,0,System_start_Time.SYS_Sec % 2);
-		
-    }
+void System_Send_data (void *data,int len,int way)
+{
+	if (data == NULL || len <= 0) {
+		return;
+	}
+	switch (way) 
+	{
+    	case m_Connect_SYS:
+        	{
+				Mode_Use.UART.Send_Data_pFun(DEBUG_CH,(uint8_t *)data,len);
+			}
+			break;
+    	case m_RS232_Link:
+        	{
+				Mode_Use.UART.Send_Data_pFun(m_UART_CH2,(uint8_t *)data,len);
+			}
+			break;
+		case m_Server_Link:
+			{
+		#if NETWORK == 1
+				Base_TCP_Server_Send ((uint8_t *)data,len);
+		#endif
+			}
+			break;
+		case m_Client_Link:
+			{
+		#if NETWORK == 1
+				Base_TCP_Client_Send ((uint8_t *)data,len);
+		#endif
+			}
+			break;
+		case m_USB_Link:
+			{
+		#if Exist_USB
+				Mode_Use.USB_HID.Send_Data_pFun((uint8_t *)data,len);
+		#endif
+			}
+			break;
+		case m_Other_Link:
+			{
+				Mode_Use.UART.Send_Data_pFun(m_UART_CH3,(uint8_t *)data,len);
+			}
+			break;
+		default:
+			{
+			}
+			break;
+	}
+}
+
+Task_Overtime_Type httpHBT_task,tcpHBT_task;
+void System_eth_Task (void)
+{
 #if NETWORK == 1
+
 	char heart_array[200];
 	int	net_temp = 0;
 	Base_ETH_Task ();
@@ -522,14 +524,38 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
 		}
 	}
 #endif
+}
+U8 array_buuf[0x500];
+int cg_rs232_cfg = 0,cg_rs485_cfg = 0;
+int System_app_State_machine (Caven_BaseTIME_Type time)
+{
+	int retval = 0;
+    int	temp_val = 0;
+	g_SYS_Config.temp_val = &s_SYS_val;
+    g_SYS_Config.temp_val->Now_time = time;
 	/*
-	ota自动升级
+	工作时长统计
 	*/
-	if (1)
-	{
-		
-	}
-	if (g_SYS_Config.temp_val->Reset_falg == 1)
+    if (System_start_Time.SYS_Sec != g_SYS_Config.temp_val->Now_time.SYS_Sec)
+    {
+		for(uint32_t i = 0; i < 0x500; i++)
+		{
+			array_buuf[i] = i % 100;
+		}
+        System_start_Time = g_SYS_Config.temp_val->Now_time;
+        g_SYS_Config.temp_val->Work_sec ++;
+		User_GPIO_set(1,1,1);	// info
+		User_GPIO_set(5,0,System_start_Time.SYS_Sec % 2);
+
+    }
+#if Exist_UART
+	Mode_Use.UART.Receive_Poll_Task_pFun ();
+#endif
+#if NETWORK == 1
+	System_eth_Task ();
+#endif
+
+	if (g_SYS_Config.temp_val->Reset_falg)
 	{
 		Mode_Use.TIME.Delay_Ms (100);
 		Debug_printf("RST SYS UTC %ds,work %ds \n",g_SYS_Config.temp_val->Now_time.SYS_Sec,g_SYS_Config.temp_val->Work_sec);
@@ -570,30 +596,49 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
     return retval;
 }
 
+#if SYS_BTLD == 1
+extern int SYS_Boot_CheckAndLoad(SYS_boot_Type boot,uint16_t *crc);
+extern int SYS_Boot_Authorization_Check(SYS_boot_Type boot,u8 *uid,u8 *mask);
+#endif
 void System_app_Init (void)
 {
 	int temp_num;
-	NVIC_VECTOR_SET(SYS_RUN_ADDR);
-	System_app_SYS_Config_Gain ();
-
 #if SYS_BTLD == 1
-	// g_SYS_Config.app_crc = 0x1234;	// key
-	if (g_SYS_Config.Bt_mode)
+	uint16_t temp_crc;
+	if (g_SYS_Config.Boot.Bt_mode)
 	{
-		uint8_t * addr_p = (uint8_t *)SYS_APP_ADDR;
-		int temp_sum;
-		temp_sum = Encrypt_XMODEM_CRC16_Fun(addr_p, SYS_APP_SIZE);
-		if (temp_sum == g_SYS_Config.app_crc || g_SYS_Config.app_crc == 0x1234)
+		uint32_t temp_val;
+		temp_val = 1;
+		if(temp_val == 1)
 		{
-			Debug_OutStr("GO_TO_APP ...\n");
-			Mode_Use.TIME.Delay_Ms(20);
-			GO_TO_APP(SYS_APP_ADDR);
+			temp_num = SYS_Boot_CheckAndLoad(g_SYS_Config.Boot,&temp_crc);
+			if(temp_num > 1)
+			{
+				g_SYS_Config.Boot.app_crc = temp_crc;
+				g_SYS_Config.Boot.app_size = temp_num;
+				g_SYS_Config.Boot.Bt_mode = 1;
+				System_app_SYS_Config_Save ();
+			}
+			if(temp_num > 0)
+			{
+				Debug_OutStr("GO_TO_APP ...\n");
+				Mode_Use.TIME.Delay_Ms(20);
+				GO_TO_APP(SYS_APP_ADDR);
+			}
+		}
+		else
+		{
+			Debug_OutStr("Authorization has expired !\n");
 		}
 	}
 	Mode_Init.TIME(ENABLE);
-	Mode_Init.UART(DEBUG_CH,115200,ENABLE);
+	Mode_Init.UART(DEBUG_CH,g_SYS_Config.SYS_UART_Cfg,ENABLE);
 	Debug_OutStr("GO_TO_APP fail \n");
-
+	if(g_SYS_Config.Boot.Bt_mode > 0)
+	{
+		g_SYS_Config.Boot.Bt_mode = 0;
+		System_app_SYS_Config_Save ();
+	}
 #else
 	Mode_Init.TIME(ENABLE);
     Mode_Use.TIME.Delay_Ms(1);
@@ -605,34 +650,21 @@ void System_app_Init (void)
 	#endif
 	Debug_printf("MCU build date %s \n",g_SYS_Config.Bddate);
 	Debug_printf("MCU CFG_file 0x%x \n",sizeof(g_SYS_Config));
-	
-	User_GPIO_config(1,4,1);
-	User_GPIO_config(1,5,1);
-	User_GPIO_config(1,6,1);
-	User_GPIO_config(1,8,1);
-	User_GPIO_config(2,14,1);
-	
-	User_GPIO_set(2,14,0);		// rfid_LED
-	User_GPIO_set(1,4,1);		// GPOA
-	User_GPIO_set(1,5,1);		// GPOB
-	User_GPIO_set(1,6,1);		// GPOC
-	User_GPIO_set(1,8,1);		// BZZ
+
+	User_GPIO_config(3,13,0);		// PC13
 
 	Caven_new_event_Fun(&g_SYS_events,bzz_event_fun,&sys_bzz_event);
 	Caven_new_event_Fun(&g_SYS_events,gpo_event_fun,&sys_gpo_event);
 #endif
-	User_GPIO_config(2,0,1);
-	User_GPIO_config(1,0,1);
 	User_GPIO_config(1,1,1);
 	User_GPIO_config(5,0,1);
-
-	User_GPIO_set(2,0,1);		// run
-	User_GPIO_set(1,0,1);		// net
+	
 	User_GPIO_set(1,1,1);		// info
 	User_GPIO_set(5,0,1);
 #if Exist_USB
 	Mode_Init.USB(ENABLE);
 #endif
+
 #if (NETWORK == 1)
 	char array_ip[100],array_port[20];
     Base_ETH_config_local_ip (g_SYS_Config.eth_mode,
@@ -666,7 +698,9 @@ void System_app_Init (void)
         Base_TCP_Client_Config (array_ip,array_port,g_SYS_Config.tcp_client_enable);
     }
 #endif
-	if(g_SYS_Config.Bt_mode == 0)
+	temp_num = MODE_W25Q_Get_Max_Addr_Fun();
+	Debug_printf("Exist_W25Q flash 0x%x byte \n",temp_num);
+	if(g_SYS_Config.Boot.Bt_mode == 0)
 	{
 		Debug_OutStr("MCU running bootloard ...\n");
 	}

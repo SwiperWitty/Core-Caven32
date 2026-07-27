@@ -309,7 +309,7 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
                 temp_val |= pack.p_Data[temp_num++];
                 temp_val <<= 8;
                 temp_val |= pack.p_Data[temp_num++];
-                if(temp_val % 9600 == 0 && temp_val > 0)
+                if((temp_val & 0x00FFFFFF) % 9600 == 0 && temp_val > 0)
                 {
                     g_SYS_Config.RS232_UART_Cfg = temp_val;
                     System_app_save_RS232Cfg();
@@ -347,10 +347,18 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
                 temp_val |= pack.p_Data[temp_num++];
                 temp_val <<= 8;
                 temp_val |= pack.p_Data[temp_num++];
-                g_SYS_Config.RS485_UART_Cfg = temp_val;
-				System_app_save_RS485Cfg();
-                pack.Result = 0;
-				pack.p_Data[temp_run++] = 0;
+                if((temp_val & 0x00FFFFFF) % 9600 == 0 && temp_val > 0)
+                {
+                    g_SYS_Config.RS485_UART_Cfg = temp_val;
+                    System_app_save_RS485Cfg();
+                    pack.Result = 0;
+                    pack.p_Data[temp_run++] = 0;
+                }
+                else
+                {
+                    pack.Result = m_Result_Fail_ERROR;
+                    pack.p_Data[temp_run++] = 1;
+                }
             }
 			pack.dSize = temp_run;
         }
@@ -999,7 +1007,7 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 				if(temp_val == 0)
 				{
 					temp_rt = 0x00;		// 跳转到boot
-					g_SYS_Config.Bt_mode = 0;
+					g_SYS_Config.Boot.Bt_mode = 0;      // bootld
 					System_app_save_boot ();
 					g_SYS_Config.temp_val->Reset_falg = 1;
 				}
@@ -1019,10 +1027,10 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 				if (temp_val == 0)
 				{
 					temp_rt = 0x00;
-					g_SYS_Config.app_crc = 0;
-					g_SYS_Config.app_crc = pack.p_Data[temp_num++];
-					g_SYS_Config.app_crc <<= 8;
-					g_SYS_Config.app_crc |= pack.p_Data[temp_num++];
+					g_SYS_Config.Boot.app_crc = 0;
+					g_SYS_Config.Boot.app_crc = pack.p_Data[temp_num++];
+					g_SYS_Config.Boot.app_crc <<= 8;
+					g_SYS_Config.Boot.app_crc |= pack.p_Data[temp_num++];
 					BT_val = 0;
                     BT_addr = 0;
 					Base_Flash_Erase (SYS_APP_ADDR,SYS_APP_SIZE);
@@ -1034,19 +1042,19 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 					{
 						uint8_t * addr_p = (uint8_t *)SYS_APP_ADDR;
 						temp_sum = Encrypt_XMODEM_CRC16_Fun(addr_p, temp_num);
-						if(g_SYS_Config.app_crc == temp_sum)
+						if(g_SYS_Config.Boot.app_crc == temp_sum)
 						{
 							temp_rt = 0x00;
-							g_SYS_Config.Bt_mode = 1;
-                            g_SYS_Config.app_crc = Encrypt_XMODEM_CRC16_Fun(addr_p, SYS_APP_SIZE);
-							System_app_save_boot ();
                             Debug_OutStr("bootld crc succ \n");
+							g_SYS_Config.Boot.Bt_mode = 1;
+                            g_SYS_Config.Boot.app_crc = Encrypt_XMODEM_CRC16_Fun(addr_p, SYS_APP_SIZE);
+							System_app_save_boot ();
 							g_SYS_Config.temp_val->Reset_falg = 1;
 						}
 						else
 						{
                             Debug_OutStr("bootld crc error \n");
-                            Debug_printf("pack date %x,check data %x\n",g_SYS_Config.app_crc,temp_sum);
+                            Debug_printf("pack date %x,check data %x\n",g_SYS_Config.Boot.app_crc,temp_sum);
 							temp_rt = 0x01;
                             pack.Result = m_Result_Fail_ERROR;
 						}
@@ -1056,6 +1064,15 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 						temp_rt = 0x01;
                         pack.Result = m_Result_Fail_ERROR;
 					}
+                    if(g_SYS_Config.Boot.app_crc == 0x1234)
+                    {
+                        temp_rt = 0x00;
+                        pack.Result = 0;
+                        Debug_OutStr("bootld crc succ \n");
+						g_SYS_Config.Boot.Bt_mode = 1;
+                        System_app_save_boot ();
+                        g_SYS_Config.temp_val->Reset_falg = 1;
+                    }
                     BT_val = 0;
                     BT_addr = 0;
 				}
@@ -1389,50 +1406,8 @@ int Caven_app_send_packet(Caven_info_packet_Type pack)
 	}
 	memset(temp_array,0,sizeof(temp_array));
     temp_num = Caven_info_Split_packet_Fun(pack,temp_array);
-    switch (pack.Comm_way)
-    {
-    case m_RS232_Link:
-        {
-            // rfid
-        }
-        break;
-    case m_RS485_Link:
-        {
-            // sys
-        }
-        break;
-    case m_Server_Link:
-        {
-        #if NETWORK == 1
-            Base_TCP_Server_Send (temp_array,temp_num);
-        #endif
-        }
-        break;
-    case m_Client_Link:
-        {
-        #if NETWORK == 1
-            Base_TCP_Client_Send (temp_array,temp_num);
-        #endif
-        }
-        break;
-    case m_USB_Link:
-        {
-    #if Exist_USB
-        Mode_Use.USB_HID.Send_Data_pFun(temp_array,temp_num);
-    #endif
-        }
-        break;
-    case m_Other_Link:
-        {
-            Mode_Use.UART.Send_Data_pFun(m_UART_CH3,temp_array,temp_num);
-        }
-        break;
-    default:
-        {
-            Mode_Use.UART.Send_Data_pFun(m_UART_CH1,temp_array,temp_num);
-        }
-        break;
-    }
+    System_Send_data (temp_array,temp_num,pack.Comm_way);
+
     return retval;
 }
 
@@ -1637,6 +1612,7 @@ retval < 0 失败
 int Caven_app_JSON_Make_pack (char *data,int way)
 {
 	int retval = 0;
+#if Exist_ETH
     int temp_len = 0;
 	char *temp_str = NULL;
 	char array[500];
@@ -1719,12 +1695,14 @@ int Caven_app_JSON_Make_pack (char *data,int way)
             Caven_info_packet_clean_Fun(temp_pack);
         }
 	}
+#endif
 	return retval;
 }
 
 int Caven_send_Heartbeat_Fun (void *data)
 {
     int retval = 0;
+#if Exist_ETH
     uint8_t temp_array[100];
     int temp_num = 0;
     memcpy(temp_array,&g_SYS_Config.Serial,sizeof(g_SYS_Config.Serial));
@@ -1739,6 +1717,7 @@ int Caven_send_Heartbeat_Fun (void *data)
     temp_array[temp_num ++] = (g_SYS_Config.temp_val->Now_time.SYS_Sec >> (8 * 0)) & 0xff;
     retval = Caven_info_return_Fun (Caven_standard.Versions,Caven_standard.Type,g_SYS_Config.Addr,  \
     1,m_CAVEN_CMD1_TCPUpHtdata_Order,temp_num,temp_array,0,(uint8_t *)data);
+#endif
     return retval;
 }
 

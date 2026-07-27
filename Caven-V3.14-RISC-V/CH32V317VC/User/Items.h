@@ -86,7 +86,7 @@
 #define Exist_IIC       OPEN_NULL
 #define Exist_SPI       OPEN_NULL
 #define Exist_USB       OPEN_0001
-#define Exist_CAN       OPEN_NULL
+#define Exist_CAN       OPEN_0001
 #define Exist_ETH       OPEN_0001
 
 #define Exist_FLASH     OPEN_0001
@@ -122,6 +122,9 @@
 #endif
 #if Exist_USB
     #define USB_MODE	OPEN_0000		// OPEN_0000:HID OPEN_0001:CDC OPEN_0010:HID+KB
+#endif
+#if Exist_CAN
+    #define CAN_MODE	OPEN_0001		// OPEN_0000:PA11 PA12,OPEN_0001:PB8 PB9
 #endif
 #if Exist_CAPTURE
     #define TIM1_REMAP  OPEN_0000
@@ -187,24 +190,31 @@
 	#define SYS_RESET() NVIC_SystemReset()
 #endif
 
+#ifndef SYS_GETCHIPID
+#define SYS_GETCHIPID() DBGMCU_GetCHIPID()
+#endif
+
 // boot
 #define NVIC_VECTOR_SET(addr) (void)(addr);
 
 #define GO_TO_APP(addr) do{     \
-    NVIC_DisableIRQ(USBHS_IRQn);       \
+    NVIC_DisableIRQ(USBHS_IRQn);        \
+    NVIC_DisableIRQ(USBFS_IRQn);       \
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,DISABLE);   \
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,DISABLE);   \
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC,DISABLE);   \
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD,DISABLE);   \
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOE,DISABLE);   \
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_USBHS, DISABLE);    \
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_USBFS, DISABLE);    \
     NVIC_EnableIRQ(Software_IRQn);      \
     NVIC_SetPendingIRQ(Software_IRQn);  \
     while(1);   \
-    NVIC_VECTOR_SET(addr);  \
 }while(0);
 
 // 内存信息
 // ch32v317 192k-rom/128k-ram
-#define SYS_BTLD    2               // 0:RS app;1:bootld;2:不参与跳转&中断向量
+#define SYS_BTLD    2               // 0:app;1:bootld;2:不参与跳转&中断向量
 #define SYS_STR_ADDR    0x08000000
 #define SYS_APP_ADDR    0x08008000
 

@@ -5,7 +5,9 @@
     支持网络修改保存，区分boot和app层权限修改 TCP SERVER CLIENT HTTP MQTT 
     全新 BOOTLD
     ————26.2.6
-
+    支持OTA+外部flash加载升级
+    全新 BOOTLD
+    ————26.7.16
 */
 #define Log_tag "Caven_app info"
 
@@ -16,12 +18,12 @@
 #define CAVEN_PACK_M	3       // 列数
 #endif
 
-static Caven_info_packet_Type *p_sys_pack = NULL;
-static Caven_info_packet_Type *p_usb_pack = NULL;
-static Caven_info_packet_Type *p_server_pack = NULL;
-static Caven_info_packet_Type *p_client_pack = NULL;
-static Caven_info_packet_Type *p_mqtt_pack = NULL;
-static Caven_info_packet_Type *p_other_pack = NULL;
+Caven_info_packet_Type *p_sys_pack = NULL;
+Caven_info_packet_Type *p_usb_pack = NULL;
+Caven_info_packet_Type *p_server_pack = NULL;
+Caven_info_packet_Type *p_client_pack = NULL;
+Caven_info_packet_Type *p_mqtt_pack = NULL;
+Caven_info_packet_Type *p_other_pack = NULL;
 
 static uint8_t info_packet_buff_array[CAVEN_PACK_M][BUFF_MAX];
 static Caven_info_packet_Type Caven_packet_buff[CAVEN_PACK_M];
@@ -53,7 +55,7 @@ int Caven_app_State_machine(Caven_BaseTIME_Type time)
     Caven_app_time = time;
     Caven_info_packet_Type *handle_pack = NULL;
 	handle_pack = Caven_Buff_Request_Full_Data (Caven_packet_buff,CAVEN_PACK_M);
-	if (handle_pack->Run_status == 0xff)
+	if (handle_pack != NULL)
     {
         User_GPIO_set(1,1,0);       // info
         if(handle_pack->Type == Caven_standard.Type || handle_pack->Type == 0)    // 白名单
@@ -61,7 +63,6 @@ int Caven_app_State_machine(Caven_BaseTIME_Type time)
         }
         else        // other type
         {
-            // other pack
             if(handle_pack->Comm_way == m_Other_Link)
             {
                 handle_pack->Comm_way = g_SYS_Config.temp_val->Connect_passage;
@@ -305,7 +306,7 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
                 temp_val |= pack.p_Data[temp_num++];
                 temp_val <<= 8;
                 temp_val |= pack.p_Data[temp_num++];
-                if(temp_val % 9600 == 0)
+                if((temp_val & 0x00FFFFFF) % 9600 == 0 && temp_val > 0)
                 {
                     g_SYS_Config.RS232_UART_Cfg = temp_val;
                     System_app_save_RS232Cfg();
@@ -343,10 +344,18 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
                 temp_val |= pack.p_Data[temp_num++];
                 temp_val <<= 8;
                 temp_val |= pack.p_Data[temp_num++];
-                g_SYS_Config.RS485_UART_Cfg = temp_val;
-				System_app_save_RS485Cfg();
-                pack.Result = 0;
-				pack.p_Data[temp_run++] = 0;
+                if((temp_val & 0x00FFFFFF) % 9600 == 0 && temp_val > 0)
+                {
+                    g_SYS_Config.RS485_UART_Cfg = temp_val;
+                    System_app_save_RS485Cfg();
+                    pack.Result = 0;
+                    pack.p_Data[temp_run++] = 0;
+                }
+                else
+                {
+                    pack.Result = m_Result_Fail_ERROR;
+                    pack.p_Data[temp_run++] = 1;
+                }
             }
 			pack.dSize = temp_run;
         }
@@ -420,7 +429,7 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
 			pack.dSize = temp_run;
         }
         break;
-#if NETWORK
+#if NETWORK & SYS_BTLD != 1
     case m_CAVEN_CMD1_IPv4Cfg_Order:
         {
             rw_info = pack.p_Data[temp_num++];
@@ -648,7 +657,7 @@ int Caven_app_cmd1_handle (Caven_info_packet_Type pack)
 				temp_val = Caven_gain_str_by_sign((char*)pack.p_Data,pack.dSize,(char*)temp_array,"port",'<');
 				if(temp_val > 0)
 				{
-					memset(g_SYS_Config.TCPServer_port,0,sizeof(g_SYS_Config.eth_ip_str));
+					memset(g_SYS_Config.TCPServer_port,0,sizeof(g_SYS_Config.TCPServer_port));
 					strcpy(g_SYS_Config.TCPServer_port,(char*)temp_array);
 				}
 				pack.p_Data[0] = 0;
@@ -953,7 +962,7 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
     int Result = 0,temp_num = 0,temp_run = 0,temp_sum = 0,temp_rt = 0;
 	u32 temp_val = 0;
     uint8_t rw_info = 0;
-    uint8_t temp_array[500];
+    uint8_t temp_array[128];
 	if (pack.p_AllData == NULL || pack.p_Data == NULL)
 	{
 		return retval = -1;
@@ -971,7 +980,7 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 		{
 			rw_info = pack.p_Data[temp_num++];
             retval = 1;
-            pack.Result = 0;
+            pack.Result = m_Result_Back_Succ;
             if(rw_info == 0)
             {
 		#if SYS_BTLD == 1
@@ -995,7 +1004,7 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 				if(temp_val == 0)
 				{
 					temp_rt = 0x00;		// 跳转到boot
-					g_SYS_Config.Bt_mode = 0;
+					g_SYS_Config.Boot.Bt_mode = 0;      // bootld
 					System_app_save_boot ();
 					g_SYS_Config.temp_val->Reset_falg = 1;
 				}
@@ -1014,98 +1023,30 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 			{
 				if (temp_val == 0)
 				{
-					temp_rt = 0x00;
-					g_SYS_Config.app_crc = 0;
-					g_SYS_Config.app_crc = pack.p_Data[temp_num++];
-					g_SYS_Config.app_crc <<= 8;
-					g_SYS_Config.app_crc |= pack.p_Data[temp_num++];
-					BT_val = 0;
-                    BT_addr = 0;
-					Base_Flash_Erase (SYS_APP_ADDR,SYS_APP_SIZE);
-				}
-				else if (temp_val == 0xFFFFFFFF)						// 完成
-				{
-					temp_num = BT_addr - SYS_APP_ADDR;
-					if(temp_num > 0)
-					{
-						uint8_t * addr_p = (uint8_t *)SYS_APP_ADDR;
-						temp_sum = Encrypt_XMODEM_CRC16_Fun(addr_p, temp_num);
-						if(g_SYS_Config.app_crc == temp_sum)
-						{
-							temp_rt = 0x00;
-                            Debug_OutStr("bootld crc succ \n");
-							g_SYS_Config.Bt_mode = 1;
-                            g_SYS_Config.app_crc = Encrypt_XMODEM_CRC16_Fun(addr_p, SYS_APP_SIZE);
-							System_app_save_boot ();
-							g_SYS_Config.temp_val->Reset_falg = 1;
-						}
-						else
-						{
-                            Debug_OutStr("bootld crc error \n");
-                            Debug_printf("pack date %x,check data %x\n",g_SYS_Config.app_crc,temp_sum);
-							temp_rt = 0x01;
-                            pack.Result = m_Result_Fail_ERROR;
-						}
-					}
-					else
-					{
-						temp_rt = 0x01;
-                        pack.Result = m_Result_Fail_ERROR;
-					}
-                    if(g_SYS_Config.app_crc == 0x1234)
-                    {
-                        temp_rt = 0x00;
-                        pack.Result = 0;
-                        Debug_OutStr("bootld crc succ \n");
-						g_SYS_Config.Bt_mode = 1;
-                        System_app_save_boot ();
-                        g_SYS_Config.temp_val->Reset_falg = 1;
-                    }
-                    BT_val = 0;
-                    BT_addr = 0;
-				}
-				else if (BT_val == temp_val || (BT_val + 1) == temp_val)		// 正常情况
-				{
-					temp_sum = pack.dSize - temp_num;   // 这一帧，bin包大小
-					if (temp_sum > sizeof(temp_array))
-					{
-						temp_rt = 0x01;
-                        pack.Result = m_Result_Fail_ERROR;
-					}
-					else
-					{
-						memcpy(temp_array,&pack.p_Data[temp_num],temp_sum);
-						BT_val = temp_val;
-						// flash
-						if (BT_addr < SYS_APP_ADDR)
-						{
-							BT_addr = SYS_APP_ADDR;
-						}
-						if (temp_sum)
-						{
-							temp_num = Base_Flash_Write (temp_array,BT_addr,temp_sum);
-						}
-						else
-						{
-							temp_num = 1;       // bin包大小异常
-						}
-						if(temp_num == 0)
-						{
-							temp_rt = 0;
-							BT_addr += temp_sum;
-						}
-						else                    // 写入失败
-						{
-							temp_rt ++;
-                            pack.Result = m_Result_Fail_ERROR;
-						}
-					}
+					g_SYS_Config.Boot.app_crc = 0;
+					g_SYS_Config.Boot.app_crc = pack.p_Data[temp_num++];
+					g_SYS_Config.Boot.app_crc <<= 8;
+					g_SYS_Config.Boot.app_crc |= pack.p_Data[temp_num++];
+					temp_rt = Bootld_Save_bin_Fun(1,NULL,0,temp_val,g_SYS_Config.Boot.app_crc);
 				}
 				else
-				{
-					temp_rt = 0x02;             // 包序错误
+                {
+                    temp_sum = pack.dSize - temp_num;   // 这一帧，bin包大小
+                    temp_rt = Bootld_Save_bin_Fun(1,&pack.p_Data[temp_num],temp_sum,temp_val,g_SYS_Config.Boot.app_crc);
+                    if (temp_rt == 0) 
+                    {
+                        if(temp_val == 0xFFFFFFFF)
+                        {
+                            g_SYS_Config.Boot.Bt_mode = 1;
+                            System_app_save_boot();
+                            g_SYS_Config.temp_val->Reset_falg = 1;
+                        }
+                    }
+                }
+                if(temp_rt != 0)
+                {
                     pack.Result = m_Result_Fail_ERROR;
-				}
+                }
 				pack.p_Data[temp_run++] = (temp_val >> (8 * 3)) & 0xff;
 				pack.p_Data[temp_run++] = (temp_val >> (8 * 2)) & 0xff;
 				pack.p_Data[temp_run++] = (temp_val >> (8 * 1)) & 0xff;
@@ -1229,7 +1170,116 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 			pack.dSize = temp_run;
         }
         break;
-#if NETWORK
+    case m_CAVEN_CMD2_AuthZ_Order:
+        {
+            rw_info = pack.p_Data[temp_num++];
+            retval = 1;
+        #if SYS_BTLD != 1
+            pack.Result = m_Result_Fail_ERROR;
+            pack.p_Data[temp_run++] = 1;
+        #else
+            if(rw_info == 0)
+            {
+                System_app_Gain_ICID(temp_array);
+				temp_run += 8;
+                pack.Result = m_Result_Back_Succ;
+                memcpy(pack.p_Data,temp_array,temp_run);
+            }
+            else
+            {
+                memcpy(g_SYS_Config.Boot.Encrypt,&pack.p_Data[temp_num],sizeof(g_SYS_Config.Boot.Encrypt));
+                pack.Result = m_Result_Back_Succ;
+                pack.p_Data[temp_run++] = 0;
+                System_app_SYS_Config_Save ();
+            }
+        #endif
+			pack.dSize = temp_run;
+        }
+        break;
+    case m_CAVEN_CMD2_FLASH_Order:
+        {
+            rw_info = pack.p_Data[temp_num++];
+            retval = 1;
+            pack.Result = m_Result_Fail_ERROR;
+            if(rw_info == 0)
+            {
+                temp_val = MODE_W25Q_Get_Max_Addr_Fun();
+                temp_array[temp_run++] = (temp_val >> (8 * 3)) & 0XFF;
+                temp_array[temp_run++] = (temp_val >> (8 * 2)) & 0XFF;
+                temp_array[temp_run++] = (temp_val >> (8 * 1)) & 0XFF;
+                temp_array[temp_run++] = (temp_val >> (8 * 0)) & 0XFF;
+                pack.Result = m_Result_Back_Succ;
+                memcpy(pack.p_Data,temp_array,temp_run);
+            }
+            else
+            {
+                if(rw_info > 1)
+                {
+                    temp_val = pack.p_Data[temp_num++];
+                    temp_val <<= 8;
+                    temp_val |= pack.p_Data[temp_num++];
+                    temp_val <<= 8;
+                    temp_val |= pack.p_Data[temp_num++];
+                    temp_val <<= 8;
+                    temp_val |= pack.p_Data[temp_num++];
+                    temp_sum = pack.p_Data[temp_num++];
+                    temp_sum <<= 8;
+                    temp_sum |= pack.p_Data[temp_num++];
+                    temp_sum <<= 8;
+                    temp_sum |= pack.p_Data[temp_num++];
+                    temp_sum <<= 8;
+                    temp_sum |= pack.p_Data[temp_num++];
+                }
+				switch (rw_info) {
+                    case 1:
+                    {
+                        pack.p_Data[temp_run++] = 0;
+                        pack.Result = m_Result_Back_Succ;
+                    }break;
+                    case 2:
+                    {
+                        temp_rt = MODE_W25Q_Read_Data_Fun(temp_val, pack.p_Data, temp_sum);
+                        if(temp_rt == 0)
+                        {
+                            pack.Result = m_Result_Back_Succ;
+                            temp_run = temp_sum;
+                        }
+                    }break;
+                    case 3:
+                    {
+                        temp_rt = MODE_W25Q_Write_Data_Fun(temp_val, &pack.p_Data[temp_num], temp_sum);
+                        if(temp_rt == 0)
+                        {
+                            pack.p_Data[temp_run++] = 0;
+                            pack.Result = m_Result_Back_Succ;
+                        }
+                    }break;
+                    case 4:
+                    {
+                        for(uint32_t i = temp_val; i < (temp_val + temp_sum);)
+                        {
+                            temp_rt = MODE_W25Q_Erase_Sector_Fun(i);
+                            if(temp_rt)
+                            {
+                                retval = 1;
+                                break;
+                            }
+                            i += W25Q_SECTOR_SIZE;
+                        }
+                        if(temp_rt == 0)
+                        {
+                            pack.p_Data[temp_run++] = 0;
+                            pack.Result = m_Result_Back_Succ;
+                        }
+                    }break;
+                    default:
+                    {
+                    }break;
+                }
+            }
+			pack.dSize = temp_run;
+        }
+        break;
     case m_CAVEN_CMD2_MACCfg_Order:
         {
             rw_info = pack.p_Data[temp_num++];
@@ -1251,7 +1301,82 @@ int Caven_app_cmd2_handle (Caven_info_packet_Type pack)
 			pack.dSize = temp_run;
         }
         break;
-#endif
+        case m_CAVEN_CMD2_ETHOTA_Order:
+		{
+			rw_info = pack.p_Data[temp_num++];
+            retval = 1;
+            pack.Result = m_Result_Back_Succ;
+            temp_rt = 1;
+            if(rw_info == 0)
+            {
+                temp_sum = MODE_W25Q_Get_Max_Addr_Fun();
+                if(temp_sum == 0)
+                {
+                    pack.p_Data[temp_run++] = 1;
+                }
+				else
+                {
+                    pack.p_Data[temp_run++] = 0;     // succ
+                    temp_rt = 0;
+                }
+			}
+			else
+			{
+				temp_val = pack.p_Data[temp_num++];
+				temp_val <<= 8;
+				temp_val |= pack.p_Data[temp_num++];
+				temp_val <<= 8;
+				temp_val |= pack.p_Data[temp_num++];
+				temp_val <<= 8;
+				temp_val |= pack.p_Data[temp_num++];
+                if(rw_info == 1 || rw_info == 2)
+                {
+                    rw_info ++;     // 跳过1(APP)
+                    if (temp_val == 0)
+                    {
+                        g_SYS_Config.temp_val->u32_val = pack.p_Data[temp_num++];
+                        g_SYS_Config.temp_val->u32_val <<= 8;
+                        g_SYS_Config.temp_val->u32_val |= pack.p_Data[temp_num++];
+                        temp_rt = Bootld_Save_bin_Fun(rw_info,NULL,0,temp_val,g_SYS_Config.temp_val->u32_val);
+                    }
+                    else
+                    {
+                        temp_sum = (pack.dSize - temp_num);
+                        temp_rt = Bootld_Save_bin_Fun(rw_info,&pack.p_Data[temp_num],temp_sum,temp_val,g_SYS_Config.temp_val->u32_val);
+                        if (temp_rt == 0) 
+                        { 
+                            if(temp_val == 0xFFFFFFFF)
+                            {
+                                // g_SYS_Config.Boot.Bt_mode = (rw_info + 1) & 0xff;
+                                // System_app_save_boot();
+                                // g_SYS_Config.temp_val->Reset_falg = 1;
+                            }
+                        }
+                    }
+                }
+                else if(rw_info == 3)       // 强制加载外部flash
+                {
+                    if(temp_val < 0x03 && ((MODE_W25Q_Get_Max_Addr_Fun() > 0) || temp_val == 0))     // 启动跳转需要外部flash
+                    {
+                        temp_rt = 0;
+                        g_SYS_Config.Boot.Bt_mode = (temp_val + 1) & 0xff;
+                        System_app_save_boot();
+                        g_SYS_Config.temp_val->Reset_falg = 1;
+                    }
+                }
+                if(temp_rt != 0)
+                {
+                    pack.Result = m_Result_Fail_ERROR;
+                }
+				pack.p_Data[temp_run++] = (temp_val >> (8 * 3)) & 0xff;
+				pack.p_Data[temp_run++] = (temp_val >> (8 * 2)) & 0xff;
+				pack.p_Data[temp_run++] = (temp_val >> (8 * 1)) & 0xff;
+				pack.p_Data[temp_run++] = (temp_val >> (8 * 0)) & 0xff;
+				pack.p_Data[temp_run++] = temp_rt;
+			}
+			pack.dSize = temp_run;
+		}
+        break;
     default:
 		{
 			pack.Result = m_Result_Fail_CMDS;
@@ -1391,11 +1516,18 @@ int Caven_app_send_packet(Caven_info_packet_Type pack)
 	if (pack.Addr == 0xff && pack.Comm_way == m_RS485_Link)		// 广播从机不回复
 	{
 		return retval;
-	}
-	memset(temp_array,0,sizeof(temp_array));
+    }
+    // memset(temp_array,0,sizeof(temp_array));
     temp_num = Caven_info_Split_packet_Fun(pack,temp_array);
-    System_Send_data (temp_array,temp_num,pack.Comm_way);
-
+    if (temp_num > 0)
+    {
+        System_Send_data (temp_array,temp_num,pack.Comm_way);
+        retval = temp_num;
+    }
+    else
+    {
+        retval = temp_num;
+    }
     return retval;
 }
 
@@ -1518,88 +1650,12 @@ int Caven_app_Make_pack (uint8_t data,int way,Caven_BaseTIME_Type time)
 }
 
 /*
-Caven_app_Dual_cache_Make_pack
-p_flag:接收缓存区0->a,1->b;
-p_Collect_d: break Collect data;
-p_Collect_n: break Collect num;
-Collect_max: Collect max num;
-way：link way;
-retval:0    nop;
-retval:1    CV succ;
-retval:2    Collect succ;
-*/
-int Caven_app_Dual_cache_Make_pack 
-(uint8_t *cache_a,int *p_len_a,uint8_t *cache_b,int *p_len_b,char *p_flag,uint8_t *p_Collect_d,int *p_Collect_n,int Collect_max,int way,Caven_BaseTIME_Type time)
-{
-    int retval = 0;
-    uint8_t *cache_p = NULL;
-    int *len_p = NULL;
-	int get_len = 0,temp_num = 0,temp_run = 0;
-    if(cache_a == NULL || cache_b == NULL || p_flag == NULL)
-    {
-        return retval;
-    }
-	if(*p_flag == 0)
-	{
-		get_len = *p_len_a;
-		if(get_len > 0)
-		{
-			*p_flag = 1;
-			cache_p = cache_a;
-            len_p = p_len_a;
-            temp_run = 1;
-		}
-	}
-	if(temp_run == 0)
-	{
-		get_len = *p_len_b;
-		if(get_len > 0)
-		{
-			*p_flag = 0;
-			cache_p = cache_b;
-            len_p = p_len_b;
-            temp_run = 2;
-		}
-	}
-    if(temp_run)
-	{
-		uint8_t temp_data;
-		for(int i = 0; i < get_len; i++)
-		{
-			temp_data = *(cache_p + i);
-			temp_num = Caven_app_Make_pack (temp_data,way,time);
-			if(temp_num <= 0)	
-			{
-				// other info
-
-			}
-			if(temp_num == 0xff)
-			{
-                retval = 1;
-				*p_Collect_n = 0;
-			}
-		}
-        if (retval == 0 && p_Collect_d != NULL) 
-        {
-            if ((*p_Collect_n + get_len) < Collect_max)
-			{
-                memcpy(&p_Collect_d[*p_Collect_n],cache_p,get_len);
-                *p_Collect_n += get_len;
-                retval = 2;
-			}
-        }
-        *len_p = 0;
-	}
-    return retval;
-}
-
-/*
 retval < 0 失败
 
 */
 int Caven_app_JSON_Make_pack (char *data,int way)
 {
-	int retval = 0;
+	int retval = -1;
 #if Exist_ETH
     int temp_len = 0;
 	char *temp_str = NULL;
@@ -1608,13 +1664,14 @@ int Caven_app_JSON_Make_pack (char *data,int way)
 	
 	temp_len = strlen(data);
 	temp_str = memstr(data, "\"Caven_pack\"",temp_len);
-    temp_pack = Caven_Buff_Request_Occupy_Data (Caven_packet_buff,CAVEN_PACK_M);
-    if (temp_pack == NULL)
-    {
-        return retval;
-    }
+
 	if(temp_str != NULL)
 	{
+        temp_pack = Caven_Buff_Request_Occupy_Data (Caven_packet_buff,CAVEN_PACK_M);
+        if (temp_pack == NULL)
+        {
+            return retval;
+        }
 		memset(array,0,sizeof(array));
 		temp_len = strlen(temp_str);
 

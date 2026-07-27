@@ -5,9 +5,10 @@
 #include "API.h"
 
 #include "system_app.h"
+#include "bootld_app.h"
 #include "caven_app.h"
 #if SYS_BTLD != 1
-// #include "gx_app.h"
+#include "user_data_app.h"
 #endif
 
 void Center_app_Init (void);
