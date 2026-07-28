@@ -99,7 +99,7 @@
 #define Exist_MLX90614          OPEN_NULL
 #define Exist_RTC8564           OPEN_NULL   // 时钟
 #define Exist_QMI8658           OPEN_NULL
-#define Exist_W25Q_DRV          OPEN_0001
+#define Exist_W25Q_DRV          OPEN_NULL
 
 #define Exist_Ultrasonic        OPEN_NULL   // 超声波测距
 

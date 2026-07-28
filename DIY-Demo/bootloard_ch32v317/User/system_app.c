@@ -525,7 +525,7 @@ void System_eth_Task (void)
 	}
 #endif
 }
-U8 array_buuf[0x500];
+
 int cg_rs232_cfg = 0,cg_rs485_cfg = 0;
 int System_app_State_machine (Caven_BaseTIME_Type time)
 {
@@ -538,15 +538,10 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
 	*/
     if (System_start_Time.SYS_Sec != g_SYS_Config.temp_val->Now_time.SYS_Sec)
     {
-		for(uint32_t i = 0; i < 0x500; i++)
-		{
-			array_buuf[i] = i % 100;
-		}
         System_start_Time = g_SYS_Config.temp_val->Now_time;
         g_SYS_Config.temp_val->Work_sec ++;
 		User_GPIO_set(1,1,1);	// info
 		User_GPIO_set(5,0,System_start_Time.SYS_Sec % 2);
-
     }
 #if Exist_UART
 	Mode_Use.UART.Receive_Poll_Task_pFun ();

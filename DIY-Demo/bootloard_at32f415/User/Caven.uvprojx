@@ -275,7 +275,7 @@
               <OCR_RVCT4>
                 <Type>1</Type>
                 <StartAddress>0x8000000</StartAddress>
-                <Size>0x8000</Size>
+                <Size>0x40000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
                 <Type>1</Type>
@@ -601,6 +601,11 @@
               <FileName>MODE_st7789_drive.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Caven-MCU_Lib\Mode\MODE_st7789_drive.c</FilePath>
+            </File>
+            <File>
+              <FileName>IC_W25Q_drive.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Caven-MCU_Lib\Mode\IC_W25Q_drive.c</FilePath>
             </File>
           </Files>
         </Group>
