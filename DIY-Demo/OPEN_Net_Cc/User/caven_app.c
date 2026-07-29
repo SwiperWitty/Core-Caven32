@@ -57,7 +57,7 @@ int Caven_app_State_machine(Caven_BaseTIME_Type time)
 	handle_pack = Caven_Buff_Request_Full_Data (Caven_packet_buff,CAVEN_PACK_M);
 	if (handle_pack != NULL)
     {
-        User_GPIO_set(1,1,0);       // info
+        Sys_user_infoled_set (1);
         if(handle_pack->Type == Caven_standard.Type || handle_pack->Type == 0)    // 白名单
         {
         }

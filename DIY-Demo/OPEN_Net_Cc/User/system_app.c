@@ -17,6 +17,9 @@ int sys_rs232_event = 0;
 
 void bzz_event_fun (void *data);
 void gpo_event_fun (void *data);
+void Sys_user_led_set (int set);
+void Sys_ETH_led_set (int set);
+void Sys_user_infoled_set (int set);
 
 Caven_BaseTIME_Type bzz_TIME = {0};
 void bzz_event_fun (void *data)
@@ -446,7 +449,7 @@ void System_eth_Task (void)
 	int	net_temp = 0;
 	Base_ETH_Task ();
 	g_SYS_Config.temp_val->Net_falg = Base_ETH_get_status ();
-	User_GPIO_set(1,0,!g_SYS_Config.temp_val->Net_falg);
+	Sys_ETH_led_set (g_SYS_Config.temp_val->Net_falg);
 	if(g_SYS_Config.HTTPHBT_En && Base_TCP_HTTP_Config (NULL,1) > 0)
 	{
 		httpHBT_task.Switch = g_SYS_Config.HTTPHBT_En;
@@ -540,8 +543,7 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
     {
         System_start_Time = g_SYS_Config.temp_val->Now_time;
         g_SYS_Config.temp_val->Work_sec ++;
-		User_GPIO_set(1,1,1);	// info
-		User_GPIO_set(5,0,System_start_Time.SYS_Sec % 2);
+		Sys_user_led_set(System_start_Time.SYS_Sec % 2);
     }
 #if Exist_UART
 	Mode_Use.UART.Receive_Poll_Task_pFun ();
@@ -589,6 +591,36 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
 	}
     Caven_handle_event_Fun(&g_SYS_events);
     return retval;
+}
+
+void Sys_user_infoled_set (int set)
+{
+#if SYS_BTLD != 1
+	User_GPIO_set(1,1,!set);
+#endif
+}
+void Sys_ETH_led_set (int set)
+{
+#if SYS_BTLD != 1
+	User_GPIO_set(1,0,!set);
+#endif
+}
+void Sys_user_led_set (int set)
+{
+	User_GPIO_set(5,0,set);
+#if SYS_BTLD != 1
+	Sys_user_infoled_set (0);
+#endif
+}
+
+void Sys_user_led_config (void)
+{
+	User_GPIO_config(5,0,1);	// run 
+#if SYS_BTLD != 1
+	User_GPIO_config(1,0,1);
+	User_GPIO_config(1,1,1);
+	User_GPIO_config(3,13,0);		// PC13
+#endif
 }
 
 #if SYS_BTLD == 1
@@ -646,16 +678,10 @@ void System_app_Init (void)
 	Debug_printf("MCU build date %s \n",g_SYS_Config.Bddate);
 	Debug_printf("MCU CFG_file 0x%x \n",sizeof(g_SYS_Config));
 
-	User_GPIO_config(3,13,0);		// PC13
-
 	Caven_new_event_Fun(&g_SYS_events,bzz_event_fun,&sys_bzz_event);
 	Caven_new_event_Fun(&g_SYS_events,gpo_event_fun,&sys_gpo_event);
 #endif
-	User_GPIO_config(1,1,1);
-	User_GPIO_config(5,0,1);
-	
-	User_GPIO_set(1,1,1);		// info
-	User_GPIO_set(5,0,1);
+	Sys_user_led_config();
 #if Exist_USB
 	Mode_Init.USB(ENABLE);
 #endif

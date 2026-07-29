@@ -90,7 +90,7 @@ int Bootld_Save_bin_Fun(u8 mode,u8 *data,u16 len,u32 pack_num,u16 pack_crc)
 			if(pack_crc == BT_bin_crc && pack_len <= SYS_APP_SIZE)
 			{
 				temp_rt = 0x00;
-				Debug_OutStr("bootld crc succ \n");
+				Debug_OutStr("bootld_app Info: succ \n");
 				memset(temp_array, 0, sizeof(temp_array));
 				switch (mode) {
 				case 1:
@@ -130,7 +130,7 @@ int Bootld_Save_bin_Fun(u8 mode,u8 *data,u16 len,u32 pack_num,u16 pack_crc)
 			}
 			else
 			{
-				Debug_OutStr("bootld crc error \n");
+				Debug_OutStr("bootld_app Error: crc \n");
 				Debug_printf("pack date %x,check data %x\n",pack_crc,BT_bin_crc);
 				temp_rt = 0x03;
 				g_SYS_Config.Boot.app_crc = 0;
@@ -190,17 +190,25 @@ int Bootld_Save_bin_Fun(u8 mode,u8 *data,u16 len,u32 pack_num,u16 pack_crc)
 
 		if(retval == 0)		// 写入成功
 		{
+			if(pack_num > BT_pack_run)
+			{
+				for(int i = 0; i < len; i++)
+				{
+					BT_bin_crc = CRC16_XMODEM_Table_Byte(temp_array[i],BT_bin_crc);
+				}
+			}
+			else
+			{
+				Debug_OutStr("bootld_app Warning: Repeat \n");
+			}
 			temp_rt = 0;
 			BT_pack_addr += len;
 			BT_pack_run = pack_num;
-			for(int i = 0; i < len; i++)
-			{
-				BT_bin_crc = CRC16_XMODEM_Table_Byte(temp_array[i],BT_bin_crc);
-			}
 		}
 		else                    // 写入失败
 		{
 			temp_rt ++;
+			Debug_OutStr("bootld_app Warning: Write \n");
 		}
 	}
 	else
