@@ -13,6 +13,7 @@ Caven_BaseTIME_Type System_start_Time = {0};
 
 int sys_bzz_event = 0;
 int sys_gpo_event = 0;
+int sys_gpi_event = 0;
 int sys_rs232_event = 0;
 
 void bzz_event_fun (void *data);
@@ -61,6 +62,47 @@ void bzz_event_fun (void *data)
 			bzz_TIME.SYS_Us = 0;
 		}
 	}
+}
+
+int sys_get_gpi_fun (u8 *data,int num)
+{
+	int retval = 0;
+	int temp_val = 0,temp_num = 0;
+	u8 temp_pin,temp_gpio;
+	u8 temp_array[] = {4,9,4,10};
+	if(data != NULL && num > 0 && (num * 2) <= sizeof(temp_array))
+	{
+		for(int i = 0; i < num; i++)
+		{
+			temp_gpio = temp_array[temp_num++];
+			temp_pin = temp_array[temp_num++];
+			temp_val = User_GPIO_get(temp_gpio,temp_pin);
+			data[retval++] = (u8)(temp_val & 0xff);
+		}
+	}
+	return retval;
+}
+
+static u32 gpis_state = 0;
+void gpi_event_fun (void *data)
+{
+	u32 get_gpi = 0;
+	u8 temp_num = 2;
+	u8 temp_array[10];
+	sys_get_gpi_fun (temp_array,temp_num);
+	for(int i = 0; i < temp_num; i++)
+	{
+		if(temp_array[i] > 0)
+		{
+			get_gpi |= 0x0001 << i;
+		}
+	}
+	if(gpis_state != get_gpi)
+	{
+		gpis_state = get_gpi;
+		Debug_printf("gpi updata 0x%02x \n",gpis_state);
+	}
+	*(int *)data = 0;
 }
 
 Caven_BaseTIME_Type gpo_TIME;
@@ -530,6 +572,7 @@ void System_eth_Task (void)
 }
 
 int cg_rs232_cfg = 0,cg_rs485_cfg = 0;
+Task_Overtime_Type updata_task;
 int System_app_State_machine (Caven_BaseTIME_Type time)
 {
 	int retval = 0;
@@ -545,6 +588,14 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
         g_SYS_Config.temp_val->Work_sec ++;
 		Sys_user_led_set(System_start_Time.SYS_Sec % 2);
     }
+#if SYS_BTLD != 1
+	API_Task_Timer (&updata_task,g_SYS_Config.temp_val->Now_time);
+	if(updata_task.Trigger_flag)
+	{
+		Caven_trigger_event_Fun(&g_SYS_events,sys_gpi_event,1);
+	}
+	
+#endif
 #if Exist_UART
 	Mode_Use.UART.Receive_Poll_Task_pFun ();
 #endif
@@ -590,6 +641,7 @@ int System_app_State_machine (Caven_BaseTIME_Type time)
 		
 	}
     Caven_handle_event_Fun(&g_SYS_events);
+	Mode_Use.TIME.Delay_Us(1);
     return retval;
 }
 
@@ -613,6 +665,57 @@ void Sys_user_led_set (int set)
 #endif
 }
 
+static void LCD_CS_Ctl(void *data)
+{
+    char state = 0;
+    if (data != NULL)
+    {
+        state = *(char *)data;
+        if (state)
+        {
+            User_GPIO_set(3, 5, 0);
+        }
+        else
+        {
+            User_GPIO_set(3, 5, 1);
+        }
+    }
+}
+
+static void LCD_RES_Ctl(void *data)
+{
+    char state = 0;
+    if (data != NULL)
+    {
+        state = *(char *)data;
+        if (state)
+        {
+            User_GPIO_set(2, 0, 1);
+        }
+        else
+        {
+            User_GPIO_set(2, 0, 0);
+        }
+    }
+}
+
+static void LCD_DC_Ctl(void *data)
+{
+    char state = 0;
+    if (data != NULL)
+    {
+        state = *(char *)data;
+        if (state)
+        {
+            User_GPIO_set(2, 1, 1);
+        }
+        else
+        {
+            User_GPIO_set(2, 1, 0);
+        }
+    }
+}
+
 void Sys_user_led_config (void)
 {
 	User_GPIO_config(5,0,1);	// run 
@@ -620,6 +723,10 @@ void Sys_user_led_config (void)
 	User_GPIO_config(1,0,1);
 	User_GPIO_config(1,1,1);
 	User_GPIO_config(3,13,0);		// PC13
+
+	User_GPIO_config(2,0,1);		// lcd res
+	User_GPIO_config(2,1,1);		// lcd dc
+	User_GPIO_config(3,5,1);		// lcd cs
 #endif
 }
 
@@ -672,20 +779,32 @@ void System_app_Init (void)
 	Mode_Init.UART(m_UART_CH1,g_SYS_Config.RS232_UART_Cfg,ENABLE);
 	Mode_Init.UART(m_UART_CH2,g_SYS_Config.RS232_UART_Cfg,ENABLE);
 	Mode_Init.UART(m_UART_CH3,115200,ENABLE);
+
 	#ifdef MCU_SYS_FREQ 
 	Debug_printf("MCU Init,MCU_SYS_FREQ: %d Hz \n",MCU_SYS_FREQ);
 	#endif
 	Debug_printf("MCU build date %s \n",g_SYS_Config.Bddate);
 	Debug_printf("MCU CFG_file 0x%x \n",sizeof(g_SYS_Config));
 
+	updata_task.Switch = 1;
+	updata_task.Set_time.SYS_Us = 20000;
+	updata_task.Set_time.SYS_Sec = 0;
 	Caven_new_event_Fun(&g_SYS_events,bzz_event_fun,&sys_bzz_event);
+	Caven_new_event_Fun(&g_SYS_events,gpi_event_fun,&sys_gpi_event);
 	Caven_new_event_Fun(&g_SYS_events,gpo_event_fun,&sys_gpo_event);
 #endif
 	Sys_user_led_config();
 #if Exist_USB
 	Mode_Init.USB(ENABLE);
 #endif
-
+#if Exist_LCD
+	Mode_Use.LCD.Set_TargetModel_pFun(m_LCD_TYPE_1_30);
+	MODE_st7789_drive_GPIO lcd_drive_io;
+	lcd_drive_io.cs_pFun = LCD_CS_Ctl;
+	lcd_drive_io.dc_pFun = LCD_DC_Ctl;
+	lcd_drive_io.res_pFun = LCD_RES_Ctl;
+	Mode_Init.LCD(ENABLE,lcd_drive_io);
+#endif
 #if (NETWORK == 1)
 	char array_ip[100],array_port[20];
     Base_ETH_config_local_ip (g_SYS_Config.eth_mode,

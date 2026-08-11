@@ -71,6 +71,7 @@
 
 #ifndef Exist_SYS_TIME
     #define Exist_SYS_TIME  OPEN_0001 // 一定存在
+    #define Exist_SYS_WDG   OPEN_0001
 #endif
 #define Exist_PWM       OPEN_NULL
 #define Exist_CAPTURE   OPEN_NULL

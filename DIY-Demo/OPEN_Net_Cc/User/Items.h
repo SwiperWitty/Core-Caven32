@@ -71,6 +71,7 @@
 
 #ifndef Exist_SYS_TIME
     #define Exist_SYS_TIME  OPEN_0001 // 一定存在
+    #define Exist_SYS_WDG   OPEN_0001
 #endif
 #define Exist_PWM       OPEN_NULL
 #define Exist_CAPTURE   OPEN_NULL
@@ -90,7 +91,7 @@
 #define GUI_LVGL        OPEN_NULL
 
 /***    需要加上逻辑才能的功能     ***/
-#define Exist_LCD	            OPEN_NULL
+#define Exist_LCD	            OPEN_0001
 #define Exist_OLED              OPEN_NULL
 
 #define Exist_HC138             OPEN_NULL
@@ -221,7 +222,7 @@
 
 // 内存信息
 // ch32v317 192k-rom/128k-ram
-#define SYS_BTLD    0               // 0:app;1:bootld;2:不参与跳转&中断向量
+#define SYS_BTLD    2               // 0:app;1:bootld;2:不参与跳转&中断向量
 #define SYS_STR_ADDR    0x08000000
 #define SYS_APP_ADDR    0x08008000
 #define SYS_FLASH_EA    0x00000000
