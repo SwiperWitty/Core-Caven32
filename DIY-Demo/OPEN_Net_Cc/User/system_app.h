@@ -63,6 +63,7 @@ typedef struct
     char Work_falg;
     char Net_falg;
     
+    int SYS_Authorization;
     char Net_HBT_max;
     int TCPHBT_num;     // 编号
     int TCPHBT_Run;

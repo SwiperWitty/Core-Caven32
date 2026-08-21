@@ -420,6 +420,7 @@ int System_app_SYS_Config_Gain (void)
 		g_SYS_Config.temp_val->HTTPHBT_num = 0;
 		g_SYS_Config.temp_val->HTTPHBT_Run = 0;
 		g_SYS_Config.temp_val->Net_HBT_max = 3;
+		g_SYS_Config.temp_val->SYS_Authorization = 0;
 	}
 	return retval;
 }
@@ -730,20 +731,29 @@ void Sys_user_led_config (void)
 #endif
 }
 
-#if SYS_BTLD == 1
 extern int SYS_Boot_CheckAndLoad(SYS_boot_Type boot,uint16_t *crc);
-extern int SYS_Boot_Authorization_Check(SYS_boot_Type boot,u8 *uid,u8 *mask);
-#endif
+
+
 void System_app_Init (void)
 {
 	int temp_num;
+	u8 temp_buff[20];
+	uint32_t temp_val;
+
+	temp_val = 1;
+	if(temp_val == 1)
+	{
+		g_SYS_Config.temp_val->SYS_Authorization = 1;
+	}
+	else
+	{
+		g_SYS_Config.temp_val->SYS_Authorization = 0;
+	}
 #if SYS_BTLD == 1
 	uint16_t temp_crc;
 	if (g_SYS_Config.Boot.Bt_mode)
 	{
-		uint32_t temp_val;
-		temp_val = 1;
-		if(temp_val == 1)
+		if(g_SYS_Config.temp_val->SYS_Authorization >= 1)
 		{
 			temp_num = SYS_Boot_CheckAndLoad(g_SYS_Config.Boot,&temp_crc);
 			if(temp_num > 1)
@@ -779,7 +789,6 @@ void System_app_Init (void)
 	Mode_Init.UART(m_UART_CH1,g_SYS_Config.RS232_UART_Cfg,ENABLE);
 	Mode_Init.UART(m_UART_CH2,g_SYS_Config.RS232_UART_Cfg,ENABLE);
 	Mode_Init.UART(m_UART_CH3,115200,ENABLE);
-
 	#ifdef MCU_SYS_FREQ 
 	Debug_printf("MCU Init,MCU_SYS_FREQ: %d Hz \n",MCU_SYS_FREQ);
 	#endif
@@ -792,6 +801,10 @@ void System_app_Init (void)
 	Caven_new_event_Fun(&g_SYS_events,bzz_event_fun,&sys_bzz_event);
 	Caven_new_event_Fun(&g_SYS_events,gpi_event_fun,&sys_gpi_event);
 	Caven_new_event_Fun(&g_SYS_events,gpo_event_fun,&sys_gpo_event);
+	while(g_SYS_Config.temp_val->SYS_Authorization == 0)
+	{
+		Mode_Use.TIME.Delay_Ms(1);
+	}
 #endif
 	Sys_user_led_config();
 #if Exist_USB
